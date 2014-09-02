@@ -1,0 +1,11 @@
+{
+	"name": "HomePi",
+	"version": "0.1.0",
+	"description":"Domotique Solution for NodeJS",
+	"dependencies":{
+		"express":">4.0.0",
+		"body-parser":">=1.4.3",
+		"jade":">1.3.0"
+	},
+	"author":"7h1b0"
+}

@@ -1,5 +1,6 @@
 {
 	"port":"666",
+	"city":"paris",
 	"tokenPower":"123456789",
 	"tokenActivity":"987654321"
 }

@@ -3,6 +3,8 @@ var express = require('express')
 	, app = express()
 	, bodyParser = require('body-parser')
 	, power = require('./controllers/power')
+	, weather = require('./controllers/weather')
+	, next = require('./controllers/next')
 	, activity = require('./controllers/activity')
 	, config = require('./config/config.json');
 
@@ -15,11 +17,21 @@ app.use(bodyParser.urlencoded({
 app.listen(config.port);
 
 
-// Controller
+/**
+ * CONTROLLER
+ */
 power.init(app);
 activity.init(app);
+next.init(app);
 
-// Default
+//setInterval(function(){
+	weather.get(config.city)
+//}, 1000*60*2) // Every 6 hours;
+
+
+/**
+ * DEFAULT
+ */
 app.use(function(req, res){
 	res.status(404).render('404');
 });

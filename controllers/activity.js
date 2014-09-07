@@ -1,5 +1,5 @@
-var process = require('./process')
-	, config = require('../config/config.json');
+var process = require('./process'),
+	config = require('../config/config.json');
 
 exports.init = function(app){
 	app.route('/activity').get(function(req,res,next){

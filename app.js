@@ -1,12 +1,13 @@
 // Dependencies
-var express = require('express')
-	, app = express()
-	, bodyParser = require('body-parser')
-	, power = require('./controllers/power')
-	, weather = require('./controllers/weather')
-	, next = require('./controllers/next')
-	, activity = require('./controllers/activity')
-	, config = require('./config/config.json');
+var express = require('express'),
+	app = express(),
+	bodyParser = require('body-parser'),
+	power = require('./controllers/power'),
+	weather = require('./controllers/weather'),
+	alarm = require('./controllers/alarm'),
+	index = require('./controllers/index'),
+	activity = require('./controllers/activity'),
+	config = require('./config/config.json');
 
 // Configure
 app.set('view engine', 'jade');
@@ -22,11 +23,16 @@ app.listen(config.port);
  */
 power.init(app);
 activity.init(app);
-next.init(app);
+index.init(app);
 
-//setInterval(function(){
+// Get Weather
+setInterval(function(){
 	weather.get(config.city)
-//}, 1000*60*2) // Every 6 hours;
+}, 1000*60*60*6) // Every 6 hours;
+
+setInterval(function(){
+	alarm.check();
+},1000*60) // Every 1 minutes
 
 
 /**

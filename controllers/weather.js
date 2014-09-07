@@ -1,9 +1,9 @@
 var http = require('http');
 
 exports.get = function(city){
-	var url = "http://api.openweathermap.org/data/2.5/forecast/daily?q="+city+"&cnt=1&mode=json&units=metric";
-
-	var req = http.get(url, function(res) {
+	var url = "http://api.openweathermap.org/data/2.5/forecast/daily?q="+city+"&cnt=1&mode=json&units=metric",
+		req = http.get(url, function(res) {
+			
 	 	console.log("Got response: " + res.statusCode);
 	 	var bodyChunks = [];
 
@@ -11,9 +11,9 @@ exports.get = function(city){
 			bodyChunks.push(chunk);
 		}).on('end', function() {
 	    	var body = Buffer.concat(bodyChunks),
-	    			parsed_body = JSON.parse(body),
-	    			iconWeather,
-	    			iconClass;
+    			parsed_body = JSON.parse(body),
+    			iconWeather,
+    			iconClass;
 
 	    	iconWeather = parsed_body.list[0].weather[0].icon.substring(0,2);
 	    	switch(iconWeather){

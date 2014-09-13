@@ -1,0 +1,19 @@
+var exec = require('child_process').exec,
+	config = require('../config/config.json');
+
+exports.check = function(){
+	var check = 0;
+	setInterval(function(){	
+		exec('ping '+ config.ping +' -w 1',function(error, stdout, stderr){
+		    if (error !== null) {
+				check ++;
+				if(check == 2){
+					// console.log(" !!!! ");
+					check = 0;
+				}
+		    }else{
+		    	check = 0;
+		    }
+		});
+	},1000*60*30); //Check every 30 minutes
+}

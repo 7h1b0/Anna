@@ -1,6 +1,7 @@
 {
 	"port":"666",
 	"city":"paris",
+	"ping":"smartphone",
 	"tokenPower":"123456789",
 	"tokenActivity":"987654321"
 }

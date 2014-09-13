@@ -4,10 +4,12 @@ var express = require('express'),
 	bodyParser = require('body-parser'),
 	power = require('./controllers/power'),
 	weather = require('./controllers/weather'),
+	smartphone = require('./controllers/smartphone'),
 	alarm = require('./controllers/alarm'),
 	index = require('./controllers/index'),
 	activity = require('./controllers/activity'),
 	config = require('./config/config.json');
+
 
 // Configure
 app.set('view engine', 'jade');
@@ -18,26 +20,16 @@ app.use(bodyParser.urlencoded({
 app.listen(config.port);
 
 
-/**
- * CONTROLLER
- */
+// Controllers
 power.init(app);
 activity.init(app);
 index.init(app);
-
-// Get Weather
-setInterval(function(){
-	weather.get(config.city)
-}, 1000*60*60*6) // Every 6 hours;
-
-setInterval(function(){
-	alarm.check();
-},1000*60) // Every 1 minutes
+smartphone.check();
+weather.get();
+alarm.check();
 
 
-/**
- * DEFAULT
- */
+// Default Controller
 app.use(function(req, res){
 	res.status(404).render('404');
 });

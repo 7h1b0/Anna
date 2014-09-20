@@ -1,5 +1,5 @@
 var exec = require('child_process').exec,
-	config = require('../config/config.json');
+	config = require(__dirname + '/../config/config.json');
 
 exports.check = function(){
 	var check = 0;
@@ -8,7 +8,7 @@ exports.check = function(){
 		    if (error !== null) {
 				check ++;
 				if(check == 2){
-					// console.log(" !!!! ");
+					process.exec('out.sh');
 					check = 0;
 				}
 		    }else{

@@ -5,26 +5,17 @@ html
 		title HomePi
 		link(rel='stylesheet',href='styles/style.css')
 	body
+
 		section
 			article
 				h2(class="icon-#{ icon }")
-				p #{min} - #{max} °C	
+				p #{max}°
+					
 
 		section
 			article
-				h2.icon-alarm
-				p #{hour}h#{min} #{day}/#{month}
-
-		section
-			article
-				h2.icon-work
-				p IGI-5002
-
-
-		section
-			article
-				h2.icon-clock
-				p 8h - 18h
+				h2(class="icon-alarm")
+				p #{hour}:#{min}
 			
 			
 		

@@ -1,6 +1,6 @@
 exports.exec = function(script){
 	
-	console.log(new Date() + ' ' +script);
+	//console.log(new Date() + ' ' +script);
 
 	var exec = require('child_process').exec;
 

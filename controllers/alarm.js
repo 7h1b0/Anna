@@ -9,7 +9,7 @@ exports.check = function(){
 			hour = date.getHours(),
 			min = date.getMinutes();
 
-		alarm = JSON.parse(fs.readFileSync('config/alarm.json', 'utf8'));
+		alarm = JSON.parse(fs.readFileSync(__dirname + '/../config/alarm.json', 'utf8'));
 
 		if(alarm.month == month && alarm.day == day && alarm.hour == hour && alarm.min == min){
 				console.log("------ ALARM ! -------");

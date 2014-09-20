@@ -12,8 +12,9 @@ var express = require('express'),
 
 
 // Configure
+app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
-app.use(express.static('./static'));
+app.use(express.static(__dirname + '/static'));
 app.use(bodyParser.urlencoded({
 	extended: true
 }));
@@ -26,10 +27,10 @@ activity.init(app);
 index.init(app);
 smartphone.check();
 weather.get();
-alarm.check();
+//alarm.check();
 
 
 // Default Controller
 app.use(function(req, res){
-	res.status(404).render('404');
+	res.status(404).end();
 });

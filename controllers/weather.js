@@ -1,9 +1,10 @@
-var http = require('http');
+var http = require('http'),
+	config = require(__dirname + '/../config/config.json');
 
-exports.get = function(city){
+exports.get = function(){
 	
 	setInterval(function(){
-		var url = "http://api.openweathermap.org/data/2.5/forecast/daily?q="+city+"&cnt=1&mode=json&units=metric",
+		var url = "http://api.openweathermap.org/data/2.5/forecast/daily?q="+config.city+"&cnt=1&mode=json&units=metric",
 			req = http.get(url, function(res) {
 				
 		 	console.log("Got response: " + res.statusCode);
@@ -51,7 +52,6 @@ exports.get = function(city){
 		    	}
 
 		    	weather = {};
-		    	weather.min = Math.round(parsed_body.list[0].temp.min);
 		    	weather.max = Math.round(parsed_body.list[0].temp.max);
 		    	weather.main = parsed_body.list[0].weather[0].main;
 		    	weather.icon = iconClass;
@@ -69,7 +69,7 @@ exports.get = function(city){
 function write(weather){
 	var fs = require('fs');
 	string = JSON.stringify(weather);
-	fs.writeFile("config/weather.json",string,function(err){ // Asynchronous
+	fs.writeFile(__dirname + '/../config/weather.json',string,function(err){ // Asynchronous
 		if(err)throw err;
 		console.log("Weather Updated");
 	});

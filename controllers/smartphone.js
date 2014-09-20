@@ -6,14 +6,15 @@ exports.check = function(){
 	setInterval(function(){	
 		exec('ping '+ config.ping +' -w 1',function(error, stdout, stderr){
 		    if (error !== null) {
-				check ++;
+		    	check ++;
 				if(check == 2){
-					process.exec('out.sh');
+					exec('out.sh');
 					check = 0;
 				}
-		    }else{
+				
+		    }else{    	
 		    	check = 0;
 		    }
 		});
-	},1000*60*30); //Check every 30 minutes
+	},1000*60*20); 
 }

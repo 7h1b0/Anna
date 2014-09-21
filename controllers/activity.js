@@ -7,7 +7,7 @@ exports.init = function(app){
 		if(req.param('token') == config.tokenActivity){
 			var script = req.param('name') + '.sh';
 			process.exec(script);
-			res.status(200).end();
+			res.status(200).end('OK');
 			
 		}else{
 			next();

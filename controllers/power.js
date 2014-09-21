@@ -5,9 +5,9 @@ exports.init = function(app){
 	app.route('/power').get(function(req,res,next){
 
 		if(req.param('token') == config.tokenPower){
-			var script = 'transmit 0 ' + req.param('id') + ' ' + req.param('status');
+			var script = 'transmit.sh ' + req.param('id') + ' ' + req.param('status');
 			process.exec(script);
-			res.status(200).end();
+			res.status(200).end('OK');
 
 		}else{
 			next();

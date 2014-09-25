@@ -1,9 +1,8 @@
 // Dependencies
 var app = require('express')(),
 	bodyParser = require('body-parser'),
-	power = require('./controllers/power'),
-	index = require('./controllers/index'),
-	activity = require('./controllers/activity'),
+	action = require('./controllers/action'),
+	command = require('./controllers/command'),
 	config = require('./config/config.json');
 
 
@@ -15,10 +14,8 @@ app.listen(config.port);
 
 
 // Controllers
-power.init(app);
-activity.init(app);
-index.init(app);
-
+action.init(app);
+command.init(app);
 
 // Default Controller
 app.use(function(req, res){

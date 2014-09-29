@@ -1,45 +1,48 @@
+var Command = require('./../models/commands');
 
 exports.init = function(app){
 	app.route('/command')
 
 		.get(function(req,res){
-			res.json({
-				commands:[
-					{
-						command:"Anna, lumière",
-						url:"http://domo:666/action?launch=transmit&id=2&status=on",
-						confidence:"0.9"
-					},
-					{
-						command:"Au revoir Anna",
-						url:"http://domo:666/action?launch=out",
-						confidence:"0.9"
-					},
-					{
-						command:"Anna, télévision",
-						url:"http://domo:666/action?launch=tv",
-						confidence:"0.9"
-					},
-					{
-						command:"Bonne nuit Anna",
-						url:"http://domo:666/action?launch=sleep",
-						confidence:"0.9"
-					}
-				]
+			Command.find(function(err, bears) {
+				if (err)
+					res.send(err);
+
+				res.json(bears);
 			});
 		})
 
 		.post(function(req,res){
-			// TO DO ...
+			var command = new Command(); 		
+				command.command = "test";
+				command.url = "test";
+				command.confidence = 5
+
+			command.save(function(err) {
+				if (err)
+					res.send(err);
+
+				res.json({ message: 'Command created!' });
+			});
 		});
 
 	app.route('/command/:id_command')
 
 		.get(function(req,res){
-			// TO DO ...
+			Command.findById(req.params.id_command, function(err, commands) {
+				if (err)
+					res.send(err);
+
+				res.json(commands);
+			});
 		})
 
 		.delete(function(req, res){
-			// TO DO ...
+			Command.remove({_id: req.params.id_command}, function(err, commands) {
+				if (err)
+					res.send(err);
+
+				res.json({ message: 'Successfully deleted' });
+			});
 		});
 }

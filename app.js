@@ -1,6 +1,7 @@
 // Dependencies
 var app = require('express')(),
 	bodyParser = require('body-parser'),
+	mongoose   = require('mongoose'),
 	action = require('./controllers/action'),
 	command = require('./controllers/command'),
 	config = require('./config/config.json');
@@ -10,6 +11,9 @@ var app = require('express')(),
 app.use(bodyParser.urlencoded({
 	extended: true
 }));
+mongoose.connect('mongodb://localhost/anna',function(err){
+	if(err) throw err;
+});
 app.listen(config.port);
 
 

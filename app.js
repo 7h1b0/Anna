@@ -3,6 +3,7 @@ var app = require('express')(),
 	bodyParser = require('body-parser'),
 	mongoose   = require('mongoose'),
 	action = require('./controllers/action'),
+	event = require('./controllers/event'),
 	command = require('./controllers/command'),
 	config = require('./config/config.json');
 
@@ -19,7 +20,10 @@ app.listen(config.port);
 
 // Controllers
 action.init(app);
+
+// Part RESFul
 command.init(app);
+event.init(app);
 
 // Default Controller
 app.use(function(req, res){

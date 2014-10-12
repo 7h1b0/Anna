@@ -4,7 +4,9 @@ var app = require('express')(),
 	mongoose   = require('mongoose'),
 	action = require('./controllers/action'),
 	event = require('./controllers/event'),
+	checkIp = require('./controllers/checkIp'),
 	command = require('./controllers/command'),
+	os = require('./controllers/os'),
 	config = require('./config/config.json');
 
 
@@ -20,8 +22,10 @@ app.listen(config.port);
 
 // Controllers
 action.init(app);
+os.init(app);
+checkIp.run(config.ip);
 
-// Part RESFul
+// API RESFul
 command.init(app);
 event.init(app);
 

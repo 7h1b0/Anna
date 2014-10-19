@@ -14,15 +14,14 @@ exports.init = function(app){
 
 		.post(function(req,res){
 			var command = new Command(); 		
-				command.command = "test";
-				command.url = "test";
-				command.confidence = 5
+				command.command = req.body.command;
+				command.url = req.body.url;
 
 			command.save(function(err) {
 				if (err)
 					res.send(err);
 
-				res.json({ message: 'Command created!' });
+				res.json({response: 'Command created!' });
 			});
 		});
 
@@ -42,7 +41,7 @@ exports.init = function(app){
 				if (err)
 					res.send(err);
 
-				res.json({ message: 'Successfully deleted' });
+				res.json({response: 'Successfully deleted' });
 			});
 		});
 }

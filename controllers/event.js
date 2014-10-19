@@ -22,7 +22,7 @@ exports.init = function(app){
 				if (err)
 					res.send(err);
 
-				res.json({ message: 'Event created!' });
+				res.json({response: 'Event created!' });
 			});
 		});
 
@@ -42,7 +42,7 @@ exports.init = function(app){
 				if (err)
 					res.send(err);
 
-				res.json({ message: 'Successfully deleted' });
+				res.json({response: 'Successfully deleted' });
 			});
 		});
 }

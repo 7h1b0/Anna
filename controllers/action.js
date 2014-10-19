@@ -13,7 +13,7 @@ exports.init = function(app){
 			}
 
 			process.exec(script);
-			res.json({responses:'Action effectuée'});
+			res.json({response:'Action effectuée'});
 		}else{
 			next();
 		}

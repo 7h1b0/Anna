@@ -6,10 +6,8 @@ exports.init = function(app){
 		res.json({
 			release: os.release(),
 			hostname:os.hostname(),
-			type : os.type(),
 			uptime:os.uptime(),
-			freemem:os.freemem(),
-			loadavg : os.loadavg()
+			freemem:os.freemem()
 		});
 	});
 }

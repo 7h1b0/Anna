@@ -21,7 +21,7 @@ exports.init = function(app){
 				if (err)
 					res.send(err);
 
-				res.json({response: 'Command created!' });
+				res.json({response: 'Command created' });
 			});
 		});
 

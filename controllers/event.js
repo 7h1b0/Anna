@@ -1,6 +1,5 @@
 var Event = require('./../models/events'),
-	fs = require('fs'),
-	process = require('./../services/processHandler');
+	fs = require('fs');
 
 exports.init = function(app){
 	app.route('/event')
@@ -26,7 +25,7 @@ exports.init = function(app){
 				if (err)
 					res.send(err);
 
-				res.json({response: 'Event created!' });
+				res.json({response: 'Event created' });
 			});
 		});
 
@@ -53,7 +52,12 @@ exports.init = function(app){
 
 
 exports.check = function(){
-	var date,hour_now,min_now;
+	var date,
+		hour_now,
+		min_now,
+		i,
+		l,
+		http = require('http');
 
 	setInterval(function(){
 		date = new Date(),
@@ -63,14 +67,17 @@ exports.check = function(){
 		Event.find({hour : hour_now},function(err,data){
 			if(err) throw err;
 
-			for(var i=0,l = data.length; i<l; i++){
+			for(i=0,l = data.length; i<l; i++){
 				if(min_now == data[i].min){
-					process.exec(data[i].command);
-
-					if(data[i].recursive == 0)
-						Event.remove({_id: data[i]._id}, function(err, commands) {
-						if (err) throw err;
+					http.get(data[i].command,function(res){
+						// ...
 					});
+
+					if(data[i].recursive == 0){
+						Event.remove({_id: data[i]._id}, function(err, commands) {
+							if (err) throw err;
+						});
+					}
 				}
 			}
 		});

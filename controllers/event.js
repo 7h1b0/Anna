@@ -1,4 +1,6 @@
-var Event = require('./../models/events');
+var Event = require('./../models/events'),
+	fs = require('fs'),
+	process = require('./../services/processHandler');
 
 exports.init = function(app){
 	app.route('/event')
@@ -14,9 +16,11 @@ exports.init = function(app){
 
 		.post(function(req,res){
 			var event = new Event(); 		
-				event.name = "test";
-				event.date = Date.now();
-				event.command = "test.sh"
+				event.name = req.body.name;
+				event.hour = req.body.hour;
+				event.min = req.body.min;
+				event.command = req.body.command;
+				event.recursive = req.body.recursive;
 
 			event.save(function(err) {
 				if (err)
@@ -46,3 +50,26 @@ exports.init = function(app){
 			});
 		});
 }
+
+
+exports.check = function(){
+	var date,hour_now,min_now;
+
+	setInterval(function(){
+		date = new Date(),
+		hour_now = date.getHours(),
+		min_now = date.getMinutes();
+
+		Event.find({hour : hour_now},function(err,data){
+			if(err) throw err;
+
+			console.log(data.length);
+			for(var i=0,l = data.length; i<l; i++){
+				if(min_now == data[i].min){
+					process.exec(data[i].command);
+				}
+			}
+		});
+
+	},1000*60); // Every 1 minutes
+};

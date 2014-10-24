@@ -1,5 +1,5 @@
 var http = require('http'),
-	config = require(__dirname + '/../config/config.json');
+	config = require('./../config/config.json');
 
 exports.get = function(){
 	

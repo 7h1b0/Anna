@@ -4,11 +4,26 @@
  		<title> Add Command</title>
  	</head>
 	<body>	
+
+		<h1>Command</h1>
+		<hr>
 		<form action="http://localhost:666/command" method="post">
 
 			<input type="text" name="command" placeholder="command" required autofocus>
 			<input type="url" name="url" placeholder="url" required>
 		
+			<button type="submit">Submit</button>
+		</form>
+
+		<h1>Command</h1>
+		<hr>
+		<form action="http://localhost:666/event" method="post">
+
+			<input type="text" name="name" placeholder="name" required autofocus>
+			<input type="number" name="hour" placeholder="hour" required>
+			<input type="number" name="min" placeholder="min" required>
+			<input type="text" name="command" placeholder="command" required>
+			<input type="number" name="recursive" placeholder="recursive" required>
 			<button type="submit">Submit</button>
 		</form>
 	</body>

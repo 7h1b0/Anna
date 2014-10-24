@@ -1,4 +1,4 @@
-var process = require('./process');
+var process = require('./../services/processHandler');
 
 exports.init = function(app){
 

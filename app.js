@@ -2,11 +2,13 @@
 var app = require('express')(),
 	bodyParser = require('body-parser'),
 	mongoose   = require('mongoose'),
+
 	action = require('./controllers/action'),
 	event = require('./controllers/event'),
-	checkIp = require('./controllers/checkIp'),
 	command = require('./controllers/command'),
 	os = require('./controllers/os'),
+
+	checkIp = require('./services/checkIp'),
 	config = require('./config/config.json');
 
 
@@ -19,15 +21,14 @@ mongoose.connect('mongodb://localhost/anna',function(err){
 });
 app.listen(config.port);
 
-
 // Controllers
 action.init(app);
-os.init(app);
-checkIp.run(config.ip);
-
-// API RESFul
 command.init(app);
 event.init(app);
+os.init(app);
+
+// Service
+checkIp.run(config.ip);
 
 // Default Controller
 app.use(function(req, res){

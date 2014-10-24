@@ -63,10 +63,14 @@ exports.check = function(){
 		Event.find({hour : hour_now},function(err,data){
 			if(err) throw err;
 
-			console.log(data.length);
 			for(var i=0,l = data.length; i<l; i++){
 				if(min_now == data[i].min){
 					process.exec(data[i].command);
+
+					if(data[i].recursive == 0)
+						Event.remove({_id: data[i]._id}, function(err, commands) {
+						if (err) throw err;
+					});
 				}
 			}
 		});

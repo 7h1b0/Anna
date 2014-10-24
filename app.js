@@ -25,6 +25,7 @@ app.listen(config.port);
 action.init(app);
 command.init(app);
 event.init(app);
+event.check();
 os.init(app);
 
 // Service

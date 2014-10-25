@@ -69,9 +69,7 @@ exports.check = function(){
 
 			for(i=0,l = data.length; i<l; i++){
 				if(min_now == data[i].min){
-					http.get(data[i].command,function(res){
-						// ...
-					});
+					http.get(data[i].command,function(res){ });
 
 					if(data[i].recursive == 0){
 						Event.remove({_id: data[i]._id}, function(err, commands) {

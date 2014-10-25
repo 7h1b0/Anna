@@ -21,6 +21,14 @@ mongoose.connect('mongodb://localhost/anna',function(err){
 });
 app.listen(config.port);
 
+app.use(function(req,res,next){
+	if(req.headers.accesstoken !== config.token){
+		res.status(403).end('403');
+	}else{
+		next();
+	}
+});
+
 // Controllers
 action.init(app);
 command.init(app);

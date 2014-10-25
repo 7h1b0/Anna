@@ -8,6 +8,7 @@ exports.init = function(app){
 				if (err)
 					res.send(err);
 
+				res.setHeader ('accessToken', "you-are-welcome");
 				res.json(bears);
 			});
 		})

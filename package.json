@@ -1,8 +1,8 @@
 {
-	"name": "HomePi",
-	"version": "0.2.0",
+	"name": "HomeJS",
+	"version": "0.2.2",
 	"main": "app.js",
-	"description":"Domotique Solution for NodeJS",
+	"description":"A simple REST api for home automation",
 	"dependencies":{
 		"express":">4.0.0",
 		"body-parser":">=1.4.3",

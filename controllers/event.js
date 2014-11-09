@@ -74,16 +74,22 @@ exports.check = function(){
 		min_now = date.getMinutes();
 
 		Event.find({hour : hour_now},function(err,data){
-			if(err) throw err;
-
-			for(i=0,l = data.length; i<l; i++){
-				if(min_now == data[i].min){
-					http.get(data[i].command,function(res){ });
-
-					if(data[i].recursive == 0){
-						Event.remove({_id: data[i]._id}, function(err, commands) {
-							if (err) throw err;
+			if(err){
+				throw err;
+			}else{
+				for(i=0,l = data.length; i<l; i++){
+					if(min_now == data[i].min){
+						http.get(data[i].command,function(res){ }).on('error', function(e) {
+						  	console.log("Got error: " + e.message);
 						});
+
+						if(data[i].recursive == 0){
+							Event.remove({_id: data[i]._id}, function(err, commands) {
+								if (err){
+									throw err;
+								}
+							});
+						}
 					}
 				}
 			}

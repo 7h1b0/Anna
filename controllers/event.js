@@ -39,7 +39,7 @@ exports.init = function(app){
 		.get(function(req,res){
 			Event.findById(req.params.id_event, function(err, commands) {
 				if (err){
-					res.sned(err).end();
+					res.send(err).end();
 				}else{
 					res.json(commands);
 				}
@@ -50,7 +50,7 @@ exports.init = function(app){
 		.delete(function(req, res){
 			Event.remove({_id: req.params.id_event}, function(err, commands) {
 				if (err){
-					res.sned(err).end();
+					res.send(err).end();
 				}else{
 					res.json({response: 'Successfully deleted' });
 				}
@@ -79,10 +79,13 @@ exports.check = function(){
 			}else{
 				for(i=0,l = data.length; i<l; i++){
 					if(min_now == data[i].min){
+
+						// Call action
 						http.get(data[i].command,function(res){ }).on('error', function(e) {
 						  	console.log("Got error: " + e.message);
 						});
 
+						// Delete evenf if is not recursive
 						if(data[i].recursive == 0){
 							Event.remove({_id: data[i]._id}, function(err, commands) {
 								if (err){

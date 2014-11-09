@@ -5,11 +5,13 @@ exports.init = function(app){
 	app.route('/event')
 
 		.get(function(req,res){
-			Event.find(function(err, bears) {
-				if (err)
-					res.send(err);
+			Event.find(function(err, events) {
+				if (err){
+					res.send(err).end();
+				}else{
+					res.json(events);
+				}
 
-				res.json(bears);
 			});
 		})
 
@@ -20,12 +22,15 @@ exports.init = function(app){
 				event.min = req.body.min;
 				event.command = req.body.command;
 				event.recursive = req.body.recursive;
+				event.activate = 1;
 
 			event.save(function(err) {
-				if (err)
-					res.send(err);
+				if (err){
+					res.send(err).end();
+				}else{
+					res.json({response: 'Event created' });
+				}
 
-				res.json({response: 'Event created' });
 			});
 		});
 
@@ -33,22 +38,26 @@ exports.init = function(app){
 
 		.get(function(req,res){
 			Event.findById(req.params.id_event, function(err, commands) {
-				if (err)
-					res.send(err);
+				if (err){
+					res.sned(err).end();
+				}else{
+					res.json(commands);
+				}
 
-				res.json(commands);
 			});
 		})
 
 		.delete(function(req, res){
 			Event.remove({_id: req.params.id_event}, function(err, commands) {
-				if (err)
-					res.send(err);
+				if (err){
+					res.sned(err).end();
+				}else{
+					res.json({response: 'Successfully deleted' });
+				}
 
-				res.json({response: 'Successfully deleted' });
 			});
 		});
-}
+};
 
 
 exports.check = function(){

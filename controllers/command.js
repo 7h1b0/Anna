@@ -5,11 +5,12 @@ exports.init = function(app){
 
 		.get(function(req,res){
 			Command.find(function(err, bears) {
-				if (err)
-					res.send(err);
+				if (err){
+					res.send(err).end();
+				}else{
+					res.json(bears);
+				}
 
-				res.setHeader ('accessToken', "you-are-welcome");
-				res.json(bears);
 			});
 		})
 
@@ -18,11 +19,16 @@ exports.init = function(app){
 				command.command = req.body.command;
 				command.url = req.body.url;
 
-			command.save(function(err) {
-				if (err)
-					res.send(err);
+				console.log(req.body.command);
+				console.log(req.body.url);
 
-				res.json({response: 'Command created' });
+			command.save(function(err) {
+				if (err){
+					res.send(err).end();
+				}else{
+					res.json({response: 'Command created' });
+				}
+
 			});
 		});
 
@@ -30,19 +36,23 @@ exports.init = function(app){
 
 		.get(function(req,res){
 			Command.findById(req.params.id_command, function(err, commands) {
-				if (err)
-					res.send(err);
+				if (err){
+					res.send(err).end();
+				}else{
+					res.json(commands);
+				}
 
-				res.json(commands);
 			});
 		})
 
 		.delete(function(req, res){
 			Command.remove({_id: req.params.id_command}, function(err, commands) {
-				if (err)
-					res.send(err);
+				if (err){
+					res.send(err).end();
+				}else{
+					res.json({response: 'Successfully deleted' });
+				}
 
-				res.json({response: 'Successfully deleted' });
 			});
 		});
 }

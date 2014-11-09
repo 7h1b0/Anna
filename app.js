@@ -2,13 +2,13 @@
 var app = require('express')(),
 	bodyParser = require('body-parser'),
 	mongoose   = require('mongoose'),
+	//GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
 
 	action = require('./controllers/action'),
 	event = require('./controllers/event'),
 	command = require('./controllers/command'),
 	os = require('./controllers/os'),
 
-	checkIp = require('./services/checkIp'),
 	config = require('./config/config.json');
 
 
@@ -16,17 +16,21 @@ var app = require('express')(),
 app.use(bodyParser.urlencoded({
 	extended: true
 }));
-mongoose.connect('mongodb://localhost/anna',function(err){
-	if(err) throw err;
-});
 app.listen(config.port);
 
-app.use(function(req,res,next){
+
+// API Key
+/*app.use(function(req,res,next){
 	if(req.headers.accesstoken !== config.token){
-		res.status(403).end('403');
+		res.status(401).end();
 	}else{
 		next();
 	}
+});*/
+
+// Connect to Database
+mongoose.connect('mongodb://localhost/anna',function(err){
+	if(err) throw err;
 });
 
 // Controllers
@@ -35,9 +39,6 @@ command.init(app);
 event.init(app);
 event.check();
 os.init(app);
-
-// Service
-checkIp.run(config.ip);
 
 // Default Controller
 app.use(function(req, res){

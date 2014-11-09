@@ -1,15 +1,12 @@
 HomeJS
 =====================
 
-## PROJECT DESCRIPTION
+## Project description
 
-* Description : A simple REST api for home automation
-* HomeJS : Rest API
-* Location : Paris
-* Starting Date : Septembre 2014
+A simple REST api for home automation
 
 
-## REST API ROUTES
+## Rest API routes
 
 * Command Controller
 
@@ -39,22 +36,22 @@ HomeJS
 | /info		      | GET 	  | Get info about host
 
 
-## REQUIRED
+## Required
 
 * NodeJS
 * MongoDB
 
-## INSTALLATION
+## Installation
 
 1. ```./HomeJS/npm install ```
 2. ```./HomeJS/node app.js ```
 
 
-## DEVELOPERS
+## Developer
 
 * 7h1b0
 
 
-## LICENSE
+## License
 
 OpenSource : just mention developer name if you use the code.

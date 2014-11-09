@@ -37,11 +37,37 @@ exports.init = function(app){
 	app.route('/event/:id_event')
 
 		.get(function(req,res){
-			Event.findById(req.params.id_event, function(err, commands) {
+			Event.findById(req.params.id_event, function(err, event) {
 				if (err){
 					res.send(err).end();
 				}else{
-					res.json(commands);
+					res.json(event);
+				}
+
+			});
+		})
+
+		.put(function(req,res){
+			Event.findById(req.params.id_event, function(err, event) {
+				if (err){
+					res.send(err).end();
+				}else{		
+
+					event.name = (req.body.name === undefined) ? event.name : req.body.name;
+					event.hour = (req.body.hour === undefined) ? event.hour : req.body.hour;
+					event.min = (req.body.min === undefined) ? event.min : req.body.min;
+					event.command = (req.body.command === undefined) ? event.command : req.body.command;
+					event.recursive = (req.body.recursive === undefined) ? event.recursive : req.body.recursive;
+					event.activate = (req.body.activate === undefined) ? event.activate : req.body.activate;
+
+					event.save(function(err) {
+						if (err){
+							res.send(err).end();
+						}else{
+							res.json({response: 'Event updated' });
+						}
+
+					});
 				}
 
 			});

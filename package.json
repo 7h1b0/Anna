@@ -1,5 +1,5 @@
 {
-	"name": "HomeJS",
+	"name": "Anna-API",
 	"version": "0.2.2",
 	"main": "app.js",
 	"description":"A simple REST api for home automation",

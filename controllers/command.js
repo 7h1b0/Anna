@@ -35,18 +35,40 @@ exports.init = function(app){
 	app.route('/command/:id_command')
 
 		.get(function(req,res){
-			Command.findById(req.params.id_command, function(err, commands) {
+			Command.findById(req.params.id_command, function(err, command) {
 				if (err){
 					res.send(err).end();
 				}else{
-					res.json(commands);
+					res.json(command);
+				}
+
+			});
+		})
+
+		.put(function(req,res){
+			Command.findById(req.params.id_command, function(err, command) {
+				if (err){
+					res.send(err).end();
+				}else{		
+
+					command.command = (req.body.command === undefined) ? command.command : req.body.command;
+					command.url = (req.body.url === undefined) ? command.url : req.body.url;
+
+					command.save(function(err) {
+						if (err){
+							res.send(err).end();
+						}else{
+							res.json({response: 'Command updated' });
+						}
+
+					});
 				}
 
 			});
 		})
 
 		.delete(function(req, res){
-			Command.remove({_id: req.params.id_command}, function(err, commands) {
+			Command.remove({_id: req.params.id_command}, function(err, command) {
 				if (err){
 					res.send(err).end();
 				}else{

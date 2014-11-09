@@ -1,4 +1,4 @@
-var Command = require('./../models/commands');
+ var Command = require('./../models/commands');
 
 exports.init = function(app){
 	app.route('/command')
@@ -15,21 +15,24 @@ exports.init = function(app){
 		})
 
 		.post(function(req,res){
-			var command = new Command(); 		
+			var command = new Command(); 
+
+			if(req.body.command === undefined && req.body.url === undefined){
+				res.json({response: 'Error' })
+				
+			}else{
 				command.command = req.body.command;
 				command.url = req.body.url;
 
-				console.log(req.body.command);
-				console.log(req.body.url);
+				command.save(function(err) {
+					if (err){
+						res.send(err).end();
+					}else{
+						res.json({response: 'Command created' });
+					}
 
-			command.save(function(err) {
-				if (err){
-					res.send(err).end();
-				}else{
-					res.json({response: 'Command created' });
-				}
-
-			});
+				});			
+			}	
 		});
 
 	app.route('/command/:id_command')
@@ -52,7 +55,6 @@ exports.init = function(app){
 				}else{		
 
 					command.command = (req.body.command === undefined) ? command.command : req.body.command;
-					command.url = (req.body.url === undefined) ? command.url : req.body.url;
 
 					command.save(function(err) {
 						if (err){

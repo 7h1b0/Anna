@@ -16,22 +16,28 @@ exports.init = function(app){
 		})
 
 		.post(function(req,res){
-			var event = new Event(); 		
-				event.name = req.body.name;
-				event.hour = req.body.hour;
-				event.min = req.body.min;
-				event.command = req.body.command;
-				event.recursive = req.body.recursive;
-				event.activate = 1;
 
-			event.save(function(err) {
-				if (err){
-					res.send(err).end();
-				}else{
-					res.json({response: 'Event created' });
-				}
+			if(req.body.name === undefined && req.body.hour === undefined && req.body.min === undefined && req.body.command === undefined && req.body.recursive === undefined){
+				res.json({response: 'Error'});
+				
+			}else{
+				var event = new Event(); 		
+					event.name = req.body.name;
+					event.hour = req.body.hour;
+					event.min = req.body.min;
+					event.command = req.body.command;
+					event.recursive = req.body.recursive;
+					event.activate = 1;
 
-			});
+				event.save(function(err) {
+					if (err){
+						res.send(err).end();
+					}else{
+						res.json({response: 'Event created' });
+					}
+
+				});
+			}
 		});
 
 	app.route('/event/:id_event')

@@ -15,19 +15,19 @@ exports.init = function(app){
 			});
 		})
 
-		.post(function(req,res){
+		.post(function(req,res){	
 
-			if(req.body.name === undefined && req.body.hour === undefined && req.body.min === undefined && req.body.command === undefined && req.body.recursive === undefined){
+			if(req.body.name === undefined && req.body.date === undefined && req.body.command === undefined && req.body.recursive === undefined){
 				res.json({response: 'Error'});
 				
 			}else{
-				var event = new Event(); 		
-					event.name = req.body.name;
-					event.hour = req.body.hour;
-					event.min = req.body.min;
-					event.command = req.body.command;
-					event.recursive = req.body.recursive;
-					event.activate = 1;
+				var event = new Event(); 
+
+				event.name = req.body.name;
+				event.command = req.body.command;
+				event.recursive = req.body.recursive;
+				event.date =  req.body.date;
+				event.activate = 1;
 
 				event.save(function(err) {
 					if (err){
@@ -102,15 +102,17 @@ exports.check = function(){
 
 	setInterval(function(){
 		date = new Date(),
+		day = date.getDate(),
 		hour_now = date.getHours(),
 		min_now = date.getMinutes();
 
-		Event.find({hour : hour_now},function(err,data){
+		Event.find(function(err,data){
 			if(err){
 				throw err;
 			}else{
 				for(i=0,l = data.length; i<l; i++){
-					if(min_now == data[i].min){
+
+					if(day == data[i].date.getDate() && hour_now == data[i].date.getHours() && min_now == data[i].date.getMinutes()){
 
 						// Call action
 						http.get(data[i].command,function(res){ }).on('error', function(e) {

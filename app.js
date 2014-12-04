@@ -2,34 +2,20 @@
 var app = require('express')(),
 	bodyParser = require('body-parser'),
 	mongoose   = require('mongoose'),
-	//GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
 
 	action = require('./controllers/action'),
 	event = require('./controllers/event'),
 	command = require('./controllers/command'),
-	os = require('./controllers/os'),
-
-	config = require('./config/config.json');
-
+	os = require('./controllers/os');
 
 // Configure
 app.use(bodyParser.urlencoded({
 	extended: true
 }));
-app.listen(config.port);
-
-
-// API Key
-/*app.use(function(req,res,next){
-	if(req.headers.accesstoken !== config.token){
-		res.status(401).end();
-	}else{
-		next();
-	}
-});*/
+app.listen(8080);
 
 // Connect to Database
-mongoose.connect('mongodb://localhost/anna',function(err){
+mongoose.connect('mongodb://192.168.1.10/anna',function(err){
 	if(err) throw err;
 });
 

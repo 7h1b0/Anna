@@ -3,13 +3,14 @@ var process = require('./../services/processHandler');
 exports.init = function(app){
 
 	app.route('/action').get(function(req,res,next){
+		console.log(req.query.launch);
 
-		if(req.param('launch') !== 'undefined'){
+		if(req.query.launch !== undefined){
 
-			var script = req.param('launch') + '.sh';
+			var script = req.query.launch + '.sh';
 
-			if(req.param('id') !== 'undefined' && req.param('status') !== 'undefined'){ // Case Power Outlet
-				script += ' ' + req.param('id') + ' ' + req.param('status');				
+			if(req.query.id !== 'undefined' && req.query.status !== 'undefined'){ // Case Power Outlet
+				script += ' ' + req.query.id + ' ' + req.query.status;				
 			}
 
 			process.exec(script);

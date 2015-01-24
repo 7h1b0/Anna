@@ -39,7 +39,7 @@ A simple REST api for home automation
 ## Required
 
 * NodeJS
-* MongoDB
+* MySQL
 
 ## Installation
 

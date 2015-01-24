@@ -33,7 +33,7 @@ A simple REST api for home automation
 | Path            | HTTP Verb | Description                 
 |-----------------|-----------|-----------------------------
 | /action	      | GET 	  | Launch action
-| /info		      | GET 	  | Get info about host
+| /os		      | GET 	  | Get info about host
 
 
 ## Required

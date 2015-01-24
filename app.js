@@ -4,9 +4,9 @@ var app = require('express')(),
 	mysql = require('mysql'),
 
 	action = require('./controllers/action'),
-	// event = require('./controllers/event'),
+	event = require('./controllers/event'),
 	command = require('./controllers/command');
-	// os = require('./controllers/os');
+	os = require('./controllers/os');
 
 // Configure
 app.use(bodyParser.urlencoded({
@@ -27,9 +27,9 @@ connection.connect();
 // Controllers
 action.init(app);
 command.init(app,connection);
-// event.init(app);
+event.init(app,connection);
 // event.check();
-// os.init(app);
+os.init(app);
 
 // Default Controller
 app.use(function(req, res){

@@ -14,8 +14,8 @@ app.use(bodyParser.json());
 // Connect to Database
 var connection = mysql.createConnection({
   host     : 'localhost',
-  user     : 'root',
-  password : '',
+  user     : 'anna',
+  password : 'anna',
   database: 'anna'
 });
 connection.connect();

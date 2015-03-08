@@ -52,7 +52,7 @@ exports.init = function(app,connection){
 						setTimeout(function(script) {	
 							console.log(script);
 							process.exec(script);			 
-						}, 1000, prefix + " " + item.device + " " + item.status);
+						}, 500*index, prefix + " " + item.device + " " + item.status);
 					});
 
 					res.status(204).end();

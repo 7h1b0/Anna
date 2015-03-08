@@ -16,7 +16,7 @@ exports.init = function(app,connection){
 		.post(function(req,res){
 		
 			if(req.body.title === undefined || req.body.params === undefined){
-				res.status(400).json({response: 'Error' })			
+				res.status(400).json({response: 'Error' });		
 			}else{
 				connection.query('INSERT INTO command(id,title) VALUES (NULL, ?)', [req.body.title], function(err,results){
 					if (err){
@@ -24,11 +24,13 @@ exports.init = function(app,connection){
 					}else{
 
 						req.body.params.forEach(function(item, index) {
+
+							if(item.device === undefined || item.status === undefined) res.status(400).json({response: 'Error' });
+
 							setTimeout(function(id,device, status) {	
-								connection.query('INSERT INTO params(id,device,status) VALUES (?,?,?)', [id,device,status], function(err,results){
-									if (err) res.status(500).send(err).end();
-								});		 
-							}, 1000,results.insertId,item.device,item.status);
+								connection.query('INSERT INTO params(id,device,status) VALUES (?,?,?)', [id,device,status], function(err,results){});		 
+							}, 500,results.insertId,item.device,item.status);
+							
 						});
 
 						res.status(204).end();

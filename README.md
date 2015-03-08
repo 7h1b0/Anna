@@ -14,7 +14,7 @@ A simple REST api for home automation
 |-----------------|-----------|-----------------------------
 | /command        | GET 	  | Get all the commands     
 | /command/       | POST      | Add command     
-| /command/:id    | GET       | Get a single command           
+| /command/:id    | GET       | Execute a command          
 | /command/:id    | PUT       | Update a command   
 | /command/:id    | DELETE    | Delete a command
 
@@ -32,7 +32,6 @@ A simple REST api for home automation
 
 | Path            | HTTP Verb | Description                 
 |-----------------|-----------|-----------------------------
-| /action	      | GET 	  | Launch action
 | /os		      | GET 	  | Get info about host
 
 
@@ -43,8 +42,8 @@ A simple REST api for home automation
 
 ## Installation
 
-1. ```./HomeJS/npm install ```
-2. ```./HomeJS/node app.js ```
+1. ```./Anna-API/npm install ```
+2. ```./Anna-API/node app.js ```
 
 
 ## Developer

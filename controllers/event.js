@@ -1,94 +1,83 @@
-var Event = require('./../models/events'),
-	fs = require('fs');
+	var fs = require('fs');
 
-exports.init = function(app){
+exports.init = function(app,connection){
 	app.route('/event')
 
 		.get(function(req,res){
-			Event.find(function(err, events) {
+			connection.query('SELECT * FROM event', function(err, results) {
 				if (err){
-					res.send(err).end();
+					res.status(500).send(err).end();
 				}else{
-					res.json(events);
+					res.json(results);
 				}
-
 			});
 		})
 
 		.post(function(req,res){	
 
-			if(req.body.name === undefined && req.body.date === undefined && req.body.command === undefined && req.body.recursive === undefined){
-				res.json({response: 'Error'});
+			if(req.body.title === undefined || req.body.url === undefined || req.body.date === undefined || req.body.repeat === undefined || req.body.hour === undefined || req.body.min === undefined){
+				res.status(400).json({response: 'Error'});
 				
 			}else{
-				var event = new Event(); 
-
-				event.name = req.body.name;
-				event.command = req.body.command;
-				event.recursive = req.body.recursive;
-				event.date =  req.body.date;
-				event.activate = 1;
-
-				event.save(function(err) {
+				connection.query('INSERT INTO event(id,title,url,repeat,date,hour,min) VALUES (NULL, ?,?,?,?,?,?)', [req.body.title,req.body.url,req.body.repeat, req.body.date,req.body.hour,req.body.min], function(err,results){
 					if (err){
-						res.send(err).end();
+						res.status(500).send(err).end();
 					}else{
-						res.json({response: 'Event created' });
+						res.status(204).end();
 					}
-
-				});
+				});		
 			}
 		});
 
-	app.route('/event/:id_event')
+	// app.route('/event/:id_event')
 
-		.get(function(req,res){
-			Event.findById(req.params.id_event, function(err, event) {
-				if (err){
-					res.send(err).end();
-				}else{
-					res.json(event);
-				}
+	// 	.get(function(req,res){
+	// 		Event.findById(req.params.id_event, function(err, event) {
+	// 			if (err){
+	// 				res.send(err).end();
+	// 			}else{
+	// 				res.json(event);
+	// 			}
 
-			});
-		})
+	// 		});
+	// 	})
 
-		.put(function(req,res){
-			Event.findById(req.params.id_event, function(err, event) {
-				if (err){
-					res.send(err).end();
-				}else{		
+	// 	.put(function(req,res){
+	// 		Event.findById(req.params.id_event, function(err, event) {
+	// 			if (err){
+	// 				res.send(err).end();
+	// 			}else{		
 
-					event.name = (req.body.name === undefined) ? event.name : req.body.name;
-					event.hour = (req.body.hour === undefined) ? event.hour : req.body.hour;
-					event.min = (req.body.min === undefined) ? event.min : req.body.min;
-					event.command = (req.body.command === undefined) ? event.command : req.body.command;
-					event.recursive = (req.body.recursive === undefined) ? event.recursive : req.body.recursive;
-					event.activate = (req.body.activate === undefined) ? event.activate : req.body.activate;
+	// 				event.name = (req.body.name === undefined) ? event.name : req.body.name;
+	// 				event.hour = (req.body.hour === undefined) ? event.hour : req.body.hour;
+	// 				event.min = (req.body.min === undefined) ? event.min : req.body.min;
+	// 				event.command = (req.body.command === undefined) ? event.command : req.body.command;
+	// 				event.recursive = (req.body.recursive === undefined) ? event.recursive : req.body.recursive;
+	// 				event.activate = (req.body.activate === undefined) ? event.activate : req.body.activate;
 
-					event.save(function(err) {
-						if (err){
-							res.send(err).end();
-						}else{
-							res.json({response: 'Event updated' });
-						}
+	// 				event.save(function(err) {
+	// 					if (err){
+	// 						res.send(err).end();
+	// 					}else{
+	// 						res.json({response: 'Event updated' });
+	// 					}
 
-					});
-				}
+	// 				});
+	// 			}
 
-			});
-		})
+	// 		});
+	// 	})
 
-		.delete(function(req, res){
-			Event.remove({_id: req.params.id_event}, function(err, commands) {
-				if (err){
-					res.send(err).end();
-				}else{
-					res.json({response: 'Successfully deleted' });
-				}
+	// 	.delete(function(req, res){
+	// 		Event.remove({_id: req.params.id_event}, function(err, commands) {
+	// 			if (err){
+	// 				res.send(err).end();
+	// 			}else{
+	// 				res.json({response: 'Successfully deleted' });
+	// 			}
 
-			});
-		});
+	// 		});
+	//	});
 };
 
 

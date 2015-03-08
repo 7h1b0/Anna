@@ -3,15 +3,12 @@ var app = require('express')(),
 	bodyParser = require('body-parser'),
 	mysql = require('mysql'),
 
-	action = require('./controllers/action'),
-	event = require('./controllers/event'),
+	//event = require('./controllers/event'),
 	command = require('./controllers/command');
 	os = require('./controllers/os');
 
 // Configure
-app.use(bodyParser.urlencoded({
-	extended: true
-}));
+app.use(bodyParser.json());
 
 
 // Connect to Database
@@ -19,15 +16,13 @@ var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
   password : '',
-  database: 'homeJS'
+  database: 'anna'
 });
-
 connection.connect();
 
 // Controllers
-action.init(app);
 command.init(app,connection);
-event.init(app,connection);
+//event.init(app,connection);
 // event.check();
 os.init(app);
 

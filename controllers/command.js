@@ -30,7 +30,7 @@ exports.init = function(app,connection){
 							setTimeout(function(id,device, status) {	
 								connection.query('INSERT INTO params(id,device,status) VALUES (?,?,?)', [id,device,status], function(err,results){});		 
 							}, 500,results.insertId,item.device,item.status);
-							
+
 						});
 
 						res.status(204).end();
@@ -76,11 +76,13 @@ exports.init = function(app,connection){
 
 		.delete(function(req, res){
 			connection.query('DELETE FROM command WHERE id = ?', [req.params.id_command], function(err, results) {
-				if (err){
-					res.status(500).send(err).end();
-				}else{
-					res.status(204).end();
-				}
+				if (err) res.status(500).send(err).end();
 			});
+
+			connection.query('DELETE FROM params WHERE id = ?', [req.params.id_command], function(err, results) {
+				if (err) res.status(500).send(err).end();
+			});
+
+			res.status(204).end();
 		});
 }

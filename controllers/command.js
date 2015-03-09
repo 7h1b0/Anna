@@ -8,6 +8,7 @@ exports.init = function(app,connection){
 				if (err){
 					res.status(500).send(err).end();
 				}else{
+					res.set('Cache-Control', 'max-age=3600');
 					res.send(results);
 				}
 			});
@@ -50,7 +51,6 @@ exports.init = function(app,connection){
 
 					results.forEach(function(item, index) {
 						setTimeout(function(script) {	
-							console.log(script);
 							process.exec(script);			 
 						}, 500*index, prefix + " " + item.device + " " + item.status);
 					});

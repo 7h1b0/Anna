@@ -1,25 +1,16 @@
 // Dependencies
 var app = require('express')(),
 	bodyParser = require('body-parser'),
-	mysql = require('mysql'),
-	command = require('./controllers/command');
+	sqlite3 = require('sqlite3').verbose(),
+	db = new sqlite3.Database('anna.db'),
+	command = require('./controllers/command'),
 	os = require('./controllers/os');
 
 // Configure
 app.use(bodyParser.json());
 
-
-// Connect to Database
-var connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'anna',
-  password : 'anna',
-  database: 'anna'
-});
-connection.connect();
-
 // Controllers
-command.init(app,connection);
+command.init(app,db);
 os.init(app);
 
 // Default Controller

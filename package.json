@@ -6,7 +6,7 @@
 	"dependencies":{
 		"express":"~4",
 		"body-parser":"~1",
-		"mysql": "~2"
+		"sqlite3": "~3"
 	},
 	"author":"7h1b0"
 }

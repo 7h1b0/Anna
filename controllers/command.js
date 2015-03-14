@@ -1,15 +1,14 @@
 var process = require('./../services/processHandler');
 
-exports.init = function(app,connection){
+exports.init = function(app,db){
 	app.route('/command')
 
 		.get(function(req,res){
-			connection.query('SELECT id,title FROM command', function(err, results) {
-				if (err){
+			db.all('SELECT id,title FROM command', function(err, rows) {
+				if(err){
 					res.status(500).send(err).end();
-				}else{
-					res.set('Cache-Control', 'max-age=3600');
-					res.send(results);
+				} else {
+					res.send(rows);
 				}
 			});
 		})
@@ -19,23 +18,15 @@ exports.init = function(app,connection){
 			if(req.body.title === undefined || req.body.params === undefined){
 				res.status(400).json({response: 'Error' });		
 			}else{
-				connection.query('INSERT INTO command(id,title) VALUES (NULL, ?)', [req.body.title], function(err,results){
-					if (err){
-						res.status(500).send(err).end();
-					}else{
-
-						req.body.params.forEach(function(item, index) {
-
-							if(item.device === undefined || item.status === undefined) res.status(400).json({response: 'Error' });
-
-							setTimeout(function(id,device, status) {	
-								connection.query('INSERT INTO params(id,device,status) VALUES (?,?,?)', [id,device,status], function(err,results){});		 
-							}, 500,results.insertId,item.device,item.status);
-
-						});
-
+				db.run("BEGIN");
+				db.run('INSERT INTO command(id,title) VALUES (NULL, ?)', [req.body.title], function(err){
+					var id = this.lastID;
+					req.body.params.forEach(function(item) {
+						db.run('INSERT INTO params(id,device,status) VALUES (?,?,?)', [id,item.device,item.status], function(err){} );		 
+					});
+					db.run("COMMIT", function(err){
 						res.status(204).end();
-					}
+					});
 				});		
 			}	
 		});
@@ -43,46 +34,51 @@ exports.init = function(app,connection){
 	app.route('/command/:id_command')
 
 		.get(function(req,res){
-			connection.query('SELECT device,status FROM params WHERE id = ?', [req.params.id_command], function(err, results) {
+			var index = 0;
+			db.each('SELECT device,status FROM params WHERE id = ?', [req.params.id_command], function(err, row) {
 				if (err){
 					res.status(500).send(err).end();
-				}else{
+				} else {
 					var prefix = "./radioEmission";
+					index++;
 
-					results.forEach(function(item, index) {
-						setTimeout(function(script) {	
-							process.exec(script);			 
-						}, 500*index, prefix + " " + item.device + " " + item.status);
-					});
+					setTimeout(function(script) {	
+						process.exec(script);			 
+					}, 500*index, prefix + " " + row.device + " " + row.status);
 
+					
+				}
+			}, function(err, row){
+				if(err){
+					res.status(500).send(err).end();
+				} else {
 					res.status(204).end();
 				}
 			});
+			
 		})
 
 		.put(function(req,res){
 			if(req.body.title === undefined){
 				res.status(400).json({response: 'Error' })
 			}else{
-				connection.query('UPDATE command SET title = ? WHERE id = ?', [req.body.title,req.params.id_command], function(err, results) {
-					if (err){
+				db.run('UPDATE command SET title = ? WHERE id = ?', [req.body.title,req.params.id_command], function(err){
+					if(err){
 						res.status(500).send(err).end();
-					}else{
+					} else {
 						res.status(204).end();
 					}
 				});
+				
 			}			
 		})
 
 		.delete(function(req, res){
-			connection.query('DELETE FROM command WHERE id = ?', [req.params.id_command], function(err, results) {
-				if (err) res.status(500).send(err).end();
-			});
-
-			connection.query('DELETE FROM params WHERE id = ?', [req.params.id_command], function(err, results) {
-				if (err) res.status(500).send(err).end();
-			});
-
-			res.status(204).end();
+			db.run("BEGIN")
+				.run('DELETE FROM command WHERE id = ?', [req.params.id_command], function(err){})
+				.run('DELETE FROM params WHERE id = ?', [req.params.id_command], function(err){})
+				.run("COMMIT", function(err){
+					res.status(204).end();
+				});
 		});
 }

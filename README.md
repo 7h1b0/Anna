@@ -3,7 +3,7 @@ Anna-API
 
 ## Project description
 
-A simple REST api for home automation
+A simple REST api for home automation using NodeJS ans SQLite
 
 
 ## Rest API routes
@@ -38,7 +38,6 @@ A simple REST api for home automation
 ## Required
 
 * NodeJS
-* MySQL
 
 ## Installation
 
@@ -49,8 +48,3 @@ A simple REST api for home automation
 ## Developer
 
 * 7h1b0
-
-
-## License
-
-OpenSource : just mention developer name if you use the code.

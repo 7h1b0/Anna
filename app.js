@@ -4,6 +4,7 @@ var app = require('express')(),
 	sqlite3 = require('sqlite3').verbose(),
 	db = new sqlite3.Database('anna.db'),
 	command = require('./controllers/command'),
+	device = require('./controllers/device'),
 	os = require('./controllers/os');
 
 // Configure
@@ -11,6 +12,7 @@ app.use(bodyParser.json());
 
 // Controllers
 command.init(app,db);
+device.init(app,db);
 os.init(app);
 
 // Default Controller

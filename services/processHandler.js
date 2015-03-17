@@ -1,8 +1,6 @@
-exports.exec = function(script){
+exports.exec = function(script, callback){
 	var exec = require('child_process').exec;
 	exec(script,function (error, stdout, stderr) {
-	    if (error !== null) {
-	      console.log('exec error: ' + error);
-	    }
+		if(callback)  callback(error);
 	});
 }

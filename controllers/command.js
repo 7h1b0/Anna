@@ -31,7 +31,7 @@ exports.init = function(app,db){
 			}	
 		});
 
-	app.route('/command/:id_command')
+	app.route('/command/:id_command([0-9]{1,3})')
 
 		.get(function(req,res){
 			var index = 0;

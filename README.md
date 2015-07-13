@@ -10,23 +10,24 @@ A simple REST api for home automation using NodeJS ans SQLite
 
 * Command Controller
 
-| Path            | HTTP Verb | Description                 
-|-----------------|-----------|-----------------------------
-| /command        | GET 	  | Get all the commands     
-| /command/       | POST      | Add command     
-| /command/:id    | GET       | Execute a command          
-| /command/:id    | PUT       | Update a command   
-| /command/:id    | DELETE    | Delete a command
+| Path            		| HTTP Verb 	| Description                 
+|-----------------------|---------------|-----------------------------
+| /device        		| GET 	  		| Get all the commands     
+| /device/       		| POST      	| Add device     
+| /device/:id/:status   | GET       	| switch on/off a device          
+| /device/:id    		| PUT       	| Update a device   
+| /device/:id    		| DELETE    	| Delete a command
 
-* Event Controller
+* Schedule Controller
 
-| Path            | HTTP Verb | Description                 
-|-----------------|-----------|-----------------------------
-| /event          | GET 	  | Get list of events  
-| /event/         | POST      | Add event     
-| /event/:id      | GET       | Get a single event           
-| /event/:id      | PUT       | Update a event   
-| /event/:id      | DELETE    | Delete a event
+| Path            		| HTTP Verb 	| Description                 
+|-----------------------|---------------|-----------------------------
+| /schedule          	| GET 	  		| Get list of job  
+| /schedule/         	| POST      	| Add job     
+| /schedule/:id      	| GET       	| Get a single job          
+| /schedule/:id      	| DELETE    	| Delete a event
+| /schedule/start/:id	| GET    		| Start a job
+| /schedule/stop/:id	| GET    		| Stop a job
 
 * Special Routes
 

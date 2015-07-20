@@ -39,7 +39,7 @@ A simple REST API for home automation using NodeJS and SQLite3
 |-----------------|-----------|-----------------------------
 | /os		      | GET 	  | Get info about host
 
-## Objects structure
+## Structures
 
 ```
 Device{

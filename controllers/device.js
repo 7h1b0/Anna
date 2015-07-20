@@ -31,6 +31,16 @@ exports.init = function(app,db){
 
 	app.route('/device/:id_device([0-9]{1,2})')
 
+		.get(function(req,res){
+			db.get('SELECT id,title FROM device WHERE id = ?', [req.params.id_device], function(err, row){
+				if(err){
+					res.status(404).send(err).end();
+				} else {
+					res.send(row);
+				}
+			});				
+		})
+
 		.put(function(req,res){
 			if(req.body.title === undefined){
 				res.status(400).json({response: 'Error' })
@@ -57,10 +67,10 @@ exports.init = function(app,db){
 		});
 
 
-	app.route('/device/:id_device([0-9]{1,2})/:status(0|1)')
+	app.route('/device/:status(on|off)/:id_device([0-9]{1,2})')
 
 		.get(function(req,res){
-			process.exec(req.params.id_device, req.params.status, function(err){
+			process.exec(req.params.id_device, req.params.status === 'on', function(err){
 				if(err){
 					res.status(404).send(err).end();
 				} else{

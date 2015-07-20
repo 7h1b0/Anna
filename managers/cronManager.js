@@ -38,19 +38,14 @@ CronManager.prototype.add = function(key, tab, device_id, switchOn) {
 				onTick: execute(device_id, switchOn)
 			})
 		};
-		console.log(this.jobs.length);
-	} catch(fooBaredByUser) {
-		console.error("crontab: " + tab + " possibly not valid, job " + key + " not started..." + fooBaredByUser.message  ); 
-	}
+	}catch(fooBaredByUser) {}
 }
 
 CronManager.prototype.delete = function(key) {
 	try {
 		this.jobs[key].cronJob.stop();
 		delete this.jobs[key];
-	} catch (err) { 
-		console.error("error in trying to stop job: " + key + ": " + err) 
-	}
+	} catch (err) {}
 }
 
 CronManager.prototype.start = function(key) {
@@ -60,9 +55,7 @@ CronManager.prototype.start = function(key) {
 		} else {
 			this.jobs[key].cronJob.start();	
 		}
-	}catch (err) {
-		console.error("couldn't start job: " + key + ": " + err);
-	}
+	}catch (err) {}
 }
 
 CronManager.prototype.stop = function(key) {
@@ -73,10 +66,7 @@ CronManager.prototype.stop = function(key) {
 			this.jobs[key].cronJob.stop();
 		}
 		
-	}
-	catch(err) {
-		console.error("couldn't stop job: " + key + ": " + err)
-	}
+	}catch(err) {}
 }
 
 CronManager.prototype.getAll = function() {
@@ -113,13 +103,7 @@ CronManager.prototype.exists = function(tabKey) {
 
 function execute(device_id, switchOn){
 	return function(){
-		process.exec(device_id, switchOn, function(err){
-			if(err){
-				console.log("Error");
-			} else{
-				console.log("Succes");
-			}
-		});	
+		process.exec(device_id, switchOn, function(err){});	
 	}
 }
 

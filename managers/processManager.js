@@ -1,8 +1,9 @@
 exports.exec = function(device_id, switchOn, callback){
 	var exec = require('child_process').exec,
-		script = "./radioEmission " + device_id + " " + switchOn;
+		status = switchOn ? 1 : 0
+		script = "./radioEmission " + device_id + " " + status;
 
-	console.log(script);
+		console.log(script);
 
 	exec(script,function (error, stdout, stderr) {
 		if(callback)  callback(error);

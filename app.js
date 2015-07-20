@@ -18,7 +18,7 @@ os.init(app);
 
 // Default Controller
 app.use(function(req, res){
-	res.status(404).end('404');
+	res.status(404).end();
 });
 
 app.listen(8081);

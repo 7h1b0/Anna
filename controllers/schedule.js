@@ -14,7 +14,7 @@ exports.init = function(app){
 				if(manager.exists(req.body.title)){
 					res.status(409).end();
 				}else{
-					manager.add(req.body.title, req.body.cronJob, req.body.device_id, req.body.switchOn);
+					manager.add(req.body.title, req.body.timestamp, req.body.device_id, req.body.switchOn);
 					manager.start(req.body.title);
 					res.status(201).end();
 				}
@@ -60,7 +60,7 @@ exports.init = function(app){
 function jsonIsValid(req){
 	if(req.body.title === undefined || typeof req.body.title !== 'string'){
 		return false;
-	}else if(req.body.cronJob === undefined || typeof req.body.cronJob !== 'string'){
+	}else if(req.body.timestamp === undefined){
 		return false;
 	}else if(req.body.device_id === undefined || req.body.device_id > 99 || req.body.device_id < 0){
 		return false;

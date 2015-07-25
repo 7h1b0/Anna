@@ -28,13 +28,15 @@ function CronManager(){
 	this.jobs = {};	
 }
 
-CronManager.prototype.add = function(key, tab, device_id, switchOn) {
+CronManager.prototype.add = function(key, timestamp, device_id, switchOn) {
+	console.log(timestamp);
 	try {
 		this.jobs[key] = {
 			device_id: device_id,
 			switchOn : switchOn,
+			timestamp : timestamp,
 			cronJob : new CronJob({
-				cronTime: tab,
+				cronTime: new Date(timestamp),
 				onTick: execute(device_id, switchOn)
 			})
 		};
@@ -87,7 +89,7 @@ CronManager.prototype.get = function(key) {
 			title : key,
 			device_id : job.device_id,
 			switchOn : job.switchOn,
-			cronJob : job.cronJob.cronTime.source,
+			timestamp : job.timestamp,
 			status : job.cronJob.running ? "Running" : "Stopped"
 		};
 	}else{

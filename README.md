@@ -49,11 +49,11 @@ Device{
 ```
 
 ```
-Job{
+Schedule{
 	title: String,
 	device_id : Integer,
 	switchOn : Boolean,
-	cronJob : String,
+	timestamp : Long,
 	status : String
 }
 ```

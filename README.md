@@ -54,7 +54,7 @@ Schedule{
 	device_id : Integer,
 	switchOn : Boolean,
 	timestamp : Long,
-	status : String
+	running : Boolean
 }
 ```
 

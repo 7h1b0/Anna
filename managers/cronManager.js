@@ -29,7 +29,6 @@ function CronManager(){
 }
 
 CronManager.prototype.add = function(key, timestamp, device_id, switchOn) {
-	console.log(timestamp);
 	try {
 		this.jobs[key] = {
 			device_id: device_id,
@@ -90,7 +89,7 @@ CronManager.prototype.get = function(key) {
 			device_id : job.device_id,
 			switchOn : job.switchOn,
 			timestamp : job.timestamp,
-			status : job.cronJob.running ? "Running" : "Stopped"
+			running : job.cronJob.running
 		};
 	}else{
 		return null;

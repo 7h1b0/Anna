@@ -8,12 +8,22 @@ A simple REST API for home automation using NodeJS and SQLite3
 
 ## Rest API routes
 
+* User Controller
+
+| Path            		| HTTP Verb 	| Description                 
+|-----------------------|---------------|-----------------------------
+| /authenticate			| POST			| Get Token
+| /user        			| GET 	  		| Get all users   
+| /user       			| POST      	| Add user  
+| /user/:id    			| PUT       	| Update a user   
+| /user/:id    			| DELETE    	| Delete a user
+
 * Command Controller
 
 | Path            		| HTTP Verb 	| Description                 
 |-----------------------|---------------|-----------------------------
 | /device        		| GET 	  		| Get all devices   
-| /device/       		| POST      	| Add device  
+| /device       		| POST      	| Add device  
 | /device/:id       	| GET 	  		| Get a single device        
 | /device/:id    		| PUT       	| Update a device   
 | /device/:id    		| DELETE    	| Delete a device
@@ -26,7 +36,7 @@ A simple REST API for home automation using NodeJS and SQLite3
 | Path            		| HTTP Verb 	| Description                 
 |-----------------------|---------------|-----------------------------
 | /schedule          	| GET 	  		| Get all jobs 
-| /schedule/         	| POST      	| Add job     
+| /schedule         	| POST      	| Add job     
 | /schedule/:id      	| GET       	| Get a single job          
 | /schedule/:id      	| DELETE    	| Delete a job
 | /schedule/start/:id	| GET    		| Start a job
@@ -57,6 +67,17 @@ Schedule{
 	running : Boolean
 }
 ```
+
+```
+User{
+	name: String
+	password: String
+}
+```
+
+## Default user
+name : admin
+password : anna
 
 
 ## Required

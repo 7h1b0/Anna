@@ -1,7 +1,7 @@
-var cronManager = require('./../managers/cronManager');
-
 exports.init = function(app){
-	var manager = new cronManager();
+
+	var cronManager 	= require('./../managers/cronManager');
+	var manager 		= new cronManager();
 
 	app.route('/schedule')
 
@@ -12,14 +12,14 @@ exports.init = function(app){
 		.post(function(req,res){
 			if(jsonIsValid(req)){
 				if(manager.exists(req.body.title)){
-					res.status(409).end();
+					res.sendStatus(409);
 				}else{
 					manager.add(req.body.title, req.body.timestamp, req.body.device_id, req.body.switchOn);
 					manager.start(req.body.title);
-					res.status(201).end();
+					res.sendStatus(201);
 				}
 			}else{
-				res.status(400).json({response : 'Error'});
+				res.sendStatus(400);
 			}
 		})
 
@@ -33,14 +33,15 @@ exports.init = function(app){
 		.delete(function(req,res){
 			if(manager.exists(req.params.id)){
 				manager.delete(req.params.id);
-				res.status(204).end();
+				res.sendStatus(204);
 			}else{
-				res.status(404).end();
+				res.sendStatus(500);;
 			}	
 		})
 		
 
 	app.route('/schedule/:status(start|stop)/:id')	
+
 		.get(function(req,res){
 			if(manager.exists(req.params.id)){
 				if(req.params.status === 'start'){
@@ -48,10 +49,10 @@ exports.init = function(app){
 				}else{
 					manager.stop(req.params.id);
 				}
+				res.sendStatus(204);
 
-				res.status(204).end();
 			}else{
-				res.status(404).end();
+				res.sendStatus(500);
 			}
 		})
 

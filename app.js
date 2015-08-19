@@ -1,24 +1,35 @@
 // Dependencies
-var app = require('express')(),
-	bodyParser = require('body-parser'),
-	sqlite3 = require('sqlite3'),
-	db = new sqlite3.Database('anna.db'),
+var app 		= require('express')();
+var bodyParser 	= require('body-parser');
+var sqlite3 	= require('sqlite3');
 
-	device = require('./controllers/device'),
-	schedule = require('./controllers/schedule'),
-	os = require('./controllers/os');
+var config 		= require('./config');
+var log 		= require('./app/controllers/log');
+var user 		= require('./app/controllers/user')
+var device 		= require('./app/controllers/device');
+var schedule 	= require('./app/controllers/schedule');
+var os 			= require('./app/controllers/os');
 
-// Configure
+// Use bcrypt to hash password;
+
+
+// Setup
 app.use(bodyParser.json());
+app.listen(config.port);
+app.set('config',config);
 
-// Controllers
-device.init(app,db);
+var db = new sqlite3.Database(config.database);
+
+// Log
+log.init(app);
+
+// API
+user.init(app,db);
 schedule.init(app);
+device.init(app,db);
 os.init(app);
 
 // Default Controller
 app.use(function(req, res){
 	res.status(404).end();
 });
-
-app.listen(8081);

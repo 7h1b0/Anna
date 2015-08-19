@@ -1,13 +1,14 @@
 {
 	"name": "Anna-API",
-	"version": "0.3.0",
+	"version": "0.5.0",
 	"main": "app.js",
 	"description":"A simple REST api for home automation",
 	"dependencies":{
 		"express":"~4",
 		"body-parser":"~1",
 		"sqlite3": "~3",
-		"cron":"~1"
+		"cron":"~1",
+		"jsonwebtoken":"~5"
 	},
 	"author":"7h1b0"
 }

@@ -4,20 +4,20 @@ function ProcessManager(){}
 
 ProcessManager.prototype = {
 	process: [],
-	delta: 4000,
+	delta: 1000,
 
-	add: function(device, switchOn){
+	add: function (device, switchOn){
 		this.process.push({
 			device : device,
 			switchOn : switchOn
 		});
 
-		if(this.process.length == 1){
+		if (this.process.length == 1) {
 			this.run();
 		}
 	},
 
-	addArray: function(devices, switchOn){
+	addArray: function (devices, switchOn){
 		var length = devices.length;
 		for(var i=0; i< length; i++){
 			this.process.push({
@@ -26,13 +26,13 @@ ProcessManager.prototype = {
 			});
 		}
 
-		if(this.process.length == length){
+		if (this.process.length == length) {
 			this.run();
 		}
 	},
 
-	run: function(){
-		if(this.process.length < 1){
+	run: function (){
+		if (this.process.length < 1) {
 			return;
 		}
 
@@ -43,13 +43,14 @@ ProcessManager.prototype = {
 
 
 		exec(script,function (error, stdout, stderr) {
-			console.log("Exec");
+			console.log(stdout);
+			console.log(stderr);
 		});
 
 		this.process.splice(0,1);
 
-		if(this.process.length > 0){
-			setTimeout(function(){
+		if (this.process.length > 0) {
+			setTimeout(function (){
 				that.run();
 			}, this.delta);
 		}

@@ -2,13 +2,9 @@ exports.init = function(app){
 
 	var fs 	= require('fs');
 
-	app.use(function(req,res,next){
+	app.use(function (req,res,next){
 		if(app.get('config').log){
-	 		fs.appendFile('./log.txt', getBuffer(req) , function(err){
-				if(err){
-					// ...	
-				} 
-			});
+	 		fs.appendFile('./log.txt', getBuffer(req) , function(ignored){});
 		}
 		next();
 	});

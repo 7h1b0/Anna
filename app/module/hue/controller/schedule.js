@@ -22,7 +22,7 @@ exports.init = function (app, api){
 			});
 		})
 
-	app.route('/hue/schedule/:id_schedule([0-9]*)')
+	app.route('/hue/schedule/:id_schedule([0-9]{1,})')
 
 		.get(function (req,res){
 			api.getSchedule(req.params.id_schedule, function (err, result, body) {

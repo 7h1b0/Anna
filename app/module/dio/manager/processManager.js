@@ -19,7 +19,7 @@ ProcessManager.prototype = {
 
 	addArray: function (devices, switchOn){
 		var length = devices.length;
-		for(var i=0; i< length; i++){
+		for (var i=0; i< length; i++) {
 			this.process.push({
 				device : devices[i],
 				switchOn : switchOn
@@ -43,8 +43,8 @@ ProcessManager.prototype = {
 
 
 		exec(script,function (error, stdout, stderr) {
-			console.log(stdout);
-			console.log(stderr);
+			// console.log(stdout);
+			// console.log(stderr);
 		});
 
 		this.process.splice(0,1);

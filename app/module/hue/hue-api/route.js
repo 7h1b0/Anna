@@ -20,14 +20,14 @@ Route.prototype = {
     	this.route.url = getUrl(uri);
     	this.route.timeout = options.timeout;
 
-        if(this.method == 'PUT' || this.method == 'POST'){
+        if (this.method == 'PUT' || this.method == 'POST') {
             this.addData(content);
         }
 
     	return this.route;
     },
 
-    addData: function(content){
+    addData: function (content){
         if(content === undefined){
             throw new Error("No data provided");
         }

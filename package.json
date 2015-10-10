@@ -4,9 +4,9 @@
 	"main": "anna.js",
 	"description":"A simple REST api for home automation",
 	"dependencies":{
+		"mongoose":"~4",
 		"express":"~4",
 		"body-parser":"~1",
-		"sqlite3": "~3",
 		"request":"~2"
 	},
 	"author":"7h1b0"

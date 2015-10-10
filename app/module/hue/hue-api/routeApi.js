@@ -1,94 +1,94 @@
-var Route = require('./route');
+var Route = require('./../../../utils/route');
 
 module.exports = {
-	getLights: new Route({
-		url: 	"/api/<username>/lights",
-		method: "GET"
-	}),
+	getLights: new Route(
+		"/api/<username>/lights",
+		"GET"
+	),
 
-	getLight: new Route({
-		url: 	"/api/<username>/lights/<id>",
-		method: "GET"
-	}),
+	getLight: new Route(
+		"/api/<username>/lights/<id>",
+		"GET"
+	),
 
-	renameLight: new Route({
-		url: 	"/api/<username>/lights/<id>",
-		method: "PUT"
-	}),
+	renameLight: new Route(
+		"/api/<username>/lights/<id>",
+		"PUT"
+	),
 
-	setLightState: new Route({
-		url: 	"/api/<username>/lights/<id>/state",
-		method: "PUT"
-	}),
+	setLightState: new Route(
+		"/api/<username>/lights/<id>/state",
+		"PUT"
+	),
 
-	getGroups: new Route({
-		url: 	"/api/<username>/groups",
-		method: "GET" 
-	}),
+	getGroups: new Route(
+		"/api/<username>/groups",
+		"GET" 
+	),
 
-	addGroup: new Route({
-		url: 	"/api/<username>/groups",
-		method: "POST"
-	}),
+	addGroup: new Route(
+		"/api/<username>/groups",
+		"POST"
+	),
 
-	getGroup: new Route({
-		url: 	"/api/<username>/groups/<id>",
-		method: "GET"
-	}),
+	getGroup: new Route(
+		"/api/<username>/groups/<id>",
+		"GET"
+	),
 
-	setGroup: new Route({
-		url: 	"/api/<username>/groups/<id>",
-		method: "PUT"
-	}),
+	setGroup: new Route(
+		"/api/<username>/groups/<id>",
+		"PUT"
+	),
 
-	setGroupState: new Route({
-		url: 	"/api/<username>/groups/<id>/action",
-		method: "PUT"
-	}),
+	setGroupState: new Route(
+		"/api/<username>/groups/<id>/action",
+		"PUT"
+	),
 
-	deleteGroup: new Route({
-		url: 	"/api/<username>/groups/<id>",
-		method: "DELETE"
-	}),
+	deleteGroup: new Route(
+		"/api/<username>/groups/<id>",
+		"DELETE"
+	),
 
-	getSchedules: new Route({
-		url: 	"/api/<username>/schedules",
-		method: "GET"
-	}),
+	getSchedules: new Route(
+		"/api/<username>/schedules",
+		"GET"
+	),
 
-	addSchedule: new Route({
-		url: 	"/api/<username>/schedules",
-		method: "POST"
-	}),
+	addSchedule: new Route(
+		"/api/<username>/schedules",
+		"POST"
+	),
 
-	getSchedule: new Route({
-		url: 	"/api/<username>/schedules/<id>",
-		method: "GET"
-	}),
+	getSchedule: new Route(
+		"/api/<username>/schedules/<id>",
+		"GET"
+	),
 
-	setSchedule: new Route({
-		url: 	"/api/<username>/schedules/<id>",
-		method: "PUT"
-	}),
+	setSchedule: new Route(
+		"/api/<username>/schedules/<id>",
+		"PUT"
+	),
 
-	deleteSchedule: new Route({
-		url: 	"/api/<username>/schedules/<id>",
-		method: "DELETE"
-	}),
+	deleteSchedule: new Route(
+		"/api/<username>/schedules/<id>",
+		"DELETE"
+	),
 
-	getScenes: new Route({
-		url: 	"/api/<username>/scenes",
-		method: "GET"
-	}),
+	getScenes: new Route(
+		"/api/<username>/scenes",
+		"GET"
+	),
 
-	addScene: new Route({
-		url: 	"/api/<username>/scenes/<id>",
-		method: "PUT"
-	}),
+	addScene: new Route(
+		"/api/<username>/scenes/<id>",
+		"PUT"
+	),
 
-	setSceneState: new Route({
-		url: 	"/api/<username>/scenes/<id>/lights/<id_light>/state",
-		method: "PUT"
-	}),
+	setSceneState: new Route(
+		"/api/<username>/scenes/<id>/lights/<id_light>/state",
+		"PUT"
+	),
 
 }

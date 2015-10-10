@@ -1,6 +1,7 @@
 var request = require('request');
 
 module.exports =  function(route, cb){	
+	console.log(route);
 	request(route, function(err, res, body){
 		if (body) {
 			try {

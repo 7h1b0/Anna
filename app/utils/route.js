@@ -1,6 +1,7 @@
-function Route(route){
-    this.url = route.url;
-    this.method = route.method;
+function Route(url, method, body){
+    this.url = url;
+    this.method = method;
+    this.body = body;
 }
 
 Route.prototype = {
@@ -9,6 +10,10 @@ Route.prototype = {
     route: {},
 
     create: function (options, content) {
+        if (content === undefined && this.body != undefined) {
+            content = body;
+        } 
+        
     	var uri = {
     		path: getPath(this.url, options),
     		hostname: options.hostname,
@@ -21,14 +26,14 @@ Route.prototype = {
     	this.route.timeout = options.timeout;
 
         if (this.method == 'PUT' || this.method == 'POST') {
-            this.addData(content);
+            this._addData(content);
         }
 
     	return this.route;
     },
 
-    addData: function (content){
-        if(content === undefined){
+    _addData: function (content){
+        if (content === undefined) {
             throw new Error("No data provided");
         }
         this.route.json = true;
@@ -77,7 +82,7 @@ function getPath(path, params){
 		var requiredParameters = extractParameters(path);
 	    var resolvedPath = path;
 
-	    requiredParameters.forEach(function (reqParam) {
+	    requiredParameters.forEach(reqParam => {
 	        if (params[reqParam] === undefined) {
 	            throw new Error("The required parameter '" + reqParam + "' was missing a value.");
 	        }

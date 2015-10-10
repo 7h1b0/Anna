@@ -1,41 +1,52 @@
-exports.init = function (app,db){
+exports.init = function (app){
 
-	var groupManager 		= require('./../manager/groupManager');
 	var processManager 		= require('./../manager/processManager');
-	var manager 			= new groupManager(db);
+	var DioGroup 			= require('./../model/dioGroup')
 	var process 			= new processManager();
 
 	app.route('/dio/group')
 
 		.get(function (req,res){
-			manager.getAll(function (rows){
-				res.send(rows);
-			}, function (err){
-				res.status(500).send(err);
+			DioGroup.find({}, function (err, dioGroups){
+				if (err) {
+					res.status(500).send(err);
+				} else {
+					res.send(dioGroups);
+				}
 			});
 		})
 
 		.post(function (req,res){
-			if (req.body.name === undefined || req.body.supplies === undefined) {
+			if (req.body.supplies === undefined || req.body.name === undefined) {
 				res.sendStatus(400);	
 			} else {
-				manager.add(req.body, function (result){
-					res.send(result);
-				}, function (err){
-					res.status(409).send(err);
+				var newDioGroup = DioGroup({
+					supplies: req.body.supplies,
+					name: req.body.name,
+					description: req.body.description
+				});
+
+				newDioGroup.save(function (err){
+					if (err) {
+						res.status(500).send(err);
+					} else {
+						res.sendStatus(204);
+					}
 				});
 			}
 		});
 
-	app.route('/dio/group/:id_group([0-9]{1,2})')
+	app.route('/dio/group/:id_group')
 
 		.get(function (req,res){
-			manager.getSupplies(req.params.id_group, function (rows){
-				var group = {};
-				group.supplies = rows;
-				res.send(group);
-			},function (err){
-				res.status(500).send(err);
+			DioGroup.findById(req.params.id_group, function (err, dioGroup){
+				if (err) {
+					res.status(500).send(err);
+				} else if (dioGroup === undefined) {
+					res.sendStatus(404);
+				} else {
+					res.send(dioGroup);
+				}
 			});
 		})
 
@@ -43,32 +54,57 @@ exports.init = function (app,db){
 			if (req.body.name === undefined) {
 				res.sendStatus(400);
 			} else {
-				req.body.id = req.params.id_group;
-				manager.update(req.body, function (){
-					res.sendStatus(204);
-				}, function (err){
-					res.status(500).send(err);
+				DioGroup.findById(req.params.id_group, function (err, dioGroup){
+					if (err) {
+						res.status(500).send(err);
+					} else if (dioGroup === undefined) {
+						res.sendStatus(404);
+					} else {
+						dioGroup.name = req.body.name;
+						dioGroup.description = req.body.description;
+						dioGroup.save(function (err){
+							if (err) {
+								res.status(500).send(err);
+							} else {
+								res.sendStatus(204);
+							}
+						});
+					}
 				});		
 			}			
 		})
 
 		.delete(function (req, res){
-			manager.delete(req.params.id_group, function (){
-				res.sendStatus(204);
-			}, function (err){
-				res.status(500).send(err);
+			DioGroup.findById(req.params.id_group, function (err, dioGroup){
+				if (err) {
+					res.status(500).send(err);
+				} else if (dioGroup === undefined) {
+					res.sendStatus(404);
+				} else {
+					dioGroup.remove(function (err){
+						if (err) {
+							res.status(500).send(err);
+						} else {
+							res.sendStatus(204);
+						}
+					});
+				}
 			});
 		});
 
 
-	app.route('/dio/group/:id_group([0-9]{1,2})/:status(on|off)')
+	app.route('/dio/group/:id_group/:status(on|off)')
 
 		.get(function (req,res){
-			manager.getSupplies(req.params.id_group, function (row){
-				process.addArray(row, req.params.status === 'on');
-				res.end();
-			},function (err){
-				res.status(500).send(err);
+			DioGroup.findById(req.params.id_group, function (err, dioGroup){
+				if (err) {
+					res.status(500).send(err);
+				} else if (dioGroup === undefined) {
+					res.sendStatus(404);
+				} else {
+					process.addArray(dioGroup.supplies, req.params.status === 'on');
+					res.end();
+				}
 			});
 		});
 

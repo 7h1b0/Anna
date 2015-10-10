@@ -1,17 +1,18 @@
-var requestUtil		= require('./requestUtil');
+var requestUtil		= require('./../../../utils/requestUtil');
 var routeApi		= require('./routeApi');
+const SCENE_PREFIX 	= "anna";
 
 function HueApi(config){
 	this.config = config;
 }
 
-module.exports = function (hostname, username, port, timeout, scene_prefix){
+module.exports = function (hostname, username, port, timeout){
 	var config = {
 		hostname: hostname,
 		username: username,
 		port: port || 80,
 		timeout: timeout || 2000,
-		scene_prefix: scene_prefix || "anna"
+		scene_prefix: SCENE_PREFIX
 	}
 	return new HueApi(config);
 };
@@ -34,7 +35,7 @@ HueApi.prototype = {
 			if (scenes) {
 				var ids = Object.keys(scenes);
 				ids.forEach(function (id){
-	                if (id.indexOf(self.config.scene_prefix) === 0) {
+	                if (id.startsWith(self.config.scene_prefix)) {
 	                    try {
 	                        id = Number(id.substr(self.config.scene_prefix.length));
 	                        maxId = Math.max(id, maxId);
@@ -60,11 +61,10 @@ HueApi.prototype = {
 	},
 
 	getLights: function (cb){
-		var self = this;
 		var route = routeApi.getLights.create(this.config);
-		requestUtil(route, function (err, result, body){
+		requestUtil(route, (err, result, body) => {
 			if (body) {
-				body = self._toArray(body);
+				body = this._toArray(body);
 			}
 			cb(err, result, body);
 		});
@@ -96,11 +96,10 @@ HueApi.prototype = {
 	},
 
 	getGroups: function (cb){
-		var self = this;
 		var route = routeApi.getGroups.create(this.config);
-		requestUtil(route, function (err, result, body){
+		requestUtil(route, (err, result, body) => {
 			if (body) {
-				body = self._toArray(body);
+				body = this._toArray(body);
 			}
 			cb(err, result, body);
 		});
@@ -144,11 +143,10 @@ HueApi.prototype = {
 	},
 
 	getSchedules: function (cb){
-		var self = this;
 		var route = routeApi.getSchedules.create(this.config);
-		requestUtil(route, function (err, result, body){
+		requestUtil(route, (err, result, body) => {
 			if (body) {
-				body = self._toArray(body);
+				body = this._toArray(body);
 			}
 			cb(err, result, body);
 		});
@@ -181,18 +179,17 @@ HueApi.prototype = {
 	},
 
 	getScenes: function (cb){
-		var self = this;
 		var route = routeApi.getScenes.create(this.config);
-		requestUtil(route, function (err, result, body){
+		requestUtil(route, (err, result, body) => {
 			if (body) {
-				body = self._toArray(body);
+				body = this._toArray(body);
 			}
 			cb(err, result, body);
 		});
 	},
 
 	addScene: function (content, cb){
-		this._getNextSceneId(function (id){
+		this._getNextSceneId(id => {
 			this.setScene(id, content, cb);
 		});
 	},

@@ -3,91 +3,18 @@ Anna-API
 
 ## Project description
 
-A simple REST API for home automation using NodeJS and SQLite3
-
-
-## Rest API routes
-
-* User Controller
-
-| Path            		| HTTP Verb 	| Description                 
-|-----------------------|---------------|-----------------------------
-| /authenticate			| POST			| Get Token
-| /user        			| GET 	  		| Get all users   
-| /user       			| POST      	| Add user  
-| /user/:id    			| PUT       	| Update a user   
-| /user/:id    			| DELETE    	| Delete a user
-
-* Command Controller
-
-| Path            		| HTTP Verb 	| Description                 
-|-----------------------|---------------|-----------------------------
-| /device        		| GET 	  		| Get all devices   
-| /device       		| POST      	| Add device  
-| /device/:id       	| GET 	  		| Get a single device        
-| /device/:id    		| PUT       	| Update a device   
-| /device/:id    		| DELETE    	| Delete a device
-| /device/on/:id   		| GET       	| switch on a device    
-| /device/off/:id   	| GET       	| switch off a device    
-
-
-* Schedule Controller
-
-| Path            		| HTTP Verb 	| Description                 
-|-----------------------|---------------|-----------------------------
-| /schedule          	| GET 	  		| Get all jobs 
-| /schedule         	| POST      	| Add job     
-| /schedule/:id      	| GET       	| Get a single job          
-| /schedule/:id      	| DELETE    	| Delete a job
-| /schedule/start/:id	| GET    		| Start a job
-| /schedule/stop/:id	| GET    		| Stop a job
-
-
-* Information Controller
-
-| Path            | HTTP Verb | Description                 
-|-----------------|-----------|-----------------------------
-| /os		      | GET 	  | Get info about host
-
-## Structures
-
-```
-Device{
-	id: Integer,
-	title : String
-}
-```
-
-```
-Schedule{
-	title: String,
-	device_id : Integer,
-	switchOn : Boolean,
-	timestamp : Long,
-	running : Boolean
-}
-```
-
-```
-User{
-	name: String
-	password: String
-}
-```
-
-## Default user
-name : admin
-password : anna
+A simple REST API for home automation using NodeJS and MongoDB
 
 
 ## Required
 
-* NodeJS
+* NodeJS 4.x.x
+* MongoDB
 
 ## Installation
 
 1. ```./Anna-API/npm install ```
-2. ```./Anna-API/node app.js ```
+2. ```./Anna-API/node anna.js ```
 
 
 ## Developer

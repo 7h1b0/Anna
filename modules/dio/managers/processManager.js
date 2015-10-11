@@ -39,19 +39,17 @@ ProcessManager.prototype = {
 		var at 		= this.process[0];
 		var status 	= at.switchOn ? 1: 0;
 		var script 	= "./radioEmission " + at.device + " " + status;
-		var that 	= this;
-
 
 		exec(script,function (error, stdout, stderr) {
-			// console.log(stdout);
-			// console.log(stderr);
+			/*console.log(stdout);
+			console.log(stderr);*/
 		});
 
 		this.process.splice(0,1);
 
 		if (this.process.length > 0) {
-			setTimeout(function (){
-				that.run();
+			setTimeout(() => {
+				this.run();
 			}, this.delta);
 		}
 	}

@@ -1,6 +1,6 @@
 exports.init = function(app){
 
-	var Timer 		= require('./../model/timer');
+	var Timer 		= require('./../models/timer');
 	var Route 		= require('./../utils/route');
 	var requestUtil = require('./../utils/requestUtil');
 
@@ -103,7 +103,7 @@ exports.init = function(app){
 			});
 		});
 
-	app.route('/timer/:id_timer/on')
+	app.route('/timer/:id_timer/action')
 
 		.get(function (req, res){
 			Timer.findById(req.params.id_timer, function (err, timer){
@@ -118,17 +118,11 @@ exports.init = function(app){
 			});
 		});
 
-	function getUrl(path){
-		var port = app.get('config').port;
-		return "http://localhost:" + port + path;
-	}
-
 	function doActions(actions){
-		console.log(actions);
 		actions.forEach(function (action){
-			var url = getUrl(action.path);
+			var url = requestUtil.getUrl(app, action.path);
 			var route = new Route(url, action.method, action.body);
-			requestUtil(route, () => {});
+			requestUtil.request(route, () => {});
 		});
 	}
 }

@@ -4,20 +4,21 @@ var bodyParser 	= require('body-parser');
 var mongoose 	= require('mongoose');
 
 var config 		= require('./config');
-var log 		= require('./app/controllers/log');
-var os 			= require('./app/controllers/os');
-var group		= require('./app/controllers/group');
-var scene		= require('./app/controllers/scene');
-var timer		= require('./app/controllers/timer');
-var dio 		= require('./app/module/dio');
-var hue			= require('./app/module/hue');
+var log 		= require('./controllers/log');
+var os 			= require('./controllers/os');
+var group		= require('./controllers/group');
+var scene		= require('./controllers/scene');
+var timer		= require('./controllers/timer');
+var dio 		= require('./modules/dio');
+var hue			= require('./modules/hue');
 
 // Setup
 app.use(bodyParser.json());
 app.listen(config.port);
 app.set('config',config);
+
+// Setup Database
 var uri = 'mongodb://' + config.hostname_db + "/" + config.database;
-console.log(uri);
 mongoose.connect(uri);
 
 // Log

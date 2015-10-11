@@ -1,4 +1,4 @@
-var requestUtil		= require('./../../../utils/requestUtil');
+var requestUtil		= require('./../../../../utils/requestUtil');
 var routeApi		= require('./routeApi');
 const SCENE_PREFIX 	= "anna";
 
@@ -30,7 +30,6 @@ HueApi.prototype = {
 		var self = this;
 
 		this.getScenes(function (err, result, scenes){
-			console.log(self.config.scene_prefix);
 			var maxId = -1;
 			if (scenes) {
 				var ids = Object.keys(scenes);
@@ -62,7 +61,7 @@ HueApi.prototype = {
 
 	getLights: function (cb){
 		var route = routeApi.getLights.create(this.config);
-		requestUtil(route, (err, result, body) => {
+		requestUtil.request(route, (err, result, body) => {
 			if (body) {
 				body = this._toArray(body);
 			}
@@ -74,21 +73,21 @@ HueApi.prototype = {
 		var options = this._setId(id);
 		var route = routeApi.getLight.create(options);
 
-		requestUtil(route, cb);
+		requestUtil.request(route, cb);
 	},
 
 	renameLight: function (id, content, cb){
 		var options = this._setId(id);
 	    var route = routeApi.renameLight.create(options, content);
 
-		requestUtil(route, cb);
+		requestUtil.request(route, cb);
 	},
 
 	setLightState: function (id, content, cb){
 		var options = this._setId(id);
 		var route = routeApi.setLightState.create(options, content);
 
-		requestUtil(route, cb);
+		requestUtil.request(route, cb);
 	},
 
 	switchLight: function (id, on, cb){
@@ -97,7 +96,7 @@ HueApi.prototype = {
 
 	getGroups: function (cb){
 		var route = routeApi.getGroups.create(this.config);
-		requestUtil(route, (err, result, body) => {
+		requestUtil.request(route, (err, result, body) => {
 			if (body) {
 				body = this._toArray(body);
 			}
@@ -107,28 +106,28 @@ HueApi.prototype = {
 
 	addGroup: function (content, cb){
 		var route = routeApi.addGroup.create(this.config, content);
-		requestUtil(route, cb);
+		requestUtil.request(route, cb);
 	},
 
 	getGroup: function (id, cb){
 		var options = this._setId(id);
 		var route = routeApi.getGroup.create(options);
 
-		requestUtil(route, cb);
+		requestUtil.request(route, cb);
 	},
 
 	setGroup: function (id, content, cb){
 		var options = this._setId(id);
 		var route = routeApi.setGroup.create(options, content);
 
-		requestUtil(route, cb);
+		requestUtil.request(route, cb);
 	},
 
 	setGroupState: function (id, content, cb){
 		var options = this._setId(id);
 		var route = routeApi.setGroupState.create(options, content);
 
-		requestUtil(route, cb);
+		requestUtil.request(route, cb);
 	},
 
 	switchGroupOn: function (id, on, cb){
@@ -139,12 +138,12 @@ HueApi.prototype = {
 		var options = this._setId(id);
 		var route = routeApi.deleteGroup.create(this.config);
 
-		requestUtil(route, cb);
+		requestUtil.request(route, cb);
 	},
 
 	getSchedules: function (cb){
 		var route = routeApi.getSchedules.create(this.config);
-		requestUtil(route, (err, result, body) => {
+		requestUtil.request(route, (err, result, body) => {
 			if (body) {
 				body = this._toArray(body);
 			}
@@ -154,33 +153,33 @@ HueApi.prototype = {
 
 	addSchedule: function (content, cb){
 		var route = routeApi.addSchedule.create(this.config, content);
-		requestUtil(route, cb);
+		requestUtil.request(route, cb);
 	},
 
 	getSchedule: function (id, cb){
 		var options = this._setId(id);
 		var route = routeApi.getSchedule.create(options);
 
-		requestUtil(route, cb);
+		requestUtil.request(route, cb);
 	},
 
 	setSchedule: function (id, content, cb){
 		var options = this._setId(id);
 		var route = routeApi.setSchedule.create(options, content);
 
-		requestUtil(route, cb);
+		requestUtil.request(route, cb);
 	},
 
 	deleteSchedule: function (id, cb){
 		var options = this._setId(id);
 		var route = routeApi.deleteSchedule.create(options);
 
-		requestUtil(route, cb);
+		requestUtil.request(route, cb);
 	},
 
 	getScenes: function (cb){
 		var route = routeApi.getScenes.create(this.config);
-		requestUtil(route, (err, result, body) => {
+		requestUtil.request(route, (err, result, body) => {
 			if (body) {
 				body = this._toArray(body);
 			}
@@ -200,7 +199,7 @@ HueApi.prototype = {
 		var options = this._setId(id);
 		var route = routeApi.addScene.create(options, content);
 
-		requestUtil(route, cb);
+		requestUtil.request(route, cb);
 	},
 
 	setSceneState: function (id, id_light, content, cb){
@@ -208,7 +207,7 @@ HueApi.prototype = {
 		options.id_light = id_light;
 		var route = routeApi.setSceneState.create(options);
 
-		requestUtil(route, cb);
+		requestUtil.request(route, cb);
 	},
 
 	switchScene: function (id, on, cb){

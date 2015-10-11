@@ -1,7 +1,7 @@
 exports.init = function(app){
 
-	var processManager 		= require('./../manager/processManager');
-	var DioSupply 			= require('./../model/dioSupply.js');
+	var processManager 		= require('./../managers/processManager');
+	var DioSupply 			= require('./../models/dioSupply.js');
 	var process 			= new processManager();
 
 	app.route('/dio/supply')
@@ -54,7 +54,6 @@ exports.init = function(app){
 				res.sendStatus(400);
 			} else {
 				DioSupply.find({id_supply: req.params.id_supply}, function (err, dioSupplies){
-					console.log(dioSupplies);
 					if (err) {
 						res.status(500).send(err);
 					} else if (dioSupplies.length == 0) {

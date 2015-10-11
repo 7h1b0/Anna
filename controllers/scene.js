@@ -1,13 +1,13 @@
 exports.init = function(app){
 
-	var Group 		= require('./../model/group');
+	var Scene 		= require('./../models/scene');
 	var Route 		= require('./../utils/route');
 	var requestUtil = require('./../utils/requestUtil');
 
-	app.route('/group')
+	app.route('/scene')
 
-		.get(function (req, res){
-			Group.find({}, function (err, supplies){
+		.get(function (req,res){
+			Scene.find({}, function (err, supplies){
 				if (err) {
 					res.status(500).send(err);
 				} else {
@@ -16,17 +16,17 @@ exports.init = function(app){
 			});
 		})
 
-		.post(function (req, res){
+		.post(function (req,res){
 			if (req.body.devices === undefined || req.body.name === undefined) {
 				res.sendStatus(400);	
 			} else {
-				var newGroup = Group({
+				var newScene = Scene({
 					name: req.body.name,
 					description: req.body.description,
 					devices: req.body.devices
 				});
 
-				newGroup.save(function (err, group){
+				newScene.save(function (err, group){
 					if (err) {
 						res.status(500).send(err);
 					} else {
@@ -36,44 +36,44 @@ exports.init = function(app){
 			}
 		});
 
-	app.route('/group/:id_group')
+	app.route('/scene/:id_scene')
 
-		.get(function (req, res){
-			Group.findById(req.params.id_group, function (err, group){
+		.get(function (req,res){
+			Scene.findById(req.params.id_scene, function (err, scene){
 				if (err) {
 					res.status(500).send(err);
-				} else if (group === undefined) {
+				} else if (scene === undefined) {
 					res.sendStatus(404);
 				} else {
-					res.send(group);
+					res.send(scene);
 				}
 			});
 		})
 
 		.put(function (req, res){
-			Group.findById(req.params.id_group, function (err, group){
+			Scene.findById(req.params.id_scene, function (err, scene){
 				if (err) {
 					res.status(500).send(err);
-				} else if (group === undefined) {
+				} else if (scene === undefined) {
 					res.sendStatus(404);
 				} else {
 					if (req.body.name) {
-						group.name = req.body.name;
+						scene.name = req.body.name;
 					}
 
 					if (req.body.description) {
-						group.description = req.body.description;
+						scene.description = req.body.description;
 					}
 
 					if (req.body.devices) {
-						group.devices = req.body.devices;
+						scene.devices = req.body.devices;
 					}
 
-					group.save(function (err, group){
+					scene.save(function (err, scene){
 						if (err) {
 							res.status(500).send(err);
 						} else {
-							res.send(group);
+							res.send(scene);
 						}
 					});
 				}
@@ -81,13 +81,13 @@ exports.init = function(app){
 		})
 
 		.delete(function (req, res){
-			Group.findById(req.params.id_group, function (err, group){
+			Scene.findById(req.params.id_scene, function (err, scene){
 				if (err) {
 					res.status(500).send(err);
-				} else if (group === undefined) {
+				} else if (scene === undefined) {
 					res.sendStatus(404);
 				} else {
-					group.remove(function (err){
+					scene.remove(function (err){
 						if (err) {
 							res.status(500).send(err);
 						} else {
@@ -98,27 +98,22 @@ exports.init = function(app){
 			});
 		});
 
-	app.route('/group/:id_group/:status(on|off)')
+	app.route('/scene/:id_scene/action')
 
 		.get(function (req, res){
-			Group.findById(req.params.id_group, function (err, group){
+			Scene.findById(req.params.id_scene, function (err, scene){
 				if (err) {
 					res.status(500).send(err);
-				} else if (group === undefined) {
+				} else if (scene === undefined) {
 					res.sendStatus(404);
 				} else {
-					group.devices.forEach(function (path){
-						var url = getUrl(path, req.params.status);
-						var route = new Route(url, "GET");
-						requestUtil(route, () => {});
+					scene.devices.forEach(function (device){
+						var url = requestUtil.getUrl(app, device.path);
+						var route = new Route(url, device.method, device.body);
+						requestUtil.request(route, () => {});
 					});
 					res.end();
 				}
 			});
 		});
-
-	function getUrl(path, status){
-		var port = app.get('config').port;
-		return "http://localhost:" + port + path + "/" + status;
-	}
 }

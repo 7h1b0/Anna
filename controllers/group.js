@@ -1,13 +1,13 @@
 exports.init = function(app){
 
-	var Scene 		= require('./../model/scene');
+	var Group 		= require('./../models/group');
 	var Route 		= require('./../utils/route');
 	var requestUtil = require('./../utils/requestUtil');
 
-	app.route('/scene')
+	app.route('/group')
 
-		.get(function (req,res){
-			Scene.find({}, function (err, supplies){
+		.get(function (req, res){
+			Group.find({}, function (err, supplies){
 				if (err) {
 					res.status(500).send(err);
 				} else {
@@ -16,17 +16,17 @@ exports.init = function(app){
 			});
 		})
 
-		.post(function (req,res){
+		.post(function (req, res){
 			if (req.body.devices === undefined || req.body.name === undefined) {
 				res.sendStatus(400);	
 			} else {
-				var newScene = Scene({
+				var newGroup = Group({
 					name: req.body.name,
 					description: req.body.description,
 					devices: req.body.devices
 				});
 
-				newScene.save(function (err, group){
+				newGroup.save(function (err, group){
 					if (err) {
 						res.status(500).send(err);
 					} else {
@@ -36,44 +36,44 @@ exports.init = function(app){
 			}
 		});
 
-	app.route('/scene/:id_scene')
+	app.route('/group/:id_group')
 
-		.get(function (req,res){
-			Scene.findById(req.params.id_scene, function (err, scene){
+		.get(function (req, res){
+			Group.findById(req.params.id_group, function (err, group){
 				if (err) {
 					res.status(500).send(err);
-				} else if (scene === undefined) {
+				} else if (group === undefined) {
 					res.sendStatus(404);
 				} else {
-					res.send(scene);
+					res.send(group);
 				}
 			});
 		})
 
 		.put(function (req, res){
-			Scene.findById(req.params.id_group, function (err, scene){
+			Group.findById(req.params.id_group, function (err, group){
 				if (err) {
 					res.status(500).send(err);
-				} else if (scene === undefined) {
+				} else if (group === undefined) {
 					res.sendStatus(404);
 				} else {
 					if (req.body.name) {
-						scene.name = req.body.name;
+						group.name = req.body.name;
 					}
 
 					if (req.body.description) {
-						scene.description = req.body.description;
+						group.description = req.body.description;
 					}
 
 					if (req.body.devices) {
-						scene.devices = req.body.devices;
+						group.devices = req.body.devices;
 					}
 
-					scene.save(function (err, scene){
+					group.save(function (err, group){
 						if (err) {
 							res.status(500).send(err);
 						} else {
-							res.send(scene);
+							res.send(group);
 						}
 					});
 				}
@@ -81,13 +81,13 @@ exports.init = function(app){
 		})
 
 		.delete(function (req, res){
-			Scene.findById(req.params.id_scene, function (err, scene){
+			Group.findById(req.params.id_group, function (err, group){
 				if (err) {
 					res.status(500).send(err);
-				} else if (scene === undefined) {
+				} else if (group === undefined) {
 					res.sendStatus(404);
 				} else {
-					scene.remove(function (err){
+					group.remove(function (err){
 						if (err) {
 							res.status(500).send(err);
 						} else {
@@ -98,27 +98,23 @@ exports.init = function(app){
 			});
 		});
 
-	app.route('/scene/:id_scene/:status(on|off)')
+	app.route('/group/:id_group/:status(on|off)')
 
 		.get(function (req, res){
-			Scene.findById(req.params.id_scene, function (err, scene){
+			Group.findById(req.params.id_group, function (err, group){
 				if (err) {
 					res.status(500).send(err);
-				} else if (scene === undefined) {
+				} else if (group === undefined) {
 					res.sendStatus(404);
 				} else {
-					scene.devices.forEach(function (device){
-						var url = getUrl(device.path);
-						var route = new Route(url, device.method, device.body);
-						requestUtil(route, () => {});
+					group.devices.forEach(function (path){
+						var path = path + "/" + req.params.status;
+						var url = requestUtil.getUrl(app, path);
+						var route = new Route(url, "GET");
+						requestUtil.request(route, () => {});
 					});
 					res.end();
 				}
 			});
 		});
-
-	function getUrl(path){
-		var port = app.get('config').port;
-		return "http://localhost:" + port + path;
-	}
 }

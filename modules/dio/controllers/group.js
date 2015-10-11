@@ -1,7 +1,7 @@
 exports.init = function (app){
 
-	var processManager 		= require('./../manager/processManager');
-	var DioGroup 			= require('./../model/dioGroup')
+	var processManager 		= require('./../managers/processManager');
+	var DioGroup 			= require('./../models/dioGroup')
 	var process 			= new processManager();
 
 	app.route('/dio/group')
@@ -26,11 +26,11 @@ exports.init = function (app){
 					description: req.body.description
 				});
 
-				newDioGroup.save(function (err){
+				newDioGroup.save(function (err, dioGroup){
 					if (err) {
 						res.status(500).send(err);
 					} else {
-						res.sendStatus(204);
+						res.send(dioGroup);
 					}
 				});
 			}
@@ -66,7 +66,7 @@ exports.init = function (app){
 							if (err) {
 								res.status(500).send(err);
 							} else {
-								res.sendStatus(204);
+								res.send(dioGroup);
 							}
 						});
 					}

@@ -1,10 +1,10 @@
 var exec 	= require('child_process').exec;
+const delta = 1000;
 
 function ProcessManager(){}
 
 ProcessManager.prototype = {
 	process: [],
-	delta: 1000,
 
 	add: function (device, switchOn){
 		this.process.push({
@@ -18,15 +18,14 @@ ProcessManager.prototype = {
 	},
 
 	addArray: function (devices, switchOn){
-		var length = devices.length;
-		for (var i=0; i< length; i++) {
+		devices.forEach((device) => {
 			this.process.push({
-				device : devices[i],
-				switchOn : switchOn
+				device: device,
+				switchOn: switchOn
 			});
-		}
+		});
 
-		if (this.process.length == length) {
+		if (this.process.length == devices.length) {
 			this.run();
 		}
 	},
@@ -45,12 +44,11 @@ ProcessManager.prototype = {
 			console.log(stderr);*/
 		});
 
-		this.process.splice(0,1);
-
 		if (this.process.length > 0) {
 			setTimeout(() => {
+				this.process.splice(0,1);
 				this.run();
-			}, this.delta);
+			}, delta);
 		}
 	}
 }

@@ -1,6 +1,6 @@
 {
 	"name": "Anna-API",
-	"version": "1.0.0",
+	"version": "2.0.0",
 	"main": "anna.js",
 	"description":"A simple REST api for home automation",
 	"dependencies":{

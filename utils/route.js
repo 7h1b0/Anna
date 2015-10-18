@@ -1,3 +1,5 @@
+var requestUtil = require('./requestUtil');
+
 function Route(url, method, body){
     this.url = url;
     this.method = method;
@@ -44,32 +46,14 @@ Route.prototype = {
 module.exports = Route;
 
 function extractParameters(str) {
-    var parameters = [],
-        currentParameter = null,
-        currentChar,
-        idx = 0;
+    var parameters  = [];
+    var matches     = url.match(/<[a-zA-Z_]+>/g);
 
-    if (str) {
-        while (idx < str.length) {
-            currentChar = str.charAt(idx);
-
-            if (currentChar === "<") {
-                // The beginning of a parameter
-                currentParameter = "";
-            } else if (currentChar === ">") {
-                // The end of a parameter, maybe
-                if (currentParameter !== null) {
-                    parameters.push(currentParameter);
-                    // Reset the current parameter
-                    currentParameter = null;
-                }
-            } else if (currentParameter !== null) {
-                // Append the character to the parameter name
-                currentParameter += currentChar;
-            }
-
-            idx += 1;
-        }
+    if (matches) {
+        matches.forEach(match => {
+            var match = match.substr(1, match.length-2); // Remove < and >
+            parameters.push(match);
+        });
     }
 
     return parameters;

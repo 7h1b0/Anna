@@ -8,8 +8,8 @@ A simple REST API for home automation using NodeJS and MongoDB
 
 ## Required
 
-* NodeJS 4.x.x
-* MongoDB
+* NodeJS 4.x.x or above
+* MongoDB 2.2 or above
 
 ## Installation
 

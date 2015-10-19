@@ -107,10 +107,13 @@ exports.init = function(app){
 				} else if (scene === undefined) {
 					res.sendStatus(404);
 				} else {
+					var params = app.get('config');
 					scene.devices.forEach(function (device){
-						var url = requestUtil.getUrl(app, device.path);
-						var route = new Route(url, device.method, device.body);
-						requestUtil.request(route, () => {});
+						var route = new Route(device.path, device.method, device.body)
+							.setParams(params)
+							.create();
+
+						requestUtil(route, () => {});
 					});
 					res.end();
 				}

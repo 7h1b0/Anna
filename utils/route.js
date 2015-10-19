@@ -1,51 +1,51 @@
-var requestUtil = require('./requestUtil');
-
-function Route(url, method, body){
-    this.url = url;
+function Route(path, method, body){
+    this.path = path;
     this.method = method;
     this.body = body;
+    this.params = {}; // Define objects Params
+    return this;
 }
 
 Route.prototype = {
-	url : "",
-	method: "",
-    route: {},
 
-    create: function (options, content) {
-        if (content === undefined && this.body != undefined) {
-            content = body;
-        } 
-        
-    	var uri = {
-    		path: getPath(this.url, options),
-    		hostname: options.hostname,
-    		port: options.port
-    	};
-
-        this.route.headers = { Accept: 'application/json' };
-    	this.route.method = this.method;
-    	this.route.url = getUrl(uri);
-    	this.route.timeout = options.timeout;
-
-        if (this.method == 'PUT' || this.method == 'POST') {
-            this._addData(content);
-        }
-
-    	return this.route;
+    setBody: function (body){
+        this.body = body;
+        return this;
     },
 
-    _addData: function (content){
-        if (content === undefined) {
-            throw new Error("No data provided");
+    setParams: function (params){
+        this.params = params;
+        return this;
+    },
+
+    create: function (){
+        var route = {};
+        route.headers = { Accept: 'application/json' };
+    	route.method = this.method || 'GET';
+    	route.url = this._getUrl();
+    	route.timeout = this.params.timeout || 2000;
+
+        if (this.body !== undefined && typeof this.body === 'object') {
+            route.json = true;
+            route.body = this.body;
         }
-        this.route.json = true;
-        this.route.body = content;
+
+    	return route;
+    },
+
+    _getUrl: function (){
+        var path        = getPath(this.path, this.params);
+        var port        = this.params.port || 80;
+        var protocol    = this.params.https ? 'https://' : 'http://';
+        var hostname    = this.params.hostname || 'localhost'; 
+
+        return protocol + hostname + ":" + port + path;
     }
 }
 
 module.exports = Route;
 
-function extractParameters(str) {
+function extractParameters(url) {
     var parameters  = [];
     var matches     = url.match(/<[a-zA-Z_]+>/g);
 
@@ -60,24 +60,16 @@ function extractParameters(str) {
 }
 
 function getPath(path, params){
-	if(params === undefined){
-		return path;
-	}else{
-		var requiredParameters = extractParameters(path);
-	    var resolvedPath = path;
+	var requiredParameters = extractParameters(path);
+    var resolvedPath = path;
 
-	    requiredParameters.forEach(reqParam => {
-	        if (params[reqParam] === undefined) {
-	            throw new Error("The required parameter '" + reqParam + "' was missing a value.");
-	        }
+    requiredParameters.forEach(reqParam => {
+        if (params[reqParam] === undefined) {
+            throw new Error("The required parameter '" + reqParam + "' was missing a value.");
+        }
 
-	        resolvedPath = resolvedPath.replace("<" + reqParam + ">", params[reqParam]);
-	    });
+        resolvedPath = resolvedPath.replace("<" + reqParam + ">", params[reqParam]);
+    });
 
-	    return resolvedPath;
-	}	
-}
-
-function getUrl(uri){
-	return "http://" + uri.hostname + ":" + uri.port + uri.path;
+    return resolvedPath;
 }

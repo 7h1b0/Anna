@@ -107,11 +107,11 @@ exports.init = function(app){
 				} else if (group === undefined) {
 					res.sendStatus(404);
 				} else {
+					var params = app.get('config');
 					group.devices.forEach(function (path){
 						var path = path + "/" + req.params.status;
-						var url = requestUtil.getUrl(app, path);
-						var route = new Route(url, "GET");
-						requestUtil.request(route, () => {});
+						var route = new Route(path, "GET").setParams(params).create();
+						requestUtil(route, () => {});
 					});
 					res.end();
 				}

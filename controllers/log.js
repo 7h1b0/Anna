@@ -1,28 +1,62 @@
 exports.init = function(app){
 
-	var fs 	= require('fs');
+    const DEFAULT_LIMIT = 20;
+    var Log             = require('./../models/log');
 
-	app.use(function (req,res,next){
-		if(app.get('config').log){
-	 		fs.appendFile('./log.txt', getBuffer(req) , function(ignored){});
-		}
-		next();
+    app.use(function (req, res, next){
+        var log = new Log({
+            ip: req.ip,
+            httpMethod: req.method,
+            path: req.originalUrl
+        });
+
+        log.save();
+        next();
+    });
+
+	app.route('/log').get(function (req, res){
+        var query = getQuery(DEFAULT_LIMIT);
+        query.exec(function (err, logs){
+            if (err) {
+                res.status(500).send(err);
+            } else {
+                res.send(logs);
+            }
+        });
 	});
 
-}
+    app.route('/log/:limit([0-9]{1,3})').get(function (req, res){
+        var query = getQuery(req.params.limit);
+        query.exec(function (err, logs){
+            if (err) {
+                res.status(500).send(err);
+            } else {
+                res.send(logs);
+            }
+        });
+    });
 
-function getBuffer(req){
-	return getDate() + " " + getTime() + " " + req.method + " " + req.hostname + req.originalUrl + " from " + req.ip + "\n";
-}
+    app.route('/log/search').post(function (req, res){
+        if (req.body === undefined) {
+            res.sendStatus(400);
+        }
+        
+        Log.find(req.body, function (err, logs){
+            if (err) {
+                res.status(500).send(err); 
+            } else if (logs === undefined){
+                res.sendStatus(404);
+            } else {
+                res.send(logs);
+            }
+        })
+    })
 
-function getDate(){
-	var date 	= new Date();
-	var month 	= date.getMonth()+ 1;
+    function getQuery(limit){
+        if (limit === undefined) {
+            limit = DEFAULT_LIMIT;
+        }
 
-	return date.getDate() + "-" + month;
-}
-
-function getTime(){
-	var date 	= new Date();
-	return date.getHours()+":"+date.getMinutes()+":"+date.getSeconds()
+        return Log.find({}).sort({'date': 'desc'}).limit(limit);
+    }
 }

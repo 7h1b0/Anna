@@ -1,7 +1,5 @@
-var supply 		= require('./controllers/supply');
-var group 		= require('./controllers/group');
+var dio 		= require('./controllers/dio');
 
 exports.init = function(app){
-	supply.init(app);
-	group.init(app);
+	dio.init(app);
 }

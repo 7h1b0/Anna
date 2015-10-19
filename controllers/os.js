@@ -10,7 +10,8 @@ exports.init = function(app){
     		cpus: os.cpus(),
     		loadavg: os.loadavg(),
     		totalmem: os.totalmem(),
-    		freemem: os.freemem()			    		
+    		freemem: os.freemem(),
+            nodejs: process.version    		
     	});	
 	});
 }

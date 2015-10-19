@@ -119,10 +119,13 @@ exports.init = function(app){
 		});
 
 	function doActions(actions){
+		var params = app.get('config');
 		actions.forEach(function (action){
-			var url = requestUtil.getUrl(app, action.path);
-			var route = new Route(url, action.method, action.body);
-			requestUtil.request(route, () => {});
+			var route = new Route(action.path, action.method, action.body)
+				.setParams(params)
+				.create();
+
+			requestUtil(route, () => {});
 		});
 	}
 }

@@ -1,8 +1,8 @@
 module.exports = {
-	'http': true,
+	'https': false,
+	'hostname': 'localhost',
 	'port': 8181,
+    'hostname_db':'localhost',
     'database': 'anna',
-    'hostname_db':'anna',
-    'port_db':'27017',
-    'log': false
+    'port_db':'27017'
 };

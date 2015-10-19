@@ -25,12 +25,12 @@ mongoose.connect(uri);
 log.init(app);
 
 // API
+scene.init(app);
+group.init(app);
+timer.init(app);
 dio.init(app);
 hue.init(app);
 os.init(app);
-group.init(app);
-scene.init(app);
-timer.init(app);
 
 // Default Controller
 app.use(function(req, res){

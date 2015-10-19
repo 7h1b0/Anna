@@ -7,7 +7,7 @@ exports.init = function(app){
 	app.route('/group')
 
 		.get(function (req, res){
-			Group.find({}, function (err, supplies){
+			Group.find({}, function onFind(err, supplies){
 				if (err) {
 					res.status(500).send(err);
 				} else {
@@ -17,16 +17,16 @@ exports.init = function(app){
 		})
 
 		.post(function (req, res){
-			if (req.body.devices === undefined || req.body.name === undefined) {
+			if (req.body.paths === undefined || req.body.name === undefined) {
 				res.sendStatus(400);	
 			} else {
 				var newGroup = Group({
 					name: req.body.name,
 					description: req.body.description,
-					devices: req.body.devices
+					paths: req.body.paths
 				});
 
-				newGroup.save(function (err, group){
+				newGroup.save(function onSave(err, group){
 					if (err) {
 						res.status(500).send(err);
 					} else {
@@ -39,7 +39,7 @@ exports.init = function(app){
 	app.route('/group/:id_group')
 
 		.get(function (req, res){
-			Group.findById(req.params.id_group, function (err, group){
+			Group.findById(req.params.id_group, function onFind(err, group){
 				if (err) {
 					res.status(500).send(err);
 				} else if (group === undefined) {
@@ -51,7 +51,7 @@ exports.init = function(app){
 		})
 
 		.put(function (req, res){
-			Group.findById(req.params.id_group, function (err, group){
+			Group.findById(req.params.id_group, function onFind(err, group){
 				if (err) {
 					res.status(500).send(err);
 				} else if (group === undefined) {
@@ -65,11 +65,11 @@ exports.init = function(app){
 						group.description = req.body.description;
 					}
 
-					if (req.body.devices) {
-						group.devices = req.body.devices;
+					if (req.body.paths) {
+						group.paths = req.body.paths;
 					}
 
-					group.save(function (err, group){
+					group.save(function onSave(err, group){
 						if (err) {
 							res.status(500).send(err);
 						} else {
@@ -81,13 +81,13 @@ exports.init = function(app){
 		})
 
 		.delete(function (req, res){
-			Group.findById(req.params.id_group, function (err, group){
+			Group.findById(req.params.id_group, function onFind(err, group){
 				if (err) {
 					res.status(500).send(err);
 				} else if (group === undefined) {
 					res.sendStatus(404);
 				} else {
-					group.remove(function (err){
+					group.remove(function onRemove(err){
 						if (err) {
 							res.status(500).send(err);
 						} else {
@@ -101,20 +101,24 @@ exports.init = function(app){
 	app.route('/group/:id_group/:status(on|off)')
 
 		.get(function (req, res){
-			Group.findById(req.params.id_group, function (err, group){
+			Group.findById(req.params.id_group, function onFind(err, group){
 				if (err) {
 					res.status(500).send(err);
 				} else if (group === undefined) {
 					res.sendStatus(404);
 				} else {
 					var params = app.get('config');
-					group.devices.forEach(function (path){
-						var path = path + "/" + req.params.status;
-						var route = new Route(path, "GET").setParams(params).create();
-						requestUtil(route, () => {});
-					});
+					makeHttpCalls(group.paths, params);
 					res.end();
 				}
 			});
 		});
+
+	function makeHttpCalls(paths, params){
+		paths.forEach(function (path){
+			var path = path + "/" + req.params.status;
+			var route = new Route(path, "GET").setParams(params).create();
+			requestUtil(route);
+		});
+	}
 }

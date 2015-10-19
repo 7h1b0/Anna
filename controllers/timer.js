@@ -7,7 +7,7 @@ exports.init = function(app){
 	app.route('/timer')
 
 		.get(function (req,res){
-			Timer.find({}, function (err, supplies){
+			Timer.find({}, function onFind(err, supplies){
 				if (err) {
 					res.status(500).send(err);
 				} else {
@@ -27,7 +27,7 @@ exports.init = function(app){
 					actions: req.body.actions
 				});
 
-				newTimer.save(function (err, timer){
+				newTimer.save(function onSave(err, timer){
 					if (err) {
 						res.status(500).send(err);
 					} else {
@@ -40,7 +40,7 @@ exports.init = function(app){
 	app.route('/timer/:id_timer')
 
 		.get(function (req,res){
-			Timer.findById(req.params.id_timer, function (err, timer){
+			Timer.findById(req.params.id_timer, function onFind(err, timer){
 				if (err) {
 					res.status(500).send(err);
 				} else if (timer === undefined) {
@@ -52,7 +52,7 @@ exports.init = function(app){
 		})
 
 		.put(function (req, res){
-			Timer.findById(req.params.id_timer, function (err, timer){
+			Timer.findById(req.params.id_timer, function onFind(err, timer){
 				if (err) {
 					res.status(500).send(err);
 				} else if (timer === undefined) {
@@ -74,7 +74,7 @@ exports.init = function(app){
 						timer.time = req.body.time;
 					}
 
-					timer.save(function (err, timer){
+					timer.save(function onSave(err, timer){
 						if (err) {
 							res.status(500).send(err);
 						} else {
@@ -86,13 +86,13 @@ exports.init = function(app){
 		})
 
 		.delete(function (req, res){
-			Timer.findById(req.params.id_timer, function (err, timer){
+			Timer.findById(req.params.id_timer, function onFind(err, timer){
 				if (err) {
 					res.status(500).send(err);
 				} else if (timer === undefined) {
 					res.sendStatus(404);
 				} else {
-					timer.remove(function (err){
+					timer.remove(function onRemove(err){
 						if (err) {
 							res.status(500).send(err);
 						} else {
@@ -106,26 +106,26 @@ exports.init = function(app){
 	app.route('/timer/:id_timer/action')
 
 		.get(function (req, res){
-			Timer.findById(req.params.id_timer, function (err, timer){
+			Timer.findById(req.params.id_timer, function onFind(err, timer){
 				if (err) {
 					res.status(500).send(err);
 				} else if (timer === undefined) {
 					res.sendStatus(404);
 				} else {
-					setTimeout(doActions, timer.time, timer.actions);
+					setTimeout(makeHttpCalls, timer.time, timer.actions);
 					res.send();
 				}
 			});
 		});
 
-	function doActions(actions){
+	function makeHttpCalls(actions){
 		var params = app.get('config');
 		actions.forEach(function (action){
 			var route = new Route(action.path, action.method, action.body)
 				.setParams(params)
 				.create();
 
-			requestUtil(route, () => {});
+			requestUtil(route);
 		});
 	}
 }

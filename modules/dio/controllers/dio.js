@@ -8,7 +8,7 @@ exports.init = function(app){
 	app.route('/dio/supply')
 
 		.get(function (req,res){
-			Dio.find({}, function (err, dios){
+			Dio.find({}, function onFind(err, dios){
 				if (err) {
 					res.status(500).send(err);
 				} else {
@@ -26,7 +26,7 @@ exports.init = function(app){
 					name: req.body.name
 				});
 
-				newDio.save(function (err, supply){
+				newDio.save(function onSave(err, supply){
 					if (err) {
 						res.status(500).send(err);
 					} else {
@@ -39,7 +39,7 @@ exports.init = function(app){
 	app.route('/dio/supply/:id_dio')
 
 		.get(function (req,res){
-			Dio.find({id_dio: req.params.id_dio}, function (err, dios){
+			Dio.find({id_dio: req.params.id_dio}, function onFind(err, dios){
 				if (err) {
 					res.status(500).send(err);
 				} else if (dios.length == 0) {
@@ -54,7 +54,7 @@ exports.init = function(app){
 			if (req.body.name === undefined) {
 				res.sendStatus(400);
 			} else {
-				Dio.find({id_dio: req.params.id_dio}, function (err, dios){
+				Dio.find({id_dio: req.params.id_dio}, function onFind(err, dios){
 					if (err) {
 						res.status(500).send(err);
 					} else if (dios.length == 0) {
@@ -62,7 +62,7 @@ exports.init = function(app){
 					} else {
 						var Dio = dios[0];
 						Dio.name = req.body.name;
-						Dio.save(function (err, Dio){
+						Dio.save(function onSave(err, Dio){
 							if (err) {
 								res.status(500).send(err);
 							} else {
@@ -75,13 +75,13 @@ exports.init = function(app){
 		})
 
 		.delete(function (req, res){
-			Dio.find({id_dio: req.params.id_dio}, function (err, dios){
+			Dio.find({id_dio: req.params.id_dio}, function onFind(err, dios){
 				if (err) {
 					res.status(500).send(err);
 				} else if (dios.length == 0) {
 					res.sendStatus(404);
 				} else {
-					dios[0].remove(function (err){
+					dios[0].remove(function onRemove(err){
 						if (err) {
 							res.status(500).send(err);
 						} else {

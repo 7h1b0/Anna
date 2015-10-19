@@ -7,7 +7,7 @@ exports.init = function(app){
 	app.route('/scene')
 
 		.get(function (req,res){
-			Scene.find({}, function (err, supplies){
+			Scene.find({}, function onFind(err, supplies){
 				if (err) {
 					res.status(500).send(err);
 				} else {
@@ -26,7 +26,7 @@ exports.init = function(app){
 					devices: req.body.devices
 				});
 
-				newScene.save(function (err, group){
+				newScene.save(function onSave(err, group){
 					if (err) {
 						res.status(500).send(err);
 					} else {
@@ -39,7 +39,7 @@ exports.init = function(app){
 	app.route('/scene/:id_scene')
 
 		.get(function (req,res){
-			Scene.findById(req.params.id_scene, function (err, scene){
+			Scene.findById(req.params.id_scene, function onFind(err, scene){
 				if (err) {
 					res.status(500).send(err);
 				} else if (scene === undefined) {
@@ -51,7 +51,7 @@ exports.init = function(app){
 		})
 
 		.put(function (req, res){
-			Scene.findById(req.params.id_scene, function (err, scene){
+			Scene.findById(req.params.id_scene, function onFind(err, scene){
 				if (err) {
 					res.status(500).send(err);
 				} else if (scene === undefined) {
@@ -69,7 +69,7 @@ exports.init = function(app){
 						scene.devices = req.body.devices;
 					}
 
-					scene.save(function (err, scene){
+					scene.save(function onSave(err, scene){
 						if (err) {
 							res.status(500).send(err);
 						} else {
@@ -81,13 +81,13 @@ exports.init = function(app){
 		})
 
 		.delete(function (req, res){
-			Scene.findById(req.params.id_scene, function (err, scene){
+			Scene.findById(req.params.id_scene, function onFind(err, scene){
 				if (err) {
 					res.status(500).send(err);
 				} else if (scene === undefined) {
 					res.sendStatus(404);
 				} else {
-					scene.remove(function (err){
+					scene.remove(function onRemove(err){
 						if (err) {
 							res.status(500).send(err);
 						} else {
@@ -101,22 +101,26 @@ exports.init = function(app){
 	app.route('/scene/:id_scene/action')
 
 		.get(function (req, res){
-			Scene.findById(req.params.id_scene, function (err, scene){
+			Scene.findById(req.params.id_scene, function onFind(err, scene){
 				if (err) {
 					res.status(500).send(err);
 				} else if (scene === undefined) {
 					res.sendStatus(404);
 				} else {
 					var params = app.get('config');
-					scene.devices.forEach(function (device){
-						var route = new Route(device.path, device.method, device.body)
-							.setParams(params)
-							.create();
-
-						requestUtil(route, () => {});
-					});
+					makeHttpCalls(scene.devices, params);
 					res.end();
 				}
 			});
 		});
+
+	function makeHttpCalls(devices, params){
+		devices.forEach(function (device){
+			var route = new Route(device.path, device.method, device.body)
+				.setParams(params)
+				.create();
+
+			requestUtil(route);
+		});
+	}
 }

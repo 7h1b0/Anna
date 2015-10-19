@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 var group = new Schema({
     name: { type: String, required: true },
     description: { type: String },
-    devices: [ String ]
+    paths: [ String ]
 });
 
 module.exports = mongoose.model('Group', group);

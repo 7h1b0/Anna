@@ -12,6 +12,8 @@ module.exports = function(route, cb){
 			err = body[0].error;
 		}
 		
-    	cb(err,res,body);
+		if (cb !=== undefined){
+			cb(err,res,body);
+		}
     });
 }

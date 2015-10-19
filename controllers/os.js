@@ -2,7 +2,7 @@ var os = require('os');
 
 exports.init = function(app){
 
-	app.route('/os').get(function(req,res){
+	app.route('/os').get(function (req,res){
     	res.json({
     		release: os.release(),
     		hostname: os.hostname(),

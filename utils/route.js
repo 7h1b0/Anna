@@ -20,10 +20,10 @@ Route.prototype = {
 
     create: function (){
         var route = {};
-        route.headers = { Accept: 'application/json' };
-    	route.method = this.method || 'GET';
-    	route.url = this._getUrl();
-    	route.timeout = this.params.timeout || 2000;
+        route.headers  = { Accept: 'application/json' };
+    	route.method   = this.method || 'GET';
+    	route.url      = this._getUrl();
+    	route.timeout  = this.params.timeout || 2000;
 
         if (this.body !== undefined && typeof this.body === 'object') {
             route.json = true;
@@ -34,10 +34,10 @@ Route.prototype = {
     },
 
     _getUrl: function (){
-        var path        = getPath(this.path, this.params);
-        var port        = this.params.port || 80;
         var protocol    = this.params.https ? 'https://' : 'http://';
         var hostname    = this.params.hostname || 'localhost'; 
+        var port        = this.params.port || 80;
+        var path        = getPath(this.path, this.params);
 
         return protocol + hostname + ":" + port + path;
     }
@@ -45,14 +45,14 @@ Route.prototype = {
 
 module.exports = Route;
 
-function extractParameters(url) {
+function extractParameters(url){
     var parameters  = [];
     var matches     = url.match(/<[a-zA-Z_]+>/g);
 
     if (matches) {
         matches.forEach(match => {
-            var match = match.substr(1, match.length-2); // Remove < and >
-            parameters.push(match);
+            var parameter = match.substr(1, match.length-2); // Remove < and >
+            parameters.push(parameter);
         });
     }
 

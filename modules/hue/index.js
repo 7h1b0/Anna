@@ -1,15 +1,15 @@
-var config 		= require('./config');
-var HueApi		= require('./modules/hue-api');
+const HueApi		= require('./modules/hue-api');
 
-var light		= require('./controllers/light');
-var group		= require('./controllers/group');
-var schedule	= require('./controllers/schedule');
-var scene 		= require('./controllers/scene');
+const light		= require('./controllers/light');
+const group		= require('./controllers/group');
+const schedule	= require('./controllers/schedule');
+const scene 	= require('./controllers/scene');
 
 
 exports.init = function(app){
 
-	var api =  new HueApi(config.hostname, config.username);
+	const config = app.get('config').hue;
+	const api =  new HueApi(config.hostname, config.username);
 
 	light.init(app, api);
 	group.init(app, api);

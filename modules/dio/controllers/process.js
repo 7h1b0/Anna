@@ -1,4 +1,4 @@
-var exec = require('child_process').exec;
+const exec = require('child_process').exec;
 
 function ProcessController(){
 	this.process = [];
@@ -6,7 +6,7 @@ function ProcessController(){
 
 ProcessController.prototype = {
 
-	add: function (device, switchOn){		
+	add(device, switchOn) {		
 		this.process.push({
 			device : device,
 			switchOn : switchOn
@@ -17,18 +17,19 @@ ProcessController.prototype = {
 		}
 	},
 
-	_run: function (){
+	_run() {
 		if (this.process.length < 1) {
 			return;
 		}
 
-		var at 		= this.process[0];
-		var status 	= at.switchOn ? 1 : 0;
-		var script 	= "./radioEmission " + at.device + " " + status;
+		const at 		= this.process[0];
+		const status 	= at.switchOn ? 1 : 0;
+		const device 	= at.device;
+		const script	= `./radioEmission ${device} ${status}`;
 
 		exec(script, (error, stdout, stderr) => {
-			// console.log(stdout);
-			// console.log(stderr);
+			console.log(stdout);
+			console.log(stderr);
 			this.process.splice(0,1);
 			this._run();
 		});

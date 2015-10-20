@@ -1,10 +1,10 @@
-exports.init = function(app){
+exports.init = function(app) {
 
-    const DEFAULT_LIMIT = 20;
-    var Log             = require('./../models/log');
+    const DEFAULT_LIMIT     = 20;
+    const Log               = require('./../models/log');
 
-    app.use(function (req, res, next){
-        var log = new Log({
+    app.use(function (req, res, next) {
+        const log = new Log({
             ip: req.ip,
             httpMethod: req.method,
             path: req.originalUrl
@@ -15,9 +15,9 @@ exports.init = function(app){
     });
 
 	app.route('/log')
-        .get(function (req, res){
-            var query = getQuery(DEFAULT_LIMIT);
-            query.exec(function onFind(err, logs){
+        .get(function (req, res) {
+            const query = getQuery(DEFAULT_LIMIT);
+            query.exec(function onFind(err, logs) {
                 if (err) {
                     res.status(500).send(err);
                 } else {
@@ -27,9 +27,9 @@ exports.init = function(app){
 	   });
 
     app.route('/log/:limit([0-9]{1,3})')
-        .get(function (req, res){
-            var query = getQuery(req.params.limit);
-            query.exec(function onFind(err, logs){
+        .get(function (req, res) {
+            const query = getQuery(req.params.limit);
+            query.exec(function onFind(err, logs) {
                 if (err) {
                     res.status(500).send(err);
                 } else {
@@ -39,15 +39,15 @@ exports.init = function(app){
         });
 
     app.route('/log/search')
-        .post(function (req, res){
+        .post(function (req, res) {
             if (req.body === undefined) {
                 res.sendStatus(400);
             }
             
-            Log.find(req.body, function onFind(err, logs){
+            Log.find(req.body, function onFind(err, logs) {
                 if (err) {
                     res.status(500).send(err); 
-                } else if (logs === undefined){
+                } else if (logs === undefined) {
                     res.sendStatus(404);
                 } else {
                     res.send(logs);
@@ -55,7 +55,7 @@ exports.init = function(app){
             });
         });
 
-    function getQuery(limit){
+    function getQuery(limit) {
         if (limit === undefined) {
             limit = DEFAULT_LIMIT;
         }

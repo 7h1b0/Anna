@@ -1,16 +1,17 @@
 // Dependencies
-var app 		= require('express')();
-var bodyParser 	= require('body-parser');
-var mongoose 	= require('mongoose');
+var app 			= require('express')();
 
-var config 		= require('./config');
-var log 		= require('./controllers/log');
-var os 			= require('./controllers/os');
-var group		= require('./controllers/group');
-var scene		= require('./controllers/scene');
-var timer		= require('./controllers/timer');
-var dio 		= require('./modules/dio');
-var hue			= require('./modules/hue');
+const bodyParser 	= require('body-parser');
+const mongoose 		= require('mongoose');
+
+const config 		= require('./config');
+const log 			= require('./controllers/log');
+const os 			= require('./controllers/os');
+const group			= require('./controllers/group');
+const scene			= require('./controllers/scene');
+const timer			= require('./controllers/timer');
+const dio 			= require('./modules/dio');
+const hue			= require('./modules/hue');
 
 // Setup
 app.use(bodyParser.json());
@@ -18,7 +19,7 @@ app.listen(config.port);
 app.set('config',config);
 
 // Setup Database
-var uri = 'mongodb://' + config.hostname_db + "/" + config.database;
+const uri = `mongodb://${config.database.hostname}:${config.database.port}/${config.database.name}`;
 mongoose.connect(uri);
 
 // Log
@@ -33,6 +34,6 @@ hue.init(app);
 os.init(app);
 
 // Default Controller
-app.use(function(req, res){
+app.use(function (req, res) {
 	res.status(404).end();
 });

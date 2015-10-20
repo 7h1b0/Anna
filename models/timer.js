@@ -1,7 +1,7 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-var timer = new Schema({
+const timer = new Schema({
     name: { type: String, required: true },
     description: { type: String },
     time: { type: Number, required: true, min: 1000 },

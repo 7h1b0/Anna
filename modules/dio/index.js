@@ -1,5 +1,5 @@
-var dio 		= require('./controllers/dio');
+const dio = require('./controllers/dio');
 
-exports.init = function(app){
+exports.init = function(app) {
 	dio.init(app);
 }

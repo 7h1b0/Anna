@@ -8,24 +8,25 @@ function Route(path, method, body){
 
 Route.prototype = {
 
-    setBody: function (body){
+    setBody(body) {
         this.body = body;
         return this;
     },
 
-    setParams: function (params){
+    setParams(params) {
         this.params = params;
         return this;
     },
 
-    create: function (){
-        var route = {};
-        route.headers  = { Accept: 'application/json' };
-    	route.method   = this.method || 'GET';
-    	route.url      = this._getUrl();
-    	route.timeout  = this.params.timeout || 2000;
+    create() {
+        var route = {
+            headers:    { Accept: 'application/json' },
+            method:     this.method || 'GET',
+            url:        this._getUrl(),
+            timeout:    this.params.timeout || 2000
+        };
 
-        if (this.body !== undefined && typeof this.body === 'object') {
+        if (typeof this.body === 'object') {
             route.json = true;
             route.body = this.body;
         }
@@ -33,25 +34,24 @@ Route.prototype = {
     	return route;
     },
 
-    _getUrl: function (){
-        var protocol    = this.params.https ? 'https://' : 'http://';
-        var hostname    = this.params.hostname || 'localhost'; 
-        var port        = this.params.port || 80;
-        var path        = getPath(this.path, this.params);
+    _getUrl() {
+        const hostname    = this.params.hostname || 'localhost'; 
+        const port        = this.params.port || 80;
+        const path        = getPath(this.path, this.params);
 
-        return protocol + hostname + ":" + port + path;
+        return `http://${hostname}:${port}${path}`;
     }
 }
 
 module.exports = Route;
 
-function extractParameters(url){
+function extractParameters(url) {
     var parameters  = [];
-    var matches     = url.match(/<[a-zA-Z_]+>/g);
+    const matches   = url.match(/<[a-zA-Z_]+>/g);
 
     if (matches) {
         matches.forEach(match => {
-            var parameter = match.substr(1, match.length-2); // Remove < and >
+            const parameter = match.substr(1, match.length-2); // Remove < and >
             parameters.push(parameter);
         });
     }
@@ -59,16 +59,17 @@ function extractParameters(url){
     return parameters;
 }
 
-function getPath(path, params){
-	var requiredParameters = extractParameters(path);
+function getPath(path, parameters) {
+	const requiredParameters = extractParameters(path);
     var resolvedPath = path;
 
-    requiredParameters.forEach(reqParam => {
-        if (params[reqParam] === undefined) {
-            throw new Error("The required parameter '" + reqParam + "' was missing a value.");
+    requiredParameters.forEach(requiredParameter => {
+        if (parameters[requiredParameter] === undefined) {
+            const msgError = `The required parameter ${requiredParameter} was missing.`
+            throw new Error(msgError);
         }
 
-        resolvedPath = resolvedPath.replace("<" + reqParam + ">", params[reqParam]);
+        resolvedPath = resolvedPath.replace(`<${requiredParameter}>`, parameters[requiredParameter]);
     });
 
     return resolvedPath;

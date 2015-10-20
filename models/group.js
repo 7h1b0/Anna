@@ -1,7 +1,7 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-var group = new Schema({
+const group = new Schema({
     name: { type: String, required: true },
     description: { type: String },
     paths: [ String ]

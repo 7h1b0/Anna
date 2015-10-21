@@ -1,22 +1,22 @@
-exports.init = function(app) {
+exports.init = function (app) {
 
 	const Timer 		= require('./../models/timer');
-	const Route 		= require('./../utils/route');
-	const requestUtil 	= require('./../utils/requestUtil');
+	const Route 		= require('./../models/route');
+	const request 		= require('./../services/requestService');
 
 	app.route('/timer')
 
-		.get(function (req,res) {
-			Timer.find({}, function onFind(err, supplies) {
+		.get(function (req, res) {
+			Timer.find({}, function onFind(err, timers) {
 				if (err) {
 					res.status(500).send(err);
 				} else {
-					res.send(supplies);
+					res.send(timers);
 				}
 			});
 		})
 
-		.post(function (req,res) {
+		.post(function (req, res) {
 			const badRequest = req.body.actions === undefined || req.body.name === undefined || req.body.time === undefined;
 			
 			if (badRequest) {
@@ -41,11 +41,11 @@ exports.init = function(app) {
 
 	app.route('/timer/:id_timer')
 
-		.get(function (req,res) {
+		.get(function (req, res) {
 			Timer.findById(req.params.id_timer, function onFind(err, timer) {
 				if (err) {
 					res.status(500).send(err);
-				} else if (timer === undefined) {
+				} else if (!timer) {
 					res.sendStatus(404);
 				} else {
 					res.send(timer);
@@ -54,53 +54,25 @@ exports.init = function(app) {
 		})
 
 		.put(function (req, res) {
-			Timer.findById(req.params.id_timer, function onFind(err, timer) {
+			Timer.findByIdAndUpdate(req.params.id_timer, req.body, {new: true}, function onUpdate(err, timer) {
 				if (err) {
 					res.status(500).send(err);
-				} else if (timer === undefined) {
+				} else if (!timer) {
 					res.sendStatus(404);
 				} else {
-					if (req.body.name) {
-						timer.name = req.body.name;
-					}
-
-					if (req.body.description) {
-						timer.description = req.body.description;
-					}
-
-					if (req.body.actions) {
-						timer.actions = req.body.actions;
-					}
-
-					if (req.body.time) {
-						timer.time = req.body.time;
-					}
-
-					timer.save(function onSave(err, timer) {
-						if (err) {
-							res.status(500).send(err);
-						} else {
-							res.send(timer);
-						}
-					});
+					res.send(timer);
 				}
 			})
 		})
 
 		.delete(function (req, res) {
-			Timer.findById(req.params.id_timer, function onFind(err, timer) {
+			Timer.findByIdAndRemove(req.params.id_timer, function onRemove(err, timer) {
 				if (err) {
 					res.status(500).send(err);
-				} else if (timer === undefined) {
+				} else if (!timer) {
 					res.sendStatus(404);
 				} else {
-					timer.remove(function onRemove(err) {
-						if (err) {
-							res.status(500).send(err);
-						} else {
-							res.sendStatus(204);
-						}
-					});
+					res.sendStatus(204);
 				}
 			});
 		});
@@ -127,7 +99,7 @@ exports.init = function(app) {
 				.setParams(params)
 				.create();
 
-			requestUtil(route);
+			request(route);
 		});
 	}
 }

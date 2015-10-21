@@ -1,4 +1,4 @@
-exports.init = function(app) {
+exports.init = function (app) {
 
     const DEFAULT_LIMIT     = 20;
     const Log               = require('./../models/log');

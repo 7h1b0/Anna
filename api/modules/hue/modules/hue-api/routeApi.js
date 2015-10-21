@@ -1,4 +1,4 @@
-var Route = require('./../../../../utils/route');
+var Route = require('./../../../../models/route');
 
 module.exports = {
 	getLights: new Route(

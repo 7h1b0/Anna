@@ -1,23 +1,25 @@
-exports.init = function(app) {
+exports.init = function (app) {
 
 	const Scene 		= require('./../models/scene');
-	const Route 		= require('./../utils/route');
-	const requestUtil 	= require('./../utils/requestUtil');
+	const Route 		= require('./../models/route');
+	const request 	 	= require('./../services/requestService');
 
 	app.route('/scene')
 
-		.get(function (req,res) {
-			Scene.find({}, function onFind(err, supplies) {
+		.get(function (req, res) {
+			Scene.find({}, function onFind(err, scenes) {
 				if (err) {
 					res.status(500).send(err);
 				} else {
-					res.send(supplies);
+					res.send(scenes);
 				}
 			});
 		})
 
-		.post(function (req,res) {
-			if (req.body.devices === undefined || req.body.name === undefined) {
+		.post(function (req, res) {
+			const badRequest = req.body.devices === undefined || req.body.name === undefined;
+
+			if (badRequest) {
 				res.sendStatus(400);	
 			} else {
 				const newScene = Scene({
@@ -26,11 +28,11 @@ exports.init = function(app) {
 					devices: req.body.devices
 				});
 
-				newScene.save(function onSave(err, group) {
+				newScene.save(function onSave(err, scenes) {
 					if (err) {
 						res.status(500).send(err);
 					} else {
-						res.send(group);
+						res.send(scenes);
 					}
 				});
 			}
@@ -38,11 +40,11 @@ exports.init = function(app) {
 
 	app.route('/scene/:id_scene')
 
-		.get(function (req,res) {
+		.get(function (req, res) {
 			Scene.findById(req.params.id_scene, function onFind(err, scene) {
 				if (err) {
 					res.status(500).send(err);
-				} else if (scene === undefined) {
+				} else if (!scene) {
 					res.sendStatus(404);
 				} else {
 					res.send(scene);
@@ -51,49 +53,25 @@ exports.init = function(app) {
 		})
 
 		.put(function (req, res) {
-			Scene.findById(req.params.id_scene, function onFind(err, scene) {
+			Scene.findByIdAndUpdate(req.params.id_scene, req.body, {new: true}, function onUpdate(err, scene) {
 				if (err) {
 					res.status(500).send(err);
-				} else if (scene === undefined) {
+				} else if (!scene) {
 					res.sendStatus(404);
 				} else {
-					if (req.body.name) {
-						scene.name = req.body.name;
-					}
-
-					if (req.body.description) {
-						scene.description = req.body.description;
-					}
-
-					if (req.body.devices) {
-						scene.devices = req.body.devices;
-					}
-
-					scene.save(function onSave(err, scene) {
-						if (err) {
-							res.status(500).send(err);
-						} else {
-							res.send(scene);
-						}
-					});
+					res.send(scene);
 				}
-			})
+			});
 		})
 
 		.delete(function (req, res) {
-			Scene.findById(req.params.id_scene, function onFind(err, scene) {
+			Scene.findByIdAndRemove(req.params.id_scene, function onRemove(err, scene) {
 				if (err) {
 					res.status(500).send(err);
-				} else if (scene === undefined) {
+				} else if (!scene) {
 					res.sendStatus(404);
 				} else {
-					scene.remove(function onRemove(err) {
-						if (err) {
-							res.status(500).send(err);
-						} else {
-							res.sendStatus(204);
-						}
-					});
+					res.sendStatus(204);
 				}
 			});
 		});
@@ -120,7 +98,7 @@ exports.init = function(app) {
 				.setParams(params)
 				.create();
 
-			requestUtil(route);
+			request(route);
 		});
 	}
 }

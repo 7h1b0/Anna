@@ -1,7 +1,7 @@
 const request = require('request');
 
-module.exports = function(route, cb) {	
-	request(route, function(err, res, body) {
+module.exports = function (route, cb) {	
+	request(route, function (err, res, body) {
 		if (body) {
 			try {
 				body = JSON.parse(body);
@@ -12,8 +12,16 @@ module.exports = function(route, cb) {
 			err = body[0].error;
 		}
 		
-		if (cb !== undefined){
+		if (cb) {
 			cb(err,res,body);
+		} else {
+			return new Promise((resolve, reject) => {
+				if (err) {
+					reject(err);
+				} else {
+					revole(res, body);
+				}
+			});
 		}
     });
 }

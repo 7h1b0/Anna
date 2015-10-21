@@ -5,13 +5,13 @@ const bodyParser 	= require('body-parser');
 const mongoose 		= require('mongoose');
 
 const config 		= require('./config');
-const log 			= require('./controllers/log');
-const os 			= require('./controllers/os');
-const group			= require('./controllers/group');
-const scene			= require('./controllers/scene');
-const timer			= require('./controllers/timer');
-const dio 			= require('./modules/dio');
-const hue			= require('./modules/hue');
+const log 			= require('./api/routes/log');
+const about 		= require('./api/routes/about');
+const group			= require('./api/routes/group');
+const scene			= require('./api/routes/scene');
+const timer			= require('./api/routes/timer');
+const dio 			= require('./api/routes/dio');
+const hue			= require('./api/modules/hue');
 
 // Setup
 app.use(bodyParser.json());
@@ -31,7 +31,7 @@ group.init(app);
 timer.init(app);
 dio.init(app);
 hue.init(app);
-os.init(app);
+about.init(app);
 
 // Default Controller
 app.use(function (req, res) {

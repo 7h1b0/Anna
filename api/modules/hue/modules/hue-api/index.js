@@ -1,4 +1,4 @@
-var requestUtil		= require('./../../../../utils/requestUtil');
+var request		= require('./../../../../services/requestService');
 var routeApi		= require('./routeApi');
 const SCENE_PREFIX 	= "anna";
 
@@ -61,7 +61,7 @@ HueApi.prototype = {
 			.setParams(this.config)
 			.create();
 
-		requestUtil(route, (err, result, body) => {
+		request(route, (err, result, body) => {
 			if (body) {
 				body = this._toArray(body);
 			}
@@ -75,7 +75,7 @@ HueApi.prototype = {
 			.setParams(options)
 			.create();
 
-		requestUtil(route, cb);
+		request(route, cb);
 	},
 
 	renameLight: function (id, body, cb){
@@ -85,7 +85,7 @@ HueApi.prototype = {
 		    .setParams(options)
 		    .create();
 
-		requestUtil(route, cb);
+		request(route, cb);
 	},
 
 	setLightState: function (id, body, cb){
@@ -95,7 +95,7 @@ HueApi.prototype = {
 			.setParams(options)
 			.create();
 
-		requestUtil(route, cb);
+		request(route, cb);
 	},
 
 	switchLight: function (id, on, cb){
@@ -107,7 +107,7 @@ HueApi.prototype = {
 			.setParams(this.config)
 			.create();
 		
-		requestUtil(route, (err, result, body) => {
+		request(route, (err, result, body) => {
 			if (body) {
 				body = this._toArray(body);
 			}
@@ -121,7 +121,7 @@ HueApi.prototype = {
 			.setParams(this.config)
 			.create();
 
-		requestUtil(route, cb);
+		request(route, cb);
 	},
 
 	getGroup: function (id, cb){
@@ -130,7 +130,7 @@ HueApi.prototype = {
 			.setParams(options)
 			.create();
 
-		requestUtil(route, cb);
+		request(route, cb);
 	},
 
 	setGroup: function (id, body, cb){
@@ -140,7 +140,7 @@ HueApi.prototype = {
 			.setParams(options)
 			.create();
 
-		requestUtil(route, cb);
+		request(route, cb);
 	},
 
 	setGroupState: function (id, body, cb){
@@ -150,7 +150,7 @@ HueApi.prototype = {
 			.setParams(options)
 			.create();
 
-		requestUtil(route, cb);
+		request(route, cb);
 	},
 
 	switchGroupOn: function (id, on, cb){
@@ -163,7 +163,7 @@ HueApi.prototype = {
 			.setParams(options)
 			.create();
 
-		requestUtil(route, cb);
+		request(route, cb);
 	},
 
 	getSchedules: function (cb){
@@ -171,7 +171,7 @@ HueApi.prototype = {
 			.setParams(this.config)
 			.create();
 
-		requestUtil(route, (err, result, body) => {
+		request(route, (err, result, body) => {
 			if (body) {
 				body = this._toArray(body);
 			}
@@ -185,7 +185,7 @@ HueApi.prototype = {
 			.setParams(this.config)
 			.create();
 
-		requestUtil(route, cb);
+		request(route, cb);
 	},
 
 	getSchedule: function (id, cb){
@@ -194,7 +194,7 @@ HueApi.prototype = {
 			.setParams(options)
 			.create();
 
-		requestUtil(route, cb);
+		request(route, cb);
 	},
 
 	setSchedule: function (id, body, cb){
@@ -204,7 +204,7 @@ HueApi.prototype = {
 			.setParams(options)
 			.create();
 
-		requestUtil(route, cb);
+		request(route, cb);
 	},
 
 	deleteSchedule: function (id, cb){
@@ -213,7 +213,7 @@ HueApi.prototype = {
 			.setParams(options)
 			create();
 
-		requestUtil(route, cb);
+		request(route, cb);
 	},
 
 	getScenes: function (cb){
@@ -221,7 +221,7 @@ HueApi.prototype = {
 			.setParams(this.config)
 			.create();
 
-		requestUtil(route, (err, result, body) => {
+		request(route, (err, result, body) => {
 			if (body) {
 				body = this._toArray(body);
 			}
@@ -244,7 +244,7 @@ HueApi.prototype = {
 			.setParams(options)
 			.create();
 
-		requestUtil(route, cb);
+		request(route, cb);
 	},
 
 	setSceneState: function (id, id_light, body, cb){
@@ -254,7 +254,7 @@ HueApi.prototype = {
 			.setParams(options)
 			.create();
 
-		requestUtil(route, cb);
+		request(route, cb);
 	},
 
 	switchScene: function (id, on, cb){

@@ -1,10 +1,10 @@
 const exec = require('child_process').exec;
 
-function ProcessController(){
+function ProcessService(){
 	this.process = [];
 }
 
-ProcessController.prototype = {
+ProcessService.prototype = {
 
 	add(device, switchOn) {		
 		this.process.push({
@@ -36,4 +36,4 @@ ProcessController.prototype = {
 	}
 }
 
-module.exports = ProcessController;
+module.exports = ProcessService;

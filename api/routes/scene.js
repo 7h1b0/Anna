@@ -1,8 +1,8 @@
 exports.init = function (app) {
 
 	const Scene 		= require('./../models/scene');
-	const Route 		= require('./../models/route');
-	const request 	 	= require('./../services/requestService');
+	const Url 			= require('./../helpers/urlHelper');
+	const Request 	 	= require('./../services/requestService');
 
 	app.route('/scene')
 
@@ -93,12 +93,12 @@ exports.init = function (app) {
 		});
 
 	function makeHttpCalls(devices, params) {
-		devices.forEach(device => {
-			const route = new Route(device.path, device.method, device.body)
-				.setParams(params)
-				.create();
+		const hostname = 'hostname';
+		const port = app.get('config').port;
 
-			request(route);
+		devices.forEach(device => {
+			const url = Url.getUrl(hostname, port, device.path);
+			Request.get(url);
 		});
 	}
 }

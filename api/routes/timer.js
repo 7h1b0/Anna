@@ -93,13 +93,13 @@ exports.init = function (app) {
 			});
 		});
 
-	function makeHttpCalls(actions, params){	
-		actions.forEach(action => {
-			const route = new Route(action.path, action.method, action.body)
-				.setParams(params)
-				.create();
+	function makeHttpCalls(actions, params){
+		const hostname = 'hostname';
+		const port = app.get('config').port;
 
-			request(route);
+		actions.forEach(action => {
+			const url = Url.getUrl(hostname, port, action.path);
+			Request.get(url);
 		});
 	}
 }

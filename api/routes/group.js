@@ -1,8 +1,8 @@
 exports.init = function (app) {
 
 	const Group 		= require('./../models/group');
-	const Route 		= require('./../models/route');
-	const request 		= require('./../services/requestService');
+	const Url 		= require('./../helpers/urlHelper');
+	const Request 		= require('./../services/requestService');
 
 	app.route('/group')
 
@@ -94,10 +94,13 @@ exports.init = function (app) {
 		});
 
 	function makeHttpCalls(paths, status, params) {
+		const hostname = 'hostname';
+		const port = app.get('config').port;
+
 		paths.forEach(path => {
 			const resolvedPath = `${path}/${status}`;
-			const route = new Route(resolvedPath, 'GET').setParams(params).create();
-			request(route);
+			const url = Url.getUrl(hostname, port, resolvedPath);
+			Request.get(url);
 		});
 	}
 }

@@ -1,25 +1,27 @@
-const expect 			= require('chai').expect;
-const sinon 			= require('sinon');
+const expect 					= require('chai').expect;
+const sinon 					= require('sinon');
 const ProcessService 	= require('./../api/services/processService');
 
 describe('ProcessService', function () {
 
 	var processService = new ProcessService();
 
-	it('should have add function', function () {
-		expect(processService).to.have.property('add').that.is.a.function;
-	});
+	describe('Properties', function () {
+		it('does have add function', function () {
+			expect(processService).to.have.property('add').that.is.a.function;
+		});
 
-	it('should have run function', function () {
-		expect(processService).to.have.property('run').that.is.a.function;
-	});
+		it('does have run function', function () {
+			expect(processService).to.have.property('run').that.is.a.function;
+		});
 
-	it('should have execute function', function () {
-		expect(processService).to.have.property('execute').that.is.a.function;
-	});
+		it('does have execute function', function () {
+			expect(processService).to.have.property('execute').that.is.a.function;
+		});
 
-	it('should have queue array property', function () {
-		expect(processService).to.have.property('queue').that.is.instanceof(Array);
+		it('does have queue array property', function () {
+			expect(processService).to.have.property('queue').that.is.instanceof(Array);
+		});
 	});
 
 	describe('#add', function () {
@@ -35,18 +37,18 @@ describe('ProcessService', function () {
 			processService = new ProcessService();
 		});
 
-		it('should call run', function () {
+		it('does call run', function () {
 			processService.add({});
 			expect(spy.calledOnce).to.be.true;
 		});
 
-		it('should not call run', function () {
+		it('does not call run', function () {
 			processService.queue.push({});
 			processService.add({});
 			expect(spy.callCount).to.be.equals(0);
 		});
 
-		it('should push process into queue', function () {
+		it('does push process into queue', function () {
 			processService.queue.push({});
 			processService.add(1, true);
 
@@ -71,7 +73,7 @@ describe('ProcessService', function () {
 			processService = new ProcessService();
 		});
 
-		it('should call execute', function () {
+		it('does call execute', function () {
 			processService.queue = [{
 				device: 1,
 				switchOn: true
@@ -82,7 +84,7 @@ describe('ProcessService', function () {
 			expect(spy.calledOnce).to.be.true;
 		});
 
-		it('should call execute with argument', function () {
+		it('does call execute with argument', function () {
 			processService.queue = [{
 				device: 1,
 				switchOn: true

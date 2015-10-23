@@ -23,18 +23,18 @@ module.exports = {
 	},
 
 	getRoute(url, method, body) {
-	    var route = {
-	        headers:    { Accept: 'application/json' },
-	        method:     method || 'GET',
-	        url:        url,
-	        timeout:    2000
-	    };
 
-	    if (body) {
-	        route.json = true;
-	        route.body = body;
-	    }
+    var route = {
+      headers:    { Accept: 'application/json' },
+      method:     method || 'GET',
+      url:        url,
+      timeout:    2000
+    };
 
+    if (body) {
+      route.json = true;
+      route.body = body;
+    }
 		return route;
 	},
 

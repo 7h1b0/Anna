@@ -56,16 +56,13 @@ HueService.prototype = {
       	const url = urlHelper.getUrl(this.config.hostname, this.config.port, '/api/<username>/lights', parameters);
 
 		return new Promise((resolve, reject) => {
-			console.log('mouais');
 			request.get(url, (err, res, body) => {
 				if (err) {
-					console.log('mais encore');
 					reject(err);
 				} else {
 					if (body) {
 						body = this._toArray(body);
 					}
-					console.log('Putain ...');
 					resolve(body);
 				}
 			});

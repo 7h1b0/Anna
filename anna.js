@@ -11,7 +11,7 @@ const group			= require('./api/routes/group');
 const scene			= require('./api/routes/scene');
 const timer			= require('./api/routes/timer');
 const dio 			= require('./api/routes/dio');
-const hue			= require('./api/modules/hue');
+const hue				= require('./api/routes/hue');
 
 // Setup
 app.use(bodyParser.json());

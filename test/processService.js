@@ -7,15 +7,15 @@ describe('ProcessService', function () {
 	var processService = new ProcessService();
 
 	it('should have add function', function () {
-		expect(processService).to.have.property('add').that.is.a('function');
+		expect(processService).to.have.property('add').that.is.a.function;
 	});
 
 	it('should have run function', function () {
-		expect(processService).to.have.property('run').that.is.a('function');
+		expect(processService).to.have.property('run').that.is.a.function;
 	});
 
 	it('should have execute function', function () {
-		expect(processService).to.have.property('execute').that.is.a('function');
+		expect(processService).to.have.property('execute').that.is.a.function;
 	});
 
 	it('should have queue array property', function () {

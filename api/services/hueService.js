@@ -1,16 +1,16 @@
-const request		= require('./requestService');
+const request 			= require('./../services/requestService');
+const urlHelper 		= require('./../helpers/urlHelper');
 const SCENE_PREFIX 	= "anna";
 
-function HueService(config){
+function HueService(config) {
 	this.config = config;
 }
 
-module.exports = function (hostname, username, port, timeout){
+module.exports = function (hostname, username, port) {
 	const config = {
 		hostname: hostname,
 		username: username,
 		port: port || 80,
-		timeout: timeout || 2000,
 		scene_prefix: SCENE_PREFIX
 	}
 	return new HueService(config);
@@ -18,260 +18,118 @@ module.exports = function (hostname, username, port, timeout){
 
 HueService.prototype = {
 
-	_setId(id) {
-		var options = this.config;
-		options.id = id;
-		return options;
-	},
-
 	_getNextSceneId(cb) {
 		this.getScenes((err, result, scenes) => {
 			var maxId = -1;
 			if (scenes) {
 				var ids = Object.keys(scenes);
 				ids.forEach((id) => {
-	                if (id.startsWith(this.config.scene_prefix)) {
-	                    try {
-	                        id = Number(id.substr(this.config.scene_prefix.length));
-	                        maxId = Math.max(id, maxId);
-	                    } catch (ignored) {}
-	                }
-	            });
+					if (id.startsWith(this.config.scene_prefix)) {
+						try {
+							id = Number(id.substr(this.config.scene_prefix.length));
+							maxId = Math.max(id, maxId);
+						} catch (ignored) {}
+					}
+				});
 			}
 			maxId++;
 			cb(this.config.scene_prefix + "_" + maxId);
 		});
 	},
 
-	_toArray(jsonObject) {
-		var ids = Object.keys(jsonObject);
+  _toArray(jsonObject) {
+		const ids = Object.keys(jsonObject);
 		var result = [];
-		ids.forEach(function (id){
+		ids.forEach(function(id) {
 			var object = jsonObject[id];
 			object.id = id;
 			result.push(object);
 		});
 
 		return result;
-	},
+   },
 
-	getLights() {
-		const route = new Route('/api/<username>/lights', 'GET')
-			.setParams(this.config)
-			.create();
+  getLights() {
+		const parameters = {
+			username: this.config.username
+		};
+      	const url = urlHelper.getUrl(this.config.hostname, this.config.port, '/api/<username>/lights', parameters);
 
 		return new Promise((resolve, reject) => {
-			request(route, (err, res, body) => {
+			console.log('mouais');
+			request.get(url, (err, res, body) => {
 				if (err) {
+					console.log('mais encore');
 					reject(err);
 				} else {
 					if (body) {
 						body = this._toArray(body);
 					}
+					console.log('Putain ...');
 					resolve(body);
 				}
 			});
 		});
-	},
+  },
 
-	getLight: function (id){
-		const options = this._setId(id);
-		const route = routeApi.getLight
-			.setParams(options)
-			.create();
+  getLight(id) {
+		const parameters = {
+			username: this.config.username,
+			id: id
+		};
+		const url = urlHelper.getUrl(this.config.hostname, this.config.port, '/api/<username>/lights/<id>', parameters);
 
 		return new Promise((resolve, reject) => {
-			request(route, (err, res, body){
+			request.get(url, (err, res, body) => {
 				if (err) {
 					reject(err);
 				} else {
 					resolve(body);
 				}
 			});
-	},
-
-	renameLight: function (id, body, cb){
-		var options = this._setId(id);
-	    var route = routeApi.renameLight
-		    .setBody(body)
-		    .setParams(options)
-		    .create();
-
-		request(route, cb);
-	},
-
-	setLightState: function (id, body, cb){
-		var options = this._setId(id);
-		var route = routeApi.setLightState
-			.setBody(body)
-			.setParams(options)
-			.create();
-
-		request(route, cb);
-	},
-
-	switchLight: function (id, on, cb){
-		this.setLightState(id, {"on": on}, cb);
-	},
-
-	getGroups: function (cb){
-		var route = routeApi.getGroups
-			.setParams(this.config)
-			.create();
-		
-		request(route, (err, result, body) => {
-			if (body) {
-				body = this._toArray(body);
-			}
-			cb(err, result, body);
 		});
 	},
 
-	addGroup: function (body, cb){
-		var route = routeApi.addGroup
-			.setBody(body)
-			.setParams(this.config)
-			.create();
+	renameLight(id, body) {
+		const parameters = {
+			username: this.config.username,
+			id: id
+		};
+		const url = urlHelper.getUrl(this.config.hostname, this.config.port, '/api/<username>/lights/<id>', parameters);
 
-		request(route, cb);
-	},
-
-	getGroup: function (id, cb){
-		var options = this._setId(id);
-		var route = routeApi.getGroup
-			.setParams(options)
-			.create();
-
-		request(route, cb);
-	},
-
-	setGroup: function (id, body, cb){
-		var options = this._setId(id);
-		var route = routeApi.setGroup
-			.setBody(body)
-			.setParams(options)
-			.create();
-
-		request(route, cb);
-	},
-
-	setGroupState: function (id, body, cb){
-		var options = this._setId(id);
-		var route = routeApi.setGroupState
-			.setBody(body)
-			.setParams(options)
-			.create();
-
-		request(route, cb);
-	},
-
-	switchGroupOn: function (id, on, cb){
-		this.setGroupState(id, {"on": on}, cb);
-	},
-
-	deleteGroup: function (id, cb){
-		var options = this._setId(id);
-		var route = routeApi.deleteGroup
-			.setParams(options)
-			.create();
-
-		request(route, cb);
-	},
-
-	getSchedules: function (cb){
-		var route = routeApi.getSchedules
-			.setParams(this.config)
-			.create();
-
-		request(route, (err, result, body) => {
-			if (body) {
-				body = this._toArray(body);
-			}
-			cb(err, result, body);
+		return new Promise((resolve, reject) => {
+			request.put(url, body, (err, res, body) => {
+				if (err) {
+					reject(err);
+				} else {
+					resolve(body);
+				}
+			});
 		});
 	},
 
-	addSchedule: function (body, cb){
-		var route = routeApi.addSchedule
-			.setBody(body)
-			.setParams(this.config)
-			.create();
+	setLightState(id, body) {
+		const parameters = {
+			username: this.config.username,
+			id: id
+		};
+		const url = urlHelper.getUrl(this.config.hostname, this.config.port, '/api/<username>/lights/<id>/state', parameters);
 
-		request(route, cb);
-	},
-
-	getSchedule: function (id, cb){
-		var options = this._setId(id);
-		var route = routeApi.getSchedule
-			.setParams(options)
-			.create();
-
-		request(route, cb);
-	},
-
-	setSchedule: function (id, body, cb){
-		var options = this._setId(id);
-		var route = routeApi.setSchedule
-			.setBody(body)
-			.setParams(options)
-			.create();
-
-		request(route, cb);
-	},
-
-	deleteSchedule: function (id, cb){
-		var options = this._setId(id);
-		var route = routeApi.deleteSchedule
-			.setParams(options)
-			create();
-
-		request(route, cb);
-	},
-
-	getScenes: function (cb){
-		var route = routeApi.getScenes
-			.setParams(this.config)
-			.create();
-
-		request(route, (err, result, body) => {
-			if (body) {
-				body = this._toArray(body);
-			}
-			cb(err, result, body);
+		return new Promise((resolve, reject) => {
+			request.put(url, body, (err, res, body) => {
+				if (err) {
+					reject(err);
+				} else {
+					resolve(body);
+				}
+			});
 		});
 	},
 
-	addScene: function (body, cb){
-		this._getNextSceneId(id => {
-			this.setScene(id, body, cb);
+	switchLight(id, on, cb) {
+		return this.setLightState(id, {
+			"on": on
 		});
-	},
-
-	// TODO getScene
-
-	setScene: function (id, body, cb){
-		var options = this._setId(id);
-		var route = routeApi.addScene
-			.setBody(body)
-			.setParams(options)
-			.create();
-
-		request(route, cb);
-	},
-
-	setSceneState: function (id, id_light, body, cb){
-		var options = this._setId(id);
-		options.id_light = id_light;
-		var route = routeApi.setSceneState
-			.setParams(options)
-			.create();
-
-		request(route, cb);
-	},
-
-	switchScene: function (id, on, cb){
-		this.setSceneState(0, {"on": on, "scene": id}, cb);
 	}
 
 }
-

@@ -2,10 +2,9 @@ exports.init = function (app) {
 
 	const Scene 		= require('./../models/scene');
 	const Url 			= require('./../helpers/urlHelper');
-	const Request 	 	= require('./../services/requestService');
+	const Request 	 = require('./../services/requestService');
 
 	app.route('/scene')
-
 		.get(function (req, res) {
 			Scene.find({}, function onFind(err, scenes) {
 				if (err) {
@@ -39,7 +38,6 @@ exports.init = function (app) {
 		});
 
 	app.route('/scene/:id_scene')
-
 		.get(function (req, res) {
 			Scene.findById(req.params.id_scene, function onFind(err, scene) {
 				if (err) {
@@ -77,7 +75,6 @@ exports.init = function (app) {
 		});
 
 	app.route('/scene/:id_scene/action')
-
 		.get(function (req, res) {
 			Scene.findById(req.params.id_scene, function onFind(err, scene) {
 				if (err) {

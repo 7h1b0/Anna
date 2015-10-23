@@ -53,11 +53,11 @@ describe('Url Helper', function () {
 
 	describe('#getUrl', function () {
 
-		const hostname = '7h1b0';
-		const port = 80;
-		const path = '/blog';
+		const hostname 			= '7h1b0';
+		const port 					= 80;
+		const path 					= '/blog';
 		const pathParameter = '/blog/<id>/<wrong/parameter>';
-		const parameter = {id: '1234'};
+		const parameter 		= {id: '1234'};
 
 		it('should return an url', function () {
 			const url = `http://${hostname}:${port}${path}`;
@@ -71,7 +71,7 @@ describe('Url Helper', function () {
 
 		it('should handle just one argument', function () {
 			const url = `http://${hostname}:80`;
-			expect(UrlHelper.getUrl(hostname, port)).to.be.equals(url);
+			expect(UrlHelper.getUrl(hostname)).to.be.equals(url);
 		});
 
 		it('should call getPath', function () {

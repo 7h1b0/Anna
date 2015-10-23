@@ -1,11 +1,10 @@
 exports.init = function (app) {
 
 	const Timer 		= require('./../models/timer');
-	const Route 		= require('./../models/route');
-	const request 		= require('./../services/requestService');
+	const Url 			= require('./../helpers/urlHelper');
+	const request 	= require('./../services/requestService');
 
 	app.route('/timer')
-
 		.get(function (req, res) {
 			Timer.find({}, function onFind(err, timers) {
 				if (err) {
@@ -40,7 +39,6 @@ exports.init = function (app) {
 		});
 
 	app.route('/timer/:id_timer')
-
 		.get(function (req, res) {
 			Timer.findById(req.params.id_timer, function onFind(err, timer) {
 				if (err) {
@@ -78,7 +76,6 @@ exports.init = function (app) {
 		});
 
 	app.route('/timer/:id_timer/action')
-
 		.get(function (req, res) {
 			Timer.findById(req.params.id_timer, function onFind(err, timer) {
 				if (err) {

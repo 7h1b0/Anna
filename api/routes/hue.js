@@ -26,7 +26,7 @@ exports.init = function (app) {
 			if (req.body.name === undefined) {
 				res.sendStatus(400);
 			} else {
-				HueService.renameLight(req.params.id_light, req.body).then(function onResponse(result) {
+				HueService.renameLight(req.params.id_light, req.body.name).then(function onResponse(result) {
 					res.send(result);
 				}).catch(function (err) {
 					res.status(500).send(err);

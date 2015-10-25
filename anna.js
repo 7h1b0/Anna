@@ -7,7 +7,6 @@ const mongoose 		= require('mongoose');
 const config 		= require('./config');
 const log 			= require('./api/routes/log');
 const about 		= require('./api/routes/about');
-const group			= require('./api/routes/group');
 const scene			= require('./api/routes/scene');
 const timer			= require('./api/routes/timer');
 const dio 			= require('./api/routes/dio');
@@ -27,7 +26,6 @@ log.init(app);
 
 // API
 scene.init(app);
-group.init(app);
 timer.init(app);
 dio.init(app);
 hue.init(app);

@@ -1,8 +1,7 @@
 exports.init = function (app) {
 
-	const Timer 		= require('./../models/timer');
-	const Url 			= require('./../helpers/urlHelper');
-	const request 	= require('./../services/requestService');
+	const Timer 				= require('./../models/timer');
+	const makeHTTPCalls = require('./../helpers/makeHTTPCallsHelper');
 
 	app.route('/timer')
 		.get(function (req, res) {
@@ -83,20 +82,10 @@ exports.init = function (app) {
 				} else if (timer === undefined) {
 					res.sendStatus(404);
 				} else {
-					const params = app.get('config');
-					setTimeout(makeHttpCalls, timer.time, timer.actions, params);
+					makeHTTPCalls(scene.actions.before);
+					setTimeout(makeHTTPCalls, timer.time, timer.actions.after);
 					res.send();
 				}
 			});
 		});
-
-	function makeHttpCalls(actions, params){
-		const hostname = 'hostname';
-		const port = app.get('config').port;
-
-		actions.forEach(action => {
-			const url = Url.getUrl(hostname, port, action.path);
-			Request.get(url);
-		});
-	}
 }

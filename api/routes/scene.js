@@ -1,8 +1,7 @@
 exports.init = function (app) {
 
-	const Scene 		= require('./../models/scene');
-	const Url 			= require('./../helpers/urlHelper');
-	const Request 	 = require('./../services/requestService');
+	const Scene 				= require('./../models/scene');
+	const makeHTTPCalls = require('./../helpers/makeHTTPCallsHelper');
 
 	app.route('/scene')
 		.get(function (req, res) {
@@ -16,7 +15,7 @@ exports.init = function (app) {
 		})
 
 		.post(function (req, res) {
-			const badRequest = req.body.devices === undefined || req.body.name === undefined;
+			const badRequest = req.body.actions === undefined || req.body.name === undefined;
 
 			if (badRequest) {
 				res.sendStatus(400);	
@@ -24,7 +23,7 @@ exports.init = function (app) {
 				const newScene = Scene({
 					name: req.body.name,
 					description: req.body.description,
-					devices: req.body.devices
+					actions: req.body.actions
 				});
 
 				newScene.save(function onSave(err, scenes) {
@@ -82,20 +81,9 @@ exports.init = function (app) {
 				} else if (scene === undefined) {
 					res.sendStatus(404);
 				} else {
-					const params = app.get('config');
-					makeHttpCalls(scene.devices, params);
+					makeHTTPCalls(scene.actions);
 					res.end();
 				}
 			});
 		});
-
-	function makeHttpCalls(devices, params) {
-		const hostname = 'hostname';
-		const port = app.get('config').port;
-
-		devices.forEach(device => {
-			const url = Url.getUrl(hostname, port, device.path);
-			Request.get(url);
-		});
-	}
 }

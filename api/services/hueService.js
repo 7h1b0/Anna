@@ -87,10 +87,13 @@ HueService.prototype = {
 		});
 	},
 
-	renameLight(id, body) {
+	renameLight(id, name) {
 		const parameters = {
 			username: this.config.username,
 			id: id
+		};
+		const body = {
+			"name": name
 		};
 		const url = urlHelper.getUrl(this.config.hostname, this.config.port, '/api/<username>/lights/<id>', parameters);
 

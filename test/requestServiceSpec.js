@@ -8,7 +8,6 @@ describe('RequestService', function () {
 	const body = {data: "7h1b0"};
 
 	describe('Properties', function () {
-
 		it('does have request function', function () {
 			expect(RequestService).to.have.property('request').that.is.a.function;
 		});
@@ -35,7 +34,6 @@ describe('RequestService', function () {
 	});
 
 	describe('.getRoute()', function () {
-
 		it('does return an object', function () {
 			expect(RequestService.getRoute(url, 'GET')).to.be.object;
 		});
@@ -63,8 +61,7 @@ describe('RequestService', function () {
 		// ...
 	});
 
-	describe('.get()', function () {
-		
+	describe('.get()', function () {	
 		it('does call getRoute function with two arguments', function () {
 			var spy = sinon.spy(RequestService, 'getRoute');
 			RequestService.get(url);
@@ -106,7 +103,6 @@ describe('RequestService', function () {
 	});
 
 	describe('.delete()', function () {
-
 		it('does call getRoute function with two arguments', function () {
 			var spy = sinon.spy(RequestService, 'getRoute');
 			RequestService.delete(url);
@@ -127,7 +123,6 @@ describe('RequestService', function () {
 	});
 
 	describe('.post()', function () {
-
 		it('does call getRoute function with three arguments', function () {
 			var spy = sinon.spy(RequestService, 'getRoute');
 			RequestService.post(url, body);

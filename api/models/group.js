@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const group = new Schema({
   name: { type: String, required: true },
   description: { type: String },
-  paths: [ String ]
+  devices: [ String ]
 });
 
 module.exports = mongoose.model('Group', group);

@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const scene = new Schema({
   name: { type: String, required: true },
   description: { type: String },
-  devices: [{
+  actions: [{
   	path: { type: String },
   	method: { type: String },
   	body: { type: String }

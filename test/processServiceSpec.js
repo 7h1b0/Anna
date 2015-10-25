@@ -25,11 +25,8 @@ describe('ProcessService', function () {
 	});
 
 	describe('#add', function () {
-
-		var spy;
-
 		beforeEach(function () {
-			spy = sinon.spy(processService, 'run');
+			this.spy = sinon.spy(processService, 'run');
 		})
 
 		afterEach(function () {
@@ -39,13 +36,13 @@ describe('ProcessService', function () {
 
 		it('does call run', function () {
 			processService.add({});
-			expect(spy.calledOnce).to.be.true;
+			expect(this.spy.calledOnce).to.be.true;
 		});
 
 		it('does not call run', function () {
 			processService.queue.push({});
 			processService.add({});
-			expect(spy.callCount).to.be.equals(0);
+			expect(this.spy.callCount).to.be.equals(0);
 		});
 
 		it('does push process into queue', function () {
@@ -61,11 +58,8 @@ describe('ProcessService', function () {
 	});
 
 	describe('#run', function () {
-
-		var spy;
-
 		beforeEach(function () {
-			spy = sinon.spy(processService, 'execute');
+			this.spy = sinon.spy(processService, 'execute');
 		});
 
 		afterEach(function () {
@@ -81,7 +75,7 @@ describe('ProcessService', function () {
 
 			processService.run();
 
-			expect(spy.calledOnce).to.be.true;
+			expect(this.spy.calledOnce).to.be.true;
 		});
 
 		it('does call execute with argument', function () {
@@ -91,7 +85,7 @@ describe('ProcessService', function () {
 			}];
 
 			processService.run();
-			expect(spy.withArgs('./radioEmission 1 1').calledOnce).to.be.true;
+			expect(this.spy.withArgs('./radioEmission 1 1').calledOnce).to.be.true;
 
 			processService.queue = [{
 				device: 1,
@@ -99,7 +93,7 @@ describe('ProcessService', function () {
 			}];
 
 			processService.run();
-			expect(spy.withArgs('./radioEmission 1 0').calledOnce).to.be.true;
+			expect(this.spy.withArgs('./radioEmission 1 0').calledOnce).to.be.true;
 		})
 	});
 

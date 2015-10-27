@@ -20,7 +20,7 @@ describe('HueService', function () {
 			requestService.get.restore();
 		});
 
-		it('does call requestService.get with url', function () {
+		it('does call requestService.get with valid url', function () {
 			var spy = sinon.spy(requestService, 'get');
 			const url = `http://${hostname}:${port}/api/${username}/lights`;
 
@@ -73,7 +73,7 @@ describe('HueService', function () {
 			expect(this.spy.calledOnce).to.be.true;
 		});
 
-		it('does call requestService.get with url', function () {
+		it('does call requestService.get with valid url', function () {
 			const url = `http://${hostname}:${port}/api/${username}/lights/1`;
 
 			HueService.getLight(1);
@@ -101,7 +101,7 @@ describe('HueService', function () {
 			expect(this.spy.calledOnce).to.be.true;
 		});
 
-		it('does call requestService.put with arguments', function () {
+		it('does call requestService.put with valid arguments', function () {
 			const url = `http://${hostname}:${port}/api/${username}/lights/1`;
 			const body = {"name": name};
 
@@ -130,7 +130,7 @@ describe('HueService', function () {
 			expect(this.spy.calledOnce).to.be.true;
 		});
 
-		it('does call requestService.put with arguments', function () {
+		it('does call requestService.put with valid arguments', function () {
 			const url = `http://${hostname}:${port}/api/${username}/lights/1/state`;
 
 			HueService.setLightState(1, state);

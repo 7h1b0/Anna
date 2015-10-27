@@ -2,7 +2,7 @@ const Url 		= require('./../helpers/urlHelper');
 const Request = require('./../services/requestService');
 
 module.exports = function (actions, port, hostname) {
-	if (!actions){
+	if (!actions || !Array.isArray(actions)){
 		return;
 	}
 

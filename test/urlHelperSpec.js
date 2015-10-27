@@ -4,47 +4,6 @@ const UrlHelper 		= require('./../api/helpers/urlHelper');
 
 describe('Url Helper', function () {
 
-	describe('#extractParameters', function () {
-		it('does return an array of 2', function () {
-			const path = '/api/<username>/<id>/<wrong/parameter>';
-			expect(UrlHelper.extractParameters(path)).to.be.instanceof(Array).that.have.length(2);
-		});
-
-		it('does return empty array', function () {
-			const path = '/api/7h1b0';
-			expect(UrlHelper.extractParameters(path)).to.be.instanceof(Array).that.have.length(0);
-		});
-
-		it('does contain username and id', function () {
-			const path = '/api/<username>/<id>/<wrong/parameter>';
-			expect(UrlHelper.extractParameters(path)).to.have.members(['username', 'id']);
-		});
-	});
-
-	describe('.getPath', function () {
-		const simplePath 		= '/api/7h1b0';
-		const complexePath 	= '/api/<username>/<id>/<wrong_parameter'
-
-		it('does return a path', function () {
-			expect(UrlHelper.getPath(simplePath)).to.be.equals(simplePath);
-		});
-
-		it('does return a resolved path', function () {
-			const parameters = {
-				username: '7h1b0',
-				id: '123'
-			}
-
-			const resolvedPath = UrlHelper.getPath(complexePath, parameters);
-			expect(resolvedPath).to.be.equals('/api/7h1b0/123/<wrong_parameter');
-		});		
-
-		it('does handle undefined parameters', function () {
-			expect(UrlHelper.getPath.bind(complexePath)).to.throw(Error);
-		});
-		
-	});
-
 	describe('.getUrl', function () {
 		const hostname 			= '7h1b0';
 		const port 					= 80;
@@ -77,6 +36,47 @@ describe('Url Helper', function () {
 			expect(spy.calledOnce).to.be.true;
 			UrlHelper.getPath.restore();
 		});
+	});
+
+	describe('.extractParameters', function () {
+		it('does return an array of 2', function () {
+			const path = '/api/<username>/<id>/<wrong/parameter>';
+			expect(UrlHelper.extractParameters(path)).to.be.instanceof(Array).that.have.length(2);
+		});
+
+		it('does return empty array', function () {
+			const path = '/api/7h1b0';
+			expect(UrlHelper.extractParameters(path)).to.be.instanceof(Array).that.have.length(0);
+		});
+
+		it('does contain username and id', function () {
+			const path = '/api/<username>/<id>/<wrong/parameter>';
+			expect(UrlHelper.extractParameters(path)).to.have.members(['username', 'id']);
+		});
+	});
+
+
+	describe('.getPath', function () {
+		const simplePath 		= '/api/7h1b0';
+		const complexePath 	= '/api/<username>/<id>/<wrong_parameter'
+
+		it('does return a path', function () {
+			expect(UrlHelper.getPath(simplePath)).to.be.equals(simplePath);
+		});
+
+		it('does return a resolved path', function () {
+			const parameters = {
+				username: '7h1b0',
+				id: '123'
+			}
+
+			const resolvedPath = UrlHelper.getPath(complexePath, parameters);
+			expect(resolvedPath).to.be.equals('/api/7h1b0/123/<wrong_parameter');
+		});		
+
+		it('does handle undefined parameters', function () {
+			expect(UrlHelper.getPath.bind(complexePath)).to.throw(Error);
+		});	
 	});
 
 });

@@ -97,4 +97,19 @@ describe('ProcessService', function () {
 		})
 	});
 
+	describe('#run', function () {
+		it('does return a Promise', function () {
+			expect(processService.execute('ls')).to.be.instanceof(Promise);
+		});
+
+		it.skip('does call exec', function (done) {
+			const childProcess = require('child_process');
+			var spy = sinon.spy(childProcess, 'exec');
+			processService.execute('ls').then(function () {
+				expect(spy.calledOnce).to.be.true;
+				done();
+			});
+		});
+	});
+
 });

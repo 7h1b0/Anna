@@ -1,6 +1,7 @@
 const expect 							= require('chai').expect;
 const sinon 							= require('sinon');
 const makeHTTPCallsHelper = require('./../api/helpers/makeHTTPCallsHelper');
+const Url 								= require('./../api/helpers/urlHelper');
 const Request							= require('./../api/services/requestService');
 
 describe('MakeHTTPCalls helper', function () {
@@ -106,7 +107,23 @@ describe('MakeHTTPCalls helper', function () {
 		Request.get.restore();
 	});
 
-	it('does return undefined if no actions', function () {
+	it('does call getUrl on UrlHelper', function () {
+		var spy = sinon.spy(Url, 'getUrl');
+		const actions = [{
+			"path":"/path/path",
+			"method": "GET",
+			"body": ""
+		}];
+
+		makeHTTPCallsHelper(actions);
+		expect(spy.withArgs('localhost', 8181, '/path/path').calledOnce).to.be.true;
+	});
+
+	it('does handle if no actions provided', function () {
 		expect(makeHTTPCallsHelper()).to.be.undefined;
+	});
+
+	it('does handle if actions is not an array', function () {
+		expect(makeHTTPCallsHelper(body)).to.be.undefined;
 	});
 });

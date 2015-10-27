@@ -22,7 +22,7 @@ ProcessService.prototype = {
 			return;
 		}
 
-		const at 		= this.queue[0];
+		const at 			= this.queue[0];
 		const status 	= at.switchOn ? 1 : 0;
 		const device 	= at.device;
 		const script	= `./radioEmission ${device} ${status}`;
@@ -34,7 +34,7 @@ ProcessService.prototype = {
 	},
 
 	execute(script) {
-		return new Promise(function (resolve, reject) {
+		return new Promise((resolve, reject) => {
 			exec(script, (error, stdout, stderr) => {
 				resolve();
 			});

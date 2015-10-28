@@ -18,32 +18,28 @@ exports.init = function (app) {
 
     app.route('/configuration')
         .get(function (req, res) {
-            const config = app.get('config').hue;
-
+            const config        = app.get('config').hue;
 
             const Scene         = require('./../models/scene');
-            const Group         = require('./../models/group');
             const Timer         = require('./../models/timer');
             const Dio           = require('./../models/dio');
             const HueService    = require('./../services/hueService');
-            hueService = new HueService(config.hostname, config.username);
+            hueService          = new HueService(config.hostname, config.username);
 
             const getAllScene   = Scene.find({}).exec();
-            const getAllGroup   = Group.find({}).exec();
             const getAllTimer   = Timer.find({}).exec();
             const getAllDio     = Dio.find({}).exec();
             const getHueLights  = hueService.getLights();
 
-            Promise.all([getAllScene, getAllGroup, getAllTimer, getAllDio, getHueLights]).then(function (values) {
+            Promise.all([getAllScene, getAllTimer, getAllDio, getHueLights]).then(values => {
                 const configuration = {
                     scenes: values[0],
-                    groups: values[1],
-                    timers: values[2],
-                    dios: values[3],
-                    lights: values[4]
+                    timers: values[1],
+                    dios: values[2],
+                    lights: values[3]
                 }
                 res.send(configuration);
-            }, function (err) {
+            }, err => {
                 res.status(500).send(err);
             });
 

@@ -34,11 +34,13 @@ describe('HueService', function () {
 		});
 
 		it('does return an array of 2', function (done) {
-			const stub = sinon.stub(requestService, 'request', function (route, cb) {
-					cb(undefined, undefined, body);
+			const stub = sinon.stub(requestService, 'request', function (route) {
+				return new Promise((resolve, reject) => {
+					resolve(body);
+				});
 			});
 
-			HueService.getLights().then(function (lights) {
+			return HueService.getLights().then(function (lights) {
 				expect(lights).to.be.instanceof(Array).that.have.length(2);
 				done();
 				requestService.request.restore();
@@ -46,11 +48,13 @@ describe('HueService', function () {
 		});
 
 		it('does return objects with id property', function (done) {
-			const stub = sinon.stub(requestService, 'request', function (route, cb) {
-					cb(undefined, undefined, body);
+			const stub = sinon.stub(requestService, 'request', function (route) {
+				return new Promise((resolve, reject) => {
+					resolve(body);
+				});
 			});
 
-			HueService.getLights().then(function (lights) {
+			return HueService.getLights().then(function (lights) {
 				expect(lights[0]).to.have.property('id');
 				expect(lights[1]).to.have.property('id');
 				done();

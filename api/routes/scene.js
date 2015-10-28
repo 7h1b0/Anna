@@ -36,7 +36,7 @@ exports.init = function (app) {
 			}
 		});
 
-	app.route('/scene/:id_scene')
+	app.route('/scene/:id_scene([0-9a-z]{24})')
 		.get(function (req, res) {
 			Scene.findById(req.params.id_scene, function onFind(err, scene) {
 				if (err) {
@@ -68,12 +68,12 @@ exports.init = function (app) {
 				} else if (!scene) {
 					res.sendStatus(404);
 				} else {
-					res.sendStatus(204);
+					res.end();
 				}
 			});
 		});
 
-	app.route('/scene/:id_scene/action')
+	app.route('/scene/:id_scene([0-9a-z]{24})/action')
 		.get(function (req, res) {
 			Scene.findById(req.params.id_scene, function onFind(err, scene) {
 				if (err) {
@@ -81,8 +81,11 @@ exports.init = function (app) {
 				} else if (scene === undefined) {
 					res.sendStatus(404);
 				} else {
-					makeHTTPCalls(scene.actions);
-					res.end();
+					makeHTTPCalls(scene.actions).then(() => {
+						res.end();
+					}, err => {
+						res.status(500).send(err);
+					});
 				}
 			});
 		});

@@ -2,24 +2,24 @@ const request = require('request');
 
 module.exports = {
 
-	get(url, cb) {
+	get(url) {
 		const route = this.getRoute(url, 'GET');
-		this.request(route, cb);
+		return this.request(route);
 	},
 
-	put(url, body, cb) {
+	put(url, body) {
 		const route = this.getRoute(url, 'PUT', body);
-		this.request(route, cb);
+		return this.request(route);
 	},
 
-	post(url, body, cb) {
+	post(url, body) {
 		const route = this.getRoute(url, 'POST', body);
-		this.request(route, cb);
+		return this.request(route);
 	},
 
-	delete(url, cb) {
+	delete(url) {
 		const route = this.getRoute(url, 'DELETE');
-		this.request(route, cb);
+		return this.request(route);
 	},
 
 	getRoute(url, method, body) {
@@ -38,21 +38,25 @@ module.exports = {
 		return route;
 	},
 
-	request(route, cb){
-		request(route, function (err, res, body) {
-			if (body) {
-				try {
-					body = JSON.parse(body);
-				} catch (ignored) {} // Body is already a valid JSON
-			}
+	request(route){
+		return new Promise((resolve, reject) => {
+			request(route, (err, res, body) => {
+				if (body) {
+					try {
+						body = JSON.parse(body);
+					} catch (ignored) {} // Body is already a valid JSON
+				}
 
-			if (Array.isArray(body) && body[0].error) {
-				err = body[0].error;
-			}
+				if (Array.isArray(body) && body[0].error) {
+					err = body[0].error;
+				}
 
-			if (cb) {
-				cb(err, res, body);
-			}
+				if (err) {
+					reject(err);
+				} else {
+					resolve(body);
+				}
+			});
 		});
 	}
 }

@@ -4,10 +4,20 @@ const makeHTTPCallsHelper = require('./../api/helpers/makeHTTPCallsHelper');
 const Url 								= require('./../api/helpers/urlHelper');
 const Request							= require('./../api/services/requestService');
 
-describe('MakeHTTPCalls helper', function () {
+describe('MakeHTTPCallsHelper', function () {
 
 	const body = {"test": "test"};
 	const defaultUrl = 'http://localhost:8181/path/path';
+
+	it('does return a Promise', function () {
+		const actions = [{
+			"path":"/path/path",
+			"method": "GET",
+			"body": ""
+		}];
+		
+		expect(makeHTTPCallsHelper(actions, 1234)).to.be.instanceof(Promise);
+	});
 
 	it('does call Request.get', function () {
 		var spy = sinon.spy(Request, 'get');

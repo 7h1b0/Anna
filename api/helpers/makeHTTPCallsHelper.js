@@ -8,23 +8,26 @@ module.exports = function (actions, port, hostname) {
 
 	var port 			= port 		 || 8181;
 	var hostname 	= hostname || 'localhost';
+	var promises = [];
 
 	actions.forEach(action => {
 		const url = Url.getUrl(hostname, port, action.path);
 		switch(action.method){
 		case 'PUT':
-			Request.put(url, action.body);
+			promises.push(Request.put(url, action.body));
 			break;
 		case 'POST':
-			Request.post(url, action.body);
+			promises.push(Request.post(url, action.body));
 			break;
 		case 'DELETE':
-			Request.delete(url);
+			promises.push(Request.delete(url));
 			break;
 		default:
 		case 'GET':
-			Request.get(url);
+			promises.push(Request.get(url));
 			break;
 		}
 	});
+
+	return Promise.all(promises);
 }

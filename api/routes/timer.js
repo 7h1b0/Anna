@@ -37,7 +37,7 @@ exports.init = function (app) {
 			}
 		});
 
-	app.route('/timer/:id_timer')
+	app.route('/timer/:id_timer([0-9a-z]{24})')
 		.get(function (req, res) {
 			Timer.findById(req.params.id_timer, function onFind(err, timer) {
 				if (err) {
@@ -74,7 +74,7 @@ exports.init = function (app) {
 			});
 		});
 
-	app.route('/timer/:id_timer/action')
+	app.route('/timer/:id_timer([0-9a-z]{24})/action')
 		.get(function (req, res) {
 			Timer.findById(req.params.id_timer, function onFind(err, timer) {
 				if (err) {

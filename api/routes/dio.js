@@ -37,7 +37,7 @@ exports.init = function (app) {
 			}
 		});
 
-	app.route('/dio/:id_dio')
+	app.route('/dio/:id_dio([0-9]{1,2})')
 
 		.get(function (req,res) {
 			Dio.findOne({id_dio: req.params.id_dio}, function onFind(err, dio) {
@@ -80,7 +80,7 @@ exports.init = function (app) {
 		});
 
 
-	app.route('/dio/:id_dio/:status(on|off)')
+	app.route('/dio/:id_dio([0-9]{1,2})/:status(on|off)')
 
 		.get(function (req, res) {
 			process.add(req.params.id_dio,req.params.status === 'on'); 

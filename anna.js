@@ -35,3 +35,5 @@ about.init(app);
 app.use(function (req, res) {
 	res.status(404).end();
 });
+
+module.exports = app;

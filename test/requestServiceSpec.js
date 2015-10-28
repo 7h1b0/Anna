@@ -62,6 +62,10 @@ describe('RequestService', function () {
 	});
 
 	describe('.get()', function () {	
+		it('does return a Promise', function () {
+			expect(RequestService.get(url)).to.be.instanceof(Promise);
+		});
+
 		it('does call getRoute function with two arguments', function () {
 			var spy = sinon.spy(RequestService, 'getRoute');
 			RequestService.get(url);
@@ -82,6 +86,9 @@ describe('RequestService', function () {
 	});
 
 	describe('.put()', function () {
+		it('does return a Promise', function () {
+			expect(RequestService.put(url, body)).to.be.instanceof(Promise);
+		});
 
 		it('does call getRoute function with three arguments', function () {
 			var spy = sinon.spy(RequestService, 'getRoute');
@@ -103,6 +110,10 @@ describe('RequestService', function () {
 	});
 
 	describe('.delete()', function () {
+		it('does return a Promise', function () {
+			expect(RequestService.delete(url)).to.be.instanceof(Promise);
+		});
+
 		it('does call getRoute function with two arguments', function () {
 			var spy = sinon.spy(RequestService, 'getRoute');
 			RequestService.delete(url);
@@ -123,6 +134,10 @@ describe('RequestService', function () {
 	});
 
 	describe('.post()', function () {
+		it('does return a Promise', function () {
+			expect(RequestService.post(url, body)).to.be.instanceof(Promise);
+		});
+
 		it('does call getRoute function with three arguments', function () {
 			var spy = sinon.spy(RequestService, 'getRoute');
 			RequestService.post(url, body);

@@ -1,9 +1,9 @@
-exports.init = function (app) {
+module.exports = function (router, config) {
 
 	const Scene 				= require('./../models/scene');
-	const makeHTTPCalls = require('./../helpers/makeHTTPCallsHelper');
+	const makeLocalRequest = require('./../helpers/makeLocalRequestHelper');
 
-	app.route('/scene')
+	router.route('/api/scene')
 		.get(function (req, res) {
 			Scene.find({}, function onFind(err, scenes) {
 				if (err) {
@@ -26,17 +26,17 @@ exports.init = function (app) {
 					actions: req.body.actions
 				});
 
-				newScene.save(function onSave(err, scenes) {
+				newScene.save(function onSave(err, scene) {
 					if (err) {
 						res.status(500).send(err);
 					} else {
-						res.send(scenes);
+						res.send(scene);
 					}
 				});
 			}
 		});
 
-	app.route('/scene/:id_scene([0-9a-z]{24})')
+	router.route('/api/scene/:id_scene([0-9a-z]{24})')
 		.get(function (req, res) {
 			Scene.findById(req.params.id_scene, function onFind(err, scene) {
 				if (err) {
@@ -68,20 +68,20 @@ exports.init = function (app) {
 				} else if (!scene) {
 					res.sendStatus(404);
 				} else {
-					res.end();
+					res.sendStatus(204);
 				}
 			});
 		});
 
-	app.route('/scene/:id_scene([0-9a-z]{24})/action')
+	router.route('/api/scene/:id_scene([0-9a-z]{24})/action')
 		.get(function (req, res) {
 			Scene.findById(req.params.id_scene, function onFind(err, scene) {
 				if (err) {
 					res.status(500).send(err);
-				} else if (scene === undefined) {
+				} else if (!scene) {
 					res.sendStatus(404);
 				} else {
-					makeHTTPCalls(scene.actions).then(() => {
+					makeLocalRequest(scene.actions, config.port, req.headers['x-access-token']).then(() => {
 						res.end();
 					}, err => {
 						res.status(500).send(err);

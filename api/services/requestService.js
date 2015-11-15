@@ -2,6 +2,8 @@ const request = require('request');
 
 module.exports = {
 
+	header: { Accept: 'application/json' },
+
 	get(url) {
 		const route = this.getRoute(url, 'GET');
 		return this.request(route);
@@ -22,10 +24,17 @@ module.exports = {
 		return this.request(route);
 	},
 
+	addToken(token) {
+		if (token) {
+			this.header['x-access-token'] = token;
+		}
+		return this;
+	},
+
 	getRoute(url, method, body) {
 
     var route = {
-      headers:    { Accept: 'application/json' },
+      headers:    this.header,
       method:     method || 'GET',
       url:        url,
       timeout:    2000

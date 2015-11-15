@@ -4,7 +4,7 @@ module.exports = {
 		port = port || 80;
 
     if (path) {
-      path = this.getPath(path, parameters)
+      path = this.getResolvedPath(path, parameters)
     } else {
       path = '';
     }
@@ -26,7 +26,7 @@ module.exports = {
     return parameters;
   },
 
-  getPath(path, parameters) {
+  getResolvedPath(path, parameters) {
     const requiredParameters = this.extractParameters(path);
     var resolvedPath = path;
 

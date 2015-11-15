@@ -1,13 +1,13 @@
 const expect 							= require('chai').expect;
 const sinon 							= require('sinon');
-const makeHTTPCallsHelper = require('./../api/helpers/makeHTTPCallsHelper');
+const makeLocalRequest = require('./../api/helpers/makeLocalRequestHelper');
 const Url 								= require('./../api/helpers/urlHelper');
 const Request							= require('./../api/services/requestService');
 
-describe('MakeHTTPCallsHelper', function () {
+describe('makeLocalRequest', function () {
 
 	const body = {"test": "test"};
-	const defaultUrl = 'http://localhost:8181/path/path';
+	const defaultUrl = 'http://localhost:1234/path/path';
 
 	it('does return a Promise', function () {
 		const actions = [{
@@ -16,7 +16,7 @@ describe('MakeHTTPCallsHelper', function () {
 			"body": ""
 		}];
 		
-		expect(makeHTTPCallsHelper(actions, 1234)).to.be.instanceof(Promise);
+		expect(makeLocalRequest(actions, 1234)).to.be.instanceof(Promise);
 	});
 
 	it('does call Request.get', function () {
@@ -27,7 +27,7 @@ describe('MakeHTTPCallsHelper', function () {
 			"body": ""
 		}];
 			
-		makeHTTPCallsHelper(actions);
+		makeLocalRequest(actions, 1234);
 		expect(spy.withArgs(defaultUrl).calledOnce).to.be.true;
 		Request.get.restore();
 	});
@@ -40,7 +40,7 @@ describe('MakeHTTPCallsHelper', function () {
 			"body": ""
 		}];
 			
-		makeHTTPCallsHelper(actions);
+		makeLocalRequest(actions, 1234);
 		expect(spy.withArgs(defaultUrl).calledOnce).to.be.true;
 		Request.delete.restore();
 	});
@@ -53,7 +53,7 @@ describe('MakeHTTPCallsHelper', function () {
 			"body": body
 		}];
 			
-		makeHTTPCallsHelper(actions);
+		makeLocalRequest(actions, 1234);
 		expect(spy.withArgs(defaultUrl, body).calledOnce).to.be.true;
 		Request.put.restore();
 	});
@@ -66,7 +66,7 @@ describe('MakeHTTPCallsHelper', function () {
 			"body": body
 		}];
 			
-		makeHTTPCallsHelper(actions);
+		makeLocalRequest(actions, 1234);
 		expect(spy.withArgs(defaultUrl, body).calledOnce).to.be.true;
 		Request.post.restore();
 	});
@@ -85,7 +85,7 @@ describe('MakeHTTPCallsHelper', function () {
 		},
 		];
 			
-		makeHTTPCallsHelper(actions);
+		makeLocalRequest(actions, 1234);
 		expect(spy.withArgs(defaultUrl).calledTwice).to.be.true;
 		Request.get.restore();
 	});
@@ -98,7 +98,7 @@ describe('MakeHTTPCallsHelper', function () {
 			"body": ""
 		}];
 			
-		makeHTTPCallsHelper(actions);
+		makeLocalRequest(actions, 1234);
 		expect(spy.withArgs(defaultUrl).calledOnce).to.be.true;
 		Request.get.restore();
 	});
@@ -112,7 +112,7 @@ describe('MakeHTTPCallsHelper', function () {
 			"body": ""
 		}];
 			
-		makeHTTPCallsHelper(actions, 1234);
+		makeLocalRequest(actions, 1234);
 		expect(spy.withArgs(url).calledOnce).to.be.true;
 		Request.get.restore();
 	});
@@ -125,15 +125,15 @@ describe('MakeHTTPCallsHelper', function () {
 			"body": ""
 		}];
 
-		makeHTTPCallsHelper(actions);
+		makeLocalRequest(actions, 8181);
 		expect(spy.withArgs('localhost', 8181, '/path/path').calledOnce).to.be.true;
 	});
 
 	it('does handle if no actions provided', function () {
-		expect(makeHTTPCallsHelper()).to.be.undefined;
+		expect(makeLocalRequest()).to.be.undefined;
 	});
 
 	it('does handle if actions is not an array', function () {
-		expect(makeHTTPCallsHelper(body)).to.be.undefined;
+		expect(makeLocalRequest(body)).to.be.undefined;
 	});
 });

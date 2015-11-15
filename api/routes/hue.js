@@ -1,9 +1,8 @@
-exports.init = function (app) {
+module.exports = function (router, config) {
 
-	const config = app.get('config').hue;
 	const HueService = require('./../services/hueService')(config.hostname, config.username, config.port)
 
-	app.route('/hue/light')
+	router.route('/api/hue/light')
 		.get(function (req, res) {
 			HueService.getLights().then(function onResponse(lights) {
 				res.send(lights);
@@ -12,8 +11,7 @@ exports.init = function (app) {
 			});
 		})
 
-	app.route('/hue/light/:id_light([0-9]{1,2})')
-
+	router.route('/api/hue/light/:id_light([0-9]{1,2})')
 		.get(function (req, res) {
 			HueService.getLight(req.params.id_light).then(function onResponse(light) {
 				res.send(light);
@@ -34,9 +32,8 @@ exports.init = function (app) {
 			}	
 		})
 
-	app.route('/hue/light/:id_light([0-9]{1,2})/state')
-
-		.put(function (req,res){
+	router.route('/api/hue/light/:id_light([0-9]{1,2})/state')
+		.put(function (req, res) {
 			HueService.setLightState(req.params.id_light, req.body).then(function onResponse(result) {
 				res.send(result);
 			}).catch(function (err) {
@@ -44,9 +41,8 @@ exports.init = function (app) {
 			});
 		});
 
-	app.route('/hue/light/:id_light([0-9]{1,2})/:status(on|off)')
-
-		.get(function (req,res){
+	router.route('/api/hue/light/:id_light([0-9]{1,2})/:status(on|off)')
+		.get(function (req, res) {
 			HueService.switchLight(req.params.id_light, req.params.status === 'on').then(function onResponse(result) {
 				res.send(result);
 			}).catch(function (err) {

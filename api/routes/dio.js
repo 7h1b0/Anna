@@ -1,10 +1,10 @@
-exports.init = function (app) {
+module.exports = function (router) {
 
 	const processService 	= require('./../services/processService');
-	const Dio 				= require('./../models/dio.js');
-	const process 			= new processService();
+	const Dio 						= require('./../models/dio.js');
+	const process 				= new processService();
 
-	app.route('/dio')
+	router.route('/api/dio')
 
 		.get(function (req,res) {
 			Dio.find({}, function onFind(err, dios) {
@@ -37,7 +37,7 @@ exports.init = function (app) {
 			}
 		});
 
-	app.route('/dio/:id_dio([0-9]{1,2})')
+	router.route('/api/dio/:id_dio([0-9]{1,2})')
 
 		.get(function (req,res) {
 			Dio.findOne({id_dio: req.params.id_dio}, function onFind(err, dio) {
@@ -80,7 +80,7 @@ exports.init = function (app) {
 		});
 
 
-	app.route('/dio/:id_dio([0-9]{1,2})/:status(on|off)')
+	router.route('/api/dio/:id_dio([0-9]{1,2})/:status(on|off)')
 
 		.get(function (req, res) {
 			process.add(req.params.id_dio,req.params.status === 'on'); 

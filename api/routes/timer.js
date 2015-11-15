@@ -1,9 +1,9 @@
-exports.init = function (app) {
+module.exports = function (router, config) {
 
 	const Timer 				= require('./../models/timer');
-	const makeHTTPCalls = require('./../helpers/makeHTTPCallsHelper');
+	const makeLocalRequest = require('./../helpers/makeLocalRequestHelper');
 
-	app.route('/timer')
+	router.route('/api/timer')
 		.get(function (req, res) {
 			Timer.find({}, function onFind(err, timers) {
 				if (err) {
@@ -37,7 +37,7 @@ exports.init = function (app) {
 			}
 		});
 
-	app.route('/timer/:id_timer([0-9a-z]{24})')
+	router.route('/api/timer/:id_timer([0-9a-z]{24})')
 		.get(function (req, res) {
 			Timer.findById(req.params.id_timer, function onFind(err, timer) {
 				if (err) {
@@ -74,7 +74,7 @@ exports.init = function (app) {
 			});
 		});
 
-	app.route('/timer/:id_timer([0-9a-z]{24})/action')
+	router.route('/api/timer/:id_timer([0-9a-z]{24})/action')
 		.get(function (req, res) {
 			Timer.findById(req.params.id_timer, function onFind(err, timer) {
 				if (err) {
@@ -82,8 +82,12 @@ exports.init = function (app) {
 				} else if (timer === undefined) {
 					res.sendStatus(404);
 				} else {
-					makeHTTPCalls(scene.actions.before);
-					setTimeout(makeHTTPCalls, timer.time, timer.actions.after);
+					const port = config.port;
+					const token = req.headers['x-access-token'];
+
+					makeLocalRequest(scene.actions.before, port, token);
+					setTimeout(makeLocalRequest, timer.time, timer.actions.after, port, token);
+					
 					res.send();
 				}
 			});

@@ -25,7 +25,7 @@ module.exports = function (router) {
 		}
 	});
 
-	router.post('/authentification', function (req, res) {
+	router.post('/authentication', function (req, res) {
 		const badRequest = req.body.username === undefined || req.body.password === undefined;
 		
 		if (badRequest) {
@@ -34,11 +34,11 @@ module.exports = function (router) {
 			User.findOne({username : req.params.username}, function onFind(err, user) {
 				if (err) {
 					res.status(500).send(err);
-				} else if (!username) {
-					res.sendStatus(404);
+				} else if (!user) {
+					res.sendStatus(403);
 				} else {
 					if (cryptoHelper.verify(req.body.password, user.password)){
-						return user;
+						return user.token;
 					} else {
 						res.sendStatus(403);
 					}

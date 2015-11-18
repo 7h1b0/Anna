@@ -1,3 +1,5 @@
+'use strict';
+
 const request = require('request');
 
 module.exports = {
@@ -33,7 +35,7 @@ module.exports = {
 
 	getRoute(url, method, body) {
 
-    var route = {
+    let route = {
       headers:    this.header,
       method:     method || 'GET',
       url:        url,

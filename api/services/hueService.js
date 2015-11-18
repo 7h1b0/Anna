@@ -1,28 +1,24 @@
+'use strict';
+
 const request 			= require('./../services/requestService');
 const urlHelper 		= require('./../helpers/urlHelper');
 const SCENE_PREFIX 	= "anna";
 
-function HueService(config) {
-	this.config = config;
-}
-
-module.exports = function (hostname, username, port) {
-	const config = {
-		hostname: hostname,
-		username: username,
-		port: port || 80,
-		scene_prefix: SCENE_PREFIX
+class HueService {
+	constructor(hostname, username, port){
+		this.config = {
+			hostname,
+			username,
+			port,
+			scene_prefix: SCENE_PREFIX
+		}
 	}
-	return new HueService(config);
-};
-
-HueService.prototype = {
 
 	_getNextSceneId(cb) {
 		this.getScenes((err, result, scenes) => {
-			var maxId = -1;
+			let maxId = -1;
 			if (scenes) {
-				var ids = Object.keys(scenes);
+				let ids = Object.keys(scenes);
 				ids.forEach(id => {
 					if (id.startsWith(this.config.scene_prefix)) {
 						try {
@@ -35,19 +31,19 @@ HueService.prototype = {
 			maxId++;
 			cb(this.config.scene_prefix + "_" + maxId);
 		});
-	},
+	}
 
-  _toArray(jsonObject) {
+	_toArray(jsonObject) {
 		const ids = Object.keys(jsonObject);
-		var result = [];
+		let result = [];
 		ids.forEach(id => {
-			var object = jsonObject[id];
+			let object = jsonObject[id];
 			object.id = id;
 			result.push(object);
 		});
 
 		return result;
-   },
+  }
 
   getLights() {
 		const parameters = {
@@ -66,7 +62,7 @@ HueService.prototype = {
 				reject(err);
 			});
 		});
-  },
+  }
 
   getLight(id) {
 		const parameters = {
@@ -82,7 +78,7 @@ HueService.prototype = {
 				reject(err);
 			});
 		});
-	},
+	}
 
 	renameLight(id, name) {
 		const parameters = {
@@ -101,7 +97,7 @@ HueService.prototype = {
 				reject(err);
 			});
 		});
-	},
+	}
 
 	setLightState(id, body) {
 		const parameters = {
@@ -117,12 +113,13 @@ HueService.prototype = {
 				reject(err);
 			});
 		});
-	},
+	}
 
 	switchLight(id, on, cb) {
 		return this.setLightState(id, {
 			"on": on
 		});
 	}
-
 }
+
+module.exports = HueService;

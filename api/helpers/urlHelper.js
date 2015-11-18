@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = {
 	
 	getUrl(hostname, port, path, parameters) {
@@ -13,7 +15,7 @@ module.exports = {
   },
 
   extractParameters(url) {
-    var parameters  = [];
+    let parameters  = [];
     const matches   = url.match(/<[a-zA-Z_]+>/g);
 
     if (matches) {
@@ -28,7 +30,7 @@ module.exports = {
 
   getResolvedPath(path, parameters) {
     const requiredParameters = this.extractParameters(path);
-    var resolvedPath = path;
+    let resolvedPath = path;
 
     if (parameters === undefined && requiredParameters.length > 0) {
       const msgError = 'The required parameters are missing.'

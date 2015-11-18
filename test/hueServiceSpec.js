@@ -3,7 +3,8 @@ const sinon 					= require('sinon');
 const hostname				= 'localhost';
 const port 						= 1234;
 const username 				= '7h1b0'
-const HueService 			= require('./../api/services/hueService')(hostname, username, port);
+const HueService 			= require('./../api/services/hueService');
+const hueService 			= new HueService(hostname, username, port);
 const requestService	= require('./../api/services/requestService');
 
 describe('HueService', function () {
@@ -15,7 +16,7 @@ describe('HueService', function () {
 		it('does call requestService.get', function () {
 			var spy = sinon.spy(requestService, 'get');
 
-			HueService.getLights();
+			hueService.getLights();
 			expect(spy.calledOnce).to.be.true;
 			requestService.get.restore();
 		});
@@ -24,13 +25,13 @@ describe('HueService', function () {
 			var spy = sinon.spy(requestService, 'get');
 			const url = `http://${hostname}:${port}/api/${username}/lights`;
 
-			HueService.getLights();
+			hueService.getLights();
 			expect(spy.withArgs(url).calledOnce).to.be.true;
 			requestService.get.restore();
 		});
 
 		it('does return a Promise', function () {
-			expect(HueService.getLights()).to.be.instanceof(Promise);
+			expect(hueService.getLights()).to.be.instanceof(Promise);
 		});
 
 		it('does return an array of 2', function (done) {
@@ -40,7 +41,7 @@ describe('HueService', function () {
 				});
 			});
 
-			return HueService.getLights().then(function (lights) {
+			return hueService.getLights().then(function (lights) {
 				expect(lights).to.be.instanceof(Array).that.have.length(2);
 				done();
 				requestService.request.restore();
@@ -54,7 +55,7 @@ describe('HueService', function () {
 				});
 			});
 
-			return HueService.getLights().then(function (lights) {
+			return hueService.getLights().then(function (lights) {
 				expect(lights[0]).to.have.property('id');
 				expect(lights[1]).to.have.property('id');
 				done();
@@ -73,19 +74,19 @@ describe('HueService', function () {
 		});
 
 		it('does call requestService.get', function () {
-			HueService.getLight(1);
+			hueService.getLight(1);
 			expect(this.spy.calledOnce).to.be.true;
 		});
 
 		it('does call requestService.get with valid url', function () {
 			const url = `http://${hostname}:${port}/api/${username}/lights/1`;
 
-			HueService.getLight(1);
+			hueService.getLight(1);
 			expect(this.spy.withArgs(url).calledOnce).to.be.true;
 		});
 
 		it('does return a Promise', function () {
-			expect(HueService.getLight(1)).to.be.instanceof(Promise);
+			expect(hueService.getLight(1)).to.be.instanceof(Promise);
 		});
 	});
 
@@ -101,7 +102,7 @@ describe('HueService', function () {
 		});
 
 		it('does call requestService.put', function () {
-			HueService.renameLight(1, name);
+			hueService.renameLight(1, name);
 			expect(this.spy.calledOnce).to.be.true;
 		});
 
@@ -109,12 +110,12 @@ describe('HueService', function () {
 			const url = `http://${hostname}:${port}/api/${username}/lights/1`;
 			const body = {"name": name};
 
-			HueService.renameLight(1, name);
+			hueService.renameLight(1, name);
 			expect(this.spy.withArgs(url, body).calledOnce).to.be.true;
 		});
 
 		it('does return a Promise', function () {
-			expect(HueService.renameLight(1, name)).to.be.instanceof(Promise);
+			expect(hueService.renameLight(1, name)).to.be.instanceof(Promise);
 		});
 	});
 
@@ -130,40 +131,40 @@ describe('HueService', function () {
 		});
 
 		it('does call requestService.put', function () {
-			HueService.setLightState(1, state);
+			hueService.setLightState(1, state);
 			expect(this.spy.calledOnce).to.be.true;
 		});
 
 		it('does call requestService.put with valid arguments', function () {
 			const url = `http://${hostname}:${port}/api/${username}/lights/1/state`;
 
-			HueService.setLightState(1, state);
+			hueService.setLightState(1, state);
 			expect(this.spy.withArgs(url, state).calledOnce).to.be.true;
 		});
 
 		it('does return a Promise', function () {
-			expect(HueService.setLightState(1, state)).to.be.instanceof(Promise);
+			expect(hueService.setLightState(1, state)).to.be.instanceof(Promise);
 		});
 	});
 
 	describe('#switchLight', function () {
 		beforeEach(function () {
-			this.spy = sinon.spy(HueService, 'setLightState');
+			this.spy = sinon.spy(hueService, 'setLightState');
 		})
 
 		afterEach(function () {
-			HueService.setLightState.restore();
+			hueService.setLightState.restore();
 		});
 
 		it('does call setLightState', function () {
-			HueService.switchLight(1, true);
+			hueService.switchLight(1, true);
 			expect(this.spy.calledOnce).to.be.true;
 		});
 
 		it('does call with two argument', function () {
 			const state = {"on": true};
 
-			HueService.switchLight(1, true);
+			hueService.switchLight(1, true);
 			expect(this.spy.withArgs(1, state).calledOnce).to.be.true;
 		});
 	});

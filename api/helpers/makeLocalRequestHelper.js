@@ -1,3 +1,5 @@
+'use strict';
+
 const Url 		= require('./../helpers/urlHelper');
 const Request = require('./../services/requestService');
 
@@ -6,7 +8,7 @@ module.exports = function (actions, port, token) {
 		return;
 	}
 
-	var promises 		= [];
+	let promises 		= [];
 
 	actions.forEach(action => {
 		const url = Url.getUrl('localhost', port, action.path);

@@ -1,5 +1,7 @@
+'use strict';
+
 // Dependencies
-var app 			= require("express")();
+let app 			= require("express")();
 
 const bodyParser 	= require('body-parser');
 const mongoose 		= require('mongoose');
@@ -22,10 +24,9 @@ mongoose.connect(uri);
 // Setup Server
 app.use(bodyParser.json());
 app.listen(config.port);
-app.use(logMiddleware);
 
 // API
-app.all('/api/*', requireAuthentification)
+app.all('/api/*', requireAuthentification, logMiddleware);
 user(app);
 log(app);
 scene(app, config);

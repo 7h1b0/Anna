@@ -5,12 +5,10 @@ module.exports = function (router, config) {
 
 	router.route('/api/scene')
 		.get(function (req, res) {
-			Scene.find({}, function onFind(err, scenes) {
-				if (err) {
-					res.status(500).send(err);
-				} else {
-					res.send(scenes);
-				}
+			Scene.find({}).then(scenes => {
+				res.send(scenes);
+			}).catch(err => {
+				res.status(500).send(err);
 			});
 		})
 
@@ -26,67 +24,65 @@ module.exports = function (router, config) {
 					actions: req.body.actions
 				});
 
-				newScene.save(function onSave(err, scene) {
-					if (err) {
-						res.status(500).send(err);
-					} else {
-						res.send(scene);
-					}
+				newScene.save(scene => {
+					res.send(scene);
+				}).catch(err => {
+					res.status(500).send(err);
 				});
 			}
 		});
 
 	router.route('/api/scene/:id_scene([0-9a-z]{24})')
 		.get(function (req, res) {
-			Scene.findById(req.params.id_scene, function onFind(err, scene) {
-				if (err) {
-					res.status(500).send(err);
-				} else if (!scene) {
+			Scene.findById(req.params.id_scene).then(scene => {
+				if (!scene) {
 					res.sendStatus(404);
 				} else {
 					res.send(scene);
 				}
+			}).catch(err => {
+				res.status(500).send(err);
 			});
 		})
 
 		.put(function (req, res) {
-			Scene.findByIdAndUpdate(req.params.id_scene, req.body, {new: true}, function onUpdate(err, scene) {
-				if (err) {
-					res.status(500).send(err);
-				} else if (!scene) {
+			Scene.findByIdAndUpdate(req.params.id_scene, req.body, {new: true}).then(scene => {
+				if (!scene) {
 					res.sendStatus(404);
 				} else {
 					res.send(scene);
 				}
+			}).catch(err => {
+				res.status(500).send(err);
 			});
 		})
 
 		.delete(function (req, res) {
-			Scene.findByIdAndRemove(req.params.id_scene, function onRemove(err, scene) {
-				if (err) {
-					res.status(500).send(err);
-				} else if (!scene) {
+			Scene.findByIdAndRemove(req.params.id_scene).then(scene => {
+				if (!scene) {
 					res.sendStatus(404);
 				} else {
 					res.sendStatus(204);
 				}
+			}).catch(err => {
+				res.status(500).send(err);
 			});
 		});
 
 	router.route('/api/scene/:id_scene([0-9a-z]{24})/action')
 		.get(function (req, res) {
-			Scene.findById(req.params.id_scene, function onFind(err, scene) {
-				if (err) {
-					res.status(500).send(err);
-				} else if (!scene) {
+			Scene.findById(req.params.id_scene).then(scene => {
+				if (!scene) {
 					res.sendStatus(404);
 				} else {
 					makeLocalRequest(scene.actions, config.port, req.headers['x-access-token']).then(() => {
 						res.end();
-					}, err => {
+					}).catch(err => {
 						res.status(500).send(err);
 					});
 				}
+			}).catch(err => {
+				res.status(500).send(err);
 			});
 		});
 }

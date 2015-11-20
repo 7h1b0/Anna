@@ -14,25 +14,6 @@ class HueService {
 		}
 	}
 
-	_getNextSceneId(cb) {
-		this.getScenes((err, result, scenes) => {
-			let maxId = -1;
-			if (scenes) {
-				let ids = Object.keys(scenes);
-				ids.forEach(id => {
-					if (id.startsWith(this.config.scene_prefix)) {
-						try {
-							id = Number(id.substr(this.config.scene_prefix.length));
-							maxId = Math.max(id, maxId);
-						} catch (ignored) {}
-					}
-				});
-			}
-			maxId++;
-			cb(this.config.scene_prefix + "_" + maxId);
-		});
-	}
-
 	_toArray(jsonObject) {
 		const ids = Object.keys(jsonObject);
 		let result = [];
@@ -58,7 +39,7 @@ class HueService {
 					body = this._toArray(body);
 				}
 				resolve(body);
-			}, err => {
+			}).catch(err => {
 				reject(err);
 			});
 		});
@@ -74,7 +55,7 @@ class HueService {
 		return new Promise((resolve, reject) => {
 			request.get(url).then(body => {
 				resolve(body);
-			}, err => {
+			}).catch(err => {
 				reject(err);
 			});
 		});
@@ -93,7 +74,7 @@ class HueService {
 		return new Promise((resolve, reject) => {
 			request.put(url, body).then(body => {
 				resolve(body);
-			}, err => {
+			}).catch(err => {
 				reject(err);
 			});
 		});
@@ -109,7 +90,7 @@ class HueService {
 		return new Promise((resolve, reject) => {
 			request.put(url, body).then(body => {
 				resolve(body);
-			}, err => {
+			}).catch(err => {
 				reject(err);
 			});
 		});

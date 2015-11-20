@@ -5,18 +5,18 @@ module.exports = function (router) {
 
 	router.route('/api/log')
     .get(function (req, res) {
-      getQuery(DEFAULT_LIMIT).then(function (logs) {
+      getQuery(DEFAULT_LIMIT).then(logs => {
         res.send(logs);
-      }, function (err) {
+      }).catch(err => {
         res.status(500).send(err);
       });
    });
 
     router.route('/api/log/:limit([0-9]{1,3})')
       .get(function (req, res) {
-        getQuery(req.params.limit).then(function (logs) {
+        getQuery(req.params.limit).then(logs => {
           res.send(logs);
-        }, function (err) {
+        }).catch(err => {
           res.status(500).send(err);
         });
       });
@@ -27,14 +27,14 @@ module.exports = function (router) {
           res.sendStatus(400);
         }
           
-        Log.find(req.body, function onFind(err, logs) {
-          if (err) {
-            res.status(500).send(err); 
-          } else if (logs === undefined) {
+        Log.find(req.body).then(logs => {
+          if (!logs) {
             res.sendStatus(404);
           } else {
             res.send(logs);
           }
+        }).catch(err => {
+          res.status(500).send(err); 
         });
       });
 

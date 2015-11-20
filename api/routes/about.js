@@ -35,7 +35,7 @@ module.exports = function (router, config) {
             lights: values[3]
         }
         res.send(configuration);
-    }, err => {
+    }).catch(err => {
         res.status(500).send(err);
     });
   });

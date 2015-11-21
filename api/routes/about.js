@@ -2,7 +2,6 @@ module.exports = function (router, config) {
     
 	router.get('/api/os', function (req, res) {
     const os = require('os');
-      
   	res.json({
   		release: os.release(),
   		hostname: os.hostname(),
@@ -11,7 +10,7 @@ module.exports = function (router, config) {
   		loadavg: os.loadavg(),
   		totalmem: os.totalmem(),
   		freemem: os.freemem(),
-        nodejs: process.version    		
+      nodejs: process.version    		
   	});	
 	});
 

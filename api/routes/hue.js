@@ -43,22 +43,7 @@ module.exports = function (router, config) {
 			if (hasBody) {
 				state = req.body;
 			} else {
-				const bri = req.query.bri;
-				if (!isNaN(bri)) {
-					state.bri = parseInt(bri);
-				}
-
-				const sat = req.query.sat;
-				if (!isNaN(sat)) {
-					state.sat = parseInt(sat);
-				}
-
-				const xy = req.query.xy;
-				if (Array.isArray(xy)) {
-					state.xy = xy.map(item => {
-						return parseFloat(item);
-					});
-				}
+				state = getStateFromQuery(req.query);
 			}
 
 			if (Object.keys(state).length > 0) {
@@ -80,4 +65,30 @@ module.exports = function (router, config) {
 				res.status(500).send(err);
 			});
 		});
+
+	function getStateFromQuery(query){
+		let state = {};
+		const bri = query.bri;
+		if (!isNaN(bri)) {
+			state.bri = parseInt(bri);
+		}
+
+		const sat = query.sat;
+		if (!isNaN(sat)) {
+			state.sat = parseInt(sat);
+		}
+
+		const xy = query.xy;
+		if (Array.isArray(xy)) {
+			state.xy = xy.map(item => {
+				return parseFloat(item);
+			});
+		}
+
+		if (query.on) {
+			state.on = query.on == 'true';
+		}
+
+		return state;
+	}
 }

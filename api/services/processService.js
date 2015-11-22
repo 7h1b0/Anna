@@ -28,18 +28,16 @@ class ProcessService {
 		const device 	= at.device;
 		const script	= `./radioEmission ${device} ${status}`;
 
-		this.execute(script).then(function () {
+		this.execute(script).then(() => {
 			this.queue.splice(0,1);
 			this.run();
 		});
 	}
 
 	execute(script) {
-		return new Promise((resolve, reject) => {
-			exec(script, (error, stdout, stderr) => {
-				resolve();
-			});
-		})
+		return new Promise((resolve, reject) => 
+			exec(script, (error, stdout, stderr) => resolve())
+		);
 	}
 }
 

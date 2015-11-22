@@ -4,15 +4,13 @@ module.exports = function (router, config) {
 	const makeLocalRequest = require('./../helpers/makeLocalRequestHelper');
 
 	router.route('/api/scene')
-		.get(function (req, res) {
-			Scene.find({}).then(scenes => {
-				res.send(scenes);
-			}).catch(err => {
-				res.status(500).send(err);
-			});
+		.get((req, res) => {
+			Scene.find({})
+				.then(scenes => res.send(scenes))
+				.catch(err => res.status(500).send(err));
 		})
 
-		.post(function (req, res) {
+		.post((req, res) => {
 			const badRequest = req.body.actions === undefined || req.body.name === undefined;
 
 			if (badRequest) {
@@ -24,65 +22,53 @@ module.exports = function (router, config) {
 					actions: req.body.actions
 				});
 
-				newScene.save(scene => {
-					res.send(scene);
-				}).catch(err => {
-					res.status(500).send(err);
-				});
+				newScene.save()
+					.then(scene => res.status(201).send(scene))
+					.catch(err => res.status(500).send(err));
 			}
 		});
 
 	router.route('/api/scene/:id_scene([0-9a-z]{24})')
-		.get(function (req, res) {
+		.get((req, res) => {
 			Scene.findById(req.params.id_scene).then(scene => {
 				if (!scene) {
 					res.sendStatus(404);
 				} else {
 					res.send(scene);
 				}
-			}).catch(err => {
-				res.status(500).send(err);
-			});
+			}).catch(err => res.status(500).send(err));
 		})
 
-		.put(function (req, res) {
+		.put((req, res) => {
 			Scene.findByIdAndUpdate(req.params.id_scene, req.body, {new: true}).then(scene => {
 				if (!scene) {
 					res.sendStatus(404);
 				} else {
 					res.send(scene);
 				}
-			}).catch(err => {
-				res.status(500).send(err);
-			});
+			}).catch(err => res.status(500).send(err));
 		})
 
-		.delete(function (req, res) {
+		.delete((req, res) => {
 			Scene.findByIdAndRemove(req.params.id_scene).then(scene => {
 				if (!scene) {
 					res.sendStatus(404);
 				} else {
 					res.sendStatus(204);
 				}
-			}).catch(err => {
-				res.status(500).send(err);
-			});
+			}).catch(err => res.status(500).send(err));
 		});
 
 	router.route('/api/scene/:id_scene([0-9a-z]{24})/action')
-		.get(function (req, res) {
+		.get((req, res) => {
 			Scene.findById(req.params.id_scene).then(scene => {
 				if (!scene) {
 					res.sendStatus(404);
 				} else {
-					makeLocalRequest(scene.actions, config.port, req.headers['x-access-token']).then(() => {
-						res.end();
-					}).catch(err => {
-						res.status(500).send(err);
-					});
+					makeLocalRequest(scene.actions, config.port, req.headers['x-access-token'])
+						.then(() => res.end())
+						.catch(err => res.status(500).send(err));
 				}
-			}).catch(err => {
-				res.status(500).send(err);
-			});
+			}).catch(err => res.status(500).send(err));
 		});
 }

@@ -3,7 +3,7 @@ module.exports = function (router) {
 	const User 						= require('./../models/user');
 	const cryptoHelper 		= require('./../helpers/cryptoHelper');
 
-	router.post('/user', function (req, res) {
+	router.post('/user', (req, res) => {
 		const badRequest = req.body.username === undefined || req.body.password === undefined;
 		
 		if (badRequest) {
@@ -15,15 +15,13 @@ module.exports = function (router) {
 				token: cryptoHelper.random()
 			});
 
-			newUser.save().then(user => {
-				res.send(user);
-			}).catch(err => {
-				res.status(500).send(err);
-			});
+			newUser.save()
+				.then(user => res.status(201).send(user))
+				.catch(err => res.status(500).send(err));
 		}
 	});
 
-	router.post('/authentication', function (req, res) {
+	router.post('/authentication', (req, res) => {
 		const badRequest = req.body.username === undefined || req.body.password === undefined;
 		
 		if (badRequest) {
@@ -31,8 +29,7 @@ module.exports = function (router) {
 		} else {
 			User.findOne({username : req.body.username}).then(user => {
 				if (!user) {
-					console.log("user undefined ?");
-					res.sendStatus(403);
+					res.sendStatus(400);
 				} else {
 					if (cryptoHelper.verify(req.body.password, user.password)){
 						const copyUser = User({
@@ -43,26 +40,21 @@ module.exports = function (router) {
 
 						res.send(copyUser);
 					} else {
-						console.log("cryptoHelper ...");
-						res.sendStatus(403);
+						res.sendStatus(400);
 					}
 				}
-			}).catch(err => {
-				res.status(500).send(err);
-			});
+			}).catch(err => res.status(500).send(err));
 		}
 	});
 
-	router.get('/api/user', function (req, res) {
-		User.find({}).select('username').then(users => {
-			res.send(users);
-		}).catch(err => {
-			res.status(500).send(err);
-		})
+	router.get('/api/user', (req, res) => {
+		User.find({}).select('username')
+			.then(users => res.send(users))
+			.catch(err => res.status(500).send(err))
 	})
 
 	router.route('/api/user/:id_user([0-9a-z]{24})')
-		.put(function (req, res) {
+		.put((req, res) => {
 			const badRequest = req.body.password === undefined;
 			
 			if (badRequest) {
@@ -74,21 +66,17 @@ module.exports = function (router) {
 					} else {
 						res.sendStatus(204);
 					}
-				}).catch(err => {
-					res.status(500).send(err);
-				});
+				}).catch(err => res.status(500).send(err));
 			}
 		})
 
-		.delete(function (req, res) {
+		.delete((req, res) => {
 			User.findByIdAndRemove(req.params.id_user).then(user => {
 				if (!user) {
 					res.sendStatus(404);
 				} else {
 					res.sendStatus(204);
 				}
-			}).catch(err => {
-				res.status(500).send(err);
-			});
+			}).catch(err => res.status(500).send(err));
 		});
 }

@@ -4,25 +4,21 @@ module.exports = function (router) {
   const Log               = require('./../models/log');
 
 	router.route('/api/log')
-    .get(function (req, res) {
-      getQuery(DEFAULT_LIMIT).then(logs => {
-        res.send(logs);
-      }).catch(err => {
-        res.status(500).send(err);
-      });
+    .get((req, res) => {
+      getQuery(DEFAULT_LIMIT)
+        .then(logs => res.send(logs))
+        .catch(err => res.status(500).send(err));
    });
 
     router.route('/api/log/:limit([0-9]{1,3})')
-      .get(function (req, res) {
-        getQuery(req.params.limit).then(logs => {
-          res.send(logs);
-        }).catch(err => {
-          res.status(500).send(err);
-        });
+      .get((req, res) => {
+        getQuery(req.params.limit)
+          .then(logs => res.send(logs))
+          .catch(err => res.status(500).send(err));
       });
 
     router.route('/api/log/search')
-      .post(function (req, res) {
+      .post((req, res) => {
         if (req.body === undefined) {
           res.sendStatus(400);
         }
@@ -33,9 +29,7 @@ module.exports = function (router) {
           } else {
             res.send(logs);
           }
-        }).catch(err => {
-          res.status(500).send(err); 
-        });
+        }).catch(err => res.status(500).send(err));
       });
 
     function getQuery(limit) {

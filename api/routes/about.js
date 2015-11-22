@@ -1,6 +1,6 @@
 module.exports = function (router, config) {
     
-	router.get('/api/os', function (req, res) {
+	router.get('/api/os', (req, res) => {
     const os = require('os');
   	res.json({
   		release: os.release(),
@@ -14,12 +14,12 @@ module.exports = function (router, config) {
   	});	
 	});
 
-  router.get('/api/configuration', function (req, res) {
+  router.get('/api/configuration', (req, res) => {
     const Scene         = require('./../models/scene');
     const Timer         = require('./../models/timer');
     const Dio           = require('./../models/dio');
     const HueService    = require('./../services/hueService');
-    hueService          = new HueService(config.hue.hostname, config.hue.username);
+    const hueService    = new HueService(config.hue.hostname, config.hue.username);
 
     const getAllScene   = Scene.find({});
     const getAllTimer   = Timer.find({});
@@ -34,8 +34,6 @@ module.exports = function (router, config) {
             lights: values[3]
         }
         res.send(configuration);
-    }).catch(err => {
-        res.status(500).send(err);
-    });
+    }).catch(err => res.status(500).send(err));
   });
 }

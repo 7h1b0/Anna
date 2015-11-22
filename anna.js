@@ -19,6 +19,7 @@ const user			= require('./api/routes/user');
 
 // Setup Database
 const uri = `mongodb://${config.database.hostname}:${config.database.port}/${config.database.name}`;
+mongoose.Promise = global.Promise
 mongoose.connect(uri);
 
 // Setup Server

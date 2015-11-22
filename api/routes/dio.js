@@ -6,7 +6,7 @@ module.exports = function (router) {
 
 	router.route('/api/dio')
 
-		.get(function (req,res) {
+		.get((req,res) => {
 			Dio.find({}).then(dios => {
 				res.send(dios);
 			}).catch(err => {
@@ -14,7 +14,7 @@ module.exports = function (router) {
 			});
 		})
 
-		.post(function (req,res) {
+		.post((req,res) => {
 			const badRequest = req.body.id_dio === undefined || req.body.name === undefined;
 			
 			if (badRequest) {
@@ -25,29 +25,25 @@ module.exports = function (router) {
 					name: req.body.name
 				});
 
-				newDio.save().then(dio => {
-					res.send(dio);
-				}).catch(err => {
-					res.status(500).send(err);
-				});
+				newDio.save()
+					.then(dio => res.status(201).send(dio))
+					.catch(err => res.status(500).send(err));
 			}
 		});
 
 	router.route('/api/dio/:id_dio([0-9]{1,2})')
 
-		.get(function (req,res) {
+		.get((req,res) => {
 			Dio.findOne({id_dio: req.params.id_dio}).then(dio => {
 				if (!dio) {
 					res.sendStatus(404);
 				} else {
 					res.send(dio);
 				}
-			}).catch(err => {
-				res.status(500).send(err);
-			});
+			}).catch(err => res.status(500).send(err));
 		})
 
-		.put(function (req,res) {
+		.put((req,res) => {
 			if (req.body.name === undefined) {
 				res.sendStatus(400);
 			} else {
@@ -57,28 +53,24 @@ module.exports = function (router) {
 					} else {
 						res.send(dio);
 					}
-				}).catch(err => {
-					res.status(500).send(err);
-				});
+				}).catch(err => res.status(500).send(err));
 			}			
 		})
 
-		.delete(function (req, res) {
+		.delete((req, res) => {
 			Dio.findOneAndRemove({id_dio: req.params.id_dio}).then (dio => {
 				if (!dio) {
 					res.sendStatus(404);
 				} else {
 					res.sendStatus(204);
 				}
-			}).catch(err => {
-				res.status(500).send(err);
-			});
+			}).catch(err => res.status(500).send(err));
 		});
 
 
 	router.route('/api/dio/:id_dio([0-9]{1,2})/:status(on|off)')
 
-		.get(function (req, res) {
+		.get((req, res) => {
 			process.add(req.params.id_dio,req.params.status === 'on'); 
 			res.end();
 		});

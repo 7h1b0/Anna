@@ -39,9 +39,7 @@ class HueService {
 					body = this._toArray(body);
 				}
 				resolve(body);
-			}).catch(err => {
-				reject(err);
-			});
+			}).catch(err => reject(err));
 		});
   }
 
@@ -52,13 +50,7 @@ class HueService {
 		};
 		const url = urlHelper.getUrl(this.config.hostname, this.config.port, '/api/<username>/lights/<id>', parameters);
 
-		return new Promise((resolve, reject) => {
-			request.get(url).then(body => {
-				resolve(body);
-			}).catch(err => {
-				reject(err);
-			});
-		});
+		return request.get(url);
 	}
 
 	renameLight(id, name) {
@@ -71,13 +63,7 @@ class HueService {
 		};
 		const url = urlHelper.getUrl(this.config.hostname, this.config.port, '/api/<username>/lights/<id>', parameters);
 
-		return new Promise((resolve, reject) => {
-			request.put(url, body).then(body => {
-				resolve(body);
-			}).catch(err => {
-				reject(err);
-			});
-		});
+		return request.put(url, body);
 	}
 
 	setLightState(id, body) {
@@ -87,13 +73,7 @@ class HueService {
 		};
 		const url = urlHelper.getUrl(this.config.hostname, this.config.port, '/api/<username>/lights/<id>/state', parameters);
 
-		return new Promise((resolve, reject) => {
-			request.put(url, body).then(body => {
-				resolve(body);
-			}).catch(err => {
-				reject(err);
-			});
-		});
+		return request.put(url, body);
 	}
 
 	switchLight(id, on, cb) {

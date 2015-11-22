@@ -2,7 +2,7 @@ const expect 				= require('chai').expect;
 const sinon 				= require('sinon');
 const UrlHelper 		= require('./../api/helpers/urlHelper');
 
-describe('UrlHelper', function () {
+describe.only('UrlHelper', function () {
 
 	describe('.getUrl', function () {
 		const hostname 			= '7h1b0';
@@ -39,12 +39,12 @@ describe('UrlHelper', function () {
 	});
 	
 	describe('.extractParameters', function () {
-		it('does return an array of 2', function () {
+		it('does return an object with 2 keys', function () {
 			const path = '/api/<username>/<id>/<wrong/parameter>';
 			expect(UrlHelper.extractParameters(path)).to.be.instanceof(Array).that.have.length(2);
 		});
 
-		it('does return empty array', function () {
+		it('does return an empty object', function () {
 			const path = '/api/7h1b0';
 			expect(UrlHelper.extractParameters(path)).to.be.instanceof(Array).that.have.length(0);
 		});

@@ -30,45 +30,53 @@ module.exports = function (router, config) {
 
 	router.route('/api/scene/:id_scene([0-9a-z]{24})')
 		.get((req, res) => {
-			Scene.findById(req.params.id_scene).then(scene => {
-				if (!scene) {
-					res.sendStatus(404);
-				} else {
-					res.send(scene);
-				}
-			}).catch(err => res.status(500).send(err));
+			Scene.findById(req.params.id_scene)
+				.then(scene => {
+					if (!scene) {
+						res.sendStatus(404);
+					} else {
+						res.send(scene);
+					}
+				})
+				.catch(err => res.status(500).send(err));
 		})
 
 		.put((req, res) => {
-			Scene.findByIdAndUpdate(req.params.id_scene, req.body, {new: true}).then(scene => {
-				if (!scene) {
-					res.sendStatus(404);
-				} else {
-					res.send(scene);
-				}
-			}).catch(err => res.status(500).send(err));
+			Scene.findByIdAndUpdate(req.params.id_scene, req.body, {new: true})
+				.then(scene => {
+					if (!scene) {
+						res.sendStatus(404);
+					} else {
+						res.send(scene);
+					}
+				})
+				.catch(err => res.status(500).send(err));
 		})
 
 		.delete((req, res) => {
-			Scene.findByIdAndRemove(req.params.id_scene).then(scene => {
-				if (!scene) {
-					res.sendStatus(404);
-				} else {
-					res.sendStatus(204);
-				}
-			}).catch(err => res.status(500).send(err));
+			Scene.findByIdAndRemove(req.params.id_scene)
+				.then(scene => {
+					if (!scene) {
+						res.sendStatus(404);
+					} else {
+						res.sendStatus(204);
+					}
+				})
+				.catch(err => res.status(500).send(err));
 		});
 
 	router.route('/api/scene/:id_scene([0-9a-z]{24})/action')
 		.get((req, res) => {
-			Scene.findById(req.params.id_scene).then(scene => {
-				if (!scene) {
-					res.sendStatus(404);
-				} else {
-					makeLocalRequest(scene.actions, config.port, req.headers['x-access-token'])
-						.then(() => res.end())
-						.catch(err => res.status(500).send(err));
-				}
-			}).catch(err => res.status(500).send(err));
+			Scene.findById(req.params.id_scene)
+				.then(scene => {
+					if (!scene) {
+						res.sendStatus(404);
+					} else {
+						makeLocalRequest(scene.actions, config.port, req.headers['x-access-token'])
+							.then(() => res.end())
+							.catch(err => res.status(500).send(err));
+					}
+				})
+				.catch(err => res.status(500).send(err));
 		});
 }

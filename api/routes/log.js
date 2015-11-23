@@ -23,13 +23,15 @@ module.exports = function (router) {
           res.sendStatus(400);
         }
           
-        Log.find(req.body).then(logs => {
-          if (!logs) {
-            res.sendStatus(404);
-          } else {
-            res.send(logs);
-          }
-        }).catch(err => res.status(500).send(err));
+        Log.find(req.body)
+          .then(logs => {
+            if (!logs) {
+              res.sendStatus(404);
+            } else {
+              res.send(logs);
+            }
+          })
+          .catch(err => res.status(500).send(err));
       });
 
     function getQuery(limit) {

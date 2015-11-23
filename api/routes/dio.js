@@ -7,11 +7,9 @@ module.exports = function (router) {
 	router.route('/api/dio')
 
 		.get((req,res) => {
-			Dio.find({}).then(dios => {
-				res.send(dios);
-			}).catch(err => {
-				res.status(500).send(err);
-			});
+			Dio.find({})
+				.then(dios => res.send(dios))
+				.catch(err => res.status(500).send(err));
 		})
 
 		.post((req,res) => {
@@ -34,37 +32,43 @@ module.exports = function (router) {
 	router.route('/api/dio/:id_dio([0-9]{1,2})')
 
 		.get((req,res) => {
-			Dio.findOne({id_dio: req.params.id_dio}).then(dio => {
-				if (!dio) {
-					res.sendStatus(404);
-				} else {
-					res.send(dio);
-				}
-			}).catch(err => res.status(500).send(err));
+			Dio.findOne({id_dio: req.params.id_dio})
+				.then(dio => {
+					if (!dio) {
+						res.sendStatus(404);
+					} else {
+						res.send(dio);
+					}
+				})
+				.catch(err => res.status(500).send(err));
 		})
 
 		.put((req,res) => {
 			if (req.body.name === undefined) {
 				res.sendStatus(400);
 			} else {
-				Dio.findOneAndUpdate({id_dio: req.params.id_dio}, req.body, {new: true}).then(dio => {
-					if (!dio) {
-						res.sendStatus(404);
-					} else {
-						res.send(dio);
-					}
-				}).catch(err => res.status(500).send(err));
+				Dio.findOneAndUpdate({id_dio: req.params.id_dio}, req.body, {new: true})
+					.then(dio => {
+						if (!dio) {
+							res.sendStatus(404);
+						} else {
+							res.send(dio);
+						}
+					})
+					.catch(err => res.status(500).send(err));
 			}			
 		})
 
 		.delete((req, res) => {
-			Dio.findOneAndRemove({id_dio: req.params.id_dio}).then (dio => {
-				if (!dio) {
-					res.sendStatus(404);
-				} else {
-					res.sendStatus(204);
-				}
-			}).catch(err => res.status(500).send(err));
+			Dio.findOneAndRemove({id_dio: req.params.id_dio})
+				.then(dio => {
+					if (!dio) {
+						res.sendStatus(404);
+					} else {
+						res.sendStatus(204);
+					}
+				})
+				.catch(err => res.status(500).send(err));
 		});
 
 

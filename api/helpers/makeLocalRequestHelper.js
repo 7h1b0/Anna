@@ -8,7 +8,7 @@ module.exports = function (actions, port, token) {
 		return;
 	}
 
-	let promises 		= [];
+	let promises = [];
 
 	actions.forEach(action => {
 		const url = Url.getUrl('localhost', port, action.path);

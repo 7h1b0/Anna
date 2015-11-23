@@ -1,4 +1,6 @@
 module.exports = function (router, config) {
+
+  router.get('/anna', (req, res) => res.end());
     
 	router.get('/api/os', (req, res) => {
     const os = require('os');
@@ -26,14 +28,16 @@ module.exports = function (router, config) {
     const getAllDio     = Dio.find({});
     const getHueLights  = hueService.getLights();
 
-    Promise.all([getAllScene, getAllTimer, getAllDio, getHueLights]).then(values => {
+    Promise.all([getAllScene, getAllTimer, getAllDio, getHueLights])
+      .then(values => {
         const configuration = {
             scenes: values[0],
             timers: values[1],
             dios: values[2],
-            lights: values[3]
+            hueLights: values[3]
         }
         res.send(configuration);
-    }).catch(err => res.status(500).send(err));
+      })
+      .catch(err => res.status(500).send(err));
   });
 }

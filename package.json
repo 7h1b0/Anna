@@ -4,16 +4,16 @@
   "description": "A simple REST api for home automation",
   "main": "anna.js",
   "dependencies": {
-    "mongoose": "~4",
-    "express": "~4",
-    "body-parser": "~1",
-    "request": "~2"
+    "express": "4.x",
+    "mongoose": ">=4.1",
+    "body-parser": "1.x",
+    "request": "2.x"
   },
   "devDependencies": {
-    "chai": "^3.4.0",
-    "mocha": "^2.3.3",
-    "sinon": "^1.17.2",
-    "chai-as-promised": "^5.1.0"
+    "chai": "3.x",
+    "mocha": "2.x",
+    "sinon": "1.x",
+    "chai-as-promised": "5.x"
   },
   "scripts": {
     "test": "./node_modules/.bin/mocha --reporter dot"

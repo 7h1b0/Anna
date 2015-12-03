@@ -76,7 +76,7 @@ module.exports = function (router, config) {
 						const port = config.port;
 						const token = req.headers['x-access-token'];
 
-						makeLocalRequest(scene.actions.before, port, token);
+						makeLocalRequest(timer.actions.before, port, token);
 						setTimeout(makeLocalRequest, timer.time, timer.actions.after, port, token);
 						
 						res.send();

@@ -77,7 +77,9 @@ module.exports = function (router, config) {
 						const token = req.headers['x-access-token'];
 
 						makeLocalRequest(timer.actions.before, port, token);
-						setTimeout(makeLocalRequest, timer.time, timer.actions.after, port, token);
+						
+						const milliseconds = timer.time * 60 * 1000;
+						setTimeout(makeLocalRequest, milliseconds, timer.actions.after, port, token);
 						
 						res.send();
 					}

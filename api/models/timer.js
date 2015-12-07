@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const timer = new Schema({
   name: { type: String, required: true },
   description: { type: String },
-  time: { type: Number, required: true, min: 1000 },
+  time: { type: Number, required: true, min: 1 },
   actions: {
     before: [{
       path: { type: String },

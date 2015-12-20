@@ -21,7 +21,7 @@ module.exports = function (router, config) {
     const Timer         = require('./../models/timer');
     const Dio           = require('./../models/dio');
     const HueService    = require('./../services/hueService');
-    const hueService    = new HueService(config.hue.hostname, config.hue.username);
+    const hueService    = new HueService(config.hue.hostname, config.hue.username, config.hue.port);
 
     const getAllScene   = Scene.find({});
     const getAllTimer   = Timer.find({});

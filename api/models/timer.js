@@ -3,18 +3,18 @@ const Schema = mongoose.Schema;
 
 const timer = new Schema({
   name: { type: String, required: true },
-  description: { type: String },
+  description: String,
   time: { type: Number, required: true, min: 1 },
   actions: {
     before: [{
-      path: { type: String },
-      method: { type: String },
-      body: { type: String }
+      path: String,
+      method: String ,
+      body: String
     }],
     after: [{
-      path: { type: String },
-      method: { type: String },
-      body: { type: String }
+      path: String,
+      method: String,
+      body: String
     }]
   }
 });

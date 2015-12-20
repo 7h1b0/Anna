@@ -16,11 +16,16 @@ const timer			= require('./api/routes/timer');
 const dio 			= require('./api/routes/dio');
 const hue				= require('./api/routes/hue');
 const user			= require('./api/routes/user');
+const Prisme		= require('./api/jobs/prisme');
+const HueService = require('./api/services/hueService');
 
 // Setup Database
 const uri = `mongodb://${config.database.hostname}:${config.database.port}/${config.database.name}`;
 mongoose.Promise = global.Promise
 mongoose.connect(uri);
+
+// Setup Hue Service
+const hueService = new HueService(config.hue.hostname, config.hue.username, config.hue.port);
 
 // Setup Server
 app.use(bodyParser.json());
@@ -33,8 +38,9 @@ log(app);
 scene(app, config);
 timer(app, config);
 dio(app);
-hue(app, config.hue);
+hue(app, hueService);
 about(app, config);
+
 
 // Default Controller
 app.use((req, res) => res.status(404).end());

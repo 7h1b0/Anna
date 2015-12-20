@@ -1,9 +1,6 @@
 'use strict';
 
-module.exports = function (router, config) {
-
-	const HueService = require('./../services/hueService');
-	const hueService = new HueService(config.hostname, config.username, config.port);
+module.exports = function (router, hueService) {
 
 	router.route('/api/hue/light')
 		.get((req, res) => {

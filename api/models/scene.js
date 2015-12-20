@@ -3,11 +3,16 @@ const Schema = mongoose.Schema;
 
 const scene = new Schema({
   name: { type: String, required: true },
-  description: { type: String },
+  description: String,
   actions: [{
-  	path: { type: String },
-  	method: { type: String },
-  	body: { type: String }
+  	path: String,
+  	method: String,
+  	body: { 
+  		sat: Number,
+  		bri: Number,
+  		xy: Array,
+  		on: Boolean
+  	}
   }]
 });
 

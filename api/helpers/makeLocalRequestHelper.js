@@ -1,6 +1,5 @@
 'use strict';
 
-const Url 		= require('./../helpers/urlHelper');
 const Request = require('./../services/requestService');
 
 module.exports = function (actions, port, token) {
@@ -11,7 +10,7 @@ module.exports = function (actions, port, token) {
 	let promises = [];
 
 	actions.forEach(action => {
-		const url = Url.getUrl('localhost', port, action.path);
+		const url = `http://localhost:${port}${action.path}`;
 
 		switch(action.method){
 		case 'PUT':

@@ -1,37 +1,23 @@
 'use strict';
 
-const request 			= require('./../services/requestService');
-const urlHelper 		= require('./../helpers/urlHelper');
-const SCENE_PREFIX 	= "anna";
+const request = require('./../services/requestService');
 
 class HueService {
 	constructor(hostname, username, port){
-		this.config = {
-			hostname,
-			username,
-			port,
-			scene_prefix: SCENE_PREFIX
-		}
+		this.host = `http://${hostname}:${port}/api/${username}`;
 	}
 
 	_toArray(jsonObject) {
 		const ids = Object.keys(jsonObject);
-		let result = [];
-		ids.forEach(id => {
+		return ids.map(id => {
 			let object = jsonObject[id];
 			object.id = id;
-			result.push(object);
+			return object;
 		});
-
-		return result;
   }
 
   getLights() {
-		const parameters = {
-			username: this.config.username
-		};
-     
-    const url = urlHelper.getUrl(this.config.hostname, this.config.port, '/api/<username>/lights', parameters);
+    const url = `${this.host}/lights`;
 
 		return new Promise((resolve, reject) => {
 			request.get(url).then(body => {
@@ -44,42 +30,24 @@ class HueService {
   }
 
   getLight(id) {
-		const parameters = {
-			username: this.config.username,
-			id: id
-		};
-		const url = urlHelper.getUrl(this.config.hostname, this.config.port, '/api/<username>/lights/<id>', parameters);
-
+		const url = `${this.host}/lights/${id}`;
 		return request.get(url);
 	}
 
 	renameLight(id, name) {
-		const parameters = {
-			username: this.config.username,
-			id: id
-		};
-		const body = {
-			"name": name
-		};
-		const url = urlHelper.getUrl(this.config.hostname, this.config.port, '/api/<username>/lights/<id>', parameters);
+		const body = {name};
+		const url = `${this.host}/lights/${id}`;
 
 		return request.put(url, body);
 	}
 
 	setLightState(id, body) {
-		const parameters = {
-			username: this.config.username,
-			id: id
-		};
-		const url = urlHelper.getUrl(this.config.hostname, this.config.port, '/api/<username>/lights/<id>/state', parameters);
-
+		const url = `${this.host}/lights/${id}/state`;
 		return request.put(url, body);
 	}
 
-	switchLight(id, on, cb) {
-		return this.setLightState(id, {
-			"on": on
-		});
+	switchLight(id, on) {
+		return this.setLightState(id, {on});
 	}
 }
 

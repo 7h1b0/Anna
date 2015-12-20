@@ -2,7 +2,7 @@
   "name": "Anna-API",
   "version": "2.0.0",
   "description": "A simple REST api for home automation",
-  "main": "anna.js",
+  "main": "server.js",
   "dependencies": {
     "express": "4.x",
     "mongoose": ">=4.1",

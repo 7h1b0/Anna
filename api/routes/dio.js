@@ -39,8 +39,7 @@ module.exports = function (router) {
 					} else {
 						res.send(dio);
 					}
-				})
-				.catch(err => res.status(500).send(err));
+				}).catch(err => res.status(500).send(err));
 		})
 
 		.put((req,res) => {
@@ -54,8 +53,7 @@ module.exports = function (router) {
 						} else {
 							res.send(dio);
 						}
-					})
-					.catch(err => res.status(500).send(err));
+					}).catch(err => res.status(500).send(err));
 			}			
 		})
 
@@ -67,8 +65,7 @@ module.exports = function (router) {
 					} else {
 						res.sendStatus(204);
 					}
-				})
-				.catch(err => res.status(500).send(err));
+				}).catch(err => res.status(500).send(err));
 		});
 
 

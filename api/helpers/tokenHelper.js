@@ -12,8 +12,7 @@ module.exports = {
 					} else {
 						resolve(user);
 					}
-				})
-				.catch(err => reject());
+				}).catch(err => reject());
 		});
 	},
 
@@ -27,8 +26,7 @@ module.exports = {
 					} else {
 						resolve(user);
 					}
-				})
-				.catch(err => reject());
+				}).catch(err => reject());
 		});
 	}
 }

@@ -30,14 +30,12 @@ module.exports = function (router, config) {
 
     Promise.all([getAllScene, getAllTimer, getAllDio, getHueLights])
       .then(values => {
-        const configuration = {
+        res.send({
             scenes: values[0],
             timers: values[1],
             dios: values[2],
             hueLights: values[3]
-        }
-        res.send(configuration);
-      })
-      .catch(err => res.status(500).send(err));
+        });
+      }).catch(err => res.status(500).send(err));
   });
 }

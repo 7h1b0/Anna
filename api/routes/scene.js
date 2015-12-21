@@ -68,15 +68,8 @@ module.exports = function (router, config) {
 	router.route('/api/scene/:id_scene([0-9a-z]{24})/action')
 		.get((req, res) => {
 			Scene.findById(req.params.id_scene)
-				.then(scene => {
-					if (!scene) {
-						res.sendStatus(404);
-					} else {
-						makeLocalRequest(scene.actions, config.port, req.headers['x-access-token'])
-							.then(() => res.end())
-							.catch(err => res.status(500).send(err));
-					}
-				})
+				.then(scene => makeLocalRequest(scene.actions, config.port, req.headers['x-access-token']))
+				.then(() => res.end())
 				.catch(err => res.status(500).send(err));
 		});
 }

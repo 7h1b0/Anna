@@ -6,13 +6,7 @@ const scene = new Schema({
   description: String,
   actions: [{
   	path: String,
-  	method: String,
-  	body: { 
-  		sat: Number,
-  		bri: Number,
-  		xy: Array,
-  		on: Boolean
-  	}
+  	method: String
   }]
 });
 

@@ -16,7 +16,6 @@ const timer			= require('./api/routes/timer');
 const dio 			= require('./api/routes/dio');
 const hue				= require('./api/routes/hue');
 const user			= require('./api/routes/user');
-const Prisme		= require('./api/jobs/prisme');
 const HueService = require('./api/services/hueService');
 
 // Setup Database

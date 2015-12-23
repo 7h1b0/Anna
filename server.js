@@ -42,5 +42,5 @@ about(app, config);
 
 
 // Default Controller
-app.use((req, res) => res.status(404).end());
+app.use((req, res) => res.sendStatus(404));
 

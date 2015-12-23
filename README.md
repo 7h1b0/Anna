@@ -7,16 +7,12 @@ REST API for home automation using NodeJS and MongoDB
 
 ## Required
 
-* NodeJS >=4.x
-* MongoDB >=2.2
+* NodeJS >= 4.x
+* MongoDB >= 2.2
 
 ## Installation
 
 1. ```./Anna-API/npm install ```
-2. Change config.js
-3. ```./Anna-API/node anna.js ```
+2. Change config.js to fit your configuration
+3. ```./Anna-API/npm run start ```
 
-
-## Developer
-
-* 7h1b0

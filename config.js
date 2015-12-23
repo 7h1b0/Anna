@@ -7,6 +7,7 @@ module.exports = {
 	},
 	'hue': {
 		'hostname': 'xxx.xxx.xxx.xxx',
+		'port': 45,
 		'username': 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 	}
 };

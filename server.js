@@ -14,7 +14,7 @@ const about 		= require('./api/routes/about');
 const scene			= require('./api/routes/scene');
 const timer			= require('./api/routes/timer');
 const dio 			= require('./api/routes/dio');
-const hue				= require('./api/routes/hue');
+const hueLight	= require('./api/routes/hueLight');
 const user			= require('./api/routes/user');
 const HueService = require('./api/services/hueService');
 
@@ -37,7 +37,7 @@ log(app);
 scene(app, config);
 timer(app, config);
 dio(app);
-hue(app, hueService);
+hueLight(app, hueService);
 about(app, config);
 
 

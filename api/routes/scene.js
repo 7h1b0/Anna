@@ -3,7 +3,7 @@ module.exports = function (router, config) {
 	const Scene 				= require('./../models/scene');
 	const makeLocalRequest = require('./../helpers/makeLocalRequestHelper');
 
-	router.route('/api/scene')
+	router.route('/api/scenes')
 		.get((req, res) => {
 			Scene.find({})
 				.then(scenes => res.send(scenes))
@@ -28,7 +28,7 @@ module.exports = function (router, config) {
 			}
 		});
 
-	router.route('/api/scene/:id_scene([0-9a-z]{24})')
+	router.route('/api/scenes/:id_scene([0-9a-z]{24})')
 		.get((req, res) => {
 			Scene.findById(req.params.id_scene)
 				.then(scene => {
@@ -65,11 +65,10 @@ module.exports = function (router, config) {
 				.catch(err => res.status(500).send(err));
 		});
 
-	router.route('/api/scene/:id_scene([0-9a-z]{24})/action')
-		.get((req, res) => {
-			Scene.findById(req.params.id_scene)
-				.then(scene => makeLocalRequest(scene.actions, config.port, req.headers['x-access-token']))
-				.then(() => res.end())
-				.catch(err => res.status(500).send(err));
+	router.get('/api/scenes/:id_scene([0-9a-z]{24})/action', (req, res) => {
+		Scene.findById(req.params.id_scene)
+			.then(scene => makeLocalRequest(scene.actions, config.port, req.headers['x-access-token']))
+			.then(() => res.end())
+			.catch(err => res.status(500).send(err));
 		});
 }

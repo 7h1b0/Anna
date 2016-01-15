@@ -2,14 +2,14 @@
 
 module.exports = function (router, hueService) {
 
-	router.route('/api/hue/light')
+	router.route('/api/hue/lights')
 		.get((req, res) => {
 			hueService.getLights()
 				.then(lights => res.send(lights))
 				.catch(err => res.status(500).send(err));
 		})
 
-	router.route('/api/hue/light/:id_light([0-9]{1,2})')
+	router.route('/api/hue/lights/:id_light([0-9]{1,2})')
 		.get((req, res) => {
 			hueService.getLight(req.params.id_light)
 				.then(light => res.send(light))
@@ -26,32 +26,30 @@ module.exports = function (router, hueService) {
 			}	
 		})
 
-	router.route('/api/hue/light/:id_light([0-9]{1,2})/state')
-		.put((req, res) => {
-			let state = {};
+	router.put('/api/hue/lights/:id_light([0-9]{1,2})/state', (req, res) => {
+		let state = {};
 
-			const hasBody = req.body && Object.keys(req.body).length > 0;
-			if (hasBody) {
-				state = req.body;
-			} else {
-				state = getStateFromQuery(req.query);
-			}
+		const hasBody = req.body && Object.keys(req.body).length > 0;
+		if (hasBody) {
+			state = req.body;
+		} else {
+			state = getStateFromQuery(req.query);
+		}
 
-			if (Object.keys(state).length > 0) {
-				hueService.setLightState(req.params.id_light, state)
-					.then(result => res.send(result))
-					.catch(err => res.status(500).send(err));
-			} else {
-				res.sendStatus(400);
-			}
-		});
-
-	router.route('/api/hue/light/:id_light([0-9]{1,2})/:status(on|off)')
-		.get(function (req, res) {
-			hueService.switchLight(req.params.id_light, req.params.status === 'on')
+		if (Object.keys(state).length > 0) {
+			hueService.setLightState(req.params.id_light, state)
 				.then(result => res.send(result))
 				.catch(err => res.status(500).send(err));
-		});
+		} else {
+			res.sendStatus(400);
+		}
+	});
+
+	router.get('/api/hue/lights/:id_light([0-9]{1,2})/:status(on|off)', (req, res) => {
+		hueService.switchLight(req.params.id_light, req.params.status === 'on')
+			.then(result => res.send(result))
+			.catch(err => res.status(500).send(err));
+	});
 
 	function getStateFromQuery(query){
 		let state = {};

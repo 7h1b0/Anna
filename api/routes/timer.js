@@ -1,9 +1,9 @@
 module.exports = function (router, config) {
 
-	const Timer 				= require('./../models/timer');
+	const Timer            = require('./../models/timer');
 	const makeLocalRequest = require('./../helpers/makeLocalRequestHelper');
 
-	router.route('/api/timer')
+	router.route('/api/timers')
 		.get((req, res) => {
 			Timer.find({})
 				.then(timers => res.send(timers))
@@ -29,7 +29,7 @@ module.exports = function (router, config) {
 			}
 		});
 
-	router.route('/api/timer/:id_timer([0-9a-z]{24})')
+	router.route('/api/timers/:id_timer([0-9a-z]{24})')
 		.get((req, res) => {
 			Timer.findById(req.params.id_timer)
 				.then(timer => {
@@ -66,24 +66,23 @@ module.exports = function (router, config) {
 				.catch(err => res.status(500).send(err));
 		});
 
-	router.route('/api/timer/:id_timer([0-9a-z]{24})/action')
-		.get((req, res) => {
-			Timer.findById(req.params.id_timer)
-				.then(timer => {
-					if (timer === undefined) {
-						res.sendStatus(404);
-					} else {
-						const port = config.port;
-						const token = req.headers['x-access-token'];
+	router.get('/api/timers/:id_timer([0-9a-z]{24})/action', (req, res) => {
+		Timer.findById(req.params.id_timer)
+			.then(timer => {
+				if (timer === undefined) {
+					res.sendStatus(404);
+				} else {
+					const port  = config.port;
+					const token = req.headers['x-access-token'];
 
-						makeLocalRequest(timer.actions.before, port, token);
-						
-						const milliseconds = timer.time * 60 * 1000;
-						setTimeout(makeLocalRequest, milliseconds, timer.actions.after, port, token);
-						
-						res.send();
-					}
-				})
-				.catch(err => res.status(500).send(err));
+					makeLocalRequest(timer.actions.before, port, token);
+					
+					const milliseconds = timer.time * 60 * 1000;
+					setTimeout(makeLocalRequest, milliseconds, timer.actions.after, port, token);
+					
+					res.send();
+				}
+			})
+			.catch(err => res.status(500).send(err));
 		});
 }

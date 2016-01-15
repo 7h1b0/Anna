@@ -4,8 +4,7 @@ module.exports = function (router) {
 	const Dio 						= require('./../models/dio.js');
 	const process 				= new processService();
 
-	router.route('/api/dio')
-
+	router.route('/api/dios')
 		.get((req,res) => {
 			Dio.find({})
 				.then(dios => res.send(dios))
@@ -29,8 +28,7 @@ module.exports = function (router) {
 			}
 		});
 
-	router.route('/api/dio/:id_dio([0-9]{1,2})')
-
+	router.route('/api/dios/:id_dio([0-9]{1,2})')
 		.get((req,res) => {
 			Dio.findOne({id_dio: req.params.id_dio})
 				.then(dio => {
@@ -69,11 +67,9 @@ module.exports = function (router) {
 		});
 
 
-	router.route('/api/dio/:id_dio([0-9]{1,2})/:status(on|off)')
-
-		.get((req, res) => {
-			process.add(req.params.id_dio,req.params.status === 'on'); 
-			res.end();
-		});
+	router.get('/api/dios/:id_dio([0-9]{1,2})/:status(on|off)', (req, res) => {
+		process.add(req.params.id_dio,req.params.status === 'on'); 
+		res.end();
+	});
 
 }

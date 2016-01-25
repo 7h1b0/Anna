@@ -1,6 +1,6 @@
 module.exports = function (router, config) {
 
-	const Scene 				= require('./../models/scene');
+	const Scene 				   = require('./../models/scene');
 	const makeLocalRequest = require('./../helpers/makeLocalRequestHelper');
 
 	router.route('/api/scenes')

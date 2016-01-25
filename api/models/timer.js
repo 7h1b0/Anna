@@ -8,12 +8,12 @@ const timer = new Schema({
     before: [{
       path: String,
       method: String ,
-      body: Mixed
+      body: Object
     }],
     after: [{
       path: String,
       method: String,
-      body: Mixed
+      body: Object
     }]
   }
 });

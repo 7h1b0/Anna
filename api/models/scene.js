@@ -6,7 +6,7 @@ const scene = new Schema({
   actions: [{
   	path: String,
   	method: String,
-  	body: Mixed
+  	body: Object
   }]
 });
 

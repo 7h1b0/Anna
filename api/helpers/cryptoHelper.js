@@ -4,17 +4,21 @@ const salt = 'xxxxxxxxxxxxxx';
 
 module.exports = {
 
-	hash(password){
+	hash(password) {
 		return crypto.createHmac(algorithm, salt).update(password).digest('hex');
 	},
 
-	verify(password, hashedPassword){
+	verify(password, hashedPassword) {
 		return this.hash(password) === hashedPassword;
 	},
 
-	random(length){
-		length = length || 24;
-		return crypto.randomBytes(Math.ceil(length / 2)).toString('hex');
+	random(length) {
+		return new Promise((resolve, reject) => {
+			length = length || 24;
+			crypto.randomBytes(Math.ceil(length / 2), (err, buf) => {
+				err ? reject(err) : resolve(buf.toString('hex'));
+			});
+		});
 	}
 }
 

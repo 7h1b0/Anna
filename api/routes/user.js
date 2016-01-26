@@ -9,14 +9,15 @@ module.exports = function (router) {
 		if (badRequest) {
 			res.sendStatus(400);	
 		} else {
-			const newUser = User({
-				username: req.body.username,
-				password: cryptoHelper.hash(req.body.password),
-				token: cryptoHelper.random()
-			});
-
-			newUser.save()
-				.then(user => res.status(201).send(user))
+			cryptoHelper.random()
+				.then(token => {
+					const newUser = User({
+						username: req.body.username,
+						password: cryptoHelper.hash(req.body.password),
+						token
+					});
+					return newUser.save();
+				}).then(user => res.status(201).send(user))
 				.catch(err => res.status(500).send(err));
 		}
 	});

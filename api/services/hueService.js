@@ -3,11 +3,10 @@
 const request = require('./requestService');
 
 class HueService {
-	constructor(hostname, username, port){
+	constructor(hostname, username){
 		this.hostname = hostname;
 		this.username = username;
-		this.port = port;
-		this.host = `http://${hostname}:${port}/api/${username}`;
+		this.host = `http://${hostname}/api/${username}`;
 	}
 
 	_toArray(jsonObject) {
@@ -31,10 +30,6 @@ class HueService {
 
   getUsername() {
   	return this.username;
-  }
-
-  getPort() {
-  	return this.port;
   }
 
   // -----------------------------------------

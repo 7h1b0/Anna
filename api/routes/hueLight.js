@@ -27,16 +27,10 @@ module.exports = function (router, hueService) {
 		})
 
 	router.put('/api/hue/lights/:id_light([0-9]{1,2})/state', (req, res) => {
-		let state = {};
+		const hasBody = req.body && hasProperties(req.body);
+		const state = hasBody ? getState(req.body) : getState(req.query);
 
-		const hasBody = req.body && Object.keys(req.body).length > 0;
-		if (hasBody) {
-			state = req.body;
-		} else {
-			state = getStateFromQuery(req.query);
-		}
-
-		if (Object.keys(state).length > 0) {
+		if (hasProperties(state)) {
 			hueService.setLightState(req.params.id_light, state)
 				.then(result => res.send(result))
 				.catch(err => res.status(500).send(err));
@@ -51,27 +45,34 @@ module.exports = function (router, hueService) {
 			.catch(err => res.status(500).send(err));
 	});
 
-	function getStateFromQuery(query){
+	function hasProperties(object) {
+		return Object.keys(object).length > 0
+	}
+
+	function getState(body){
 		let state = {};
-		const bri = query.bri;
+
+		if (body.on !== undefined) {
+			state.on = typeof body.on == 'string' ? body.on == 'true' : body.on;
+
+			if (!state.on) {
+				return state;
+			}
+		}
+
+		const bri = body.bri;
 		if (!isNaN(bri)) {
 			state.bri = parseInt(bri);
 		}
 
-		const sat = query.sat;
+		const sat = body.sat;
 		if (!isNaN(sat)) {
 			state.sat = parseInt(sat);
 		}
 
-		const xy = query.xy;
+		const xy = body.xy;
 		if (Array.isArray(xy)) {
-			state.xy = xy.map(item => {
-				return parseFloat(item);
-			});
-		}
-
-		if (query.on) {
-			state.on = query.on == 'true';
+			state.xy = xy.map(item => parseFloat(item));
 		}
 
 		return state;

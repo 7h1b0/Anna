@@ -1,4 +1,4 @@
-module.exports = function (router) {
+module.exports = router => {
 
 	const processService 	= require('./../services/processService');
 	const Dio 						= require('./../models/dio.js');

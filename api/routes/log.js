@@ -1,4 +1,4 @@
-module.exports = function (router) {
+module.exports = router => {
 
   const DEFAULT_LIMIT     = 20;
   const Log               = require('./../models/log');
@@ -28,13 +28,13 @@ module.exports = function (router) {
           res.send(logs);
         }
       }).catch(err => res.status(500).send(err));
-    });
+  });
 
-    function getQuery(limit) {
-      if (limit === undefined) {
-        limit = DEFAULT_LIMIT;
-      }
-
-      return Log.find({}).sort({'date': 'desc'}).limit(limit);
+  function getQuery(limit) {
+    if (limit === undefined) {
+      limit = DEFAULT_LIMIT;
     }
+
+    return Log.find({}).sort({'date': 'desc'}).limit(limit);
+  }
 }

@@ -1,4 +1,4 @@
-module.exports = function (router) {
+module.exports = router => {
 
 	const User 						= require('./../models/user');
 	const cryptoHelper 		= require('./../helpers/cryptoHelper');

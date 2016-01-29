@@ -1,4 +1,4 @@
-module.exports = function (router, config) {
+module.exports = (router, config) => {
   router.get('/anna', (req, res) => res.end());
     
 	router.get('/api/os', (req, res) => {

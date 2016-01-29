@@ -1,4 +1,4 @@
-module.exports = function (router, config) {
+module.exports = (router, config) => {
 
 	const Scene 				= require('./../models/scene');
 	const makeLocalRequest = require('./../helpers/makeLocalRequestHelper');

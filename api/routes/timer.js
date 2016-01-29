@@ -1,4 +1,4 @@
-module.exports = function (router, config) {
+module.exports = (router, config) => {
 
 	const Timer            = require('./../models/timer');
 	const makeLocalRequest = require('./../helpers/makeLocalRequestHelper');

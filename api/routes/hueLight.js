@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function (router, hueService) {
+module.exports = (router, hueService) => {
 
 	router.route('/api/hue/lights')
 		.get((req, res) => {

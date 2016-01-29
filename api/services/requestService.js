@@ -38,8 +38,8 @@ module.exports = {
     let route = {
       headers:    this.header,
       method:     method || 'GET',
-      url:        url,
-      timeout:    2000
+      timeout:    2000,
+      url
     };
 
     if (body) {
@@ -62,11 +62,7 @@ module.exports = {
 					err = body[0].error;
 				}
 
-				if (err) {
-					reject(err);
-				} else {
-					resolve(body);
-				}
+				err ? reject(err) : resolve(body);
 			});
 		});
 	}

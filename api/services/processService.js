@@ -1,16 +1,15 @@
 'use strict';
-
 const exec = require('child_process').exec;
 
 class ProcessService {
-	constructor(){
+	constructor() {
 		this.queue = [];
 	}
 
 	add(device, switchOn) {		
 		this.queue.push({
-			device :   device,
-			switchOn : switchOn
+			device,
+			switchOn
 		});
 
 		if (this.queue.length == 1) {
@@ -19,7 +18,7 @@ class ProcessService {
 	}
 
 	run() {
-		if (this.queue.length < 1) {
+		if (this.queue.length == 0) {
 			return;
 		}
 
@@ -31,7 +30,7 @@ class ProcessService {
 		this.execute(script)
 			.catch(error => console.log(error))
 			.then(() => {
-				this.queue.splice(0,1);
+				this.queue.shift();
 				this.run();
 			});
 	}

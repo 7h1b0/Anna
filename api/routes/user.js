@@ -11,7 +11,7 @@ module.exports = router => {
 		} else {
 			cryptoHelper.random()
 				.then(token => {
-					const newUser = User({
+					const newUser = new User({
 						username: req.body.username,
 						password: cryptoHelper.hash(req.body.password),
 						token
@@ -33,7 +33,7 @@ module.exports = router => {
 					if (!user) {
 						res.sendStatus(400);
 					} else {
-						if (cryptoHelper.verify(req.body.password, user.password)){
+						if (cryptoHelper.verify(req.body.password, user.password)) {
 							const copyUser = User({
 								_id: user._id,
 								username: user.username,
@@ -45,8 +45,7 @@ module.exports = router => {
 							res.sendStatus(400);
 						}
 					}
-				})
-				.catch(err => res.status(500).send(err));
+				}).catch(err => res.status(500).send(err));
 		}
 	});
 
@@ -58,9 +57,7 @@ module.exports = router => {
 
 	router.route('/api/user/:id_user([0-9a-z]{24})')
 		.put((req, res) => {
-			const badRequest = req.body.password === undefined;
-			
-			if (badRequest) {
+			if (req.body.password === undefined) {
 				res.sendStatus(400);	
 			} else {
 				User.findByIdAndUpdate(req.params.id_user, req.body.password, {new: true})
@@ -70,8 +67,7 @@ module.exports = router => {
 						} else {
 							res.sendStatus(204);
 						}
-					})
-					.catch(err => res.status(500).send(err));
+					}).catch(err => res.status(500).send(err));
 			}
 		})
 
@@ -83,7 +79,6 @@ module.exports = router => {
 					} else {
 						res.sendStatus(204);
 					}
-				})
-				.catch(err => res.status(500).send(err));
+				}).catch(err => res.status(500).send(err));
 		});
 }

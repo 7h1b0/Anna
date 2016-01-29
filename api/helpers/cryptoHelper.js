@@ -3,7 +3,6 @@ const algorithm = 'sha1';
 const salt = 'xxxxxxxxxxxxxx';
 
 module.exports = {
-
 	hash(password) {
 		return crypto.createHmac(algorithm, salt).update(password).digest('hex');
 	},

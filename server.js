@@ -26,7 +26,7 @@ mongoose.Promise = global.Promise
 mongoose.connect(uri);
 
 // Setup Hue Service
-const hueService = new HueService(config.hue.hostname, config.hue.username, config.hue.port);
+const hueService = new HueService(config.hue.hostname, config.hue.username);
 
 // Setup Server
 app.use(bodyParser.json());

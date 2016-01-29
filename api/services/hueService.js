@@ -3,7 +3,7 @@
 const request = require('./requestService');
 
 class HueService {
-	constructor(hostname, username){
+	constructor(hostname, username) {
 		this.hostname = hostname;
 		this.username = username;
 		this.host = `http://${hostname}/api/${username}`;

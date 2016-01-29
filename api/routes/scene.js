@@ -16,7 +16,7 @@ module.exports = (router, config) => {
 			if (badRequest) {
 				res.sendStatus(400);	
 			} else {
-				const newScene = Scene({
+				const newScene = new Scene({
 					name: req.body.name,
 					description: req.body.description,
 					actions: req.body.actions

@@ -16,7 +16,7 @@ module.exports = (router, config) => {
 			if (badRequest) {
 				res.sendStatus(400);	
 			} else {
-				const newTimer = Timer({
+				const newTimer = new Timer({
 					name: req.body.name,
 					description: req.body.description,
 					time: req.body.time,

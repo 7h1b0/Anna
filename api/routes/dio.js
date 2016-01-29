@@ -17,7 +17,7 @@ module.exports = router => {
 			if (badRequest) {
 				res.sendStatus(400);	
 			} else {
-				const newDio = Dio({
+				const newDio = new Dio({
 					id_dio: req.body.id_dio,
 					name: req.body.name
 				});

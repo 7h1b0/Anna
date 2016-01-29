@@ -6,17 +6,19 @@ let app 			= require("express")();
 const bodyParser 	= require('body-parser');
 const mongoose 		= require('mongoose');
 
-const config 		= require('./config');
+const config 		    = require('./config');
 const logMiddleware = require('./api/middlewares/logMiddlewares');
 const requireAuthentification = require('./api/middlewares/authentificationMiddlewares');
-const log 			= require('./api/routes/log');
-const about 		= require('./api/routes/about');
-const scene			= require('./api/routes/scene');
-const timer			= require('./api/routes/timer');
-const dio 			= require('./api/routes/dio');
-const hueLight	= require('./api/routes/hueLight');
-const user			= require('./api/routes/user');
-const HueService = require('./api/services/hueService');
+const log 			   = require('./api/routes/log');
+const about 		   = require('./api/routes/about');
+const scene			   = require('./api/routes/scene');
+const timer			   = require('./api/routes/timer');
+const dio 			   = require('./api/routes/dio');
+const hueLight	   = require('./api/routes/hueLight');
+const hueScene	   = require('./api/routes/hueScene');
+const hueSchedules = require('./api/routes/hueSchedules');
+const user			   = require('./api/routes/user');
+const HueService   = require('./api/services/hueService');
 
 // Setup Database
 const uri = `mongodb://${config.database.hostname}:${config.database.port}/${config.database.name}`;
@@ -38,6 +40,8 @@ scene(app, config);
 timer(app, config);
 dio(app);
 hueLight(app, hueService);
+hueScene(app, hueService);
+hueSchedules(app, hueService);
 about(app, config);
 
 

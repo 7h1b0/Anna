@@ -1,26 +1,12 @@
 'use strict';
-
 const request = require('./requestService');
 
 class HueService {
 	constructor(hostname, username) {
 		this.hostname = hostname;
 		this.username = username;
-		this.host = `http://${hostname}/api/${username}`;
+		this.api = `http://${hostname}/api/${username}`;
 	}
-
-	_toArray(jsonObject) {
-		const ids = Object.keys(jsonObject);
-		return ids.map(id => {
-			let object = jsonObject[id];
-			object.id = id;
-			return object;
-		});
-  }
-
-  _extractId(jsonArray) {
-  	return jsonArray[0].success.id;
-  }
 
   // -----------------------------------------
   // Getters
@@ -35,32 +21,28 @@ class HueService {
   // -----------------------------------------
   // Lights API
   getLights() {
-    const url = `${this.host}/lights`;
 		return new Promise((resolve, reject) => {
-			request.get(url).then(body => {
-				if (body) {
-					body = this._toArray(body);
-				}
-				resolve(body);
-			}).catch(err => reject(err));
+			request.get(`${this.api}/lights`)
+        .then(body => {
+  				if (body) {
+  					body = toArray(body);
+  				}
+  				resolve(body);
+  			})
+        .catch(err => reject(err));
 		});
   }
 
   getLight(id) {
-		const url = `${this.host}/lights/${id}`;
-		return request.get(url);
+		return request.get(`${this.api}/lights/${id}`);
 	}
 
 	renameLight(id, name) {
-		const body = {name};
-		const url = `${this.host}/lights/${id}`;
-
-		return request.put(url, body);
+		return request.put(`${this.api}/lights/${id}`, {name});
 	}
 
 	setLightState(id, body) {
-		const url = `${this.host}/lights/${id}/state`;
-		return request.put(url, body);
+		return request.put(`${this.api}/lights/${id}/state`, body);
 	}
 
 	switchLight(id, on) {
@@ -70,90 +52,85 @@ class HueService {
 	// -----------------------------------------
   // Scenes API
   getScenes() {
-    const url = `${this.host}/scenes`;
 		return new Promise((resolve, reject) => {
-			request.get(url).then(body => {
-				if (body) {
-					body = this._toArray(body);
-				}
-				resolve(body);
-			}).catch(err => reject(err));
+			request.get(`${this.api}/scenes`)
+        .then(body => {
+  				if (body) {
+  					body = toArray(body);
+  				}
+  				resolve(body);
+  			})
+        .catch(err => reject(err));
 		});
   }
 
   getScene(id) {
-  	const url = `${this.host}/scenes/${id}`;
-  	return request.get(url);
+  	return request.get(`${this.api}/scenes/${id}`);
   }
 
   createScene(body) {
-  	const url = `${this.host}/scenes`;
     return new Promise((resolve, reject) => {
-      request.post(url, body).then(body => {
-        const id = this._extractId(body);
-        resolve(id);
-      }).catch(err => reject(err));
+      request.post(`${this.api}/scenes`, body)
+        .then(body => {
+          const id = extractId(body);
+          resolve(id);
+        })
+        .catch(err => reject(err));
     });
   }
 
   setScene(id, body) {
-  	const url = `${this.host}/scenes/${id}`;
-  	return request.put(url, body);
+  	return request.put(`${this.api}/scenes/${id}`, body);
   }
 
 	setSceneLightStates(id, idLight, body) {
-		const url = `${this.host}/scenes/${id}/lightstates/${idLight}`;
-		return request.put(url, body);
+		return request.put(`${this.api}/scenes/${id}/lightstates/${idLight}`, body);
 	}  
 
   deleteScene(id) {
-  	const url = `${this.host}/scenes/${id}`;
-  	return request.delete(url);
+  	return request.delete(`${this.api}/scenes/${id}`);
   }
 
   recallScene(id) {
-  	const url = `${this.host}/groups/0/action`;
-  	return request.put(url, {"scene": id});
+  	return request.put(`${this.api}/groups/0/action`, {"scene": id});
   }
 
 	// -----------------------------------------
   // Schedules API
 	getSchedules() {
-    const url = `${this.host}/schedules`;
-
 		return new Promise((resolve, reject) => {
-			request.get(url).then(body => {
-				if (body) {
-					body = this._toArray(body);
-				}
-				resolve(body);
-			}).catch(err => reject(err));
+			request.get(`${this.api}/schedules`)
+        .then(body => {
+  				if (body) {
+  					body = toArray(body);
+  				}
+  				resolve(body);
+  			})
+        .catch(err => reject(err));
 		});
   }
 
   getSchedule(id) {
-  	const url = `${this.host}/schedules/${id}`;
-  	return request.get(url);
+  	return request.get(`${this.api}/schedules/${id}`);
   }
 
   createSchedule(body) {
-  	const url = `${this.host}/schedules`;
   	return new Promise((resolve, reject) => {
-  		request.post(url, body).then(body => {
-  			const id = this._extractId(body);
-  			resolve(id);
-  		}).catch(err => reject(err));
+  		request.post(`${this.api}/schedules`, body)
+        .then(body => {
+    			const id = extractId(body);
+    			resolve(id);
+    		})
+        .catch(err => reject(err));
   	});
   }
 
   setSchedule(id, body) {
-  	const url = `${this.host}/schedules/${id}`;
-  	return request.put(url, body);
+  	return request.put(`${this.api}/schedules/${id}`, body);
   }
 
   deleteSchedule(id) {
-  	const url = `${this.host}/schedules/${id}`;
-  	return request.delete(url);
+  	return request.delete(`${this.api}/schedules/${id}`);
   }
 
   startSchedule(id) {
@@ -167,92 +144,99 @@ class HueService {
   // -----------------------------------------
   // Rules API
 	getRules() {
-    const url = `${this.host}/rules`;
-
 		return new Promise((resolve, reject) => {
-			request.get(url).then(body => {
-				if (body) {
-					body = this._toArray(body);
-				}
-				resolve(body);
-			}).catch(err => reject(err));
+			request.get(`${this.api}/rules`)
+        .then(body => {
+  				if (body) {
+  					body = toArray(body);
+  				}
+  				resolve(body);
+  			})
+        .catch(err => reject(err));
 		});
   }
 
   getRule(id) {
-  	const url = `${this.host}/rules/${id}`;
-  	return request.get(url);
+  	return request.get(`${this.api}/rules/${id}`);
   }
 
   createRule(body) {
-  	const url = `${this.host}/rules`;
   	return new Promise((resolve, reject) => {
-  		request.post(url, body).then(body => {
-  			const id = this._extractId(body);
-  			resolve(id);
-  		}).catch(err => reject(err));
+  		request.post(`${this.api}/rules`, body)
+        .then(body => {
+    			const id = extractId(body);
+    			resolve(id);
+    		})
+        .catch(err => reject(err));
   	});
   }
 
   setRule(id, body) {
-  	const url = `${this.host}/rules/${id}`;
-  	return request.put(url, body);
+  	return request.put(`${this.api}/rules/${id}`, body);
   }
 
   deleteRule(id) {
-  	const url = `${this.host}/rules/${id}`;
-  	return request.delete(url);
+  	return request.delete(`${this.api}/rules/${id}`);
   }
 
   // -----------------------------------------
   // Sensors API
 	getSensors() {
-    const url = `${this.host}/sensors`;
-
 		return new Promise((resolve, reject) => {
-			request.get(url).then(body => {
-				if (body) {
-					body = this._toArray(body);
-				}
-				resolve(body);
-			}).catch(err => reject(err));
+			request.get(`${this.api}/sensors`)
+        .then(body => {
+  				if (body) {
+  					body = toArray(body);
+  				}
+  				resolve(body);
+  			})
+        .catch(err => reject(err));
 		});
   }
 
   getSensor(id) {
-  	const url = `${this.host}/sensors/${id}`;
-  	return request.get(url);
+  	return request.get(`${this.api}/sensors/${id}`);
   }
 
   createSensor(body) {
-  	const url = `${this.host}/sensors`;
   	return new Promise((resolve, reject) => {
-  		request.post(url, body).then(body => {
-  			const id = this._extractId(body);
-  			resolve(id);
-  		}).catch(err => reject(err));
+  		request.post(`${this.api}/sensors`, body)
+        .then(body => {
+    			const id = extractId(body);
+    			resolve(id);
+    		})
+        .catch(err => reject(err));
   	});
   }
 
   setSensor(id, body) {
-  	const url = `${this.host}/sensors/${id}`;
-  	return request.put(url, body);
+  	return request.put(`${this.api}/sensors/${id}`, body);
   }
 
   setSensorConfig(id, body) {
-  	const url = `${this.host}/sensors/${id}/config`;
-  	return request.put(url, body);
+  	return request.put(`${this.api}/sensors/${id}/config`, body);
   }
 
   setSensorState(id, body) {
-  	const url = `${this.host}/sensors/${id}/state`;
-  	return request.put(url, body);
+  	return request.put(`${this.api}/sensors/${id}/state`, body);
   }
 
   deleteSensor(id) {
-  	const url = `${this.host}/sensors/${id}`;
-  	return request.delete(url);
+  	return request.delete(`${this.api}/sensors/${id}`);
   }
+}
+
+function toArray(jsonObject) {
+  const ids = Object.keys(jsonObject);
+  return ids.map(id => {
+    let object = jsonObject[id];
+    object._id = id;
+    return object;
+  });
+}
+
+function extractId(jsonArray) {
+  return jsonArray[0].success.id;
 }
 
 module.exports = HueService;

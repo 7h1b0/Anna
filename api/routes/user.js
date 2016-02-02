@@ -17,7 +17,8 @@ module.exports = router => {
 						token
 					});
 					return newUser.save();
-				}).then(user => res.status(201).send(user))
+				})
+				.then(user => res.status(201).send(user))
 				.catch(err => res.status(500).send(err));
 		}
 	});
@@ -45,7 +46,8 @@ module.exports = router => {
 							res.sendStatus(400);
 						}
 					}
-				}).catch(err => res.status(500).send(err));
+				})
+				.catch(err => res.status(500).send(err));
 		}
 	});
 
@@ -67,7 +69,8 @@ module.exports = router => {
 						} else {
 							res.sendStatus(204);
 						}
-					}).catch(err => res.status(500).send(err));
+					})
+					.catch(err => res.status(500).send(err));
 			}
 		})
 
@@ -79,6 +82,7 @@ module.exports = router => {
 					} else {
 						res.sendStatus(204);
 					}
-				}).catch(err => res.status(500).send(err));
+				})
+				.catch(err => res.status(500).send(err));
 		});
 }

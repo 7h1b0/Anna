@@ -1,6 +1,6 @@
 const tokenHelper = require('./../helpers/tokenHelper');
 
-module.exports = function (req, res, next) {
+module.exports = (req, res, next) => {
 	const token = req.headers['x-access-token'];
 	tokenHelper.isValid(token)
 		.then(() => next())

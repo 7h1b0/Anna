@@ -1,14 +1,13 @@
 {
-  "name": "Anna-API",
+  "name": "Anna",
   "version": "2.0.0",
-  "description": "A simple REST api for home automation",
+  "description": "REST api for home automation",
   "main": "server.js",
   "dependencies": {
     "express": "4.x",
     "mongoose": ">=4.1",
     "body-parser": "1.x",
-    "request": "2.x",
-    "cron": "1.1.x"
+    "request": "2.x"
   },
   "devDependencies": {
     "chai": "3.x",
@@ -18,6 +17,7 @@
   },
   "scripts": {
     "test": "./node_modules/.bin/mocha --reporter dot",
+    "setup": "npm install --production",
     "start": "NODE_ENV=production node server.js"
   },
   "author": "7h1b0"

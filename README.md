@@ -7,7 +7,7 @@ REST API for home automation using NodeJS and MongoDB
 
 ## Required
 
-* NodeJS >= 4.x
+* NodeJS >= 6.x
 * MongoDB >= 2.2
 
 ## Installation

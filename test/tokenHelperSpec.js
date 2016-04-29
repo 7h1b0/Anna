@@ -1,15 +1,15 @@
-const expect 						= require('chai').expect;
-const tokenHelper				= require('./../api/helpers/tokenHelper');
+const expect = require('chai').expect;
+const tokenHelper = require('./../api/helpers/tokenHelper');
 
-describe('tokenHelper', function () {
+describe('tokenHelper', () => {
 
-	describe('.isValid', function () {
-		it('does return a Promise', function () {
-			expect(tokenHelper.isValid()).to.be.instanceof(Promise);
-		})
+  describe('.isValid', () => {
+    it('does return a Promise', () => {
+      expect(tokenHelper.isValid()).to.be.instanceof(Promise);
+    })
 
-		it('does reject promise if token is invalid', function () {
-			expect(tokenHelper.isValid('test')).to.be.rejected;
-		});
-	});
+    it('does reject promise if token is invalid', () => {
+      expect(tokenHelper.isValid('test')).to.be.rejected;
+    });
+  });
 });

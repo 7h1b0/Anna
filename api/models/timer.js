@@ -7,15 +7,15 @@ const timer = new Schema({
   actions: {
     before: [{
       path: String,
-      method: String ,
-      body: Object
+      method: String,
+      body: Object,
     }],
     after: [{
       path: String,
       method: String,
-      body: Object
-    }]
-  }
+      body: Object,
+    }],
+  },
 });
 
 module.exports = mongoose.model('Timer', timer);

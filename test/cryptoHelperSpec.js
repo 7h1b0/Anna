@@ -1,46 +1,53 @@
-const expect 						= require('chai').expect;
-const cryptoHelper		= require('./../api/helpers/cryptoHelper');
+const cryptoHelper = require('./../api/helpers/cryptoHelper');
+const chai = require('chai');
+const expect = chai.expect;
+const chaiAsPromised = require("chai-as-promised");
+chai.use(chaiAsPromised);
 
-describe('cryptoHelper', function () {
+describe('cryptoHelper', () => {
 
-	describe('.hash', function () {
-		it('does hash parameter', function () {
-			const hashpassword = cryptoHelper.hash('test');
+  describe('.hash', () => {
+    it('does hash parameter', () => {
+      const hashpassword = cryptoHelper.hash('test');
 
-			expect(hashpassword === 'test').to.be.false;
-		})
+      expect(hashpassword === 'test').to.be.false;
+    });
 
-		it('does generate unique hash', function () {
-			const hashedPassword1 = cryptoHelper.hash('test1');
-			const hashedPassword2 = cryptoHelper.hash('test2');
-			const hashedPassword3 = cryptoHelper.hash('test1');
+    it('does generate unique hash', () => {
+      const hashedPassword1 = cryptoHelper.hash('test1');
+      const hashedPassword2 = cryptoHelper.hash('test2');
+      const hashedPassword3 = cryptoHelper.hash('test1');
 
-			expect(hashedPassword1 === hashedPassword2).to.be.false;
-			expect(hashedPassword1 === hashedPassword3).to.be.true;
-		});
-	});
+      expect(hashedPassword1 === hashedPassword2).to.be.false;
+      expect(hashedPassword1 === hashedPassword3).to.be.true;
+    });
+  });
 
-	describe('.verify', function () {
-		it('does return false when password equals hashedPassword', function () {
-			expect(cryptoHelper.verify('test', 'test')).to.be.false;
-		});
+  describe('.verify', () => {
+    it('does return false when password equals hashedPassword', () => {
+      expect(cryptoHelper.verify('test', 'test')).to.be.false;
+    });
 
-		it('does return true when hashed password equals hashedPassword', function () {
-			const hashedPassword = cryptoHelper.hash('test');
-			expect(cryptoHelper.verify('test', hashedPassword)).to.be.true;
-		});
-	});
+    it('does return true when hashed password equals hashedPassword', () => {
+      const hashedPassword = cryptoHelper.hash('test');
+      expect(cryptoHelper.verify('test', hashedPassword)).to.be.true;
+    });
+  });
 
-	describe('.random', function () {
-		it('does return random String', function () {
-			const random1 = cryptoHelper.random();
-			const random2 = cryptoHelper.random();
+  describe('.random', () => {
+    it('does return random String', () =>  {
+      const random1 = cryptoHelper.random();
+      const random2 = cryptoHelper.random();
 
-			expect(random1 === random2).to.be.false;
-		});
+      Promise.all(random1, random2).then(values => expect(values[1] === values[2]).to.be.false);
+    });
 
-		it('does return a string of 18 caracters', function () {
-			expect(cryptoHelper.random(18)).to.have.length(18);
-		})
-	})
+    it('does return a string of 18 caracters', () =>  {
+      expect(cryptoHelper.random(18)).to.eventually.have.length(18);
+    });
+
+    it('does return a string of 24 caracters', () => {
+      expect(cryptoHelper.random()).to.eventually.have.length(24);
+    });
+  })
 });

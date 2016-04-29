@@ -1,80 +1,77 @@
-'use strict';
-
 module.exports = (router, hueService) => {
+  function hasProperties(object) {
+    return Object.keys(object).length > 0;
+  }
 
-	router.route('/api/hue/lights')
-		.get((req, res) => {
-			hueService.getLights()
-				.then(lights => res.send(lights))
-				.catch(err => res.status(500).send(err));
-		})
+  function getState(body) {
+    const state = {};
 
-	router.route('/api/hue/lights/:id_light([0-9]{1,2})')
-		.get((req, res) => {
-			hueService.getLight(req.params.id_light)
-				.then(light => res.send(light))
-				.catch(err => res.status(500).send(err));
-		})
+    if (body.on !== undefined) {
+      state.on = typeof body.on === 'string' ? body.on === 'true' : body.on;
 
-		.put((req, res) => {
-			if (req.body.name === undefined) {
-				res.sendStatus(400);
-			} else {
-				hueService.renameLight(req.params.id_light, req.body.name)
-					.then(result => res.send(result))
-					.catch(err => res.status(500).send(err));
-			}	
-		})
+      if (!state.on) {
+        return state;
+      }
+    }
 
-	router.put('/api/hue/lights/:id_light([0-9]{1,2})/state', (req, res) => {
-		const hasBody = req.body && hasProperties(req.body);
-		const state = hasBody ? getState(req.body) : getState(req.query);
+    const bri = body.bri;
+    if (!isNaN(bri)) {
+      state.bri = parseInt(bri, 10);
+    }
 
-		if (hasProperties(state)) {
-			hueService.setLightState(req.params.id_light, state)
-				.then(result => res.send(result))
-				.catch(err => res.status(500).send(err));
-		} else {
-			res.sendStatus(400);
-		}
-	});
+    const sat = body.sat;
+    if (!isNaN(sat)) {
+      state.sat = parseInt(sat, 10);
+    }
 
-	router.get('/api/hue/lights/:id_light([0-9]{1,2})/:status(on|off)', (req, res) => {
-		hueService.switchLight(req.params.id_light, req.params.status === 'on')
-			.then(result => res.send(result))
-			.catch(err => res.status(500).send(err));
-	});
+    const xy = body.xy;
+    if (Array.isArray(xy)) {
+      state.xy = xy.map(item => parseFloat(item));
+    }
 
-	function hasProperties(object) {
-		return Object.keys(object).length > 0
-	}
+    return state;
+  }
 
-	function getState(body){
-		let state = {};
+  router.route('/api/hue/lights')
+    .get((req, res) => {
+      hueService.getLights()
+        .then(lights => res.send(lights))
+        .catch(err => res.status(500).send(err));
+    });
 
-		if (body.on !== undefined) {
-			state.on = typeof body.on == 'string' ? body.on == 'true' : body.on;
+  router.route('/api/hue/lights/:id_light([0-9]{1,2})')
+    .get((req, res) => {
+      hueService.getLight(req.params.id_light)
+        .then(light => res.send(light))
+        .catch(err => res.status(500).send(err));
+    })
 
-			if (!state.on) {
-				return state;
-			}
-		}
+    .put((req, res) => {
+      if (req.body.name === undefined) {
+        res.sendStatus(400);
+      } else {
+        hueService.renameLight(req.params.id_light, req.body.name)
+          .then(result => res.send(result))
+          .catch(err => res.status(500).send(err));
+      }
+    });
 
-		const bri = body.bri;
-		if (!isNaN(bri)) {
-			state.bri = parseInt(bri);
-		}
+  router.put('/api/hue/lights/:id_light([0-9]{1,2})/state', (req, res) => {
+    const hasBody = req.body && hasProperties(req.body);
+    const state = hasBody ? getState(req.body) : getState(req.query);
 
-		const sat = body.sat;
-		if (!isNaN(sat)) {
-			state.sat = parseInt(sat);
-		}
+    if (hasProperties(state)) {
+      hueService.setLightState(req.params.id_light, state)
+        .then(result => res.send(result))
+        .catch(err => res.status(500).send(err));
+    } else {
+      res.sendStatus(400);
+    }
+  });
 
-		const xy = body.xy;
-		if (Array.isArray(xy)) {
-			state.xy = xy.map(item => parseFloat(item));
-		}
-
-		return state;
-	}
-}
+  router.get('/api/hue/lights/:id_light([0-9]{1,2})/:status(on|off)', (req, res) => {
+    hueService.switchLight(req.params.id_light, req.params.status === 'on')
+      .then(result => res.send(result))
+      .catch(err => res.status(500).send(err));
+  });
+};

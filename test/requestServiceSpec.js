@@ -2,54 +2,54 @@ const expect 					= require('chai').expect;
 const sinon 					= require('sinon');
 const RequestService 	= require('./../api/services/requestService');
 
-describe('RequestService', function () {
+describe('RequestService', () => {
 
 	const url = 'http://localhost';
 	const body = {data: "7h1b0"};
 
-	describe('Properties', function () {
-		it('does have request function', function () {
+	describe('Properties', () => {
+		it('does have request function', () => {
 			expect(RequestService).to.have.property('request').that.is.a.function;
 		});
 
-		it('does have getRoute function', function () {
+		it('does have getRoute function', () => {
 			expect(RequestService).to.have.property('getRoute').that.is.a.function;
 		});		
 
-		it('does have get function', function () {
+		it('does have get function', () => {
 			expect(RequestService).to.have.property('get').that.is.a.function;
 		});
 
-		it('does have put function', function () {
+		it('does have put function', () => {
 			expect(RequestService).to.have.property('put').that.is.a.function;
 		});
 
-		it('does have delete function', function () {
+		it('does have delete function', () => {
 			expect(RequestService).to.have.property('delete').that.is.a.function;
 		});
 
-		it('does have post function', function () {
+		it('does have post function', () => {
 			expect(RequestService).to.have.property('post').that.is.a.function;
 		});
 	});
 
-	describe('.getRoute()', function () {
-		it('does return an object', function () {
+	describe('.getRoute()', () => {
+		it('does return an object', () => {
 			expect(RequestService.getRoute(url, 'GET')).to.be.object;
 		});
 
-		it('does return GET method by default', function () {
+		it('does return GET method by default', () => {
 			const route = RequestService.getRoute(url);
 
 			expect(route).to.have.property('method');
 			expect(route.method).to.be.equals('GET');
 		});
 
-		it('does return a route with no body', function () {
+		it('does return a route with no body', () => {
 			expect(RequestService.getRoute(url)).to.not.have.property('body');
 		});
 
-		it('does return a route with a body', function () {
+		it('does return a route with a body', () => {
 			const route = RequestService.getRoute(url, 'POST', body);
 
 			expect(route).to.have.property('body');
@@ -57,16 +57,16 @@ describe('RequestService', function () {
 		});
 	});
 
-	describe('.request', function () {
+	describe('.request', () => {
 		// ...
 	});
 
-	describe('.get()', function () {	
-		it('does return a Promise', function () {
+	describe('.get()', () => {	
+		it('does return a Promise', () => {
 			expect(RequestService.get(url)).to.be.instanceof(Promise);
 		});
 
-		it('does call getRoute function with two arguments', function () {
+		it('does call getRoute function with two arguments', () => {
 			var spy = sinon.spy(RequestService, 'getRoute');
 			RequestService.get(url);
 			
@@ -74,7 +74,7 @@ describe('RequestService', function () {
 			RequestService.getRoute.restore();
 		});
 
-		it('does call request function with a route argument ', function () {
+		it('does call request function with a route argument ', () => {
 			var spy = sinon.spy(RequestService, 'request');
 			RequestService.get(url);
 
@@ -85,12 +85,12 @@ describe('RequestService', function () {
 		});
 	});
 
-	describe('.put()', function () {
-		it('does return a Promise', function () {
+	describe('.put()', () => {
+		it('does return a Promise', () => {
 			expect(RequestService.put(url, body)).to.be.instanceof(Promise);
 		});
 
-		it('does call getRoute function with three arguments', function () {
+		it('does call getRoute function with three arguments', () => {
 			var spy = sinon.spy(RequestService, 'getRoute');
 			RequestService.put(url, body);
 			
@@ -98,7 +98,7 @@ describe('RequestService', function () {
 			RequestService.getRoute.restore();
 		});
 
-		it('does call request function with a route argument ', function () {
+		it('does call request function with a route argument ', () => {
 			var spy = sinon.spy(RequestService, 'request');
 			RequestService.put(url, body);
 
@@ -109,12 +109,12 @@ describe('RequestService', function () {
 		});
 	});
 
-	describe('.delete()', function () {
-		it('does return a Promise', function () {
+	describe('.delete()', () => {
+		it('does return a Promise', () => {
 			expect(RequestService.delete(url)).to.be.instanceof(Promise);
 		});
 
-		it('does call getRoute function with two arguments', function () {
+		it('does call getRoute function with two arguments', () => {
 			var spy = sinon.spy(RequestService, 'getRoute');
 			RequestService.delete(url);
 			
@@ -122,7 +122,7 @@ describe('RequestService', function () {
 			RequestService.getRoute.restore();
 		});
 
-		it('does call request function with a route argument ', function () {
+		it('does call request function with a route argument ', () => {
 			var spy = sinon.spy(RequestService, 'request');
 			RequestService.delete(url);
 
@@ -133,12 +133,12 @@ describe('RequestService', function () {
 		});
 	});
 
-	describe('.post()', function () {
-		it('does return a Promise', function () {
+	describe('.post()', () => {
+		it('does return a Promise', () => {
 			expect(RequestService.post(url, body)).to.be.instanceof(Promise);
 		});
 
-		it('does call getRoute function with three arguments', function () {
+		it('does call getRoute function with three arguments', () => {
 			var spy = sinon.spy(RequestService, 'getRoute');
 			RequestService.post(url, body);
 			
@@ -146,7 +146,7 @@ describe('RequestService', function () {
 			RequestService.getRoute.restore();
 		});
 
-		it('does call request function with a route argument ', function () {
+		it('does call request function with a route argument ', () => {
 			var spy = sinon.spy(RequestService, 'request');
 			RequestService.post(url, body);
 

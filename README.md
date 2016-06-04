@@ -1,6 +1,8 @@
 Anna-API
 =====================
 
+### Work in progress
+
 ## Project description
 
 REST API for home automation using NodeJS and MongoDB

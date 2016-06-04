@@ -15,11 +15,8 @@ module.exports = (req, res, next) => {
   const token = req.headers['x-access-token'];
 
   if (token) {
-    User.find({ token }).select('username')
-      .then(user => {
-        console.log(user);
-        saveToBDD(req, user.username);
-      })
+    User.findOne({ token }).select('username')
+      .then(user => saveToBDD(req, user.username))
       .catch(() => saveToBDD(req));
   } else {
     saveToBDD(req);

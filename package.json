@@ -1,6 +1,6 @@
 {
   "name": "Anna",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "REST api for home automation",
   "main": "server.js",
   "dependencies": {

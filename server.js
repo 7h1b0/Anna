@@ -5,14 +5,14 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const requireDir = require('require-dir');
 
-const config = require('./config');
+const { database, hue, port } = require('./config');
 const logMiddleware = require('./api/middlewares/logMiddlewares');
 const requireAuthentification = require('./api/middlewares/authentificationMiddlewares');
 const HueService = require('./api/services/hueService');
 const BetterAgenda = require('./api/services/betterAgenda');
 
 // Setup Database
-const uri = `mongodb://${config.database.hostname}:${config.database.port}/${config.database.name}`;
+const uri = `mongodb://${database.hostname}:${database.port}/${database.name}`;
 mongoose.Promise = global.Promise;
 mongoose.connect(uri);
 
@@ -26,17 +26,17 @@ agenda.on('ready', () => {
 
 // Setup service(s)
 app.service = {};
-app.service.hue = new HueService(config.hue.hostname, config.hue.token);
+app.service.hue = new HueService(hue.hostname, hue.token);
 app.service.agenda = agenda;
 
 // Setup Server
 app.use(bodyParser.json());
-app.listen(config.port);
+app.listen(port);
 app.all('/api/*', requireAuthentification, logMiddleware);
 
 // Setup routes
-const dir = requireDir('./api/routes');
-Object.keys(dir).forEach(route => dir[route](app));
+const routes = requireDir('./api/routes');
+Object.keys(routes).forEach(name => routes[name](app));
 
 // Default Controller
 app.use((req, res) => res.sendStatus(404));

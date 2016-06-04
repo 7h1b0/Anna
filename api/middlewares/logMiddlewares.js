@@ -1,12 +1,12 @@
 const Log = require('./../models/log');
 const User = require('./../models/user');
 
-function saveToBDD(req, userID = '') {
+function saveToBDD(req, username = '') {
   const log = new Log({
     ip: req.ip,
     httpMethod: req.method,
     path: req.originalUrl,
-    userID,
+    username,
   });
   log.save();
 }
@@ -16,8 +16,11 @@ module.exports = (req, res, next) => {
 
   if (token) {
     User.find({ token }).select('username')
-      .then(userID => saveToBDD(req, userID))
-      .catch(err => saveToBDD(req));
+      .then(user => {
+        console.log(user);
+        saveToBDD(req, user.username);
+      })
+      .catch(() => saveToBDD(req));
   } else {
     saveToBDD(req);
   }

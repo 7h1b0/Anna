@@ -1,25 +1,23 @@
 const Log = require('./../models/log');
 
-module.exports = router => {
-  const DEFAULT_LIMIT = 20;
-
-  function getQuery(limit = DEFAULT_LIMIT) {
+module.exports = app => {
+  function getQuery(limit = 20) {
     return Log.find({}).sort({ date: 'desc' }).limit(limit);
   }
 
-  router.get('/api/log', (req, res) => {
-    getQuery(DEFAULT_LIMIT)
+  app.get('/api/log', (req, res) => {
+    getQuery()
       .then(logs => res.send(logs))
-      .catch(err => res.status(500).send(err));
+      .catch(err => res.status(500).send({ err }));
   });
 
-  router.get('/api/log/:limit([0-9]{1,3})', (req, res) => {
+  app.get('/api/log/:limit([0-9]{1,3})', (req, res) => {
     getQuery(req.params.limit)
       .then(logs => res.send(logs))
-      .catch(err => res.status(500).send(err));
+      .catch(err => res.status(500).send({ err }));
   });
 
-  router.post('/api/log/search', (req, res) => {
+  app.post('/api/log/search', (req, res) => {
     if (req.body === undefined) {
       res.sendStatus(400);
     }
@@ -31,6 +29,7 @@ module.exports = router => {
         } else {
           res.send(logs);
         }
-      }).catch(err => res.status(500).send(err));
+      })
+      .catch(err => res.status(500).send({ err }));
   });
 };

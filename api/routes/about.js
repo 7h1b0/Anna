@@ -1,13 +1,12 @@
 const Scene = require('./../models/scene');
-const Timer = require('./../models/timer');
 const Dio = require('./../models/dio');
-const HueService = require('./../services/hueService');
 const os = require('os');
+const props = require('./../../package.json');
 
-module.exports = (router, config) => {
-  router.get('/anna', (req, res) => res.end());
+module.exports = app => {
+  app.get('/anna', (req, res) => res.end());
 
-  router.get('/api/os', (req, res) => {
+  app.get('/api/about', (req, res) => {
     res.json({
       release: os.release(),
       hostname: os.hostname(),
@@ -17,27 +16,25 @@ module.exports = (router, config) => {
       totalmem: os.totalmem(),
       freemem: os.freemem(),
       nodejs: process.version,
+      version: props.version,
     });
   });
 
-  router.get('/api/configuration', (req, res) => {
-    const hueService = new HueService(config.hue.hostname, config.hue.username, config.hue.port);
-
+  app.get('/api', (req, res) => {
     const getAllScene = Scene.find({});
-    const getAllHueScene = hueService.getScenes();
-    const getAllTimer = Timer.find({});
     const getAllDio = Dio.find({});
-    const getHueLights = hueService.getLights();
+    const getHueLights = app.service.hue.getLights();
+    const getAllJobs = app.service.agenda.find({});
 
-    Promise.all([getAllScene, getAllHueScene, getAllTimer, getAllDio, getHueLights])
+    Promise.all([getAllScene, getAllDio, getHueLights, getAllJobs])
       .then(values => {
         res.send({
-          scenes: [...values[0], ...values[1]],
-          timers: values[2],
-          dios: values[3],
-          hueLights: values[4],
+          scenes: values[0],
+          dios: values[1],
+          hueLights: values[2],
+          jobs: values[3],
         });
       })
-      .catch(err => res.status(500).send(err));
+      .catch(err => res.status(500).send({ err }));
   });
 };

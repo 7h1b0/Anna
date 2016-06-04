@@ -5,11 +5,11 @@ module.exports = {
     return new Promise((resolve, reject) => {
       User.findOne({ token })
         .select('token')
-        .then(user => {
-          if (!user) {
+        .then(foundToken => {
+          if (!foundToken) {
             reject();
           } else {
-            resolve(user);
+            resolve(foundToken);
           }
         })
         .catch(err => reject(err));

@@ -1,13 +1,15 @@
 {
   "name": "Anna",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "REST api for home automation",
   "main": "server.js",
   "dependencies": {
     "express": "4.x",
-    "mongoose": ">=4.1",
     "body-parser": "1.x",
-    "request": "2.x"
+    "request": "2.x",
+    "mongoose": ">=4.1",
+    "agenda": "0.8.x",
+    "require-dir": "0.3.x"
   },
   "devDependencies": {
     "chai": "3.x",
@@ -22,7 +24,7 @@
     "test": "./node_modules/.bin/mocha --reporter dot",
     "setup": "npm install --production",
     "start": "NODE_ENV=production node server.js",
-    "lint": "eslint api"
+    "lint": "eslint api server.js config.js"
   },
   "author": "7h1b0"
 }

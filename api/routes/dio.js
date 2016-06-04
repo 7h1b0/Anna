@@ -1,32 +1,25 @@
-const ProcessService = require('./../services/processService');
 const Dio = require('./../models/dio.js');
 
-module.exports = router => {
-  router.route('/api/dios')
+module.exports = app => {
+  app.route('/api/dios')
     .get((req, res) => {
       Dio.find({})
         .then(dios => res.send(dios))
-        .catch(err => res.status(500).send(err));
+        .catch(err => res.status(500).send({ err }));
     })
 
     .post((req, res) => {
-      const badRequest = req.body.id_dio === undefined || req.body.name === undefined;
+      const newDio = new Dio({
+        id_dio: req.body.id_dio,
+        name: req.body.name,
+      });
 
-      if (badRequest) {
-        res.sendStatus(400);
-      } else {
-        const newDio = new Dio({
-          id_dio: req.body.id_dio,
-          name: req.body.name,
-        });
-
-        newDio.save()
-          .then(dio => res.status(201).send(dio))
-          .catch(err => res.status(500).send(err));
-      }
+      newDio.save()
+        .then(dio => res.status(201).send(dio))
+        .catch(err => res.status(500).send({ err }));
     });
 
-  router.route('/api/dios/:id_dio([0-9]{1,2})')
+  app.route('/api/dios/:id_dio([0-9]{1,2})')
     .get((req, res) => {
       Dio.findOne({ id_dio: req.params.id_dio })
         .then(dio => {
@@ -36,7 +29,7 @@ module.exports = router => {
             res.send(dio);
           }
         })
-        .catch(err => res.status(500).send(err));
+        .catch(err => res.status(500).send({ err }));
     })
 
     .put((req, res) => {
@@ -50,7 +43,7 @@ module.exports = router => {
             } else {
               res.send(dio);
             }
-          }).catch(err => res.status(500).send(err));
+          }).catch(err => res.status(500).send({ err }));
       }
     })
 
@@ -62,13 +55,12 @@ module.exports = router => {
           } else {
             res.sendStatus(204);
           }
-        }).catch(err => res.status(500).send(err));
+        }).catch(err => res.status(500).send({ err }));
     });
 
 
-  router.get('/api/dios/:id_dio([0-9]{1,2})/:status(on|off)', (req, res) => {
-    const process = new ProcessService();
-    process.add(req.params.id_dio, req.params.status === 'on');
+  app.get('/api/dios/:id_dio([0-9]{1,2})/:status(on|off)', (req, res) => {
+    Dio.updateState(req.params.id_dio, req.params.status === 'on');
     res.end();
   });
 };

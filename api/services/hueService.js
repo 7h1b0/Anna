@@ -2,11 +2,9 @@ const request = require('./requestService');
 
 function toArray(jsonObject) {
   const ids = Object.keys(jsonObject);
-  return ids.map(id => {
-    const object = jsonObject[id];
-    object._id = id;
-    return object;
-  });
+  return ids.map(id =>
+    Object.assign({}, jsonObject[id], { _id: id })
+  );
 }
 
 function extractId(jsonArray) {
@@ -17,7 +15,7 @@ class HueService {
   constructor(hostname, username) {
     this.hostname = hostname;
     this.username = username;
-    this.api = `http://${hostname}/api/${username}`;
+    this.api = `http://${this.hostname}/api/${this.username}`;
   }
 
   // -----------------------------------------
@@ -240,6 +238,21 @@ class HueService {
 
   deleteSensor(id) {
     return request.delete(`${this.api}/sensors/${id}`);
+  }
+
+  // -----------------------------------------
+  // State API
+  getState() {
+    return this.getLights();
+  }
+
+  restoreState(state) {
+    const result = state.reduce((promises, lighState) => {
+      const promise = request.setLightState(lighState._id, lighState.state);
+      return promises.concat(promise);
+    }, []);
+
+    return Promise.all(result);
   }
 }
 

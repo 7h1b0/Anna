@@ -6,7 +6,7 @@ const log = new Schema({
   ip: { type: String, required: true },
   httpMethod: String,
   path: String,
-  userID: String,
+  username: String,
 });
 
 module.exports = mongoose.model('Log', log);

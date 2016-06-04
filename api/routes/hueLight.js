@@ -1,4 +1,4 @@
-module.exports = (router, hueService) => {
+module.exports = app => {
   function hasProperties(object) {
     return Object.keys(object).length > 0;
   }
@@ -32,46 +32,46 @@ module.exports = (router, hueService) => {
     return state;
   }
 
-  router.route('/api/hue/lights')
+  app.route('/api/hue/lights')
     .get((req, res) => {
-      hueService.getLights()
+      app.service.hue.getLights()
         .then(lights => res.send(lights))
-        .catch(err => res.status(500).send(err));
+        .catch(err => res.status(500).send({ err }));
     });
 
-  router.route('/api/hue/lights/:id_light([0-9]{1,2})')
+  app.route('/api/hue/lights/:id_light([0-9]{1,2})')
     .get((req, res) => {
-      hueService.getLight(req.params.id_light)
+      app.service.hue.getLight(req.params.id_light)
         .then(light => res.send(light))
-        .catch(err => res.status(500).send(err));
+        .catch(err => res.status(500).send({ err }));
     })
 
     .put((req, res) => {
       if (req.body.name === undefined) {
         res.sendStatus(400);
       } else {
-        hueService.renameLight(req.params.id_light, req.body.name)
+        app.service.hue.renameLight(req.params.id_light, req.body.name)
           .then(result => res.send(result))
-          .catch(err => res.status(500).send(err));
+          .catch(err => res.status(500).send({ err }));
       }
     });
 
-  router.put('/api/hue/lights/:id_light([0-9]{1,2})/state', (req, res) => {
+  app.put('/api/hue/lights/:id_light([0-9]{1,2})/state', (req, res) => {
     const hasBody = req.body && hasProperties(req.body);
     const state = hasBody ? getState(req.body) : getState(req.query);
 
     if (hasProperties(state)) {
-      hueService.setLightState(req.params.id_light, state)
+      app.service.hue.setLightState(req.params.id_light, state)
         .then(result => res.send(result))
-        .catch(err => res.status(500).send(err));
+        .catch(err => res.status(500).send({ err }));
     } else {
       res.sendStatus(400);
     }
   });
 
-  router.get('/api/hue/lights/:id_light([0-9]{1,2})/:status(on|off)', (req, res) => {
-    hueService.switchLight(req.params.id_light, req.params.status === 'on')
+  app.get('/api/hue/lights/:id_light([0-9]{1,2})/:status(on|off)', (req, res) => {
+    app.service.hue.switchLight(req.params.id_light, req.params.status === 'on')
       .then(result => res.send(result))
-      .catch(err => res.status(500).send(err));
+      .catch(err => res.status(500).send({ err }));
   });
 };

@@ -1,15 +1,20 @@
 const exec = require('child_process').exec;
 
-class ProcessService {
+class ExecutorService {
   constructor() {
+    this.instance = this;
     this.queue = [];
   }
 
-  add(device, switchOn) {
-    this.queue.push({
-      device,
-      switchOn,
-    });
+  static getInstance() {
+    if (this.instance === undefined) {
+      this.instance = new ExecutorService();
+    }
+    return this.instance;
+  }
+
+  add(command) {
+    this.queue.push(command);
 
     if (this.queue.length === 1) {
       this.run();
@@ -17,20 +22,13 @@ class ProcessService {
   }
 
   run() {
-    if (this.queue.length === 0) {
-      return;
-    }
-
-    const at = this.queue[0];
-    const status = at.switchOn ? 1 : 0;
-    const device = at.device;
-    const script = `./radioEmission ${device} ${status}`;
-
-    this.execute(script)
-      .then(() => {
+    if (this.queue.length !== 0) {
+      const script = this.queue[0];
+      this.execute(script).then(() => {
         this.queue.shift();
         this.run();
       });
+    }
   }
 
   execute(script) {
@@ -46,4 +44,4 @@ class ProcessService {
   }
 }
 
-module.exports = ProcessService;
+module.exports = ExecutorService;

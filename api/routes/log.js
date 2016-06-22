@@ -34,20 +34,4 @@ module.exports = app => {
       .then(logs => res.send(logs))
       .catch(err => res.status(500).send({ err }));
   });
-
-  app.post('/api/log/search', (req, res) => {
-    if (req.body === undefined) {
-      res.sendStatus(400);
-    }
-
-    Log.find(req.body)
-      .then(logs => {
-        if (!logs) {
-          res.sendStatus(404);
-        } else {
-          res.send(logs);
-        }
-      })
-      .catch(err => res.status(500).send({ err }));
-  });
 };

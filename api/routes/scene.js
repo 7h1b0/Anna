@@ -1,4 +1,5 @@
 const Scene = require('./../models/scene');
+const Action = require('./../models/action');
 
 module.exports = app => {
   app.route('/api/scenes')
@@ -73,7 +74,7 @@ module.exports = app => {
   app.get('/api/scenes/:id_scene([0-9a-z]{24})/action', (req, res) => {
     Scene.findById(req.params.id_scene)
       .then(scene => {
-        scene.recall(app.service.hue);
+        Action.call(scene.actions, app.service.hue);
         res.end();
       })
       .catch(err => res.status(500).send({ err }));

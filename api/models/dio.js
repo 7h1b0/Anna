@@ -12,7 +12,7 @@ const exec = (device, on) => {
   ExecutorService.getInstance().add(`./radioEmission ${device} ${status}`);
 };
 
-dio.statics.updateState = function (device, on) {
+dio.statics.updateState = function (device, on = false) {
   exec(device, on);
 };
 

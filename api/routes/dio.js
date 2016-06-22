@@ -43,7 +43,8 @@ module.exports = app => {
             } else {
               res.send(dio);
             }
-          }).catch(err => res.status(500).send({ err }));
+          })
+          .catch(err => res.status(500).send({ err }));
       }
     })
 
@@ -55,7 +56,8 @@ module.exports = app => {
           } else {
             res.sendStatus(204);
           }
-        }).catch(err => res.status(500).send({ err }));
+        })
+        .catch(err => res.status(500).send({ err }));
     });
 
 

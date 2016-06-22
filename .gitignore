@@ -39,3 +39,4 @@ node_modules/*
 *.sublime-project
 *.sublime-workspace
 log.txt
+api/schedules/*

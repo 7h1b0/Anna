@@ -16,18 +16,27 @@ const uri = `mongodb://${database.hostname}:${database.port}/${database.name}`;
 mongoose.Promise = global.Promise;
 mongoose.connect(uri);
 
-// Setup BetterAgenda
+// Create Agenda
 const agenda = new BetterAgenda();
-agenda.database('localhost:27017/agenda-test', 'agendaJobs');
-agenda.on('ready', () => {
-  console.log('BetterAgenda Ready :)');
-  agenda.start();
-});
 
 // Setup service(s)
 app.service = {};
 app.service.hue = new HueService(hue.hostname, hue.token);
 app.service.agenda = agenda;
+
+// Setup BetterAgenda
+agenda.database('localhost:27017/agenda-test', 'agendaJobs');
+agenda.processEvery('30 seconds');
+agenda.on('ready', () => {
+  console.log('BetterAgenda Ready :)');
+  agenda.start();
+
+  const schedules = requireDir('./api/schedules');
+  Object.keys(schedules).forEach(schedule => {
+    const job = schedules[schedule](app);
+    agenda.createScheduleFromObject(job);
+  });
+});
 
 // Setup Server
 app.use(bodyParser.json());

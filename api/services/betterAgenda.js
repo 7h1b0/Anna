@@ -1,6 +1,12 @@
 const Agenda = require('agenda');
 const mongoose = require('mongoose');
 
+function toTimestamp(job) {
+  const nextRunAt = new Date(job.nextRunAt).getTime();
+  const lastRunAt = new Date(job.lastRunAt).getTime();
+  return Object.assign(job, { nextRunAt, lastRunAt });
+}
+
 class BetterAgenda extends Agenda {
   isPunctual(date) {
     const regex = new RegExp('\\d{13}');
@@ -13,7 +19,7 @@ class BetterAgenda extends Agenda {
         if (err) {
           reject(err);
         } else {
-          resolve(jobs.map(job => job.attrs));
+          resolve(jobs.map(job => job.attrs).map(job => toTimestamp(job)));
         }
       });
     });
@@ -38,7 +44,8 @@ class BetterAgenda extends Agenda {
         if (err) {
           reject(err);
         } else {
-          resolve(job.attrs);
+          const newJob = toTimestamp(job);
+          resolve(newJob.attrs);
         }
       });
     });
@@ -50,7 +57,8 @@ class BetterAgenda extends Agenda {
         if (err) {
           reject(err);
         } else {
-          resolve(job.attrs);
+          const newJob = toTimestamp(job);
+          resolve(newJob.attrs);
         }
       });
     });
@@ -94,15 +102,14 @@ class BetterAgenda extends Agenda {
   }
 
   createSchedule(date, name, cb) {
-    return this.exist(name)
-      .then(() => {
-        this.define(name, { concurrency: 1 }, cb);
+    return this.exist(name).then(() => {
+      this.define(name, { concurrency: 1 }, cb);
 
-        if (this.isPunctual(date)) {
-          return this.scheduleJob(new Date(date), name);
-        }
-        return this.cronJob(date, name);
-      });
+      if (this.isPunctual(date)) {
+        return this.scheduleJob(new Date(date), name);
+      }
+      return this.cronJob(date, name);
+    });
   }
 
   launch(id) {

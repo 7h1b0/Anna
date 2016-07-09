@@ -27,15 +27,15 @@ class BetterAgenda extends Agenda {
 
   findOne(id) {
     const newId = new mongoose.mongo.ObjectID(id);
-    return this.find({ _id: newId }).then(jobs =>
-      new Promise((resolve, reject) => {
-        if (jobs) {
-          resolve(jobs[0]);
+    return new Promise((resolve, reject) => {
+      this.jobs({ _id: newId }, (err, jobs) => {
+        if (err) {
+          reject(err);
         } else {
-          reject();
+          resolve(jobs[0]);
         }
-      })
-    );
+      });
+    });
   }
 
   scheduleJob(date, name) {
@@ -86,6 +86,18 @@ class BetterAgenda extends Agenda {
         } else if (numRemoved === 0) {
           reject();
         } else {
+          resolve(numRemoved);
+        }
+      });
+    });
+  }
+
+  clear() {
+    return new Promise((resolve, reject) => {
+      this.cancel({}, err => {
+        if (err) {
+          reject(err);
+        } else {
           resolve();
         }
       });
@@ -113,22 +125,41 @@ class BetterAgenda extends Agenda {
   }
 
   launch(id) {
-    const newId = new mongoose.mongo.ObjectID(id);
     return new Promise((resolve, reject) => {
-      this.jobs({ _id: newId }, (err, jobs) => {
-        if (err) {
-          reject(err);
+      this.findOne(id).then(job => {
+        job.run(errJob => {
+          if (errJob) {
+            reject(errJob);
+          } else {
+            resolve();
+          }
+        });
+      });
+    });
+  }
+
+  update(id, date) {
+    return new Promise((resolve, reject) => {
+      this.findOne(id).then(job => {
+        if (this.isPunctual(date)) {
+          job.schedule(date).save(err => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve();
+            }
+          });
         } else {
-          const job = jobs[0];
-          job.run(errJob => {
-            if (errJob) {
-              reject(errJob);
+          job.repeatEvery(date).save(err => {
+            if (err) {
+              reject(err);
             } else {
               resolve();
             }
           });
         }
-      });
+      })
+      .catch(err => reject(err));
     });
   }
 }

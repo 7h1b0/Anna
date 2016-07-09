@@ -49,3 +49,14 @@ Object.keys(routes).forEach(name => routes[name](app));
 
 // Default Controller
 app.use((req, res) => res.sendStatus(404));
+
+// Event
+function stop() {
+  console.warn('Anna shutdown');
+  agenda.stop(() => process.exit(0));
+}
+
+process.on('SIGTERM', () => stop());
+process.on('SIGINT', () => stop());
+
+

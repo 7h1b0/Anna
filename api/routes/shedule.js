@@ -1,7 +1,3 @@
-/**
- * https://github.com/rschmukler/agenda/issues/332
- */
-
 const Schedule = require('./../models/schedule');
 const Action = require('./../models/action');
 
@@ -16,10 +12,9 @@ module.exports = app => {
     .post((req, res) => {
       const schedule = req.body;
       if (Schedule.isValid(schedule)) {
-        app.service.agenda.createSchedule(schedule.date, schedule.name, (job, done) => {
-          Action.call(schedule.actions, app.service.hue);
-          done();
-        })
+        app.service.agenda.createSchedule(schedule.date, schedule.name, () =>
+          Action.call(schedule.actions, app.service.hue)
+        )
         .then(job => res.status(201).send(job))
         .catch(err => res.status(500).send({ err }));
       } else {
@@ -28,6 +23,12 @@ module.exports = app => {
     });
 
   app.route('/api/schedules/:id_schedule([0-9a-z]{24})')
+    .get((req, res) => {
+      app.service.agenda.findOne(req.params.id_schedule)
+        .then(job => res.send(job))
+        .catch(err => res.status(500).send({ err }));
+    })
+
     .put((req, res) => {
       const id = req.params.id_schedule;
       const date = req.body.date;

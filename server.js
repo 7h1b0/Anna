@@ -28,7 +28,6 @@ app.service.agenda = agenda;
 agenda.database('localhost:27017/agenda-test', 'agendaJobs');
 agenda.processEvery('30 seconds');
 agenda.on('ready', () => {
-  console.log('BetterAgenda Ready :)');
   agenda.start();
 
   const schedules = requireDir('./api/schedules');
@@ -52,11 +51,16 @@ app.use((req, res) => res.sendStatus(404));
 
 // Event
 function stop() {
-  console.warn('Anna shutdown');
-  agenda.stop(() => process.exit(0));
+  agenda.clear()
+    .then(() => agenda.stop(() => {
+      console.warn('Anna shutdown');
+      process.exit(0);
+    }))
+    .catch(err => agenda.stop(() => {
+      console.warn(err, 'Anna shutdown');
+      process.exit(1);
+    }));
 }
 
 process.on('SIGTERM', () => stop());
 process.on('SIGINT', () => stop());
-
-

@@ -12,15 +12,15 @@ const exec = (device, on) => {
   ExecutorService.getInstance().add(`./radioEmission ${device} ${status}`);
 };
 
-dio.statics.updateState = function (device, on = false) {
+dio.statics.updateState = function updateState(device, on = false) {
   exec(device, on);
 };
 
-dio.methods.on = function () {
+dio.methods.on = function on() {
   exec(this.id_dio, true);
 };
 
-dio.methods.off = function () {
+dio.methods.off = function off() {
   exec(this.id_dio, false);
 };
 

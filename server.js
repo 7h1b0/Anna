@@ -27,15 +27,21 @@ app.service.agenda = agenda;
 // Setup BetterAgenda
 agenda.database('localhost:27017/agenda-test', 'agendaJobs');
 agenda.processEvery('30 seconds');
-agenda.on('ready', () => {
-  agenda.start();
+agenda.ready()
+  .then(() => agenda.cleanLockedSchedules())
+  .then(() => agenda.reloadSchedules(app))
+  .then(err => {
+    if (err) {
+      throw err;
+    }
 
-  const schedules = requireDir('./api/schedules');
-  Object.keys(schedules).forEach(schedule => {
-    const job = schedules[schedule](app);
-    agenda.createScheduleFromObject(job);
+    agenda.start();
+    console.log('BetterAgenda ready');
+  })
+  .catch(err => {
+    console.log(err);
+    process.exit(1);
   });
-});
 
 // Setup Server
 app.use(bodyParser.json());
@@ -51,15 +57,10 @@ app.use((req, res) => res.sendStatus(404));
 
 // Event
 function stop() {
-  agenda.clear()
-    .then(() => agenda.stop(() => {
-      console.warn('Anna shutdown');
-      process.exit(0);
-    }))
-    .catch(err => agenda.stop(() => {
-      console.warn(err, 'Anna shutdown');
-      process.exit(1);
-    }));
+  agenda.stop(() => {
+    console.warn('Anna shutdown');
+    process.exit(0);
+  });
 }
 
 process.on('SIGTERM', () => stop());

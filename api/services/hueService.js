@@ -108,10 +108,10 @@ class HueService {
   }
 
   // -----------------------------------------
-  // Schedules API
-  getSchedules() {
+  // Groups API
+  getGroups() {
     return new Promise((resolve, reject) => {
-      request.get(`${this.api}/schedules`)
+      request.get(`${this.api}/groups`)
         .then(body => {
           let correctedBody = body;
           if (body) {
@@ -123,13 +123,13 @@ class HueService {
     });
   }
 
-  getSchedule(id) {
-    return request.get(`${this.api}/schedules/${id}`);
+  getGroup(id) {
+    return request.get(`${this.api}/groups/${id}`);
   }
 
-  createSchedule(schedule) {
+  createGroup(group) {
     return new Promise((resolve, reject) => {
-      request.post(`${this.api}/schedules`, schedule)
+      request.post(`${this.api}/groups`, group)
         .then(body => {
           const id = extractId(body);
           resolve(id);
@@ -138,20 +138,20 @@ class HueService {
     });
   }
 
-  setSchedule(id, body) {
-    return request.put(`${this.api}/schedules/${id}`, body);
+  renameGroup(id, name) {
+    return request.put(`${this.api}/groups/${id}`, { name });
   }
 
-  deleteSchedule(id) {
-    return request.delete(`${this.api}/schedules/${id}`);
+  setGroupState(id, state) {
+    return request.put(`${this.api}/groups/${id}/action`, state);
   }
 
-  startSchedule(id) {
-    return this.setSchedule(id, { status: 'enabled' });
+  deleteGroup(id) {
+    return request.delete(`${this.api}/groups/${id}`);
   }
 
-  stopSchedule(id) {
-    return this.setSchedule(id, { status: 'disabled' });
+  switchGroup(id, on) {
+    return this.setGroupState(id, { on });
   }
 
   // -----------------------------------------

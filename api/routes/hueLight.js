@@ -69,6 +69,13 @@ module.exports = app => {
     }
   });
 
+  app.get('/api/hue/lights/:id_light([0-9]{1,2})/toggle', (req, res) => {
+    app.service.hue.getLight(req.params.id_light)
+      .then(light => app.service.hue.switchLight(req.params.id_light, !light.state.on))
+      .then(result => res.send(result))
+      .catch(err => res.status(500).send({ err }));
+  });
+
   app.get('/api/hue/lights/:id_light([0-9]{1,2})/:status(on|off)', (req, res) => {
     app.service.hue.switchLight(req.params.id_light, req.params.status === 'on')
       .then(result => res.send(result))

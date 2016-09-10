@@ -86,4 +86,11 @@ module.exports = app => {
       .then(result => res.send(result))
       .catch(err => res.status(500).send({ err }));
   });
+
+  app.get('/api/hue/groups/:id_group([0-9]{1,2})/toggle', (req, res) => {
+    app.service.hue.getGroup(req.params.id_group)
+      .then(hueGroup => app.service.hue.switchGroup(req.params.id_group, !hueGroup.action.on))
+      .then(result => res.send(result))
+      .catch(err => res.status(500).send({ err }));
+  });
 };

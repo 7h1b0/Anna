@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
+const action = require('./action');
 const Schema = mongoose.Schema;
-
-const SCHEDULE_TYPE = ['HUE_LIGHT', 'DIO', 'SCENE'];
 
 const schedule = new Schema({
   name: { type: String, required: [true, 'Name required'] },
@@ -9,7 +8,7 @@ const schedule = new Schema({
   actions: [{
     id: { type: String, required: true },
     name: { type: String },
-    type: { type: String, required: true, enum: SCHEDULE_TYPE },
+    type: { type: String, required: true, enum: action.TYPE },
     body: { type: Object },
   }],
 });

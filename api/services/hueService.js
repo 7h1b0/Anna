@@ -1,8 +1,7 @@
 const request = require('./requestService');
 
 function toArray(jsonObject) {
-  const ids = Object.keys(jsonObject);
-  return ids.map(id =>
+  return Object.keys(jsonObject).map(id =>
     Object.assign({}, jsonObject[id], { _id: id })
   );
 }
@@ -13,19 +12,7 @@ function extractId(jsonArray) {
 
 class HueService {
   constructor(hostname, username) {
-    this.hostname = hostname;
-    this.username = username;
-    this.api = `http://${this.hostname}/api/${this.username}`;
-  }
-
-  // -----------------------------------------
-  // Getters
-  getHostname() {
-    return this.hostname;
-  }
-
-  getUsername() {
-    return this.username;
+    this.api = `http://${hostname}/api/${username}`;
   }
 
   // -----------------------------------------

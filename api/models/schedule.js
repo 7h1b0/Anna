@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const action = require('./action');
+const type = require('./../helpers/actionType');
 const Schema = mongoose.Schema;
 
 const schedule = new Schema({
@@ -8,7 +8,7 @@ const schedule = new Schema({
   actions: [{
     id: { type: String, required: true },
     name: { type: String },
-    type: { type: String, required: true, enum: action.TYPE },
+    type: { type: String, required: true, enum: type.TYPE },
     body: { type: Object },
   }],
 });

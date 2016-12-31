@@ -80,22 +80,21 @@ class BetterAgenda extends Agenda {
     });
   }
 
-  reloadSchedules(app) {
+  reloadSchedules() {
     const reloadUserSchedules = () => Schedule.find({}).then(schedules => {
       schedules.forEach(schedule => {
         this.createSchedule(
           schedule.name,
           schedule.date,
-          () => Action(schedule.actions, app.service.hueService)
+          () => Action(schedule.actions)
         );
       });
-      return Promise.resolve();
     });
 
     const requireSchedules = () => {
       const schedules = requireDir('./../schedules');
       Object.keys(schedules).forEach(schedule => {
-        const job = schedules[schedule](app);
+        const job = schedules[schedule]();
         this.createScheduleFromObject(job);
       });
 
@@ -146,20 +145,20 @@ class BetterAgenda extends Agenda {
     });
   }
 
-  createScheduleFromObject({ name, date, cb }) {
-    return this.createSchedule(name, date, cb);
+  createScheduleFromObject({ name, date, actions }) {
+    return this.createSchedule(name, date, actions);
   }
 
-  createSchedule(name, date, cb) {
+  createSchedule(name, date, actions) {
     return this.isNew(name)
       .then(() => {
-        this.define(name, { concurrency: 1 }, cb);
+        this.define(name, { concurrency: 1 }, () => Action(actions));
 
         return this.isPunctual(date) ?
           this.scheduleJob(new Date(date), name) : this.cronJob(date, name);
       })
       .catch(() => {
-        this.define(name, { concurrency: 1 }, cb);
+        this.define(name, { concurrency: 1 }, () => Action(actions));
         return Promise.resolve();
       });
   }

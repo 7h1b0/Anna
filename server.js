@@ -32,7 +32,7 @@ agenda.database(`${database.hostname}:27017/agenda-test`, 'agendaJobs');
 agenda.processEvery('30 seconds');
 agenda.ready()
   .then(() => agenda.cleanLockedSchedules())
-  .then(() => agenda.reloadSchedules(app))
+  .then(() => agenda.reloadSchedules())
   .then(err => {
     if (err) {
       throw err;

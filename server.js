@@ -6,10 +6,11 @@ const mongoose = require('mongoose');
 const requireDir = require('require-dir');
 
 const { database, hue, port } = require('./config');
-const logMiddleware = require('./api/middlewares/logMiddlewares');
-const requireAuthentification = require('./api/middlewares/authentificationMiddlewares');
-const HueService = require('./api/services/hueService');
-const BetterAgenda = require('./api/services/betterAgenda');
+const logMiddleware = require('./src/middlewares/logMiddlewares');
+const requireAuthentification = require('./src/middlewares/authentificationMiddlewares');
+const hueService = require('./src/services/hueService');
+const executorService = require('./src/services/executorService');
+const BetterAgenda = require('./src/services/betterAgenda');
 
 // Setup Database
 const uri = `mongodb://${database.hostname}:${database.port}/${database.name}`;
@@ -20,12 +21,14 @@ mongoose.connect(uri);
 const agenda = new BetterAgenda();
 
 // Setup service(s)
+hueService.init(hue.hostname, hue.token);
+executorService.init();
+
 app.service = {};
-app.service.hue = new HueService(hue.hostname, hue.token);
 app.service.agenda = agenda;
 
 // Setup BetterAgenda
-agenda.database('localhost:27017/agenda-test', 'agendaJobs');
+agenda.database(`${database.hostname}:27017/agenda-test`, 'agendaJobs');
 agenda.processEvery('30 seconds');
 agenda.ready()
   .then(() => agenda.cleanLockedSchedules())
@@ -49,7 +52,7 @@ app.listen(port);
 app.all('/api/*', requireAuthentification, logMiddleware);
 
 // Setup routes
-const routes = requireDir('./api/routes');
+const routes = requireDir('./src/routes');
 Object.keys(routes).forEach(name => routes[name](app));
 
 // Default Controller

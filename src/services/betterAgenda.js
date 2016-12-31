@@ -2,7 +2,7 @@ const Agenda = require('agenda');
 const mongoose = require('mongoose');
 const requireDir = require('require-dir');
 const Schedule = require('./../models/schedule');
-const Action = require('./../models/action');
+const Action = require('./../utils/action');
 
 class BetterAgenda extends Agenda {
   isPunctual(date) {
@@ -86,7 +86,7 @@ class BetterAgenda extends Agenda {
         this.createSchedule(
           schedule.name,
           schedule.date,
-          () => Action.call(schedule.actions, app.service.hueService)
+          () => Action(schedule.actions, app.service.hueService)
         );
       });
       return Promise.resolve();
@@ -171,19 +171,19 @@ class BetterAgenda extends Agenda {
   }
 
   updateDate(id, date) {
-    return this.findOne(id)
-      .then(job => {
+    return this.findOne(id).then(job => {
+      return new Promise((resolve, reject) => {
         if (this.isPunctual(date)) {
           job.schedule(date)
             .computeNextRunAt()
-            .save(err => (err ? Promise.reject(err) : Promise.resolve()));
+            .save(err => (err ? reject(err) : resolve(job)));
         } else {
           job.repeatEvery(date)
             .computeNextRunAt()
-            .save(err => (err ? Promise.reject(err) : Promise.resolve()));
+            .save(err => (err ? reject(err) : resolve(job)));
         }
-      })
-      .catch(err => Promise.reject(err));
+      });
+    });
   }
 }
 

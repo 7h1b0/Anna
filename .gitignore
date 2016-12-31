@@ -39,4 +39,6 @@ node_modules/*
 *.sublime-project
 *.sublime-workspace
 log.txt
-api/schedules/*
+src/schedules/*
+bdd.json
+

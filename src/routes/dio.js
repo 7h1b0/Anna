@@ -1,6 +1,7 @@
 const Dio = require('./../models/dio.js');
+const getJoiError = require('../utils/errorUtil');
 
-module.exports = app => {
+module.exports = (app) => {
   app.route('/api/dios')
     .get((req, res) => {
       Dio.find({})
@@ -9,14 +10,15 @@ module.exports = app => {
     })
 
     .post((req, res) => {
-      const newDio = new Dio({
-        id_dio: req.body.id_dio,
-        name: req.body.name,
+      Dio.validate(req.body, (err, dio) => {
+        if (err) {
+          res.status(400).send(getJoiError(err));
+        } else {
+          new Dio(dio).save()
+            .then(newDio => res.status(201).send(newDio))
+            .catch(err => res.status(500).send({ err }));
+        }
       });
-
-      newDio.save()
-        .then(dio => res.status(201).send(dio))
-        .catch(err => res.status(500).send({ err }));
     });
 
   app.route('/api/dios/:id_dio([0-9]{1,2})')
@@ -33,19 +35,21 @@ module.exports = app => {
     })
 
     .put((req, res) => {
-      if (req.body.name === undefined) {
-        res.sendStatus(400);
-      } else {
-        Dio.findOneAndUpdate({ id_dio: req.params.id_dio }, req.body, { new: true })
-          .then(dio => {
-            if (!dio) {
-              res.sendStatus(404);
-            } else {
-              res.send(dio);
-            }
-          })
-          .catch(err => res.status(500).send({ err }));
-      }
+      Dio.validate(req.body, (err, dio) => {
+        if (err) {
+          res.status(400).send(getJoiError(err));
+        } else {
+          Dio.findOneAndUpdate({ id_dio: req.params.id_dio }, dio, { new: true })
+            .then(dio => {
+              if (!dio) {
+                res.sendStatus(404);
+              } else {
+                res.send(dio);
+              }
+            })
+            .catch(err => res.status(500).send({ err }));
+        }
+      });
     })
 
     .delete((req, res) => {

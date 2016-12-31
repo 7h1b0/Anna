@@ -3,5 +3,5 @@ module.exports = {
   DIO: 'DIO',
   SCENE: 'SCENE',
   HUE_GROUP: 'HUE_GROUP',
-  TYPE: [this.HUE_LIGHT, this.DIO, this.SCENE, this.HUE_GROUP],
-};
+  TYPES: ['HUE_LIGHT', 'DIO', 'SCENE', 'HUE_GROUP'],
+}

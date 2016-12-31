@@ -1,17 +1,9 @@
 const exec = require('child_process').exec;
 
-class ExecutorService {
-  constructor() {
-    this.instance = this;
+module.exports = {
+  init() {
     this.queue = [];
-  }
-
-  static getInstance() {
-    if (this.instance === undefined) {
-      this.instance = new ExecutorService();
-    }
-    return this.instance;
-  }
+  },
 
   add(command) {
     this.queue.push(command);
@@ -19,17 +11,24 @@ class ExecutorService {
     if (this.queue.length === 1) {
       this.run();
     }
-  }
+  },
+
+  next() {
+    this.queue.shift();
+    this.run();
+  },
 
   run() {
     if (this.queue.length !== 0) {
       const script = this.queue[0];
-      this.execute(script).then(() => {
-        this.queue.shift();
-        this.run();
-      });
+      this.execute(script)
+        .then(() => this.next())
+        .catch(err => {
+          console.log(err);
+          this.next();
+        });
     }
-  }
+  },
 
   execute(script) {
     return new Promise((resolve, reject) => {
@@ -41,7 +40,5 @@ class ExecutorService {
         }
       });
     });
-  }
-}
-
-module.exports = ExecutorService;
+  },
+};

@@ -4,12 +4,12 @@
   "description": "REST api for home automation",
   "main": "server.js",
   "dependencies": {
-    "express": "4.x",
-    "body-parser": "1.x",
-    "request": "2.x",
-    "mongoose": ">=4.1",
+    "express": "4.14.0",
+    "body-parser": "1.15.2",
+    "mongoose": "4.7.3",
     "agenda": "0.8.x",
-    "require-dir": "0.3.x"
+    "require-dir": "0.3.x",
+    "joi": "10.0.6"
   },
   "devDependencies": {
     "mocha": "2.x",

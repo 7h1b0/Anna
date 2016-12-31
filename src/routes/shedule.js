@@ -1,7 +1,8 @@
 const Schedule = require('./../models/schedule');
-const Action = require('./../models/action');
+const Action = require('./../utils/action');
+const getJoiError = require('../utils/errorUtil');
 
-module.exports = app => {
+module.exports = (app) => {
   app.route('/api/schedules')
     .get((req, res) => {
       app.service.agenda.find({})
@@ -10,20 +11,26 @@ module.exports = app => {
     })
 
     .post((req, res) => {
-      const newSchedule = new Schedule({
-        name: req.body.name,
-        date: req.body.date,
-        actions: req.body.actions,
-      });
+      Schedule.validate(req.body, (err, schedule) => {
+        if (err) {
+          res.status(400).send(getJoiError(err));
+        } else {
+          const newSchedule = new Schedule({
+            name: schedule.name,
+            date: schedule.date,
+            actions: schedule.actions,
+          });
 
-      newSchedule.save()
-        .then(schedule => app.service.agenda.createSchedule(
-          schedule.name,
-          schedule.date,
-          () => Action.call(schedule.actions, app.service.hue)
-        ))
-        .then(job => res.status(201).send(job))
-        .catch(err => res.status(500).send({ err }));
+          newSchedule.save()
+            .then(schedule => app.service.agenda.createSchedule(
+              schedule.name,
+              schedule.date,
+              () => Action(schedule.actions)
+            ))
+            .then(job => res.status(201).send(job))
+            .catch(err => res.status(500).send({ err }));
+        }
+      });
     });
 
   app.route('/api/schedules/:id_schedule([0-9a-z]{24})')
@@ -35,10 +42,10 @@ module.exports = app => {
 
     .put((req, res) => {
       const id = req.params.id_schedule;
-      const date = req.body.date;
+      const date = req.body.repeatInterval;
 
       app.service.agenda.updateDate(id, date)
-        .then(() => res.end())
+        .then(job => res.send(job))
         .catch(err => res.status(500).send({ err }));
     })
 

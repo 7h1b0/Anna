@@ -1,9 +1,9 @@
+const os = require('os');
 const Scene = require('./../models/scene');
 const Dio = require('./../models/dio');
-const os = require('os');
 const props = require('./../../package.json');
 
-module.exports = app => {
+module.exports = (app) => {
   app.get('/anna', (req, res) => res.end());
 
   app.get('/api/about', (req, res) => res.json({

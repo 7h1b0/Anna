@@ -145,20 +145,20 @@ class BetterAgenda extends Agenda {
     });
   }
 
-  createScheduleFromObject({ name, date, actions }) {
-    return this.createSchedule(name, date, actions);
+  createScheduleFromObject({ name, date, cb }) {
+    return this.createSchedule(name, date, cb);
   }
 
-  createSchedule(name, date, actions) {
+  createSchedule(name, date, cb) {
     return this.isNew(name)
       .then(() => {
-        this.define(name, { concurrency: 1 }, () => Action(actions));
+        this.define(name, { concurrency: 1 }, cb);
 
         return this.isPunctual(date) ?
           this.scheduleJob(new Date(date), name) : this.cronJob(date, name);
       })
       .catch(() => {
-        this.define(name, { concurrency: 1 }, () => Action(actions));
+        this.define(name, { concurrency: 1 }, cb);
         return Promise.resolve();
       });
   }

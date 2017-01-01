@@ -3,7 +3,7 @@ const Joi = require('joi');
 const Schema = mongoose.Schema;
 
 const alias = new Schema({
-  name: { type: String, required: true },
+  name: { type: String, required: true, unique: true },
   description: { type: String, required: true },
   sceneId: { type: String, required: true },
 });

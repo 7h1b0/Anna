@@ -35,9 +35,9 @@ module.exports = (app) => {
             } else {
               if (cryptoUtil.verify(user.password, findUser.password)) {
                 const copyUser = {
-                  _id: user._id,
-                  username: user.username,
-                  token: user.token,
+                  _id: findUser._id,
+                  username: findUser.username,
+                  token: findUser.token,
                 };
 
                 res.send(copyUser);

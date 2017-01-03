@@ -1,4 +1,4 @@
-const Action = require('./../utils/action');
+const dispatch = require('./../utils/action');
 const Scene = require('./../models/scene');
 const Alias = require('./../models/alias');
 const getJoiError = require('../utils/errorUtil');
@@ -79,7 +79,7 @@ module.exports = (app) => {
         return Scene.findById(alias.sceneId);
       })
       .then(scene => {
-        Action(scene.actions, app.service.hue);
+        dispatch(scene.actions);
         res.end();
       })
       .catch(err => res.status(500).send({ err }));

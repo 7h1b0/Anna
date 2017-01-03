@@ -1,5 +1,5 @@
 const Schedule = require('./../models/schedule');
-const Action = require('./../utils/action');
+const dispatch = require('./../utils/action');
 const getJoiError = require('../utils/errorUtil');
 
 module.exports = (app) => {
@@ -25,7 +25,7 @@ module.exports = (app) => {
             .then(schedule => app.service.agenda.createSchedule(
               schedule.name,
               schedule.date,
-              () => Action(schedule.actions)
+              () => dispatch(schedule.actions)
             ))
             .then(job => res.status(201).send(job))
             .catch(err => res.status(500).send({ err }));
@@ -37,7 +37,10 @@ module.exports = (app) => {
     .get((req, res) => {
       app.service.agenda.findOne(req.params.id_schedule)
         .then(job => res.send(job))
-        .catch(err => res.status(500).send({ err }));
+        .catch(err => {
+          console.log(err);
+          res.status(500).send({ err })
+        });
     })
 
     .put((req, res) => {
@@ -56,9 +59,12 @@ module.exports = (app) => {
         .catch(err => res.status(500).send({ err }));
     });
 
-  app.get('/api/schedules/:id_schedule([0-9a-z]{24})/action', (req, res) => {
-    app.service.agenda.launch(req.params.id_schedule)
+  app.get('/api/schedules/:name_schedule/action', (req, res) => {
+    app.service.agenda.launch(req.params.name_schedule)
       .then(() => res.end())
-      .catch(err => res.status(500).send({ err }));
+      .catch(err => {
+        console.log(err);
+        res.status(500).send({ err })
+      });
   });
 };

@@ -1,13 +1,13 @@
 {
   "name": "Anna",
-  "version": "2.6.0",
+  "version": "2.7.2",
   "description": "REST api for home automation",
   "main": "server.js",
   "dependencies": {
     "express": "4.14.0",
     "body-parser": "1.15.2",
     "mongoose": "4.7.5",
-    "agenda": "0.8.0",
+    "agenda": "0.9.0",
     "require-dir": "0.3.1",
     "joi": "10.1.0"
   },

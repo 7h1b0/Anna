@@ -23,9 +23,8 @@ class BetterAgenda extends Agenda {
   }
 
   findOne(id) {
-    const newId = new mongoose.mongo.ObjectID(id);
     return new Promise((resolve, reject) => {
-      this.jobs({ _id: newId }, (err, jobs) => {
+      this.jobs({ name: id }, (err, jobs) => {
         if (err) {
           reject(err);
         } else if (jobs.length === 0) {
@@ -52,8 +51,7 @@ class BetterAgenda extends Agenda {
   }
 
   removeOne(id) {
-    const newId = new mongoose.mongo.ObjectID(id);
-    return this.remove({ _id: newId });
+    return this.remove({ name: id });
   }
 
   remove(query) {

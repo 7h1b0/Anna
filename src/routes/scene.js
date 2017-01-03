@@ -1,5 +1,5 @@
 const Scene = require('./../models/scene');
-const Action = require('./../utils/action');
+const dispatch = require('./../utils/action');
 const getJoiError = require('../utils/errorUtil');
 const hueService = require('../services/hueService');
 
@@ -88,7 +88,7 @@ module.exports = (app) => {
   app.get('/api/scenes/:id_scene([0-9a-z]{24})/action', (req, res) => {
     Scene.findById(req.params.id_scene)
       .then(scene => {
-        Action(scene.actions, hueService);
+        dispatch(scene.actions);
         res.end();
       })
       .catch(err => res.status(500).send({ err }));

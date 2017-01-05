@@ -20,7 +20,7 @@ module.exports = function dispatch(actions) {
 
       case type.SCENE:
         Scene.findById(action.id).then(scene => {
-          if (scene) dispatch(scene.actions);
+          if (scene) this.call(scene.actions);
         });
         break;
 

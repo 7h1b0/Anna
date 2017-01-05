@@ -1,5 +1,5 @@
 const Scene = require('./../models/scene');
-const dispatch = require('./../utils/action');
+const dispatch = require('./../utils/dispatch');
 const getJoiError = require('../utils/errorUtil');
 const hueService = require('../services/hueService');
 

@@ -1,36 +1,34 @@
 const exec = require('child_process').exec;
 
-module.exports = {
-  init() {
-    this.queue = [];
-  },
+module.exports = () => {
+  const queue = [];
 
-  add(command) {
-    this.queue.push(command);
+  function add(command) {
+    queue.push(command);
 
-    if (this.queue.length === 1) {
-      this.run();
+    if (queue.length === 1) {
+      run();
     }
-  },
+  }
 
-  next() {
-    this.queue.shift();
-    this.run();
-  },
+  function run() {
+    const next = () => {
+      queue.shift();
+      run();
+    }
 
-  run() {
-    if (this.queue.length !== 0) {
-      const script = this.queue[0];
-      this.execute(script)
-        .then(() => this.next())
+    if (queue.length !== 0) {
+      const script = queue[0];
+      execute(script)
+        .then(() => next())
         .catch(err => {
           console.log(err);
-          this.next();
+          next();
         });
     }
-  },
+  }
 
-  execute(script) {
+  function execute(script) {
     return new Promise((resolve, reject) => {
       exec(script, (error, stdout, stderr) => {
         if (error) {
@@ -40,5 +38,10 @@ module.exports = {
         }
       });
     });
-  },
+  }
+
+  return {
+    add,
+    execute,
+  };
 };

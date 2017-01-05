@@ -3,6 +3,7 @@ const Scene = require('./../models/scene');
 const Dio = require('./../models/dio');
 const props = require('./../../package.json');
 const hueService = require('../services/hueService');
+const scheduleService = require('../services/scheduleService');
 
 module.exports = (app) => {
   app.get('/anna', (req, res) => res.end());
@@ -24,15 +25,15 @@ module.exports = (app) => {
     const getDios = Dio.find({});
     const getHueLights = hueService.getLights();
     const getHueGroups = hueService.getGroups();
-    const getSchedules = app.service.agenda.find({});
+    const schedules = scheduleService.getAll().map(job => job.attrs);
 
-    Promise.all([getScenes, getDios, getHueLights, getHueGroups, getSchedules])
+    Promise.all([getScenes, getDios, getHueLights, getHueGroups])
       .then(values => res.send({
         scenes: values[0],
         dios: values[1],
         hueLights: values[2],
         hueGroups: values[3],
-        schedules: values[4],
+        schedules,
       }))
       .catch(err => res.status(500).send({ err }));
   });

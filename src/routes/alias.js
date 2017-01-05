@@ -1,4 +1,4 @@
-const dispatch = require('./../utils/action');
+const dispatch = require('./../utils/dispatch');
 const Scene = require('./../models/scene');
 const Alias = require('./../models/alias');
 const getJoiError = require('../utils/errorUtil');

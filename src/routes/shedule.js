@@ -1,70 +1,46 @@
-const Schedule = require('./../models/schedule');
-const dispatch = require('./../utils/action');
+const { scheduleService } = require('../services/');
+const Action = require('./../utils/dispatch');
 const getJoiError = require('../utils/errorUtil');
 
 module.exports = (app) => {
   app.route('/api/schedules')
     .get((req, res) => {
-      app.service.agenda.find({})
-        .then(jobs => res.send(jobs))
-        .catch(err => res.status(500).send({ err }));
-    })
-
-    .post((req, res) => {
-      Schedule.validate(req.body, (err, schedule) => {
-        if (err) {
-          res.status(400).send(getJoiError(err));
-        } else {
-          const newSchedule = new Schedule({
-            name: schedule.name,
-            date: schedule.date,
-            actions: schedule.actions,
-          });
-
-          newSchedule.save()
-            .then(schedule => app.service.agenda.createSchedule(
-              schedule.name,
-              schedule.date,
-              () => dispatch(schedule.actions)
-            ))
-            .then(job => res.status(201).send(job))
-            .catch(err => res.status(500).send({ err }));
-        }
-      });
+      const schedules = scheduleService.getAll();
+      res.send(schedules);
     });
 
-  app.route('/api/schedules/:id_schedule([0-9a-z]{24})')
+  app.route('/api/schedules/:id_schedule([0-9a-z\-]{36})')
     .get((req, res) => {
-      app.service.agenda.findOne(req.params.id_schedule)
-        .then(job => res.send(job))
-        .catch(err => {
-          console.log(err);
-          res.status(500).send({ err })
-        });
+      const schedule = scheduleService.get(req.params.id_schedule);
+      if (schedule) {
+        res.send(schedule.attrs);
+      } else {
+        res.sendStatus(404);
+      }
     })
 
     .put((req, res) => {
       const id = req.params.id_schedule;
       const date = req.body.repeatInterval;
 
-      app.service.agenda.updateDate(id, date)
-        .then(job => res.send(job))
-        .catch(err => res.status(500).send({ err }));
+      const updatedSchedule =
+        scheduleService.get(req.params.id_schedule).update(req.body);
+
+      res.send(updatedSchedule.attrs);
     })
 
     .delete((req, res) => {
-      Schedule.findByIdAndRemove(req.params.id_schedule)
-        .then(() => app.service.agenda.removeOne(req.params.id_schedule))
-        .then(() => res.end())
-        .catch(err => res.status(500).send({ err }));
+      scheduleService.remove(req.params.id_schedule)
+      res.end();
     });
 
-  app.get('/api/schedules/:name_schedule/action', (req, res) => {
-    app.service.agenda.launch(req.params.name_schedule)
-      .then(() => res.end())
-      .catch(err => {
-        console.log(err);
-        res.status(500).send({ err })
-      });
+  app.get('/api/schedules/:id_schedule([0-9a-z\-]{36})/action', (req, res) => {
+    const schedule = scheduleService.get(req.params.id_schedule);
+    if (schedule) {
+      schedule.run();
+      res.end();
+    } else {
+      res.status(404).send('Not schedule found');
+    }
   });
 };

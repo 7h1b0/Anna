@@ -5,6 +5,7 @@ module.exports = () => {
   const schedules = [];
 
   function getAll() {
+    return schedules.map(schedule => schedule.attrs);
   }
 
   function get(jobId) {
@@ -23,6 +24,7 @@ module.exports = () => {
     };
 
     return new Promise((resolve, reject) => {
+      Joi.validate(props, pattern, (err) => {
         if (err) {
           reject(err);
         } else {
@@ -49,6 +51,7 @@ module.exports = () => {
     const index = getIndex(jobId);
     const schedule = schedules[index];
     schedule.stop();
+    schedules.splice(index, 1);
   }
 
   function purge() {

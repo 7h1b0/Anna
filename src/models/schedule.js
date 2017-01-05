@@ -18,6 +18,10 @@ class Schedule {
     return this.attrs;
   }
 
+  update({ name, interval, runAtBankHoliday }) {
+    this.attrs.name = name || this.attrs.name;
+    this.attrs.interval = interval || this.attrs.interval ;
+    this.attrs.runAtBankHoliday = runAtBankHoliday !== undefined ? runAtBankHoliday : this.attrs.runAtBankHoliday;
     this.stop();
 
     this.start();
@@ -94,6 +98,7 @@ class Schedule {
     }
   }
 
+  isBankHoliday(timestamp) {
     function getBankHolidays() {
       // http://techneilogy.blogspot.fr/2012/02/couple-of-years-ago-i-posted-source.html
       const year = new Date().getFullYear();
@@ -128,6 +133,7 @@ class Schedule {
       return [jourDeLan, lundiDePaques, feteDuTravail, victoireDesAllies, ascension, pentecote, feteNationale, assomption, toussaint, armistice, noel];
     }
 
+    const date = timestamp ? new Date(timestamp) : new Date();
     date.setHours(0,0,0,0);
     return getBankHolidays().some(holiday => date.getTime() === holiday.getTime());
   }

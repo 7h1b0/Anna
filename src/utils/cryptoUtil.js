@@ -1,4 +1,5 @@
 const crypto = require('crypto');
+
 const algorithm = 'sha1';
 const salt = 'xxxxxxxxxxxxxx';
 

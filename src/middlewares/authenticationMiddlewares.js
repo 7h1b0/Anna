@@ -1,4 +1,4 @@
-const tokenUtil = require('./../utils/tokenUtil');
+const { tokenUtil } = require('../utils/');
 
 module.exports = (req, res, next) => {
   const token = req.headers['x-access-token'];

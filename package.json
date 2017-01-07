@@ -1,29 +1,29 @@
 {
   "name": "Anna",
-  "version": "2.7.2",
+  "version": "2.8.0",
   "description": "REST api for home automation",
   "main": "server.js",
   "dependencies": {
     "express": "4.14.0",
     "body-parser": "1.15.2",
-    "mongoose": "4.7.5",
-    "agenda": "0.9.0",
+    "mongoose": "4.7.6",
+    "cron": "1.2.1",
     "require-dir": "0.3.1",
-    "joi": "10.1.0"
+    "joi": "10.1.0",
+    "uuid": "3.0.1"
   },
   "devDependencies": {
-    "mocha": "2.x",
+    "mocha": "3.2.x",
     "chai": "3.x",
-    "chai-as-promised": "5.x",
-    "eslint": "2.8.x",
-    "eslint-config-airbnb-base": "1.x",
-    "eslint-plugin-import": "1.x"
+    "eslint": "3.13.x",
+    "eslint-config-airbnb-base": "11.0.x",
+    "eslint-plugin-import": "2.2.x"
   },
   "scripts": {
     "test": "./node_modules/.bin/mocha --reporter dot",
     "setup": "npm install --production",
     "start": "NODE_ENV=production node server.js",
-    "lint": "eslint api server.js config.js"
+    "lint": "eslint src server.js config.js"
   },
   "author": "7h1b0"
 }

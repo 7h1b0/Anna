@@ -20,8 +20,9 @@ class Schedule {
 
   update({ name, interval, runAtBankHoliday }) {
     this.attrs.name = name || this.attrs.name;
-    this.attrs.interval = interval || this.attrs.interval ;
-    this.attrs.runAtBankHoliday = runAtBankHoliday !== undefined ? runAtBankHoliday : this.attrs.runAtBankHoliday;
+    this.attrs.interval = interval || this.attrs.interval;
+    this.attrs.runAtBankHoliday =
+      runAtBankHoliday !== undefined ? runAtBankHoliday : this.attrs.runAtBankHoliday;
     this.stop();
 
     this.start();
@@ -41,10 +42,12 @@ class Schedule {
 
   start() {
     this.process = new CronJob(this.attrs.interval, () => this.run(), null, true);
+    this.attrs.isRunning = true;
   }
 
   stop() {
     this.process.stop();
+    this.attrs.isRunning = false;
   }
 
   run() {
@@ -60,7 +63,7 @@ class Schedule {
         this.attrs.fail = undefined;
       }
       this.attrs.lastFinishedAt = Date.now();
-    }
+    };
 
     setImmediate(() => {
       try {
@@ -80,8 +83,8 @@ class Schedule {
     const lastRun = this.attrs.lastRunAt ? new Date(this.attrs.lastRunAt + 1000) : new Date();
 
     try {
-      var cronTime = new CronTime(this.attrs.interval);
-      var nextDate = cronTime._getNextDateFrom(lastRun);
+      const cronTime = new CronTime(this.attrs.interval);
+      let nextDate = cronTime._getNextDateFrom(lastRun);
 
       if (nextDate.valueOf() === lastRun.valueOf()) {
         nextDate = cronTime._getNextDateFrom(new Date(this.attrs.lastRunAt + 1000));
@@ -93,12 +96,12 @@ class Schedule {
       this.attrs.nextRunAt = nextDate.valueOf();
     } catch (e) {
       console.log(e);
-      this.attrs.fail = `failed to calculate nextRunAt due to invalid interval`;
+      this.attrs.fail = 'failed to calculate nextRunAt due to invalid interval';
       this.attrs.nextRunAt = undefined;
     }
   }
 
-  isBankHoliday(timestamp) {
+  static isBankHoliday(timestamp) {
     function getBankHolidays() {
       // http://techneilogy.blogspot.fr/2012/02/couple-of-years-ago-i-posted-source.html
       const year = new Date().getFullYear();
@@ -119,7 +122,7 @@ class Schedule {
       const day = n0 % 31 + 1;
 
       const jourDeLan = new Date(year, 0, 1);
-      const lundiDePaques = new Date(year, month, day+1);
+      const lundiDePaques = new Date(year, month, day + 1);
       const feteDuTravail = new Date(year, 4, 1);
       const victoireDesAllies = new Date(year, 4, 8);
       const ascension = new Date(year, month, day + 39);
@@ -130,13 +133,25 @@ class Schedule {
       const armistice = new Date(year, 10, 11);
       const noel = new Date(year, 11, 25);
 
-      return [jourDeLan, lundiDePaques, feteDuTravail, victoireDesAllies, ascension, pentecote, feteNationale, assomption, toussaint, armistice, noel];
+      return [
+        jourDeLan,
+        lundiDePaques,
+        feteDuTravail,
+        victoireDesAllies,
+        ascension,
+        pentecote,
+        feteNationale,
+        assomption,
+        toussaint,
+        armistice,
+        noel,
+      ];
     }
 
     const date = timestamp ? new Date(timestamp) : new Date();
-    date.setHours(0,0,0,0);
+    date.setHours(0, 0, 0, 0);
     return getBankHolidays().some(holiday => date.getTime() === holiday.getTime());
   }
-};
+}
 
 module.exports = Schedule;

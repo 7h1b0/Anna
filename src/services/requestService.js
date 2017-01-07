@@ -40,7 +40,7 @@ function request(route) {
     }
 
     const protocol = route.protocol === 'https:' ? https : http;
-    const req = protocol.request(route, res => {
+    const req = protocol.request(route, (res) => {
       res.setEncoding('utf8');
       let rawData = '';
       res.on('data', chunk => (rawData += chunk));

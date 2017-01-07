@@ -1,5 +1,5 @@
-const Log = require('./../models/log');
-const User = require('./../models/user');
+const Log = require('../models/log');
+const User = require('../models/user');
 
 function saveToBDD(req, username = '') {
   const log = new Log({
@@ -8,7 +8,7 @@ function saveToBDD(req, username = '') {
     path: req.originalUrl,
     username,
   });
-  log.save();
+  log.save().catch(() => console.log(`${req.method} - ${req.originalUrl}`));
 }
 
 module.exports = (req, res, next) => {

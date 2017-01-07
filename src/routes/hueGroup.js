@@ -1,4 +1,4 @@
-const hueService = require('../services/hueService');
+const { hueService } = require('../services/');
 
 module.exports = (app) => {
   function hasProperties(object) {

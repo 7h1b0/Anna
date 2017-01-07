@@ -19,7 +19,7 @@ module.exports = {
   // Lights API
   getLights() {
     return request.get(`${this.api}/lights`)
-      .then(body => {
+      .then((body) => {
         let correctedBody = body;
         if (body) {
           correctedBody = toArray(body);
@@ -48,7 +48,7 @@ module.exports = {
   // Scenes API
   getScenes() {
     return request.get(`${this.api}/scenes`)
-      .then(body => {
+      .then((body) => {
         let correctedBody = body;
         if (body) {
           correctedBody = toArray(body);
@@ -86,7 +86,7 @@ module.exports = {
   // Groups API
   getGroups() {
     return request.get(`${this.api}/groups`)
-      .then(body => {
+      .then((body) => {
         let correctedBody = body;
         if (body) {
           correctedBody = toArray(body);
@@ -129,7 +129,7 @@ module.exports = {
   // Rules API
   getRules() {
     return request.get(`${this.api}/rules`)
-      .then(body => {
+      .then((body) => {
         let correctedBody = body;
         if (body) {
           correctedBody = toArray(body);
@@ -159,7 +159,7 @@ module.exports = {
   // Sensors API
   getSensors() {
     return request.get(`${this.api}/sensors`)
-      .then(body => {
+      .then((body) => {
         let correctedBody = body;
         if (body) {
           correctedBody = toArray(body);
@@ -206,4 +206,4 @@ module.exports = {
 
     return Promise.all(promises);
   },
-}
+};

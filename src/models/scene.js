@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Joi = require('joi');
-const type = require('../utils/type');
+const { type } = require('../utils/');
+
 const Schema = mongoose.Schema;
 
 const scene = new Schema({
@@ -22,7 +23,7 @@ scene.statics.validate = function validate(data, callback) {
       id: Joi.any().required(),
       name: Joi.string().min(3),
       type: Joi.any().valid(type.TYPES).required(),
-      body: Joi.object().min(1).required(),
+      body: Joi.object().min(1).optional(),
     })),
   };
 

@@ -1,5 +1,6 @@
-const Dio = require('./../models/dio.js');
-const getJoiError = require('../utils/errorUtil');
+const Dio = require('../models/dio');
+const { getJoiError } = require('../utils/');
+const { dioService } = require('../services/');
 
 module.exports = (app) => {
   app.route('/api/dios')
@@ -24,7 +25,7 @@ module.exports = (app) => {
   app.route('/api/dios/:id_dio([0-9]{1,2})')
     .get((req, res) => {
       Dio.findOne({ id_dio: req.params.id_dio })
-        .then(dio => {
+        .then((dio) => {
           if (!dio) {
             res.sendStatus(404);
           } else {
@@ -40,7 +41,7 @@ module.exports = (app) => {
           res.status(400).send(getJoiError(err));
         } else {
           Dio.findOneAndUpdate({ id_dio: req.params.id_dio }, dio, { new: true })
-            .then(dio => {
+            .then((dio) => {
               if (!dio) {
                 res.sendStatus(404);
               } else {
@@ -54,7 +55,7 @@ module.exports = (app) => {
 
     .delete((req, res) => {
       Dio.findOneAndRemove({ id_dio: req.params.id_dio })
-        .then(dio => {
+        .then((dio) => {
           if (!dio) {
             res.sendStatus(404);
           } else {
@@ -66,7 +67,7 @@ module.exports = (app) => {
 
 
   app.get('/api/dios/:id_dio([0-9]{1,2})/:status(on|off)', (req, res) => {
-    Dio.updateState(req.params.id_dio, req.params.status === 'on');
+    dioService.add(req.params.id_dio, req.params.status === 'on');
     res.end();
   });
 };

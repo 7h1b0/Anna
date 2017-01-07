@@ -1,4 +1,4 @@
-const Log = require('./../models/log');
+const Log = require('../models/log');
 
 module.exports = (app) => {
   function getQuery(limit = 20) {
@@ -6,18 +6,15 @@ module.exports = (app) => {
   }
 
   function toTimestamp(logs) {
-    return new Promise(resolve => {
-      const newLogs = logs.map(({ date, ip, httpMethod, path, username }) => {
-        const timestamp = new Date(date).getTime();
-        return {
-          date: timestamp,
-          ip,
-          httpMethod,
-          path,
-          username,
-        };
-      });
-      resolve(newLogs);
+    return logs.map(({ date, ip, httpMethod, path, username }) => {
+      const timestamp = new Date(date).getTime();
+      return {
+        date: timestamp,
+        ip,
+        httpMethod,
+        path,
+        username,
+      };
     });
   }
 

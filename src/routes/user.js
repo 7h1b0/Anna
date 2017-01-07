@@ -1,6 +1,5 @@
 const User = require('../models/user');
-const cryptoUtil = require('../utils/cryptoUtil');
-const getJoiError = require('../utils/errorUtil');
+const { cryptoUtil, getJoiError } = require('../utils/');
 
 module.exports = (app) => {
   app.post('/user', (req, res) => {
@@ -9,7 +8,7 @@ module.exports = (app) => {
         res.status(400).send(getJoiError(err));
       } else {
         cryptoUtil.random()
-          .then(token => {
+          .then((token) => {
             const newUser = new User({
               username: user.username,
               password: cryptoUtil.hash(user.password),
@@ -29,21 +28,19 @@ module.exports = (app) => {
         res.status(400).send(getJoiError(err));
       } else {
         User.findOne({ username: user.username })
-          .then(findUser => {
+          .then((findUser) => {
             if (!findUser) {
               res.sendStatus(400);
-            } else {
-              if (cryptoUtil.verify(user.password, findUser.password)) {
-                const copyUser = {
-                  _id: findUser._id,
-                  username: findUser.username,
-                  token: findUser.token,
-                };
+            } else if (cryptoUtil.verify(user.password, findUser.password)) {
+              const copyUser = {
+                _id: findUser._id,
+                username: findUser.username,
+                token: findUser.token,
+              };
 
-                res.send(copyUser);
-              } else {
-                res.sendStatus(400);
-              }
+              res.send(copyUser);
+            } else {
+              res.sendStatus(400);
             }
           })
           .catch(err => res.status(500).send({ err }));
@@ -63,8 +60,8 @@ module.exports = (app) => {
         if (err) {
           res.status(400).send(getJoiError(err));
         } else {
-          User.findByIdAndUpdate(req.params.id_user, req.body.password, { new: true })
-            .then(user => {
+          User.findByIdAndUpdate(req.params.id_user, user.password, { new: true })
+            .then((user) => {
               if (!user) {
                 res.sendStatus(404);
               } else {
@@ -78,7 +75,7 @@ module.exports = (app) => {
 
     .delete((req, res) => {
       User.findByIdAndRemove(req.params.id_user)
-        .then(user => {
+        .then((user) => {
           if (!user) {
             res.sendStatus(404);
           } else {

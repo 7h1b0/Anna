@@ -1,7 +1,6 @@
-const dispatch = require('./../utils/dispatch');
-const Scene = require('./../models/scene');
-const Alias = require('./../models/alias');
-const getJoiError = require('../utils/errorUtil');
+const { getJoiError, dispatch } = require('../utils/');
+const Scene = require('../models/scene');
+const Alias = require('../models/alias');
 
 module.exports = (app) => {
   app.route('/api/alias')
@@ -32,7 +31,7 @@ module.exports = (app) => {
   app.route('/api/alias/:id_alias([0-9a-z]{24})')
     .get((req, res) => {
       Alias.findById(req.params.id_alias)
-        .then(alias => {
+        .then((alias) => {
           if (!alias) {
             res.sendStatus(404);
           } else {
@@ -48,7 +47,7 @@ module.exports = (app) => {
           res.status(400).send(getJoiError(err));
         } else {
           Alias.findByIdAndUpdate(req.params.id_alias, alias, { new: true })
-            .then(newAlias => {
+            .then((newAlias) => {
               if (!newAlias) {
                 res.sendStatus(404);
               } else {
@@ -62,7 +61,7 @@ module.exports = (app) => {
 
     .delete((req, res) => {
       Alias.findByIdAndRemove(req.params.id_alias)
-        .then(alias => {
+        .then((alias) => {
           if (!alias) {
             res.sendStatus(404);
           } else {
@@ -74,11 +73,11 @@ module.exports = (app) => {
 
   app.get('/api/alias/:name([_a-z]{5,})', (req, res) => {
     Alias.findOne({ name: req.params.name })
-      .then(alias => {
+      .then((alias) => {
         if (!alias) return res.sendStatus(404);
         return Scene.findById(alias.sceneId);
       })
-      .then(scene => {
+      .then((scene) => {
         dispatch(scene.actions);
         res.end();
       })

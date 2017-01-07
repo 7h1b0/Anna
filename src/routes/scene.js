@@ -1,7 +1,6 @@
-const Scene = require('./../models/scene');
-const dispatch = require('./../utils/dispatch');
-const getJoiError = require('../utils/errorUtil');
-const hueService = require('../services/hueService');
+const Scene = require('../models/scene');
+const { dispatch, getJoiError } = require('../utils/');
+const { hueService } = require('../services/');
 
 module.exports = (app) => {
   app.route('/api/scenes')
@@ -32,7 +31,7 @@ module.exports = (app) => {
   app.route('/api/scenes/:id_scene([0-9a-z]{24})')
     .get((req, res) => {
       Scene.findById(req.params.id_scene)
-        .then(scene => {
+        .then((scene) => {
           if (!scene) {
             res.sendStatus(404);
           } else {
@@ -48,7 +47,7 @@ module.exports = (app) => {
           res.status(400).send(getJoiError(err));
         } else {
           Scene.findByIdAndUpdate(req.params.id_scene, scene, { new: true })
-            .then(scene => {
+            .then((scene) => {
               if (!scene) {
                 res.sendStatus(404);
               } else {
@@ -62,7 +61,7 @@ module.exports = (app) => {
 
     .delete((req, res) => {
       Scene.findByIdAndRemove(req.params.id_scene)
-        .then(scene => {
+        .then((scene) => {
           if (!scene) {
             res.sendStatus(404);
           } else {
@@ -87,7 +86,7 @@ module.exports = (app) => {
 
   app.get('/api/scenes/:id_scene([0-9a-z]{24})/action', (req, res) => {
     Scene.findById(req.params.id_scene)
-      .then(scene => {
+      .then((scene) => {
         dispatch(scene.actions);
         res.end();
       })

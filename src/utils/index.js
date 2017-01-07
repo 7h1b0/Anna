@@ -1,13 +1,13 @@
 const dispatch = require('./dispatch');
 const cryptoUtil = require('./cryptoUtil');
-const errorUtil = require('./errorUtil');
+const getJoiError = require('./errorUtil');
 const tokenUtil = require('./tokenUtil');
 const type = require('./type');
 
 module.exports = {
   dispatch,
   cryptoUtil,
-  errorUtil,
+  getJoiError,
   tokenUtil,
   type,
-}
+};

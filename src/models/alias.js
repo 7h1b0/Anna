@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Joi = require('joi');
+
 const Schema = mongoose.Schema;
 
 const alias = new Schema({
@@ -13,7 +14,7 @@ alias.statics.validate = function validate(data, callback) {
     name: Joi.string().regex(/^[a-z_]{5,}$/).required(),
     description: Joi.string().trim().min(5).required(),
     sceneId: Joi.string().regex(/^[a-z0-9]{24}$/).required(),
-  }
+  };
   Joi.validate(data, pattern, callback);
 };
 

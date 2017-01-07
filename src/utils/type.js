@@ -4,4 +4,4 @@ module.exports = {
   SCENE: 'SCENE',
   HUE_GROUP: 'HUE_GROUP',
   TYPES: ['HUE_LIGHT', 'DIO', 'SCENE', 'HUE_GROUP'],
-}
+};

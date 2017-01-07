@@ -9,11 +9,11 @@ module.exports = () => {
   }
 
   function get(scheduleId) {
-    return schedules.find(schedule => schedule.attrs.id === scheduleId);
+    return schedules.find(schedule => schedule.attrs._id === scheduleId);
   }
 
   function getIndex(scheduleId) {
-    return schedules.findIndex(schedule => schedule.attrs.id === scheduleId);
+    return schedules.findIndex(schedule => schedule.attrs._id === scheduleId);
   }
 
   function validate(props, isNew = true) {

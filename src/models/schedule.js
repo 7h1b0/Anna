@@ -5,7 +5,7 @@ const CronTime = require('cron').CronTime;
 class Schedule {
   constructor({ name, interval, cb, runAtBankHoliday = true }) {
     this.attrs = {};
-    this.attrs.id = uuid();
+    this.attrs._id = uuid();
     this.attrs.name = name;
     this.attrs.interval = interval;
     this.attrs.runAtBankHoliday = runAtBankHoliday;

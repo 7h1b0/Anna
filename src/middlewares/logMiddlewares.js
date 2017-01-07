@@ -3,7 +3,7 @@ const User = require('../models/user');
 
 function saveToBDD(req, username = '') {
   const log = new Log({
-    ip: req.ip || '',
+    ip: req.ip || 'unknown',
     httpMethod: req.method,
     path: req.originalUrl,
     username,

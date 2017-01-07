@@ -51,16 +51,14 @@ class Schedule {
   }
 
   run() {
-    if (!this.attrs.runAtBankHoliday && Schedule.isBankHoliday()) return;
-
     this.attrs.lastRunAt = Date.now();
     this.computeNextRunAt();
 
     const done = (err) => {
       if (err) {
-        this.attrs.fail = err;
+        this.attrs.failReason = err;
       } else {
-        this.attrs.fail = undefined;
+        this.attrs.failReason = '';
       }
       this.attrs.lastFinishedAt = Date.now();
     };
@@ -96,7 +94,7 @@ class Schedule {
       this.attrs.nextRunAt = nextDate.valueOf();
     } catch (e) {
       console.log(e);
-      this.attrs.fail = 'failed to calculate nextRunAt due to invalid interval';
+      this.attrs.failReason = 'failed to calculate nextRunAt due to invalid interval';
       this.attrs.nextRunAt = undefined;
     }
   }

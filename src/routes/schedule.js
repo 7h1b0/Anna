@@ -21,11 +21,16 @@ module.exports = (app) => {
     .put((req, res) => {
       scheduleService.validate(req.body, false)
         .then((validatedSchedule) => {
-          const updatedSchedule =
-            scheduleService.get(req.params.id_schedule).update(validatedSchedule);
-          res.send(updatedSchedule.attrs);
+          const schedule = scheduleService.get(req.params.id_schedule);
+          if (schedule) {
+            const updatedSchedule = schedule.update(validatedSchedule);
+            res.send(updatedSchedule.attrs);
+          } else {
+            res.sendStatus(404);
+          }
         })
         .catch((err) => {
+          console.log(err);
           res.status(400).send(getJoiError(err));
         });
     })

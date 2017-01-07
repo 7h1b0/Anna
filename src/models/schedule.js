@@ -51,7 +51,7 @@ class Schedule {
   }
 
   run() {
-    if (!this.attrs.runAtBankHoliday && this.isBankHoliday()) return;
+    if (!this.attrs.runAtBankHoliday && Schedule.isBankHoliday()) return;
 
     this.attrs.lastRunAt = Date.now();
     this.computeNextRunAt();
@@ -89,7 +89,7 @@ class Schedule {
       if (nextDate.valueOf() === lastRun.valueOf()) {
         nextDate = cronTime._getNextDateFrom(new Date(this.attrs.lastRunAt + 1000));
       }
-      if (!this.attrs.runAtBankHoliday && this.isBankHoliday(nextDate)) {
+      if (!this.attrs.runAtBankHoliday && Schedule.isBankHoliday(nextDate)) {
         nextDate = cronTime._getNextDateFrom(nextDate);
       }
 

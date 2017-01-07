@@ -21,20 +21,22 @@ module.exports = () => {
       name: Joi.string().trim().min(3).required(),
       interval: Joi.string().required(),
       cb: Joi.func().maxArity(1),
+      runAtBankHoliday: Joi.boolean().required(),
     };
 
     const updatePattern = {
       name: Joi.string().trim().min(3).required(),
       interval: Joi.string().required(),
+      runAtBankHoliday: Joi.boolean().required(),
     };
 
     const pattern = isNew ? newPattern : updatePattern;
     return new Promise((resolve, reject) => {
-      Joi.validate(props, pattern, (err) => {
+      Joi.validate(props, pattern, (err, schedule) => {
         if (err) {
           reject(err);
         } else {
-          resolve();
+          resolve(schedule);
         }
       });
     });
@@ -74,5 +76,6 @@ module.exports = () => {
     add,
     remove,
     purge,
+    validate,
   };
 };

@@ -21,9 +21,10 @@
   },
   "scripts": {
     "test": "./node_modules/.bin/mocha --reporter dot",
+    "lint": "eslint src server.js config.js",
     "setup": "npm install --production",
     "start": "NODE_ENV=production node server.js",
-    "lint": "eslint src server.js config.js"
+    "update": "git pull && npm run setup"
   },
   "author": "7h1b0"
 }

@@ -5,28 +5,25 @@ module.exports = (app) => {
     return Object.keys(object).length > 0;
   }
 
-  function getState(body) {
+  function getState({ on, sat, xy, bri }) {
     const state = {};
 
-    if (body.on !== undefined) {
-      state.on = typeof body.on === 'string' ? body.on === 'true' : body.on;
+    if (on !== undefined) {
+      state.on = typeof on === 'string' ? on === 'true' : on;
 
       if (!state.on) {
         return state;
       }
     }
 
-    const bri = body.bri;
     if (!isNaN(bri)) {
       state.bri = parseInt(bri, 10);
     }
 
-    const sat = body.sat;
     if (!isNaN(sat)) {
       state.sat = parseInt(sat, 10);
     }
 
-    const xy = body.xy;
     if (Array.isArray(xy)) {
       state.xy = xy.map(item => parseFloat(item));
     }

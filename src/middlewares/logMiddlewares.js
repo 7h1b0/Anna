@@ -1,14 +1,14 @@
 const Log = require('../models/log');
 const User = require('../models/user');
 
-function saveToBDD(req, username = '') {
+function saveToBDD({ method, ip, originalUrl }, username = '') {
   const log = new Log({
-    ip: req.ip || 'unknown',
-    httpMethod: req.method,
-    path: req.originalUrl,
+    ip: ip || 'unknown',
+    httpMethod: method,
+    path: originalUrl,
     username,
   });
-  log.save().catch(() => console.log(`${req.method} - ${req.originalUrl}`));
+  log.save().catch(() => console.error(`${method} - ${originalUrl}`));
 }
 
 module.exports = (req, res, next) => {

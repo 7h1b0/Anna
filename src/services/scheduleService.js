@@ -44,7 +44,7 @@ module.exports = () => {
 
   function add(props) {
     if (typeof props !== 'object') {
-      throw new Error('Expected the schedule to be a object.');
+      throw new Error('Expected schedule to be an object.');
     }
 
     return validate(props, true)

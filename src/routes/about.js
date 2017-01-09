@@ -29,12 +29,12 @@ module.exports = (app) => {
     const schedules = scheduleService.getAll();
 
     Promise.all([getScenes, getDios, getHueLights, getHueGroups, getAlias])
-      .then(values => res.send({
-        scenes: values[0],
-        dios: values[1],
-        hueLights: values[2],
-        hueGroups: values[3],
-        alias: values[4],
+      .then(([scenes, dios, hueLights, hueGroups, alias]) => res.send({
+        scenes,
+        dios,
+        hueLights,
+        hueGroups,
+        alias,
         schedules,
       }))
       .catch(err => res.status(500).send({ err }));

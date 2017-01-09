@@ -1,11 +1,11 @@
 const Log = require('../models/log');
 const User = require('../models/user');
 
-function saveToBDD({ method, ip, originalUrl }, username = '') {
+function saveToBDD({ method = 'Unknown', ip = 'Unknown', originalUrl = 'Unknown' }, username = 'Unknown') {
   const log = new Log({
-    ip: ip || 'unknown',
     httpMethod: method,
     path: originalUrl,
+    ip,
     username,
   });
   log.save().catch(() => console.error(`${method} - ${originalUrl}`));

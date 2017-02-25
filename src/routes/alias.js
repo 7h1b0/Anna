@@ -15,11 +15,7 @@ module.exports = (app) => {
         if (err) {
           res.status(400).send(getJoiError(err));
         } else {
-          const newAlias = new Alias({
-            name: alias.name,
-            description: alias.description,
-            sceneId: alias.sceneId,
-          });
+          const newAlias = new Alias(alias);
 
           newAlias.save()
             .then(alias => res.status(201).send(alias))
@@ -75,11 +71,11 @@ module.exports = (app) => {
     Alias.findOne({ name: req.params.name })
       .then((alias) => {
         if (!alias) return res.sendStatus(404);
-        return Scene.findById(alias.sceneId);
-      })
-      .then((scene) => {
-        dispatch(scene.actions);
-        res.end();
+        if (alias.enabled !== true) return res.sendStatus(403);
+        return Scene.findById(alias.sceneId).then((scene) => {
+          dispatch(scene.actions);
+          res.end();
+        });
       })
       .catch(err => res.status(500).send({ err }));
   });

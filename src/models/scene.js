@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Joi = require('joi');
-const { type } = require('../utils/');
+const type = require('../utils/type');
 
 const Schema = mongoose.Schema;
 

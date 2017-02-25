@@ -41,7 +41,7 @@ module.exports = function dispatch(actions) {
             if (!scene) {
               console.warn(`Cannot find scene associated with alias ${id}`);
             } else {
-              dispatch(scene.actions))
+              dispatch(scene.actions);
             }
           })
           .catch(err => console.error(err));

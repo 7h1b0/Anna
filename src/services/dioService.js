@@ -12,9 +12,9 @@ module.exports = () => {
     if (queue.length !== 0) {
       const script = queue[0];
       execService(script)
-        .then(() => next())
+        .then(next)
         .catch((err) => {
-          console.log(err);
+          console.warn(err);
           next();
         });
     }

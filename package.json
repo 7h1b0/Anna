@@ -4,12 +4,12 @@
   "description": "REST api for home automation",
   "main": "server.js",
   "dependencies": {
-    "express": "4.14.0",
-    "body-parser": "1.15.2",
-    "mongoose": "4.7.6",
+    "express": "4.14.1",
+    "body-parser": "1.16.1",
+    "mongoose": "4.8.4",
     "cron": "1.2.1",
     "require-dir": "0.3.1",
-    "joi": "10.1.0",
+    "joi": "10.2.2",
     "uuid": "3.0.1",
     "rx-lite": "4.0.8"
   },
@@ -19,11 +19,9 @@
     "eslint-plugin-import": "2.2.x"
   },
   "scripts": {
-    "test": "./node_modules/.bin/mocha --reporter dot",
     "lint": "eslint src server.js config.js",
-    "setup": "npm install --production",
     "start": "NODE_ENV=production node server.js",
-    "update": "git pull && npm run setup"
+    "update": "git pull"
   },
   "author": "7h1b0"
 }

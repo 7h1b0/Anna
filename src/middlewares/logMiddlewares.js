@@ -17,8 +17,8 @@ module.exports = (req, res, next) => {
   if (token) {
     User.findOne({ token })
       .select('username')
-      .then(user => saveToBDD(req, user.username))
-      .catch(() => saveToBDD(req));
+      .then(user => saveToBDD(req, user.username), () => saveToBDD(req))
+      .catch(err => console.error(err));
   } else {
     saveToBDD(req);
   }

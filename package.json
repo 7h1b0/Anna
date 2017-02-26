@@ -4,14 +4,14 @@
   "description": "REST api for home automation",
   "main": "server.js",
   "dependencies": {
-    "express": "4.14.1",
     "body-parser": "1.16.1",
-    "mongoose": "4.8.4",
     "cron": "1.2.1",
-    "require-dir": "0.3.1",
+    "express": "4.14.1",
     "joi": "10.2.2",
-    "uuid": "3.0.1",
-    "rx-lite": "4.0.8"
+    "mongoose": "4.8.4",
+    "require-dir": "0.3.1",
+    "rxjs": "^5.2.0",
+    "uuid": "3.0.1"
   },
   "devDependencies": {
     "eslint": "3.13.x",

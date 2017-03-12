@@ -1,54 +1,27 @@
-const type = require('./type');
+const { HUE_GROUP, HUE_LIGHT, DIO, SCENE } = require('./type');
 const Scene = require('../models/scene');
-const Alias = require('../models/alias');
 const { hueService, dioService } = require('../services/');
 
-module.exports = function dispatch(actions) {
-  actions.forEach(({ type, id, body }) => {
-    switch (type) {
-      case type.HUE_GROUP:
-        hueService.setGroupState(id, body);
-        break;
+module.exports = function dispatch({ type, id, body }) {
+  switch (type) {
+    case HUE_GROUP:
+      return hueService.setGroupState(id, body);
 
-      case type.HUE_LIGHT:
-        hueService.setLightState(id, body);
-        break;
+    case HUE_LIGHT:
+      return hueService.setLightState(id, body);
 
-      case type.DIO:
-        dioService.add(id, body.on);
-        break;
+    case DIO:
+      return dioService.add(id, body.on);
 
-      case type.SCENE:
-        Scene.findById(id).then((scene) => {
-          if (scene) {
-            dispatch(scene.actions);
-          } else {
-            console.warn(`Cannot find scene ${id}`);
-          }
-        }).catch(err => console.error(err));
-        break;
+    case SCENE:
+      return Scene.findById(id).then((scene) => {
+        if (scene) {
+          return Promise.all(scene.actions.map(dispatch));
+        }
+        return Promise.reject(`Cannot find scene ${id}`);
+      });
 
-      case type.ALIAS:
-        Alias.findOne({ name: id })
-          .then((alias) => {
-            if (!alias) {
-              console.warn(`Cannot find alias ${id}`);
-            } else {
-              return Scene.findById(alias.sceneId);
-            }
-          })
-          .then((scene) => {
-            if (!scene) {
-              console.warn(`Cannot find scene associated with alias ${id}`);
-            } else {
-              dispatch(scene.actions);
-            }
-          })
-          .catch(err => console.error(err));
-        break;
-
-      default:
-        break;
-    }
-  });
+    default:
+      return Promise.reject();
+  }
 };

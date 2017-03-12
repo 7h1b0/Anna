@@ -1,4 +1,5 @@
 const { hueService } = require('../services/');
+const { dispatch, actions } = require('../utils/');
 
 module.exports = (app) => {
   function hasProperties(object) {
@@ -81,14 +82,14 @@ module.exports = (app) => {
   });
 
   app.get('/api/hue/groups/:id_group([0-9]{1,2})/:status(on|off)', (req, res) => {
-    hueService.switchGroup(req.params.id_group, req.params.status === 'on')
+    dispatch(actions.toggleHueGroup(req.params.id_group, req.params.status === 'on'))
       .then(result => res.send(result))
       .catch(err => res.status(500).send({ err }));
   });
 
   app.get('/api/hue/groups/:id_group([0-9]{1,2})/toggle', (req, res) => {
     hueService.getGroup(req.params.id_group)
-      .then(hueGroup => hueService.switchGroup(req.params.id_group, !hueGroup.action.on))
+      .then(hueGroup => dispatch(actions.toggleHueGroup(req.params.id_group, !hueGroup.action.on)))
       .then(result => res.send(result))
       .catch(err => res.status(500).send({ err }));
   });

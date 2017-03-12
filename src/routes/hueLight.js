@@ -1,4 +1,5 @@
 const { hueService } = require('../services/');
+const { actions, dispatch } = require('../utils/');
 
 module.exports = (app) => {
   function hasProperties(object) {
@@ -70,13 +71,13 @@ module.exports = (app) => {
 
   app.get('/api/hue/lights/:id_light([0-9]{1,2})/toggle', (req, res) => {
     hueService.getLight(req.params.id_light)
-      .then(light => hueService.switchLight(req.params.id_light, !light.state.on))
+      .then(light => dispatch(actions.toggleHueLight(req.params.id_light, !light.state.on)))
       .then(result => res.send(result))
       .catch(err => res.status(500).send({ err }));
   });
 
   app.get('/api/hue/lights/:id_light([0-9]{1,2})/:status(on|off)', (req, res) => {
-    hueService.switchLight(req.params.id_light, req.params.status === 'on')
+    dispatch(actions.toggleHueLight(req.params.id_light, req.params.status === 'on'))
       .then(result => res.send(result))
       .catch(err => res.status(500).send({ err }));
   });

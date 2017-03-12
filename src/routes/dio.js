@@ -1,5 +1,5 @@
 const Dio = require('../models/dio');
-const { getJoiError } = require('../utils/');
+const { getJoiError, actions, dispatch } = require('../utils/');
 const { dioService } = require('../services/');
 
 module.exports = (app) => {
@@ -67,7 +67,7 @@ module.exports = (app) => {
 
 
   app.get('/api/dios/:id_dio([0-9]{1,2})/:status(on|off)', (req, res) => {
-    dioService.add(req.params.id_dio, req.params.status === 'on');
+    dispatch(actions.toggleDio(req.params.id_dio, req.params.status === 'on'));
     res.end();
   });
 };

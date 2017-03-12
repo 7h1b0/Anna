@@ -5,7 +5,6 @@ const scheduleService = require('./scheduleService')();
 const requestService = require('./requestService');
 const hueService = require('./hueService');
 const execService = require('./execService');
-const weatherService = require('./weatherService')();
 
 hueService.init(hue.hostname, hue.token);
 
@@ -15,5 +14,4 @@ module.exports = {
   scheduleService,
   hueService,
   execService,
-  weatherService,
 };

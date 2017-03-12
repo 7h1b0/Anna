@@ -11,14 +11,14 @@ function saveToBDD({ method = 'Unknown', ip = 'Unknown', originalUrl = 'Unknown'
   log.save().catch(() => console.error(`${method} - ${originalUrl}`));
 }
 
-module.exports = (req, res, next) => {
+module.exports = function logMiddleware(req, res, next) {
   const token = req.headers['x-access-token'];
 
   if (token) {
     User.findOne({ token })
       .select('username')
       .then(user => saveToBDD(req, user.username), () => saveToBDD(req))
-      .catch(err => console.error(err));
+      .catch(console.error);
   } else {
     saveToBDD(req);
   }

@@ -1,7 +1,7 @@
-const authenticationMiddlewares = require('./authenticationMiddlewares');
-const logMiddlewares = require('./logMiddlewares');
+const authenticationMiddleware = require('./authenticationMiddleware');
+const logMiddleware = require('./logMiddleware');
 
 module.exports = [
-  authenticationMiddlewares,
-  logMiddlewares,
+  authenticationMiddleware,
+  logMiddleware,
 ];

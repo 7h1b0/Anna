@@ -3,6 +3,7 @@ const app = require('express')();
 
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+
 mongoose.Promise = global.Promise; // prevent warning message mpromise is deprecated
 const requireDir = require('require-dir');
 

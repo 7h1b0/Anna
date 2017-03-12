@@ -2,25 +2,24 @@
   "name": "Anna",
   "version": "2.9.0",
   "description": "REST api for home automation",
-  "main": "server.js",
+  "main": "index.js",
   "dependencies": {
-    "body-parser": "1.16.1",
+    "body-parser": "^1.17.1",
     "cron": "1.2.1",
-    "express": "4.14.1",
-    "joi": "10.2.2",
+    "express": "^4.15.2",
+    "joi": "^10.2.2",
     "mongoose": "4.8.4",
     "require-dir": "0.3.1",
-    "rxjs": "^5.2.0",
-    "uuid": "3.0.1"
+    "uuid": "^3.0.1"
   },
   "devDependencies": {
-    "eslint": "3.13.x",
-    "eslint-config-airbnb-base": "11.0.x",
+    "eslint": "^3.17.1",
+    "eslint-config-airbnb-base": "^11.1.1",
     "eslint-plugin-import": "2.2.x"
   },
   "scripts": {
-    "lint": "eslint src server.js config.js",
-    "start": "NODE_ENV=production node server.js",
+    "lint": "eslint src index.js config.js",
+    "start": "NODE_ENV=production node index.js",
     "update": "git pull"
   },
   "author": "7h1b0"

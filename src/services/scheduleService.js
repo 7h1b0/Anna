@@ -32,7 +32,7 @@ module.exports = () => {
 
     const pattern = isNew ? newPattern : updatePattern;
     return new Promise((resolve, reject) => {
-      Joi.validate(props, pattern, (err, schedule) => {
+      Joi.validate(props, pattern, { allowUnknown: true, stripUnknown: true }, (err, schedule) => {
         if (err) {
           reject(err);
         } else {

@@ -1,5 +1,4 @@
 const { getJoiError, dispatch, actions } = require('../utils/');
-const Scene = require('../models/scene');
 const Alias = require('../models/alias');
 
 module.exports = (app) => {
@@ -72,6 +71,7 @@ module.exports = (app) => {
       .then((alias) => {
         if (!alias) return res.sendStatus(404);
         if (alias.enabled !== true) return res.sendStatus(403);
+
         return dispatch(actions.callScene(alias.sceneId)).then(() => res.end());
       })
       .catch(err => res.status(500).send({ err }));

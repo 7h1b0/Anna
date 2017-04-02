@@ -2,27 +2,27 @@ const User = require('../models/user');
 const { cryptoUtil, getJoiError } = require('../utils/');
 
 module.exports = (app) => {
-  app.post('/user', (req, res) => {
+  app.post('/users', (req, res) => {
     User.validate(req.body, (err, user) => {
       if (err) {
         res.status(400).send(getJoiError(err));
       } else {
-        cryptoUtil.random()
-          .then((token) => {
+        Promise.all([cryptoUtil.random(36), cryptoUtil.hash(user.password)])
+          .then(([token, password]) => {
             const newUser = new User({
               username: user.username,
-              password: cryptoUtil.hash(user.password),
+              password,
               token,
             });
             return newUser.save();
           })
-          .then(newUser => res.status(201).send(newUser))
+          .then(({ _id, username, token }) => res.status(201).send({ _id, username, token }))
           .catch(err => res.status(500).send({ err }));
       }
     });
   });
 
-  app.post('/authentication', (req, res) => {
+  app.post('/login', (req, res) => {
     User.validate(req.body, (err, user) => {
       if (err) {
         res.status(400).send(getJoiError(err));
@@ -31,16 +31,18 @@ module.exports = (app) => {
           .then((findUser) => {
             if (!findUser) {
               res.sendStatus(400);
-            } else if (cryptoUtil.verify(user.password, findUser.password)) {
-              const copyUser = {
-                _id: findUser._id,
-                username: findUser.username,
-                token: findUser.token,
-              };
-
-              res.send(copyUser);
             } else {
-              res.sendStatus(400);
+              cryptoUtil.verify(user.password, findUser.password)
+                .then(() => {
+                  const copyUser = {
+                    _id: findUser._id,
+                    username: findUser.username,
+                    token: findUser.token,
+                  };
+
+                  res.send(copyUser);
+                })
+                .catch(() => res.sendStatus(400));
             }
           })
           .catch(err => res.status(500).send({ err }));
@@ -48,21 +50,21 @@ module.exports = (app) => {
     });
   });
 
-  app.get('/api/user', (req, res) => {
+  app.get('/api/users', (req, res) => {
     User.find({}).select('username')
       .then(users => res.send(users))
       .catch(err => res.status(500).send({ err }));
   });
 
-  app.route('/api/user/:id_user([0-9a-z]{24})')
+  app.route('/api/users/:id_user([0-9a-z]{24})')
     .put((req, res) => {
       User.validate(req.body, (err, user) => {
         if (err) {
           res.status(400).send(getJoiError(err));
         } else {
           User.findByIdAndUpdate(req.params.id_user, user.password, { new: true })
-            .then((user) => {
-              if (!user) {
+            .then((findUser) => {
+              if (!findUser) {
                 res.sendStatus(404);
               } else {
                 res.sendStatus(204);

@@ -16,8 +16,7 @@ module.exports = function logMiddleware(req, res, next) {
 
   if (token) {
     User.findOne({ token })
-      .select('username')
-      .then(user => saveToBDD(req, user.username), () => saveToBDD(req))
+      .then(({ username }) => saveToBDD(req, username), () => saveToBDD(req))
       .catch(console.error);
   } else {
     saveToBDD(req);

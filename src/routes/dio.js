@@ -1,6 +1,5 @@
 const Dio = require('../models/dio');
 const { getJoiError, actions, dispatch } = require('../utils/');
-const { dioService } = require('../services/');
 
 module.exports = (app) => {
   app.route('/api/dios')

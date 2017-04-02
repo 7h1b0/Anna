@@ -54,12 +54,8 @@ class Schedule {
     this.attrs.lastRunAt = Date.now();
     this.computeNextRunAt();
 
-    const done = (err) => {
-      if (err) {
-        this.attrs.failReason = err;
-      } else {
-        this.attrs.failReason = '';
-      }
+    const done = (err = '') => {
+      this.attrs.failReason = err;
       this.attrs.lastFinishedAt = Date.now();
     };
 
@@ -78,7 +74,6 @@ class Schedule {
   }
 
   computeNextRunAt() {
-    const lastRun = this.attrs.lastRunAt ? new Date(this.attrs.lastRunAt + 1000) : new Date();
     const currentDate = new Date();
 
     try {

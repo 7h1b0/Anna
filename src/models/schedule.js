@@ -78,12 +78,12 @@ class Schedule {
   }
 
   computeNextRunAt() {
-    const lastRun = this.attrs.lastRunAt ? new Date(this.attrs.lastRunAt + 1000) : new Date();
     const currentDate = new Date();
+    const currentDateOffset = new Date(currentDate.getTime() + 10000);
 
     try {
       const cronTime = new CronTime(this.attrs.interval);
-      let nextDate = cronTime._getNextDateFrom(currentDate);
+      let nextDate = cronTime._getNextDateFrom(currentDateOffset);
 
       if (!this.attrs.runAtBankHoliday && Schedule.isBankHoliday(nextDate)) {
         nextDate = cronTime._getNextDateFrom(nextDate);

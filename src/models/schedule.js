@@ -51,7 +51,11 @@ class Schedule {
   }
 
   run() {
-    this.attrs.lastRunAt = Date.now();
+    const now = Date.now();
+
+    if (!this.attrs.runAtBankHoliday && Schedule.isBankHoliday(now)) return;
+
+    this.attrs.lastRunAt = now;
     this.computeNextRunAt();
 
     const done = (err) => {
@@ -78,7 +82,7 @@ class Schedule {
   }
 
   computeNextRunAt() {
-    const getDateWithOffset = (timestamp) => new Date(timestamp + 10000);
+    const getDateWithOffset = timestamp => new Date(timestamp + 10000);
 
     const currentDateOffset = getDateWithOffset(Date.now());
 

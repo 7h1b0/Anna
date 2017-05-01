@@ -51,7 +51,11 @@ class Schedule {
   }
 
   run() {
-    this.attrs.lastRunAt = Date.now();
+    const now = Date.now();
+
+    if (!this.attrs.runAtBankHoliday && Schedule.isBankHoliday(now)) return;
+
+    this.attrs.lastRunAt = now;
     this.computeNextRunAt();
 
     const done = (err = '') => {
@@ -74,15 +78,17 @@ class Schedule {
   }
 
   computeNextRunAt() {
-    const currentDate = new Date();
-    const currentDateOffset = new Date(currentDate.getTime() + 10000);
+    const getDateWithOffset = timestamp => new Date(timestamp + 10000);
+
+    const currentDateOffset = getDateWithOffset(Date.now());
 
     try {
       const cronTime = new CronTime(this.attrs.interval);
       let nextDate = cronTime._getNextDateFrom(currentDateOffset);
 
       if (!this.attrs.runAtBankHoliday && Schedule.isBankHoliday(nextDate)) {
-        nextDate = cronTime._getNextDateFrom(nextDate);
+        const nextDateOffset = getDateWithOffset(nextDate);
+        nextDate = cronTime._getNextDateFrom(nextDateOffset);
       }
 
       this.attrs.nextRunAt = nextDate.valueOf();

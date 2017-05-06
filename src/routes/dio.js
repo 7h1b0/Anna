@@ -10,9 +10,9 @@ module.exports = (app) => {
     })
 
     .post((req, res) => {
-      Dio.validate(req.body, (err, dio) => {
-        if (err) {
-          res.status(400).send(getJoiError(err));
+      Dio.validate(req.body, (invalidReq, dio) => {
+        if (invalidReq) {
+          res.status(400).send(getJoiError(invalidReq));
         } else {
           new Dio(dio).save()
             .then(newDio => res.status(201).send(newDio))
@@ -35,9 +35,9 @@ module.exports = (app) => {
     })
 
     .put((req, res) => {
-      Dio.validate(req.body, (err, dio) => {
-        if (err) {
-          res.status(400).send(getJoiError(err));
+      Dio.validate(req.body, (invalidReq, dio) => {
+        if (invalidReq) {
+          res.status(400).send(getJoiError(invalidReq));
         } else {
           Dio.findOneAndUpdate({ id_dio: req.params.id_dio }, dio, { new: true })
             .then((dio) => {

@@ -3,9 +3,9 @@ const { cryptoUtil, getJoiError } = require('../utils/');
 
 module.exports = (app) => {
   app.post('/users', (req, res) => {
-    User.validate(req.body, (err, user) => {
-      if (err) {
-        res.status(400).send(getJoiError(err));
+    User.validate(req.body, (invalidReq, user) => {
+      if (invalidReq) {
+        res.status(400).send(getJoiError(invalidReq));
       } else {
         Promise.all([cryptoUtil.random(36), cryptoUtil.hash(user.password)])
           .then(([token, password]) => {
@@ -23,9 +23,9 @@ module.exports = (app) => {
   });
 
   app.post('/login', (req, res) => {
-    User.validate(req.body, (err, user) => {
-      if (err) {
-        res.status(400).send(getJoiError(err));
+    User.validate(req.body, (invalidReq, user) => {
+      if (invalidReq) {
+        res.status(400).send(getJoiError(invalidReq));
       } else {
         User.findOne({ username: user.username })
           .then((findUser) => {
@@ -58,9 +58,9 @@ module.exports = (app) => {
 
   app.route('/api/users/:id_user([0-9a-z]{24})')
     .put((req, res) => {
-      User.validate(req.body, (err, user) => {
-        if (err) {
-          res.status(400).send(getJoiError(err));
+      User.validate(req.body, (invalidReq, user) => {
+        if (invalidReq) {
+          res.status(400).send(getJoiError(invalidReq));
         } else {
           User.findByIdAndUpdate(req.params.id_user, user.password, { new: true })
             .then((findUser) => {

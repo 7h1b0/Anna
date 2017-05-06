@@ -11,9 +11,9 @@ module.exports = (app) => {
     })
 
     .post((req, res) => {
-      Scene.validate(req.body, (err, scene) => {
-        if (err) {
-          res.status(400).send(getJoiError(err));
+      Scene.validate(req.body, (invalidReq, scene) => {
+        if (invalidReq) {
+          res.status(400).send(getJoiError(invalidReq));
         } else {
           const newScene = new Scene({
             name: scene.name,
@@ -42,9 +42,9 @@ module.exports = (app) => {
     })
 
     .put((req, res) => {
-      Scene.validate(req.body, (err, scene) => {
-        if (err) {
-          res.status(400).send(getJoiError(err));
+      Scene.validate(req.body, (invalidReq, scene) => {
+        if (invalidReq) {
+          res.status(400).send(getJoiError(invalidReq));
         } else {
           Scene.findByIdAndUpdate(req.params.id_scene, scene, { new: true })
             .then((scene) => {

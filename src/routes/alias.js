@@ -10,9 +10,9 @@ module.exports = (app) => {
     })
 
     .post((req, res) => {
-      Alias.validate(req.body, (err, alias) => {
-        if (err) {
-          res.status(400).send(getJoiError(err));
+      Alias.validate(req.body, (invalidReq, alias) => {
+        if (invalidReq) {
+          res.status(400).send(getJoiError(invalidReq));
         } else {
           const newAlias = new Alias(alias);
 
@@ -37,9 +37,9 @@ module.exports = (app) => {
     })
 
     .put((req, res) => {
-      Alias.validate(req.body, (err, alias) => {
-        if (err) {
-          res.status(400).send(getJoiError(err));
+      Alias.validate(req.body, (invalidReq, alias) => {
+        if (invalidReq) {
+          res.status(400).send(getJoiError(invalidReq));
         } else {
           Alias.findByIdAndUpdate(req.params.id_alias, alias, { new: true })
             .then((newAlias) => {

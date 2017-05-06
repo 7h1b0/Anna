@@ -3,12 +3,12 @@ const CronJob = require('cron').CronJob;
 const CronTime = require('cron').CronTime;
 
 class Schedule {
-  constructor({ name, interval, cb, runAtBankHoliday = true }) {
+  constructor({ name, interval, cb, runAtPublicHoliday = true }) {
     this.attrs = {};
     this.attrs._id = uuid();
     this.attrs.name = name;
     this.attrs.interval = interval;
-    this.attrs.runAtBankHoliday = runAtBankHoliday;
+    this.attrs.runAtPublicHoliday = runAtPublicHoliday;
     this.cb = cb;
 
     this.computeNextRunAt();
@@ -18,11 +18,11 @@ class Schedule {
     return this.attrs;
   }
 
-  update({ name, interval, runAtBankHoliday }) {
+  update({ name, interval, runAtPublicHoliday }) {
     this.attrs.name = name || this.attrs.name;
     this.attrs.interval = interval || this.attrs.interval;
-    this.attrs.runAtBankHoliday =
-      runAtBankHoliday !== undefined ? runAtBankHoliday : this.attrs.runAtBankHoliday;
+    this.attrs.runAtPublicHoliday =
+      runAtPublicHoliday !== undefined ? runAtPublicHoliday : this.attrs.runAtPublicHoliday;
     this.stop();
 
     this.start();
@@ -53,7 +53,7 @@ class Schedule {
   run() {
     const now = Date.now();
 
-    if (!this.attrs.runAtBankHoliday && Schedule.isBankHoliday(now)) return;
+    if (!this.attrs.runAtPublicHoliday && Schedule.isPublicHoliday(now)) return;
 
     this.attrs.lastRunAt = now;
     this.computeNextRunAt();
@@ -86,7 +86,7 @@ class Schedule {
       const cronTime = new CronTime(this.attrs.interval);
       let nextDate = cronTime._getNextDateFrom(currentDateOffset);
 
-      if (!this.attrs.runAtBankHoliday && Schedule.isBankHoliday(nextDate)) {
+      if (!this.attrs.runAtPublicHoliday && Schedule.isPublicHoliday(nextDate)) {
         const nextDateOffset = getDateWithOffset(nextDate);
         nextDate = cronTime._getNextDateFrom(nextDateOffset);
       }
@@ -99,8 +99,8 @@ class Schedule {
     }
   }
 
-  static isBankHoliday(timestamp) {
-    function getBankHolidays() {
+  static isPublicHoliday(timestamp) {
+    function getPublicHolidays() {
       // http://techneilogy.blogspot.fr/2012/02/couple-of-years-ago-i-posted-source.html
       const year = new Date().getFullYear();
       const a = year % 19;
@@ -148,7 +148,7 @@ class Schedule {
 
     const date = timestamp ? new Date(timestamp) : new Date();
     date.setHours(0, 0, 0, 0);
-    return getBankHolidays().some(holiday => date.getTime() === holiday.getTime());
+    return getPublicHolidays().some(holiday => date.getTime() === holiday.getTime());
   }
 }
 

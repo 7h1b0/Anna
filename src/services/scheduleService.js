@@ -21,13 +21,13 @@ module.exports = () => {
       name: Joi.string().trim().min(3).required(),
       interval: Joi.string().required(),
       cb: Joi.func().maxArity(1),
-      runAtBankHoliday: Joi.boolean().required(),
+      runAtPublicHoliday: Joi.boolean().required(),
     };
 
     const updatePattern = {
       name: Joi.string().trim().min(3).required(),
       interval: Joi.string().required(),
-      runAtBankHoliday: Joi.boolean().required(),
+      runAtPublicHoliday: Joi.boolean().required(),
     };
 
     const pattern = isNew ? newPattern : updatePattern;

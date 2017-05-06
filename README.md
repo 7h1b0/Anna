@@ -11,10 +11,11 @@ REST API for home automation using NodeJS and MongoDB
 
 * NodeJS >= 6.x
 * MongoDB >= 2.6
+* NPM OR Yarn
 
 ## Installation
 
-1. ```./Anna-API/npm run setup ```
-2. Change config.js to fit your configuration
-3. ```./Anna-API/npm run start ```
+1. `npm run setup` or `yarn run setup`
+2. Change config.json to fit your configuration
+3. `npm start` or `yarn start`
 

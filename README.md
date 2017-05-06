@@ -15,7 +15,7 @@ REST API for home automation using NodeJS and MongoDB
 
 ## Installation
 
-1. `npm run setup` or `yarn run setup`
+1. Execute `npm install` or `yarn`
 2. Change config.json to fit your configuration
-3. `npm start` or `yarn start`
+3. Execute `npm start` or `yarn start`
 

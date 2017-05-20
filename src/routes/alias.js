@@ -42,16 +42,35 @@ module.exports = (app) => {
           res.status(400).send(getJoiError(invalidReq));
         } else {
           Alias.findByIdAndUpdate(req.params.id_alias, alias, { new: true })
-            .then((newAlias) => {
-              if (!newAlias) {
+            .then((updatedAlias) => {
+              if (!updatedAlias) {
                 res.sendStatus(404);
               } else {
-                res.send(newAlias);
+                res.send(updatedAlias);
               }
             })
             .catch(err => res.status(500).send({ err }));
         }
       });
+    })
+
+    .patch((req, res) => {
+      const isBadRequest = () =>
+        !req.body || (req.body.enabled !== false && req.body.enabled !== true);
+
+      if (isBadRequest()) {
+        res.sendStatus(400);
+      } else {
+        Alias.findByIdAndUpdate(req.params.id_alias, { enabled: req.body.enabled }, { new: true })
+          .then((updatedAlias) => {
+            if (!updatedAlias) {
+              res.sendStatus(404);
+            } else {
+              res.send(updatedAlias);
+            }
+          })
+          .catch(err => res.status(500).send({ err }));
+      }
     })
 
     .delete((req, res) => {

@@ -1,6 +1,6 @@
 const Scene = require('../models/scene');
 const { dispatch, actions, getJoiError } = require('../utils/');
-const { hueService } = require('../services/');
+const hueService = require('../services/hueService');
 
 module.exports = (app) => {
   app.route('/api/scenes')
@@ -87,12 +87,18 @@ module.exports = (app) => {
   app.get('/api/scenes/:id_scene([0-9a-z]{24})/action', (req, res) => {
     dispatch(actions.callScene(req.params.id_scene))
       .then(() => res.end())
-      .catch(err => res.status(500).send({ err }));
+      .catch(err => {
+        console.log(err);
+        res.status(500).send({ err });
+      });
   });
 
   app.get('/api/scenes/:id_hue_scene([0-9a-zA-Z-]{15})/action', (req, res) => {
     hueService.recallScene(req.params.id_hue_scene)
       .then(() => res.end())
-      .catch(err => res.status(500).send({ err }));
+      .catch(err => {
+        console.log(err);
+        res.status(500).send({ err });
+      });
   });
 };

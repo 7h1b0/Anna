@@ -1,6 +1,7 @@
 const { HUE_GROUP, HUE_LIGHT, DIO, SCENE } = require('./type');
 const Scene = require('../models/scene');
-const { hueService, dioService } = require('../services/');
+const hueService = require('../services/hueService');
+const dioService = require('../services/dioService');
 
 module.exports = function dispatch({ type, id, body }) {
   switch (type) {

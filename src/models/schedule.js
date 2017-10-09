@@ -61,6 +61,9 @@ class Schedule {
     const done = (err = '') => {
       this.attrs.failReason = err;
       this.attrs.lastFinishedAt = Date.now();
+      if (err !== '') {
+        this.attrs.lastFailedAt = Date.now();
+      }
     };
 
     setImmediate(() => {

@@ -3,7 +3,8 @@ const props = require('./../../package.json');
 const Scene = require('../models/scene');
 const Dio = require('../models/dio');
 const Alias = require('../models/alias');
-const { hueService, scheduleService } = require('../services/');
+const scheduleService = require('../services/scheduleService');
+const hueService = require('../services/hueService');
 
 module.exports = (app) => {
   app.get('/anna', (req, res) => res.end());

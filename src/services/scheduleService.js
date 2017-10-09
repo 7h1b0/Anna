@@ -1,22 +1,23 @@
 const Joi = require('joi');
 const Schedule = require('../models/schedule');
 
-module.exports = () => {
-  let schedules = [];
+let schedules = [];
 
-  function getAll() {
+module.exports = {
+
+  getAll() {
     return schedules.map(schedule => schedule.attrs);
-  }
+  },
 
-  function get(scheduleId) {
+  get(scheduleId) {
     return schedules.find(schedule => schedule.attrs._id === scheduleId);
-  }
+  },
 
-  function getIndex(scheduleId) {
+  getIndex(scheduleId) {
     return schedules.findIndex(schedule => schedule.attrs._id === scheduleId);
-  }
+  },
 
-  function validate(props, isNew = true) {
+  validate(props, isNew = true) {
     const newPattern = {
       name: Joi.string().trim().min(3).required(),
       interval: Joi.string().required(),
@@ -40,42 +41,33 @@ module.exports = () => {
         }
       });
     });
-  }
+  },
 
-  function add(props) {
+  add(props) {
     if (typeof props !== 'object') {
       throw new Error('Expected schedule to be an object.');
     }
 
-    return validate(props, true)
+    return this.validate(props, true)
       .then(() => new Schedule(props))
       .then((schedule) => {
         schedules.push(schedule);
         schedule.start();
       });
-  }
+  },
 
-  function remove(scheduleId) {
-    const index = getIndex(scheduleId);
+  remove(scheduleId) {
+    const index = this.getIndex(scheduleId);
     if (index === -1) return false;
 
     const schedule = schedules[index];
     schedule.stop();
     schedules.splice(index, 1);
     return true;
-  }
+  },
 
-  function purge() {
+  purge() {
     schedules.forEach(schedule => schedule.stop());
     schedules = [];
-  }
-
-  return {
-    getAll,
-    get,
-    add,
-    remove,
-    purge,
-    validate,
-  };
+  },
 };

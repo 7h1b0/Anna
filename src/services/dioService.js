@@ -1,33 +1,30 @@
 const execService = require('./execService');
 
-module.exports = () => {
-  const queue = [];
+const queue = [];
+const run = () => {
+  const next = () => {
+    queue.shift();
+    run();
+  };
 
-  function run() {
-    const next = () => {
-      queue.shift();
-      run();
-    };
-
-    if (queue.length !== 0) {
-      const script = queue[0];
-      execService(script)
-        .then(next)
-        .catch((err) => {
-          console.warn(err);
-          next();
-        });
-    }
+  if (queue.length !== 0) {
+    const script = queue[0];
+    execService(script)
+      .then(next)
+      .catch((err) => {
+        console.warn(err);
+        next();
+      });
   }
+};
 
-  function add(device, on = false) {
+module.exports = {
+  add(device, on = false) {
     const status = on ? 1 : 0;
     queue.push(`./radioEmission ${device} ${status}`);
 
     if (queue.length === 1) {
       run();
     }
-  }
-
-  return { add };
+  },
 };

@@ -1,4 +1,4 @@
-const { scheduleService } = require('../services/');
+const scheduleService = require('../services/scheduleService');
 const { getJoiError } = require('../utils/');
 
 module.exports = (app) => {

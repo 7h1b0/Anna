@@ -1,4 +1,4 @@
-const { hueService } = require('../services/');
+const hueService = require('../services/hueService');
 const { dispatch, actions } = require('../utils/');
 
 module.exports = (app) => {

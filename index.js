@@ -8,7 +8,7 @@ mongoose.Promise = global.Promise; // prevent warning message mpromise is deprec
 const requireDir = require('require-dir');
 
 const { database, port } = require('./config.json');
-const { scheduleService } = require('./src/services/');
+const scheduleService = require('./src/services/scheduleService');
 const routes = require('./src/routes/');
 const middlewares = require('./src/middlewares/');
 
@@ -18,15 +18,19 @@ mongoose.Promise = global.Promise;
 mongoose.connect(uri);
 
 const schedules = requireDir('./assets/schedules');
-Object.keys(schedules).forEach((schedule) => {
+const loadSchedules = Object.keys(schedules).map((schedule) => {
   const attrs = schedules[schedule]();
-  scheduleService.add(attrs).catch(err => console.log(err));
+  return scheduleService.add(attrs).catch(err => console.log(err));
 });
+
+Promise.all(loadSchedules).then(() => console.log('Schedules loaded :)'));
 
 // Setup Server
 app.use(bodyParser.json());
 app.all('/api/*', middlewares);
 routes.forEach(route => route(app));
-app.listen(port);
+app.listen(port, () => {
+  console.log(`Anna is listening on port ${port}`);
+});
 
 app.use((req, res) => res.sendStatus(404));

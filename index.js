@@ -14,8 +14,9 @@ const middlewares = require('./src/middlewares/');
 
 // Setup Database
 const uri = `mongodb://${database.hostname}:${database.port}/${database.name}`;
-mongoose.Promise = global.Promise;
-mongoose.connect(uri);
+mongoose.connect(uri, {
+  useMongoClient: true,
+});
 
 const schedules = requireDir('./assets/schedules');
 const loadSchedules = Object.keys(schedules).map((schedule) => {

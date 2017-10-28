@@ -4,6 +4,6 @@ module.exports = {
   isValid(token = '') {
     return User.findOne({ token })
       .select('token')
-      .then(foundToken => (foundToken || Promise.reject()));
+      .then(foundToken => foundToken || Promise.reject());
   },
 };

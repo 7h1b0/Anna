@@ -1,7 +1,10 @@
 const Log = require('../models/log');
 const User = require('../models/user');
 
-function saveToBDD({ method = 'Unknown', ip = 'Unknown', originalUrl = 'Unknown' }, username = 'Unknown') {
+function saveToBDD(
+  { method = 'Unknown', ip = 'Unknown', originalUrl = 'Unknown' },
+  username = 'Unknown',
+) {
   const log = new Log({
     httpMethod: method,
     path: originalUrl,

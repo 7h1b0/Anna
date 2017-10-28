@@ -15,7 +15,7 @@ module.exports = function dispatch({ type, id, body }) {
       return dioService.add(id, body.on);
 
     case SCENE:
-      return Scene.findById(id).then((scene) => {
+      return Scene.findById(id).then(scene => {
         if (scene) {
           return Promise.all(scene.actions.map(dispatch));
         }

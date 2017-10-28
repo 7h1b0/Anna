@@ -1,8 +1,10 @@
 const Log = require('../models/log');
 
-module.exports = (app) => {
+module.exports = app => {
   function getQuery(limit = 20) {
-    return Log.find({}).sort({ date: 'desc' }).limit(limit);
+    return Log.find({})
+      .sort({ date: 'desc' })
+      .limit(limit);
   }
 
   function toTimestamp(logs) {

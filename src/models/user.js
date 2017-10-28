@@ -11,8 +11,14 @@ const user = new Schema({
 
 user.statics.validate = function validate(data, callback) {
   const pattern = {
-    username: Joi.string().trim().min(4).required(),
-    password: Joi.string().trim().min(4).required(),
+    username: Joi.string()
+      .trim()
+      .min(4)
+      .required(),
+    password: Joi.string()
+      .trim()
+      .min(4)
+      .required(),
   };
 
   Joi.validate(data, pattern, callback);

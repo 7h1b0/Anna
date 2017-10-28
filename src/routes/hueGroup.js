@@ -1,7 +1,7 @@
 const hueService = require('../services/hueService');
 const { dispatch, actions } = require('../utils/');
 
-module.exports = (app) => {
+module.exports = app => {
   function hasProperties(object) {
     return Object.keys(object).length > 0;
   }
@@ -32,38 +32,42 @@ module.exports = (app) => {
     return state;
   }
 
-  app.route('/api/hue/groups')
+  app
+    .route('/api/hue/groups')
     .get((req, res) => {
-      hueService.getGroups()
+      hueService
+        .getGroups()
         .then(groups => res.send(groups))
         .catch(err => res.status(500).send({ err }));
     })
-
     .post((req, res) => {
-      hueService.createGroup(req.body)
+      hueService
+        .createGroup(req.body)
         .then(id => res.send(id))
         .catch(err => res.status(500).send({ err }));
     });
 
-  app.route('/api/hue/groups/:id_group([0-9]{1,2})')
+  app
+    .route('/api/hue/groups/:id_group([0-9]{1,2})')
     .get((req, res) => {
-      hueService.getGroup(req.params.id_group)
+      hueService
+        .getGroup(req.params.id_group)
         .then(group => res.send(group))
         .catch(err => res.status(500).send({ err }));
     })
-
     .put((req, res) => {
       if (req.body.name === undefined) {
         res.sendStatus(400);
       } else {
-        hueService.renameGroup(req.params.id_group, req.body.name)
+        hueService
+          .renameGroup(req.params.id_group, req.body.name)
           .then(result => res.send(result))
           .catch(err => res.status(500).send({ err }));
       }
     })
-
     .delete((req, res) => {
-      hueService.deleteGroup(req.params.id_group)
+      hueService
+        .deleteGroup(req.params.id_group)
         .then(id => res.send(id))
         .catch(err => res.status(500).send({ err }));
     });
@@ -73,7 +77,8 @@ module.exports = (app) => {
     const state = hasBody ? getState(req.body) : getState(req.query);
 
     if (hasProperties(state)) {
-      hueService.setGroupState(req.params.id_group, state)
+      hueService
+        .setGroupState(req.params.id_group, state)
         .then(result => res.send(result))
         .catch(err => res.status(500).send({ err }));
     } else {
@@ -81,15 +86,25 @@ module.exports = (app) => {
     }
   });
 
-  app.get('/api/hue/groups/:id_group([0-9]{1,2})/:status(on|off)', (req, res) => {
-    dispatch(actions.toggleHueGroup(req.params.id_group, req.params.status === 'on'))
-      .then(result => res.send(result))
-      .catch(err => res.status(500).send({ err }));
-  });
+  app.get(
+    '/api/hue/groups/:id_group([0-9]{1,2})/:status(on|off)',
+    (req, res) => {
+      dispatch(
+        actions.toggleHueGroup(req.params.id_group, req.params.status === 'on'),
+      )
+        .then(result => res.send(result))
+        .catch(err => res.status(500).send({ err }));
+    },
+  );
 
   app.get('/api/hue/groups/:id_group([0-9]{1,2})/toggle', (req, res) => {
-    hueService.getGroup(req.params.id_group)
-      .then(hueGroup => dispatch(actions.toggleHueGroup(req.params.id_group, !hueGroup.action.on)))
+    hueService
+      .getGroup(req.params.id_group)
+      .then(hueGroup =>
+        dispatch(
+          actions.toggleHueGroup(req.params.id_group, !hueGroup.action.on),
+        ),
+      )
       .then(result => res.send(result))
       .catch(err => res.status(500).send({ err }));
   });

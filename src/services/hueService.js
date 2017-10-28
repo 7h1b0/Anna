@@ -3,8 +3,10 @@ const { hue } = require('../../config.json');
 
 const api = `http://${hue.hostname}/api/${hue.token}`;
 
-const toArray = jsonObject => Object.keys(jsonObject)
-  .map(id => Object.assign({}, jsonObject[id], { _id: id }));
+const toArray = jsonObject =>
+  Object.keys(jsonObject).map(id =>
+    Object.assign({}, jsonObject[id], { _id: id }),
+  );
 
 const extractId = jsonArray => jsonArray[0].success.id;
 
@@ -12,14 +14,13 @@ module.exports = {
   // -----------------------------------------
   // Lights API
   getLights() {
-    return request.get(`${api}/lights`)
-      .then((body) => {
-        let correctedBody = body;
-        if (body) {
-          correctedBody = toArray(body);
-        }
-        return correctedBody;
-      });
+    return request.get(`${api}/lights`).then(body => {
+      let correctedBody = body;
+      if (body) {
+        correctedBody = toArray(body);
+      }
+      return correctedBody;
+    });
   },
 
   getLight(id) {
@@ -41,14 +42,13 @@ module.exports = {
   // -----------------------------------------
   // Scenes API
   getScenes() {
-    return request.get(`${api}/scenes`)
-      .then((body) => {
-        let correctedBody = body;
-        if (body) {
-          correctedBody = toArray(body);
-        }
-        return correctedBody;
-      });
+    return request.get(`${api}/scenes`).then(body => {
+      let correctedBody = body;
+      if (body) {
+        correctedBody = toArray(body);
+      }
+      return correctedBody;
+    });
   },
 
   getScene(id) {
@@ -56,8 +56,7 @@ module.exports = {
   },
 
   createScene(scene) {
-    return request.post(`${api}/scenes`, scene)
-      .then(body => extractId(body));
+    return request.post(`${api}/scenes`, scene).then(body => extractId(body));
   },
 
   setScene(id, body) {
@@ -79,14 +78,13 @@ module.exports = {
   // -----------------------------------------
   // Groups API
   getGroups() {
-    return request.get(`${api}/groups`)
-      .then((body) => {
-        let correctedBody = body;
-        if (body) {
-          correctedBody = toArray(body);
-        }
-        return correctedBody;
-      });
+    return request.get(`${api}/groups`).then(body => {
+      let correctedBody = body;
+      if (body) {
+        correctedBody = toArray(body);
+      }
+      return correctedBody;
+    });
   },
 
   getGroup(id) {
@@ -99,7 +97,8 @@ module.exports = {
     filteredGroup.type = group.type;
     filteredGroup.lights = group.lights.map(light => `${light}`);
 
-    return request.post(`${api}/groups`, filteredGroup)
+    return request
+      .post(`${api}/groups`, filteredGroup)
       .then(body => extractId(body));
   },
 
@@ -122,14 +121,13 @@ module.exports = {
   // -----------------------------------------
   // Rules API
   getRules() {
-    return request.get(`${api}/rules`)
-      .then((body) => {
-        let correctedBody = body;
-        if (body) {
-          correctedBody = toArray(body);
-        }
-        return correctedBody;
-      });
+    return request.get(`${api}/rules`).then(body => {
+      let correctedBody = body;
+      if (body) {
+        correctedBody = toArray(body);
+      }
+      return correctedBody;
+    });
   },
 
   getRule(id) {
@@ -137,8 +135,7 @@ module.exports = {
   },
 
   createRule(rule) {
-    return request.post(`${api}/rules`, rule)
-      .then(body => extractId(body));
+    return request.post(`${api}/rules`, rule).then(body => extractId(body));
   },
 
   setRule(id, body) {
@@ -152,14 +149,13 @@ module.exports = {
   // -----------------------------------------
   // Sensors API
   getSensors() {
-    return request.get(`${api}/sensors`)
-      .then((body) => {
-        let correctedBody = body;
-        if (body) {
-          correctedBody = toArray(body);
-        }
-        return correctedBody;
-      });
+    return request.get(`${api}/sensors`).then(body => {
+      let correctedBody = body;
+      if (body) {
+        correctedBody = toArray(body);
+      }
+      return correctedBody;
+    });
   },
 
   getSensor(id) {
@@ -167,8 +163,7 @@ module.exports = {
   },
 
   createSensor(sensor) {
-    return request.post(`${api}/sensors`, sensor)
-      .then(body => extractId(body));
+    return request.post(`${api}/sensors`, sensor).then(body => extractId(body));
   },
 
   setSensor(id, body) {
@@ -195,7 +190,7 @@ module.exports = {
 
   restoreState(state) {
     const promises = state.map(lighState =>
-      request.setLightState(lighState._id, lighState.state)
+      request.setLightState(lighState._id, lighState.state),
     );
 
     return Promise.all(promises);

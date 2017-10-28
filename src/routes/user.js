@@ -1,7 +1,7 @@
 const User = require('../models/user');
 const { cryptoUtil, getJoiError } = require('../utils/');
 
-module.exports = (app) => {
+module.exports = app => {
   app.post('/users', (req, res) => {
     User.validate(req.body, (invalidReq, user) => {
       if (invalidReq) {
@@ -16,7 +16,9 @@ module.exports = (app) => {
             });
             return newUser.save();
           })
-          .then(({ _id, username, token }) => res.status(201).send({ _id, username, token }))
+          .then(({ _id, username, token }) =>
+            res.status(201).send({ _id, username, token }),
+          )
           .catch(err => res.status(500).send({ err }));
       }
     });
@@ -28,11 +30,12 @@ module.exports = (app) => {
         res.status(400).send(getJoiError(invalidReq));
       } else {
         User.findOne({ username: user.username })
-          .then((findUser) => {
+          .then(findUser => {
             if (!findUser) {
               res.sendStatus(400);
             } else {
-              cryptoUtil.verify(user.password, findUser.password)
+              cryptoUtil
+                .verify(user.password, findUser.password)
                 .then(() => {
                   const copyUser = {
                     _id: findUser._id,
@@ -51,19 +54,23 @@ module.exports = (app) => {
   });
 
   app.get('/api/users', (req, res) => {
-    User.find({}).select('username')
+    User.find({})
+      .select('username')
       .then(users => res.send(users))
       .catch(err => res.status(500).send({ err }));
   });
 
-  app.route('/api/users/:id_user([0-9a-z]{24})')
+  app
+    .route('/api/users/:id_user([0-9a-z]{24})')
     .put((req, res) => {
       User.validate(req.body, (invalidReq, user) => {
         if (invalidReq) {
           res.status(400).send(getJoiError(invalidReq));
         } else {
-          User.findByIdAndUpdate(req.params.id_user, user.password, { new: true })
-            .then((findUser) => {
+          User.findByIdAndUpdate(req.params.id_user, user.password, {
+            new: true,
+          })
+            .then(findUser => {
               if (!findUser) {
                 res.sendStatus(404);
               } else {
@@ -74,10 +81,9 @@ module.exports = (app) => {
         }
       });
     })
-
     .delete((req, res) => {
       User.findByIdAndRemove(req.params.id_user)
-        .then((user) => {
+        .then(user => {
           if (!user) {
             res.sendStatus(404);
           } else {

@@ -1,14 +1,14 @@
 const { getJoiError, dispatch, actions } = require('../utils/');
 const Alias = require('../models/alias');
 
-module.exports = (app) => {
-  app.route('/api/alias')
+module.exports = app => {
+  app
+    .route('/api/alias')
     .get((req, res) => {
       Alias.find({})
         .then(alias => res.send(alias))
         .catch(err => res.status(500).send({ err }));
     })
-
     .post((req, res) => {
       Alias.validate(req.body, (invalidReq, alias) => {
         if (invalidReq) {
@@ -16,17 +16,19 @@ module.exports = (app) => {
         } else {
           const newAlias = new Alias(alias);
 
-          newAlias.save()
+          newAlias
+            .save()
             .then(alias => res.status(201).send(alias))
             .catch(err => res.status(500).send({ err }));
         }
       });
     });
 
-  app.route('/api/alias/:id_alias([0-9a-z]{24})')
+  app
+    .route('/api/alias/:id_alias([0-9a-z]{24})')
     .get((req, res) => {
       Alias.findById(req.params.id_alias)
-        .then((alias) => {
+        .then(alias => {
           if (!alias) {
             res.sendStatus(404);
           } else {
@@ -35,14 +37,13 @@ module.exports = (app) => {
         })
         .catch(err => res.status(500).send({ err }));
     })
-
     .put((req, res) => {
       Alias.validate(req.body, (invalidReq, alias) => {
         if (invalidReq) {
           res.status(400).send(getJoiError(invalidReq));
         } else {
           Alias.findByIdAndUpdate(req.params.id_alias, alias, { new: true })
-            .then((updatedAlias) => {
+            .then(updatedAlias => {
               if (!updatedAlias) {
                 res.sendStatus(404);
               } else {
@@ -53,7 +54,6 @@ module.exports = (app) => {
         }
       });
     })
-
     .patch((req, res) => {
       const isBadRequest = () =>
         !req.body || (req.body.enabled !== false && req.body.enabled !== true);
@@ -61,8 +61,12 @@ module.exports = (app) => {
       if (isBadRequest()) {
         res.sendStatus(400);
       } else {
-        Alias.findByIdAndUpdate(req.params.id_alias, { enabled: req.body.enabled }, { new: true })
-          .then((updatedAlias) => {
+        Alias.findByIdAndUpdate(
+          req.params.id_alias,
+          { enabled: req.body.enabled },
+          { new: true },
+        )
+          .then(updatedAlias => {
             if (!updatedAlias) {
               res.sendStatus(404);
             } else {
@@ -72,10 +76,9 @@ module.exports = (app) => {
           .catch(err => res.status(500).send({ err }));
       }
     })
-
     .delete((req, res) => {
       Alias.findByIdAndRemove(req.params.id_alias)
-        .then((alias) => {
+        .then(alias => {
           if (!alias) {
             res.sendStatus(404);
           } else {
@@ -87,7 +90,7 @@ module.exports = (app) => {
 
   app.get('/api/alias/:name([_a-z]{5,})', (req, res) => {
     Alias.findOne({ name: req.params.name })
-      .then((alias) => {
+      .then(alias => {
         if (!alias) return res.sendStatus(404);
         if (alias.enabled !== true) return res.sendStatus(403);
 

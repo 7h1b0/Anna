@@ -10,8 +10,13 @@ const dio = new Schema({
 
 dio.statics.validate = function validate(data, callback) {
   const pattern = {
-    id_dio: Joi.number().integer().required(),
-    name: Joi.string().trim().min(3).required(),
+    id_dio: Joi.number()
+      .integer()
+      .required(),
+    name: Joi.string()
+      .trim()
+      .min(3)
+      .required(),
   };
 
   Joi.validate(data, pattern, callback);
@@ -19,8 +24,13 @@ dio.statics.validate = function validate(data, callback) {
 
 dio.statics.pattern = function getPattern() {
   return {
-    id_dio: Joi.number().integer().required(),
-    name: Joi.string().trim().min(3).required(),
+    id_dio: Joi.number()
+      .integer()
+      .required(),
+    name: Joi.string()
+      .trim()
+      .min(3)
+      .required(),
   };
 };
 

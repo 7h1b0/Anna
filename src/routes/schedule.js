@@ -1,14 +1,14 @@
 const scheduleService = require('../services/scheduleService');
 const { getJoiError } = require('../utils/');
 
-module.exports = (app) => {
-  app.route('/api/schedules')
-    .get((req, res) => {
-      const schedules = scheduleService.getAll();
-      res.send(schedules);
-    });
+module.exports = app => {
+  app.route('/api/schedules').get((req, res) => {
+    const schedules = scheduleService.getAll();
+    res.send(schedules);
+  });
 
-  app.route('/api/schedules/:id_schedule([0-9a-z\-]{36})')
+  app
+    .route('/api/schedules/:id_schedule([0-9a-z-]{36})')
     .get((req, res) => {
       const schedule = scheduleService.get(req.params.id_schedule);
       if (schedule) {
@@ -17,10 +17,10 @@ module.exports = (app) => {
         res.sendStatus(404);
       }
     })
-
     .put((req, res) => {
-      scheduleService.validate(req.body, false)
-        .then((validatedSchedule) => {
+      scheduleService
+        .validate(req.body, false)
+        .then(validatedSchedule => {
           const schedule = scheduleService.get(req.params.id_schedule);
           if (schedule) {
             const updatedSchedule = schedule.update(validatedSchedule);
@@ -29,12 +29,11 @@ module.exports = (app) => {
             res.sendStatus(404);
           }
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           res.status(400).send(getJoiError(err));
         });
     })
-
     .delete((req, res) => {
       const hasBeenRemoved = scheduleService.remove(req.params.id_schedule);
       if (hasBeenRemoved) {
@@ -44,21 +43,24 @@ module.exports = (app) => {
       }
     });
 
-  app.get('/api/schedules/:id_schedule([0-9a-z\-]{36})/:status(enable|disable)', (req, res) => {
-    const schedule = scheduleService.get(req.params.id_schedule);
-    if (!schedule) {
-      res.status(404).send('Not schedule found');
-    } else {
-      if (req.params.status === 'enable') {
-        schedule.start();
+  app.get(
+    '/api/schedules/:id_schedule([0-9a-z-]{36})/:status(enable|disable)',
+    (req, res) => {
+      const schedule = scheduleService.get(req.params.id_schedule);
+      if (!schedule) {
+        res.status(404).send('Not schedule found');
       } else {
-        schedule.stop();
+        if (req.params.status === 'enable') {
+          schedule.start();
+        } else {
+          schedule.stop();
+        }
+        res.end();
       }
-      res.end();
-    }
-  });
+    },
+  );
 
-  app.get('/api/schedules/:id_schedule([0-9a-z\-]{36})/action', (req, res) => {
+  app.get('/api/schedules/:id_schedule([0-9a-z-]{36})/action', (req, res) => {
     const schedule = scheduleService.get(req.params.id_schedule);
     if (schedule) {
       schedule.run();

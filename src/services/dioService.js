@@ -11,7 +11,7 @@ const run = () => {
     const script = queue[0];
     execService(script)
       .then(next)
-      .catch((err) => {
+      .catch(err => {
         console.warn(err);
         next();
       });

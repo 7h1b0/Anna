@@ -22,7 +22,9 @@ class Schedule {
     this.attrs.name = name || this.attrs.name;
     this.attrs.interval = interval || this.attrs.interval;
     this.attrs.runAtPublicHoliday =
-      runAtPublicHoliday !== undefined ? runAtPublicHoliday : this.attrs.runAtPublicHoliday;
+      runAtPublicHoliday !== undefined
+        ? runAtPublicHoliday
+        : this.attrs.runAtPublicHoliday;
     this.stop();
 
     this.start();
@@ -41,7 +43,12 @@ class Schedule {
   }
 
   start() {
-    this.process = new CronJob(this.attrs.interval, () => this.run(), null, true);
+    this.process = new CronJob(
+      this.attrs.interval,
+      () => this.run(),
+      null,
+      true,
+    );
     this.attrs.isRunning = true;
   }
 
@@ -59,7 +66,7 @@ class Schedule {
     this.computeNextRunAt();
 
     const done = (err = '') => {
-      this.attrs.failReason = err;
+      this.attrs.failReason = JSON.stringify(err);
       this.attrs.lastFinishedAt = Date.now();
       if (err !== '') {
         this.attrs.lastFailedAt = Date.now();
@@ -89,7 +96,10 @@ class Schedule {
       const cronTime = new CronTime(this.attrs.interval);
       let nextDate = cronTime._getNextDateFrom(currentDateOffset);
 
-      if (!this.attrs.runAtPublicHoliday && Schedule.isPublicHoliday(nextDate)) {
+      if (
+        !this.attrs.runAtPublicHoliday &&
+        Schedule.isPublicHoliday(nextDate)
+      ) {
         const nextDateOffset = getDateWithOffset(nextDate);
         nextDate = cronTime._getNextDateFrom(nextDateOffset);
       }
@@ -97,7 +107,8 @@ class Schedule {
       this.attrs.nextRunAt = nextDate.valueOf();
     } catch (e) {
       console.log(e);
-      this.attrs.failReason = 'failed to calculate nextRunAt due to invalid interval';
+      this.attrs.failReason =
+        'failed to calculate nextRunAt due to invalid interval';
       this.attrs.nextRunAt = undefined;
     }
   }
@@ -118,7 +129,7 @@ class Schedule {
       const k = c % 4;
       const l = (32 + 2 * e + 2 * i - h - k) % 7;
       const m = Math.floor((a + 11 * h + 22 * l) / 451);
-      const n0 = (h + l + 7 * m + 114);
+      const n0 = h + l + 7 * m + 114;
       const month = Math.floor(n0 / 31) - 1;
       const day = n0 % 31 + 1;
 
@@ -151,7 +162,9 @@ class Schedule {
 
     const date = timestamp ? new Date(timestamp) : new Date();
     date.setHours(0, 0, 0, 0);
-    return getPublicHolidays().some(holiday => date.getTime() === holiday.getTime());
+    return getPublicHolidays().some(
+      holiday => date.getTime() === holiday.getTime(),
+    );
   }
 }
 

@@ -41,4 +41,5 @@ node_modules/*
 log.txt
 assets/*
 bdd.json
+.env.local
 

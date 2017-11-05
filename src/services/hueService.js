@@ -1,7 +1,7 @@
 const request = require('./requestService');
-const { hue } = require('../../config.json');
+const { HUE_IP, HUE_TOKEN } = require('../constants');
 
-const api = `http://${hue.hostname}/api/${hue.token}`;
+const api = `http://${HUE_IP}/api/${HUE_TOKEN}`;
 
 const toArray = jsonObject =>
   Object.keys(jsonObject).map(id =>

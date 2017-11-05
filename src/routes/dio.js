@@ -1,5 +1,5 @@
 const Dio = require('../models/dio');
-const { getJoiError, actions, dispatch } = require('../utils/');
+const { actions, dispatch } = require('../utils/');
 
 module.exports = app => {
   app
@@ -10,16 +10,15 @@ module.exports = app => {
         .catch(err => res.status(500).send({ err }));
     })
     .post((req, res) => {
-      Dio.validate(req.body, (invalidReq, dio) => {
-        if (invalidReq) {
-          res.status(400).send(getJoiError(invalidReq));
-        } else {
-          new Dio(dio)
-            .save()
-            .then(newDio => res.status(201).send(newDio))
-            .catch(err => res.status(500).send({ err }));
-        }
-      });
+      const isValid = Dio.validate(req.body);
+      if (!isValid) {
+        res.sendStatus(400);
+      } else {
+        new Dio(req.body)
+          .save()
+          .then(newDio => res.status(201).send(newDio))
+          .catch(err => res.status(500).send({ err }));
+      }
     });
 
   app
@@ -36,23 +35,22 @@ module.exports = app => {
         .catch(err => res.status(500).send({ err }));
     })
     .put((req, res) => {
-      Dio.validate(req.body, (invalidReq, dio) => {
-        if (invalidReq) {
-          res.status(400).send(getJoiError(invalidReq));
-        } else {
-          Dio.findOneAndUpdate({ id_dio: req.params.id_dio }, dio, {
-            new: true,
+      const isValid = Dio.validate(req.body);
+      if (!isValid) {
+        res.sendStatus(400);
+      } else {
+        Dio.findOneAndUpdate({ id_dio: req.params.id_dio }, req.body, {
+          new: true,
+        })
+          .then(dio => {
+            if (!dio) {
+              res.sendStatus(404);
+            } else {
+              res.send(dio);
+            }
           })
-            .then(dio => {
-              if (!dio) {
-                res.sendStatus(404);
-              } else {
-                res.send(dio);
-              }
-            })
-            .catch(err => res.status(500).send({ err }));
-        }
-      });
+          .catch(err => res.status(500).send({ err }));
+      }
     })
     .delete((req, res) => {
       Dio.findOneAndRemove({ id_dio: req.params.id_dio })

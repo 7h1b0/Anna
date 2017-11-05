@@ -1,5 +1,6 @@
 const Scene = require('../models/scene');
-const { dispatch, actions, getJoiError } = require('../utils/');
+const { callScene } = require('../utils/actions');
+const dispatch = require('../utils/dispatch');
 const hueService = require('../services/hueService');
 
 module.exports = app => {
@@ -11,22 +12,22 @@ module.exports = app => {
         .catch(err => res.status(500).send({ err }));
     })
     .post((req, res) => {
-      Scene.validate(req.body, (invalidReq, scene) => {
-        if (invalidReq) {
-          res.status(400).send(getJoiError(invalidReq));
-        } else {
-          const newScene = new Scene({
-            name: scene.name,
-            description: scene.description,
-            actions: scene.actions,
-          });
+      const isValid = Scene.validate(req.body);
+      if (!isValid) {
+        res.sendStatus(400);
+      } else {
+        const { name, description, actions } = req.body;
+        const newScene = new Scene({
+          name,
+          description,
+          actions,
+        });
 
-          newScene
-            .save()
-            .then(scene => res.status(201).send(scene))
-            .catch(err => res.status(500).send({ err }));
-        }
-      });
+        newScene
+          .save()
+          .then(scene => res.status(201).send(scene))
+          .catch(err => res.status(500).send({ err }));
+      }
     });
 
   app
@@ -43,21 +44,20 @@ module.exports = app => {
         .catch(err => res.status(500).send({ err }));
     })
     .put((req, res) => {
-      Scene.validate(req.body, (invalidReq, scene) => {
-        if (invalidReq) {
-          res.status(400).send(getJoiError(invalidReq));
-        } else {
-          Scene.findByIdAndUpdate(req.params.id_scene, scene, { new: true })
-            .then(scene => {
-              if (!scene) {
-                res.sendStatus(404);
-              } else {
-                res.send(scene);
-              }
-            })
-            .catch(err => res.status(500).send({ err }));
-        }
-      });
+      const isValid = Scene.validate(req.body);
+      if (!isValid) {
+        res.sendStatus(400);
+      } else {
+        Scene.findByIdAndUpdate(req.params.id_scene, req.body, { new: true })
+          .then(scene => {
+            if (!scene) {
+              res.sendStatus(404);
+            } else {
+              res.send(scene);
+            }
+          })
+          .catch(err => res.status(500).send({ err }));
+      }
     })
     .delete((req, res) => {
       Scene.findByIdAndRemove(req.params.id_scene)
@@ -87,7 +87,7 @@ module.exports = app => {
     });
 
   app.get('/api/scenes/:id_scene([0-9a-z]{24})/action', (req, res) => {
-    dispatch(actions.callScene(req.params.id_scene))
+    dispatch(callScene(req.params.id_scene))
       .then(() => res.end())
       .catch(err => {
         console.log(err);

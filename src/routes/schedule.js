@@ -1,5 +1,4 @@
 const scheduleService = require('../services/scheduleService');
-const { getJoiError } = require('../utils/');
 
 module.exports = app => {
   app.route('/api/schedules').get((req, res) => {
@@ -18,21 +17,18 @@ module.exports = app => {
       }
     })
     .put((req, res) => {
-      scheduleService
-        .validate(req.body, false)
-        .then(validatedSchedule => {
-          const schedule = scheduleService.get(req.params.id_schedule);
-          if (schedule) {
-            const updatedSchedule = schedule.update(validatedSchedule);
-            res.send(updatedSchedule.attrs);
-          } else {
-            res.sendStatus(404);
-          }
-        })
-        .catch(err => {
-          console.log(err);
-          res.status(400).send(getJoiError(err));
-        });
+      const isValid = scheduleService.validate(req.body, false);
+      if (!isValid) {
+        res.sendStatus(400);
+      } else {
+        const schedule = scheduleService.get(req.params.id_schedule);
+        if (schedule) {
+          const updatedSchedule = schedule.update(req.body);
+          res.send(updatedSchedule.attrs);
+        } else {
+          res.sendStatus(404);
+        }
+      }
     })
     .delete((req, res) => {
       const hasBeenRemoved = scheduleService.remove(req.params.id_schedule);

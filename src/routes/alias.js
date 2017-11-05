@@ -1,4 +1,4 @@
-const { getJoiError, dispatch, actions } = require('../utils/');
+const { dispatch, actions } = require('../utils/');
 const Alias = require('../models/alias');
 
 module.exports = app => {
@@ -10,18 +10,18 @@ module.exports = app => {
         .catch(err => res.status(500).send({ err }));
     })
     .post((req, res) => {
-      Alias.validate(req.body, (invalidReq, alias) => {
-        if (invalidReq) {
-          res.status(400).send(getJoiError(invalidReq));
-        } else {
-          const newAlias = new Alias(alias);
+      const isValid = Alias.validate(req.body);
+      if (!isValid) {
+        res.sendStatus(400);
+      } else {
+        const { name, description, sceneId, enabled = true } = req.body;
+        const newAlias = new Alias({ name, description, enabled, sceneId });
 
-          newAlias
-            .save()
-            .then(alias => res.status(201).send(alias))
-            .catch(err => res.status(500).send({ err }));
-        }
-      });
+        newAlias
+          .save()
+          .then(alias => res.status(201).send(alias))
+          .catch(err => res.status(500).send({ err }));
+      }
     });
 
   app
@@ -38,27 +38,26 @@ module.exports = app => {
         .catch(err => res.status(500).send({ err }));
     })
     .put((req, res) => {
-      Alias.validate(req.body, (invalidReq, alias) => {
-        if (invalidReq) {
-          res.status(400).send(getJoiError(invalidReq));
-        } else {
-          Alias.findByIdAndUpdate(req.params.id_alias, alias, { new: true })
-            .then(updatedAlias => {
-              if (!updatedAlias) {
-                res.sendStatus(404);
-              } else {
-                res.send(updatedAlias);
-              }
-            })
-            .catch(err => res.status(500).send({ err }));
-        }
-      });
+      const isValid = Alias.validate(req.body);
+      if (!isValid) {
+        res.sendStatus(400);
+      } else {
+        Alias.findByIdAndUpdate(req.params.id_alias, req.body, { new: true })
+          .then(updatedAlias => {
+            if (!updatedAlias) {
+              res.sendStatus(404);
+            } else {
+              res.send(updatedAlias);
+            }
+          })
+          .catch(err => res.status(500).send({ err }));
+      }
     })
     .patch((req, res) => {
-      const isBadRequest = () =>
+      const isBadRequest =
         !req.body || (req.body.enabled !== false && req.body.enabled !== true);
 
-      if (isBadRequest()) {
+      if (isBadRequest) {
         res.sendStatus(400);
       } else {
         Alias.findByIdAndUpdate(

@@ -1,0 +1,23 @@
+{
+	"port": 8181,
+	"database": {
+		"hostname": "192.168.1.22",
+		"port": 27017,
+		"name": "anna"
+	},
+	"hue": {
+		"hostname": "192.168.1.16",
+		"port": 80,
+		"token": "40509b936327737170ac3fd3fb1183b"
+	},
+	"password": {
+		"iterations": 2000,
+		"hashBytes": 32,
+		"digest": "sha512"
+  },
+  "temperature": {
+    "sensorId": 26,
+    "apiKey": "3ef681ae2651e9be929f7cd7edd2496e",
+    "idCity": 6455259
+  }
+}

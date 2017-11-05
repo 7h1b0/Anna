@@ -19,12 +19,15 @@ mongoose.connect(uri, {
 });
 
 const schedules = requireDir('./assets/schedules');
-const loadSchedules = Object.keys(schedules).map((schedule) => {
+Object.keys(schedules).forEach(schedule => {
   const attrs = schedules[schedule]();
-  return scheduleService.add(attrs).catch(err => console.log(err));
+  try {
+    scheduleService.add(attrs);
+  } catch (error) {
+    console.log(error);
+  }
 });
-
-Promise.all(loadSchedules).then(() => console.log('Schedules loaded :)'));
+console.log('Schedules loaded :)');
 
 // Setup Server
 app.use(bodyParser.json());

@@ -1,5 +1,6 @@
-const Joi = require('joi');
+const Ajv = require('ajv');
 const Schedule = require('../models/schedule');
+const scheduleSchema = require('../schemas/schedule');
 
 let schedules = [];
 
@@ -16,41 +17,9 @@ module.exports = {
     return schedules.findIndex(schedule => schedule.attrs._id === scheduleId);
   },
 
-  validate(props, isNew = true) {
-    const newPattern = {
-      name: Joi.string()
-        .trim()
-        .min(3)
-        .required(),
-      interval: Joi.string().required(),
-      cb: Joi.func().maxArity(1),
-      runAtPublicHoliday: Joi.boolean().required(),
-    };
-
-    const updatePattern = {
-      name: Joi.string()
-        .trim()
-        .min(3)
-        .required(),
-      interval: Joi.string().required(),
-      runAtPublicHoliday: Joi.boolean().required(),
-    };
-
-    const pattern = isNew ? newPattern : updatePattern;
-    return new Promise((resolve, reject) => {
-      Joi.validate(
-        props,
-        pattern,
-        { allowUnknown: true, stripUnknown: true },
-        (err, schedule) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(schedule);
-          }
-        },
-      );
-    });
+  validate(props) {
+    const ajv = new Ajv();
+    return ajv.validate(scheduleSchema, props);
   },
 
   add(props) {
@@ -58,12 +27,14 @@ module.exports = {
       throw new Error('Expected schedule to be an object.');
     }
 
-    return this.validate(props, true)
-      .then(() => new Schedule(props))
-      .then(schedule => {
-        schedules.push(schedule);
-        schedule.start();
-      });
+    const isValid = this.validate(props);
+    if (isValid) {
+      const schedule = new Schedule(props);
+      schedules.push(schedule);
+      schedule.start();
+    } else {
+      throw new Error('Schedule is not valid');
+    }
   },
 
   remove(scheduleId) {

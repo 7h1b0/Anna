@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const Joi = require('joi');
+const Ajv = require('ajv');
+const aliasSchema = require('../schemas/alias');
 
 const Schema = mongoose.Schema;
 
@@ -10,21 +11,9 @@ const alias = new Schema({
   enabled: { type: Boolean, required: true },
 });
 
-alias.statics.validate = function validate(data, callback) {
-  const pattern = {
-    name: Joi.string()
-      .regex(/^[a-z_]{5,}$/)
-      .required(),
-    description: Joi.string()
-      .trim()
-      .min(5)
-      .required(),
-    sceneId: Joi.string()
-      .regex(/^[a-z0-9]{24}$/)
-      .required(),
-    enabled: Joi.boolean().required(),
-  };
-  Joi.validate(data, pattern, callback);
+alias.statics.validate = function validate(data) {
+  const ajv = new Ajv();
+  return ajv.validate(aliasSchema, data);
 };
 
 module.exports = mongoose.model('Alias', alias);

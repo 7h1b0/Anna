@@ -1,36 +1,29 @@
 const crypto = require('crypto');
-const {
-  password: { iterations, hashBytes, digest },
-} = require('../../config.json');
-
-const salt = 'xxxxxxxxxxxxxx';
+const bcrypt = require('bcryptjs');
 
 module.exports = {
   hash(password) {
+    const salt = bcrypt.genSaltSync(10);
     return new Promise((resolve, reject) => {
-      crypto.pbkdf2(
-        password,
-        salt,
-        iterations,
-        hashBytes,
-        digest,
-        (err, key) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(key.toString('base64'));
-          }
-        },
-      );
+      bcrypt.hash(password, salt, (err, hash) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(hash);
+        }
+      });
     });
   },
 
   verify(password, hashedPassword) {
-    return this.hash(password).then(derivedPassword => {
-      if (derivedPassword === hashedPassword) {
-        return Promise.resolve();
-      }
-      return Promise.reject();
+    return new Promise((resolve, reject) => {
+      bcrypt.compare(password, hashedPassword, (err, res) => {
+        if (err || !res) {
+          reject(err);
+        } else {
+          resolve(res);
+        }
+      });
     });
   },
 

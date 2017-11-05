@@ -68,9 +68,15 @@ module.exports = app => {
         res.sendStatus(400);
       } else {
         const { password } = req.body;
-        User.findByIdAndUpdate(req.params.id_user, password, {
-          new: true,
-        })
+        cryptoUtil
+          .hash(password)
+          .then(hashedPassword =>
+            User.findByIdAndUpdate(
+              req.params.id_user,
+              { password: hashedPassword },
+              { new: true },
+            ),
+          )
           .then(findUser => {
             if (!findUser) {
               res.sendStatus(404);

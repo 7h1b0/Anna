@@ -19,7 +19,7 @@ module.exports = function dispatch({ type, id, body }) {
         if (scene) {
           return Promise.all(scene.actions.map(dispatch));
         }
-        return Promise.reject(`Cannot find scene ${id}`);
+        throw new Error(`Cannot find scene ${id}`);
       });
 
     default:

@@ -1,7 +1,7 @@
 const execService = require('./execService');
 
 const queue = [];
-const run = () => {
+const run = async () => {
   const next = () => {
     queue.shift();
     run();
@@ -9,12 +9,13 @@ const run = () => {
 
   if (queue.length !== 0) {
     const script = queue[0];
-    execService(script)
-      .then(next)
-      .catch(err => {
-        console.warn(err);
-        next();
-      });
+    try {
+      await execService(script);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      next();
+    }
   }
 };
 

@@ -11,6 +11,7 @@ const { DATABASE_IP, DATABASE_PORT, DATABASE_NAME, PORT } = require('./src/const
 const scheduleService = require('./src/services/scheduleService');
 const routes = require('./src/routes/');
 const middlewares = require('./src/middlewares/');
+const logger = require('./src/utils/logger');
 
 // Setup Database
 const uri = `mongodb://${DATABASE_IP}:${DATABASE_PORT}/${DATABASE_NAME}`;
@@ -24,17 +25,17 @@ Object.keys(schedules).forEach(schedule => {
   try {
     scheduleService.add(attrs);
   } catch (error) {
-    console.log(error);
+    logger.error(error);
   }
 });
-console.log('Schedules loaded :)');
+logger.info('Schedules loaded :)');
 
 // Setup Server
 app.use(bodyParser.json());
 app.all('/api/*', middlewares);
 routes.forEach(route => route(app));
 app.listen(PORT, () => {
-  console.log(`Anna is listening on port ${PORT}`);
+  logger.info(`Anna is listening on port ${PORT}`)
 });
 
 app.use((req, res) => res.sendStatus(404));

@@ -1,5 +1,6 @@
 const Log = require('../models/log');
 const User = require('../models/user');
+const logger = require('../utils/logger');
 
 function saveToBDD(
   { method = 'Unknown', ip = 'Unknown', originalUrl = 'Unknown' },
@@ -11,7 +12,7 @@ function saveToBDD(
     ip,
     username,
   });
-  log.save().catch(() => console.error(`${method} - ${originalUrl}`));
+  log.save().catch(() => logger.error(`${method} - ${originalUrl}`));
 }
 
 module.exports = function logMiddleware(req, res, next) {
@@ -20,7 +21,7 @@ module.exports = function logMiddleware(req, res, next) {
   if (token) {
     User.findOne({ token })
       .then(({ username }) => saveToBDD(req, username), () => saveToBDD(req))
-      .catch(console.error);
+      .catch(logger.error);
   } else {
     saveToBDD(req);
   }

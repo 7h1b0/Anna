@@ -1,4 +1,5 @@
 const execService = require('./execService');
+const logger = require('../utils/logger');
 
 const queue = [];
 const run = async () => {
@@ -12,7 +13,7 @@ const run = async () => {
     try {
       await execService(script);
     } catch (err) {
-      console.error(err);
+      logger.error(err);
     } finally {
       next();
     }

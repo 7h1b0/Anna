@@ -2,6 +2,7 @@ const Scene = require('../models/scene');
 const { callScene } = require('../utils/actions');
 const dispatch = require('../utils/dispatch');
 const hueService = require('../services/hueService');
+const logger = require('../utils/logger');
 
 module.exports = app => {
   app
@@ -90,7 +91,7 @@ module.exports = app => {
     dispatch(callScene(req.params.id_scene))
       .then(() => res.end())
       .catch(err => {
-        console.log(err);
+        logger.error(err);
         res.status(500).send({ err });
       });
   });
@@ -100,7 +101,7 @@ module.exports = app => {
       .recallScene(req.params.id_hue_scene)
       .then(() => res.end())
       .catch(err => {
-        console.log(err);
+        logger.error(err);
         res.status(500).send({ err });
       });
   });

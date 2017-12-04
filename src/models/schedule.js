@@ -2,6 +2,8 @@ const uuid = require('uuid/v4');
 const CronJob = require('cron').CronJob;
 const CronTime = require('cron').CronTime;
 
+const logger = require('../utils/logger');
+
 class Schedule {
   constructor({ name, interval, cb, runAtPublicHoliday = true }) {
     this.attrs = {};
@@ -106,7 +108,7 @@ class Schedule {
 
       this.attrs.nextRunAt = nextDate.valueOf();
     } catch (e) {
-      console.log(e);
+      logger.error(e);
       this.attrs.failReason =
         'failed to calculate nextRunAt due to invalid interval';
       this.attrs.nextRunAt = undefined;

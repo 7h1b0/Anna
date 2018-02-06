@@ -1,4 +1,4 @@
-const { dispatch, actions } = require('../utils/');
+const { dispatch, actions } = require('../modules/');
 const Alias = require('../models/alias');
 
 module.exports = app => {

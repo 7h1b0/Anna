@@ -2,7 +2,7 @@ const uuid = require('uuid/v4');
 const CronJob = require('cron').CronJob;
 const CronTime = require('cron').CronTime;
 
-const logger = require('../utils/logger');
+const logger = require('../modules/logger');
 
 class Schedule {
   constructor({ name, interval, cb, runAtPublicHoliday = true }) {

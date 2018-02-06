@@ -1,5 +1,5 @@
 const Dio = require('../models/dio');
-const { actions, dispatch } = require('../utils/');
+const { actions, dispatch } = require('../modules/');
 
 module.exports = app => {
   app

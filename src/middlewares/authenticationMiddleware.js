@@ -1,5 +1,5 @@
-const { tokenUtil } = require('../utils/');
-const logger = require('../utils/logger');
+const tokenUtil = require('../modules/tokenUtil');
+const logger = require('../modules/logger');
 
 module.exports = function authenticationMiddleware(req, res, next) {
   const token = req.headers['x-access-token'];
@@ -8,6 +8,6 @@ module.exports = function authenticationMiddleware(req, res, next) {
     .then(() => next())
     .catch(() => {
       logger.warn('Authentification failed');
-      res.sendStatus(401)
+      res.sendStatus(401);
     });
 };

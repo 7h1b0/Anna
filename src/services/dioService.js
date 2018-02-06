@@ -1,5 +1,5 @@
 const execService = require('./execService');
-const logger = require('../utils/logger');
+const logger = require('../modules/logger');
 
 const queue = [];
 const run = async () => {

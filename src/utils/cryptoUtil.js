@@ -4,8 +4,9 @@ const { promisify } = require('util');
 
 module.exports = {
   hash(password) {
-    const salt = bcrypt.genSaltSync(10);
-    return promisify(bcrypt.hash)(password, salt);
+    return bcrypt.genSalt(10).then(salt => {
+      return promisify(bcrypt.hash)(password, salt);
+    });
   },
 
   verify(password, hashedPassword) {

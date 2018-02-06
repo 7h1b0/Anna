@@ -15,7 +15,7 @@ const run = async () => {
     } catch (err) {
       logger.error(err);
     } finally {
-      next();
+      return next();
     }
   }
 };

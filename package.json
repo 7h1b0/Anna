@@ -15,8 +15,7 @@
     "uuid": "^3.1.0"
   },
   "devDependencies": {
-    "eslint": "^3.19.0",
-    "eslint-config-airbnb-base": "^11.1.2",
+    "eslint": "^4.17.0",
     "eslint-plugin-import": "^2.8.0",
     "husky": "^0.14.3",
     "lint-staged": "^6.0.0",
@@ -24,8 +23,8 @@
     "prettier": "^1.9.2"
   },
   "scripts": {
-    "lint": "eslint src index.js config.js",
-    "start": "env-cmd --no-override ./.env.local nodemon index.js",
+    "eslint": "eslint --max-warnings 0 src index.js config.js",
+    "start": "env-cmd --no-override .env.local nodemon index.js",
     "precommit": "lint-staged",
     "postversion": "git push --follow-tags"
   },

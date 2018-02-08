@@ -17,14 +17,6 @@ module.exports = {
     };
   },
 
-  toggleHueGroup(id, on) {
-    return {
-      type: type.HUE_GROUP,
-      body: { on },
-      id,
-    };
-  },
-
   callScene(id) {
     return {
       type: type.SCENE,

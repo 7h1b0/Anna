@@ -1,13 +1,10 @@
-const { HUE_GROUP, HUE_LIGHT, DIO, SCENE } = require('./type');
+const { HUE_LIGHT, DIO, SCENE } = require('./type');
 const Scene = require('../models/scene');
 const hueService = require('../services/hueService');
 const dioService = require('../services/dioService');
 
 module.exports = function dispatch({ type, id, body }) {
   switch (type) {
-    case HUE_GROUP:
-      return hueService.setGroupState(id, body);
-
     case HUE_LIGHT:
       return hueService.setLightState(id, body);
 

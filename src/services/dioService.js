@@ -3,11 +3,6 @@ const logger = require('../modules/logger');
 
 const queue = [];
 const run = async () => {
-  const next = () => {
-    queue.shift();
-    run();
-  };
-
   if (queue.length !== 0) {
     const script = queue[0];
     try {
@@ -15,7 +10,8 @@ const run = async () => {
     } catch (err) {
       logger.error(err);
     } finally {
-      return next();
+      queue.shift();
+      return run();
     }
   }
 };

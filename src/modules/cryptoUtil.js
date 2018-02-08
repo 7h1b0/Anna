@@ -5,12 +5,12 @@ const { promisify } = require('util');
 module.exports = {
   hash(password) {
     return bcrypt.genSalt(10).then(salt => {
-      return promisify(bcrypt.hash)(password, salt);
+      return bcrypt.hash(password, salt);
     });
   },
 
   verify(password, hashedPassword) {
-    return promisify(bcrypt.compare)(password, hashedPassword);
+    return bcrypt.compare(password, hashedPassword);
   },
 
   random(length = 24) {

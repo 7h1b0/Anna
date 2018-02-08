@@ -11,7 +11,7 @@ const { DATABASE_IP, DATABASE_PORT, DATABASE_NAME, PORT } = require('./src/const
 const scheduleService = require('./src/services/scheduleService');
 const routes = require('./src/routes/');
 const middlewares = require('./src/middlewares/');
-const logger = require('./src/utils/logger');
+const logger = require('./src/modules/logger');
 
 // Setup Database
 const uri = `mongodb://${DATABASE_IP}:${DATABASE_PORT}/${DATABASE_NAME}`;

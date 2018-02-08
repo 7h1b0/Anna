@@ -1,5 +1,5 @@
 const User = require('../models/user');
-const { cryptoUtil } = require('../utils/');
+const { cryptoUtil } = require('../modules/');
 
 module.exports = app => {
   app.post('/users', (req, res) => {

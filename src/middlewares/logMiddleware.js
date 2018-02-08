@@ -1,6 +1,6 @@
 const Log = require('../models/log');
 const User = require('../models/user');
-const logger = require('../utils/logger');
+const logger = require('../modules/logger');
 
 function saveToBDD(
   { method = 'Unknown', ip = 'Unknown', originalUrl = 'Unknown' },

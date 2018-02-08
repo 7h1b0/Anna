@@ -1,4 +1,4 @@
-const { TYPES } = require('../utils/type');
+const { TYPES } = require('../modules/type');
 
 module.exports = {
   $id: 'scene',

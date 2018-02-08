@@ -12,8 +12,7 @@ module.exports = {
       minLength: 5,
     },
     sceneId: {
-      type: 'string',
-      pattern: '^[0-9a-z]{24}$',
+      type: 'integer',
     },
     enabled: { type: 'boolean' },
   },

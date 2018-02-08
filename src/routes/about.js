@@ -1,8 +1,8 @@
 const os = require('os');
 const props = require('./../../package.json');
-const Scene = require('../models/scene');
-const Dio = require('../models/dio');
-const Alias = require('../models/alias');
+const Scene = require('../modules/models/scene');
+const Dio = require('../modules/models/dio');
+const Alias = require('../modules/models/alias');
 const scheduleService = require('../services/scheduleService');
 const hueService = require('../services/hueService');
 

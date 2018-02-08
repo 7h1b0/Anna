@@ -1,11 +1,11 @@
-const Dio = require('../models/dio');
+const Dio = require('../modules/models/dio');
 const { actions, dispatch } = require('../modules/');
 
 module.exports = app => {
   app
     .route('/api/dios')
     .get((req, res) => {
-      Dio.find({})
+      Dio.findAll()
         .then(dios => res.send(dios))
         .catch(err => res.status(500).send({ err }));
     })
@@ -14,8 +14,7 @@ module.exports = app => {
       if (!isValid) {
         res.sendStatus(400);
       } else {
-        new Dio(req.body)
-          .save()
+        Dio.save(req.body)
           .then(newDio => res.status(201).send(newDio))
           .catch(err => res.status(500).send({ err }));
       }
@@ -24,7 +23,7 @@ module.exports = app => {
   app
     .route('/api/dios/:id_dio([0-9]{1,2})')
     .get((req, res) => {
-      Dio.findOne({ id_dio: req.params.id_dio })
+      Dio.findOne(req.params.id_dio)
         .then(dio => {
           if (!dio) {
             res.sendStatus(404);
@@ -39,7 +38,7 @@ module.exports = app => {
       if (!isValid) {
         res.sendStatus(400);
       } else {
-        Dio.findOneAndUpdate({ id_dio: req.params.id_dio }, req.body, {
+        Dio.findOneAndUpdate(req.params.id_dio, req.body, {
           new: true,
         })
           .then(dio => {
@@ -53,7 +52,7 @@ module.exports = app => {
       }
     })
     .delete((req, res) => {
-      Dio.findOneAndRemove({ id_dio: req.params.id_dio })
+      Dio.delete(req.params.id_dio)
         .then(dio => {
           if (!dio) {
             res.sendStatus(404);

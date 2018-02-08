@@ -1,12 +1,14 @@
-const tokenUtil = require('../modules/tokenUtil');
+const { findByToken } = require('../modules/models/user');
 const logger = require('../modules/logger');
 
 module.exports = function authenticationMiddleware(req, res, next) {
   const token = req.headers['x-access-token'];
-  tokenUtil
-    .isValid(token)
-    .then(() => next())
-    .catch(() => {
+  findByToken(token)
+    .then(() => {
+      next();
+    })
+    .catch(err => {
+      console.log(err);
       logger.warn('Authentification failed');
       res.sendStatus(401);
     });

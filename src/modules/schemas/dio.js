@@ -3,13 +3,16 @@ module.exports = {
   type: 'object',
   additionalProperties: false,
   properties: {
-    id_dio: {
+    dioId: {
       type: 'integer',
     },
     name: {
       type: 'string',
       minLength: 3,
     },
+    roomId: {
+      type: 'integer',
+    },
   },
-  required: ['name', 'id_dio'],
+  required: ['name', 'dioId', 'roomId'],
 };

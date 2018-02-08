@@ -42,4 +42,6 @@ log.txt
 assets/*
 bdd.json
 .env.local
+*.sqlite3
+*.sqlite3-journal
 

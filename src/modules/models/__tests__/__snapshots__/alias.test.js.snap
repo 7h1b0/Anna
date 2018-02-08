@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Alias delete should delete an alias 1`] = `
+Array [
+  Object {
+    "alias_id": 2,
+    "description": "test",
+    "enabled": false,
+    "name": "test_2",
+    "scene_id": 1,
+  },
+]
+`;
+
+exports[`Alias findAll should return all alias 1`] = `
+Array [
+  Object {
+    "aliasId": 1,
+    "description": "test",
+    "enabled": true,
+    "name": "test",
+    "sceneId": 1,
+  },
+  Object {
+    "aliasId": 2,
+    "description": "test",
+    "enabled": false,
+    "name": "test_2",
+    "sceneId": 1,
+  },
+]
+`;
+
+exports[`Alias findByIdAndUpdate should update a alias 1`] = `
+Array [
+  Object {
+    "alias_id": 1,
+    "description": "test",
+    "enabled": true,
+    "name": "updated",
+    "scene_id": 1,
+  },
+  Object {
+    "alias_id": 2,
+    "description": "test",
+    "enabled": false,
+    "name": "test_2",
+    "scene_id": 1,
+  },
+]
+`;
+
+exports[`Alias save should save a new alias 1`] = `
+Array [
+  Object {
+    "alias_id": 3,
+    "description": "test",
+    "enabled": false,
+    "name": "test_3",
+    "scene_id": 0,
+  },
+]
+`;

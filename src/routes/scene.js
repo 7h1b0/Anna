@@ -1,4 +1,4 @@
-const Scene = require('../models/scene');
+const Scene = require('../modules/models/scene');
 const { callScene } = require('../modules/actions');
 const dispatch = require('../modules/dispatch');
 const hueService = require('../services/hueService');

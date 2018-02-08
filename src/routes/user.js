@@ -1,8 +1,8 @@
-const User = require('../models/user');
+const User = require('../modules/models/user');
 const { cryptoUtil } = require('../modules/');
 
 module.exports = app => {
-  app.post('/users', (req, res) => {
+  app.post('/register', (req, res) => {
     const isValid = User.validate(req.body);
     if (!isValid) {
       res.sendStatus(400);
@@ -10,17 +10,20 @@ module.exports = app => {
       const { username, password } = req.body;
       Promise.all([cryptoUtil.random(36), cryptoUtil.hash(password)])
         .then(([token, hashedPassword]) => {
-          const newUser = new User({
+          return User.save({
             username,
             password: hashedPassword,
             token,
           });
-          return newUser.save();
         })
-        .then(({ _id, token }) =>
-          res.status(201).send({ _id, username, token }),
-        )
-        .catch(err => res.status(500).send({ err }));
+        .then(newUser => {
+          console.log(newUser);
+          return res.status(201).send(newUser);
+        })
+        .catch(err => {
+          console.log(err);
+          res.status(500).send({ err });
+        });
     }
   });
 
@@ -30,7 +33,7 @@ module.exports = app => {
       res.sendStatus(400);
     } else {
       const { username, password } = req.body;
-      User.findOne({ username })
+      User.findByUsername(username)
         .then(findUser => {
           if (!findUser) {
             res.sendStatus(400);
@@ -39,7 +42,7 @@ module.exports = app => {
               .verify(password, findUser.password)
               .then(() => {
                 const copyUser = {
-                  _id: findUser._id,
+                  _id: findUser.user_id,
                   username: findUser.username,
                   token: findUser.token,
                 };
@@ -54,14 +57,13 @@ module.exports = app => {
   });
 
   app.get('/api/users', (req, res) => {
-    User.find({})
-      .select('username')
+    User.findAll()
       .then(users => res.send(users))
       .catch(err => res.status(500).send({ err }));
   });
 
   app
-    .route('/api/users/:id_user([0-9a-z]{24})')
+    .route('/api/users/:id_user([0-9]+)')
     .put((req, res) => {
       const isValid = User.validate(req.body);
       if (!isValid) {
@@ -71,11 +73,9 @@ module.exports = app => {
         cryptoUtil
           .hash(password)
           .then(hashedPassword =>
-            User.findByIdAndUpdate(
-              req.params.id_user,
-              { password: hashedPassword },
-              { new: true },
-            ),
+            User.findByIdAndUpdate(req.params.id_user, {
+              password: hashedPassword,
+            }),
           )
           .then(findUser => {
             if (!findUser) {
@@ -88,8 +88,9 @@ module.exports = app => {
       }
     })
     .delete((req, res) => {
-      User.findByIdAndRemove(req.params.id_user)
+      User.delete(req.params.id_user)
         .then(user => {
+          console.log('remove', user);
           if (!user) {
             res.sendStatus(404);
           } else {

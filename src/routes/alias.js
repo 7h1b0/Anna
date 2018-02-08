@@ -1,11 +1,11 @@
 const { dispatch, actions } = require('../modules/');
-const Alias = require('../models/alias');
+const Alias = require('../modules/models/alias');
 
 module.exports = app => {
   app
     .route('/api/alias')
     .get((req, res) => {
-      Alias.find({})
+      Alias.findAll()
         .then(alias => res.send(alias))
         .catch(err => res.status(500).send({ err }));
     })
@@ -14,18 +14,14 @@ module.exports = app => {
       if (!isValid) {
         res.sendStatus(400);
       } else {
-        const { name, description, sceneId, enabled = true } = req.body;
-        const newAlias = new Alias({ name, description, enabled, sceneId });
-
-        newAlias
-          .save()
+        Alias.save(req.body)
           .then(alias => res.status(201).send(alias))
           .catch(err => res.status(500).send({ err }));
       }
     });
 
   app
-    .route('/api/alias/:id_alias([0-9a-z]{24})')
+    .route('/api/alias/:id_alias(d+)')
     .get((req, res) => {
       Alias.findById(req.params.id_alias)
         .then(alias => {
@@ -42,7 +38,7 @@ module.exports = app => {
       if (!isValid) {
         res.sendStatus(400);
       } else {
-        Alias.findByIdAndUpdate(req.params.id_alias, req.body, { new: true })
+        Alias.findByIdAndUpdate(req.params.id_alias, req.body)
           .then(updatedAlias => {
             if (!updatedAlias) {
               res.sendStatus(404);
@@ -60,11 +56,9 @@ module.exports = app => {
       if (isBadRequest) {
         res.sendStatus(400);
       } else {
-        Alias.findByIdAndUpdate(
-          req.params.id_alias,
-          { enabled: req.body.enabled },
-          { new: true },
-        )
+        Alias.findByIdAndUpdate(req.params.id_alias, {
+          enabled: req.body.enabled,
+        })
           .then(updatedAlias => {
             if (!updatedAlias) {
               res.sendStatus(404);
@@ -76,7 +70,7 @@ module.exports = app => {
       }
     })
     .delete((req, res) => {
-      Alias.findByIdAndRemove(req.params.id_alias)
+      Alias.delete(req.params.id_alias)
         .then(alias => {
           if (!alias) {
             res.sendStatus(404);
@@ -88,7 +82,7 @@ module.exports = app => {
     });
 
   app.get('/api/alias/:name([_a-z]{5,})', (req, res) => {
-    Alias.findOne({ name: req.params.name })
+    Alias.findByName(req.params.name)
       .then(alias => {
         if (!alias) return res.sendStatus(404);
         if (alias.enabled !== true) return res.sendStatus(403);

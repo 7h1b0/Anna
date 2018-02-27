@@ -3,11 +3,15 @@ const https = require('https');
 const urlParser = require('url');
 
 function getRoute(url, method = 'GET', body) {
+  const parsed = urlParser.parse(url);
   const route = {
     timeout: 2000,
     headers: { Accept: 'application/json' },
-    method,
-    url,
+    method: method.toUpperCase(),
+    protocol: parsed.protocol,
+    hostname: parsed.hostname,
+    path: parsed.path,
+    port: parsed.port,
   };
 
   if (body) route.body = body;
@@ -17,21 +21,7 @@ function getRoute(url, method = 'GET', body) {
 function request(route) {
   const SUCCESSFUL = [200, 201, 202, 203, 204, 205, 206];
 
-  function parseRouteUrl() {
-    const parsed = urlParser.parse(route.url);
-    route.protocol = parsed.protocol;
-    route.hostname = parsed.hostname;
-    route.path = parsed.path;
-    if (parsed.port) route.port = parsed.port;
-    delete route.url;
-  }
-
   return new Promise((resolve, reject) => {
-    parseRouteUrl(route);
-    route.method = route.method.toUpperCase();
-
-    if (!route.headers) route.headers = {};
-
     let body;
     if (route.body) {
       body = JSON.stringify(route.body);
@@ -58,7 +48,7 @@ function request(route) {
     });
     req.on('error', err => reject(err));
     req.end(body);
-    req.setTimeout(route.timeout || 2000, () => reject('timeout'));
+    req.setTimeout(route.timeout, () => reject('timeout'));
   });
 }
 

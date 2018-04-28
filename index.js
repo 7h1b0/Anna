@@ -2,10 +2,10 @@
 const app = require('express')();
 
 const bodyParser = require('body-parser');
-const requireDir = require('require-dir');
+// const requireDir = require('require-dir');
 
 const { PORT } = require('./src/constants');
-const scheduleService = require('./src/services/scheduleService');
+// const scheduleService = require('./src/services/scheduleService');
 
 const about = require('./src/routes/about');
 const alias = require('./src/routes/alias');

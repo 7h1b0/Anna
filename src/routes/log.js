@@ -5,18 +5,18 @@ module.exports = app => {
     return Log.findWithLimit(limit);
   }
 
-  function toTimestamp(logs) {
-    return logs.map(({ date, ip, httpMethod, path, username }) => {
-      const timestamp = new Date(date).getTime();
-      return {
-        date: timestamp,
-        ip,
-        httpMethod,
-        path,
-        username,
-      };
-    });
-  }
+  // function toTimestamp(logs) {
+  //   return logs.map(({ date, ip, httpMethod, path, username }) => {
+  //     const timestamp = new Date(date).getTime();
+  //     return {
+  //       date: timestamp,
+  //       ip,
+  //       httpMethod,
+  //       path,
+  //       username,
+  //     };
+  //   });
+  // }
 
   app.get('/api/log', (req, res) => {
     getQuery()

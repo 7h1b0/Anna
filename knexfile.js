@@ -4,11 +4,11 @@ module.exports = {
     connection: {
       host: '127.0.0.1',
       user: 'root',
-      password: 'test',
+      password: '',
       database: 'anna',
       typeCast: (field, next) => {
-        if (field.type == 'TINY' && field.length == 1) {
-          return field.string() == '1';
+        if (field.type === 'TINY' && field.length === 1) {
+          return field.string() === '1';
         }
         return next();
       },
@@ -19,8 +19,8 @@ module.exports = {
     connection: {
       filename: './prod.sqlite3',
       typeCast: function(field, next) {
-        if (field.type == 'TINY' && field.length == 1) {
-          return field.string() == '1';
+        if (field.type === 'TINY' && field.length === 1) {
+          return field.string() === '1';
         }
         return next();
       },

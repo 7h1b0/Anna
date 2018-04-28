@@ -1,0 +1,18 @@
+language: node_js
+node_js:
+  - "lts/*"
+services:
+  - mysql
+cache:
+  directories:
+    - "node_modules"
+env:
+  - NODE_ENV=test
+install:
+  - npm i
+before_script:
+  - mysql -e 'CREATE DATABASE anna;'
+  - npm run db:migrate
+script:
+  - npm run coverage
+  - npm run eslint

@@ -71,5 +71,110 @@ describe('Users', () => {
     });
   });
 
-  //FIXME: Add tests
+  describe('findByIdAndUpdate', () => {
+    it('should updat an user', async () => {
+      await User.findByIdAndUpdate(1, { username: 'username' });
+      const user = await knex(User.TABLE).select('*');
+      expect(user).toMatchSnapshot();
+    });
+
+    it('should update an user', async () => {
+      await User.findByIdAndUpdate(-1, { username: 'username' });
+      const user = await knex(User.TABLE).select('*');
+      expect(user).toEqual(initUsers);
+    });
+
+    it('should reject when an username is already taken', async () => {
+      expect(
+        User.findByIdAndUpdate(2, { username: 'one' }),
+      ).rejects.toBeDefined();
+    });
+  });
+
+  describe('save', () => {
+    it('should save a new user', async () => {
+      const save = {
+        username: 'testsave',
+        password: 'sdfsdfsdfsdfsdf',
+        token: 'fghjkhjkhjhk',
+      };
+
+      await User.save(save);
+      const user = await knex(User.TABLE)
+        .select('*')
+        .where('username', 'testsave');
+      expect(user).toMatchSnapshot();
+    });
+
+    it('should reject when an username is already taken', async () => {
+      const save = {
+        username: 'one',
+        password: 'sdfsdfsdfsdfsdf',
+        token: 'fghjkhjkhjhk',
+      };
+
+      expect(User.save(save)).rejects.toBeDefined();
+    });
+  });
+
+  describe('delete', () => {
+    it('should delete an user', async () => {
+      await User.delete(1);
+      const users = await knex(User.TABLE).select('*');
+      expect(users).toMatchSnapshot();
+    });
+
+    it('should not delete an user', async () => {
+      await User.delete(-1);
+      const users = await knex(User.TABLE).select('*');
+      expect(users).toEqual(initUsers);
+    });
+  });
+
+  describe('validate', () => {
+    it('should return true when an user is valid', () => {
+      const user = {
+        username: 'test',
+        password: 'myPassword',
+      };
+
+      expect(User.validate(user)).toBeTruthy();
+    });
+
+    it('should return false when an user is missing a props', () => {
+      const user = {
+        username: 'test',
+      };
+
+      expect(User.validate(user)).toBeFalsy();
+    });
+
+    it('should return false when an user has unknow props', () => {
+      const user = {
+        username: 'test',
+        password: 'myPassword',
+        test: 2,
+      };
+
+      expect(User.validate(user)).toBeFalsy();
+    });
+
+    it('should return false username is incorrect', () => {
+      const user = {
+        username: 1,
+        description: 'testtest',
+      };
+
+      expect(User.validate(user)).toBeFalsy();
+    });
+
+    it('should return false password is too small', () => {
+      const user = {
+        username: 'test',
+        description: 'q',
+      };
+
+      expect(User.validate(user)).toBeFalsy();
+    });
+  });
 });

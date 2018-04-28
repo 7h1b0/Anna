@@ -7,16 +7,20 @@ function getTime() {
   return `${hours}:${minutes}:${seconds}`;
 }
 
+function print(text, level) {
+  console.log(`${getTime()} [${level}] ${text}`);
+}
+
 module.exports = {
   info(text) {
-    console.log('%s [INFO] %s', getTime(), text);
+    print(text, 'INFO');
   },
 
   warn(text) {
-    console.log('%s [WARN] %s', getTime(), text);
+    print(text, 'WARN');
   },
 
   error(text) {
-    console.log('%s [ERROR] %s', getTime(), text);
+    print(text, 'ERROR');
   },
 };

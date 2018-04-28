@@ -1,15 +1,23 @@
 const knex = require('../../../knexClient');
-const TABLE_LOGS = 'logs';
 
 module.exports = {
-  save({ httpMethod, path, ip, username }) {
-    return knex(TABLE_LOGS).insert({ httpMethod, path, ip, username });
+  TABLE: 'logs',
+  COLUMN: ['ip', 'httpMethod', 'path', { createdAt: 'created_at' }, 'username'],
+
+  save({ httpMethod, path, ip, username, createdAt = new Date() }) {
+    return knex(this.TABLE).insert({
+      httpMethod,
+      path,
+      ip,
+      username,
+      created_at: createdAt,
+    });
   },
 
   findWithLimit(limit) {
-    return knex(TABLE_LOGS)
-      .select(['ip', 'httpMethod', 'path', 'created_at', 'username'])
-      .orderBy('created_at', 'desc')
+    return knex(this.TABLE)
+      .select(...this.COLUMN)
+      .orderBy('id', 'desc')
       .limit(limit);
   },
 };

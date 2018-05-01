@@ -4,7 +4,7 @@
 [![Dev Dependency Status](https://img.shields.io/david/dev/7h1b0/anna/master.svg)](https://david-dm.org/7h1b0/Anna#info=devDependencies)
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
-Anna-API - Work in progress
+Anna-API
 =====================
 
 REST API for home automation using NodeJS
@@ -24,9 +24,8 @@ REST API for home automation using NodeJS
 
 ## Installation
 
-1. Execute `docker-compose up -d`
-1. Execute `npm run db:migrate`
 1. Execute `npm i`
+1. Execute `npm run setup`
 
 ## Available Scripts
 In the project directory, you can run:

@@ -1,4 +1,4 @@
-const knex = require('../../../../knexClient');
+const knex = require('../../../knexClient');
 const User = require('../user');
 const initUsers = [
   {

@@ -1,6 +1,6 @@
 const Ajv = require('ajv');
 const aliasSchema = require('../schemas/alias');
-const knex = require('../../../knexClient');
+const knex = require('../../knexClient');
 const { returnFirst } = require('../dbUtil');
 const columns = [
   { aliasId: 'alias_id' },

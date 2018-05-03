@@ -1,6 +1,6 @@
 const Ajv = require('ajv');
 const userSchema = require('../schemas/user');
-const knex = require('../../../knexClient');
+const knex = require('../../knexClient');
 const { returnFirst } = require('../dbUtil');
 
 module.exports = {

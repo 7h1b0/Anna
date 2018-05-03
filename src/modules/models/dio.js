@@ -1,6 +1,6 @@
 const Ajv = require('ajv');
 const dioSchema = require('../schemas/dio');
-const knex = require('../../../knexClient');
+const knex = require('../../knexClient');
 const { returnFirst } = require('../dbUtil');
 
 module.exports = {

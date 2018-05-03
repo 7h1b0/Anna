@@ -16,3 +16,7 @@ before_script:
 script:
   - npm run coverage
   - npm run eslint
+
+notifications:
+  email:
+    on_success: never

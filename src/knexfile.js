@@ -1,5 +1,11 @@
 module.exports = {
   development: {
+    seeds: {
+      directory: '../seeds/',
+    },
+    migrations: {
+      directory: '../migrations',
+    },
     client: 'mysql',
     connection: {
       host: '127.0.0.1',
@@ -17,6 +23,9 @@ module.exports = {
 
   production: {
     client: 'mysql',
+    migrations: {
+      directory: '../migrations',
+    },
     connection: {
       host: process.env.DATABASE_HOST,
       user: process.env.DATABASE_USER,

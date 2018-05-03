@@ -1,4 +1,4 @@
-const knex = require('../../../knexClient');
+const knex = require('../../knexClient');
 
 module.exports = {
   TABLE: 'logs',

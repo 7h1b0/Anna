@@ -8,7 +8,7 @@ module.exports = app => {
   app
     .route('/api/scenes')
     .get((req, res) => {
-      Scene.find({})
+      Scene.findAll()
         .then(scenes => res.send(scenes))
         .catch(err => res.status(500).send({ err }));
     })
@@ -24,9 +24,8 @@ module.exports = app => {
           actions,
         });
 
-        newScene
-          .save()
-          .then(scene => res.status(201).send(scene))
+        Scene.save(newScene)
+          .then(() => res.status(201).send(newScene))
           .catch(err => res.status(500).send({ err }));
       }
     });

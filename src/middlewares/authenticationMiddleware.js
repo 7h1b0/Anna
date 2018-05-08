@@ -8,7 +8,6 @@ module.exports = function authenticationMiddleware(req, res, next) {
       next();
     })
     .catch(err => {
-      console.log(err);
       logger.warn('Authentification failed');
       res.sendStatus(401);
     });

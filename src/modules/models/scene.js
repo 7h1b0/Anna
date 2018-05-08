@@ -1,17 +1,21 @@
 const Ajv = require('ajv');
 const knex = require('../../knexClient');
 const sceneSchema = require('../schemas/scene');
+const TABLE = 'scenes';
+const ACTION_TABLE = 'actions';
+const COLUMNS = [{ sceneId: 'scene_id' }, 'name', 'description'];
+const ACTIONS_COLUMNS = [
+  'actions.name',
+  'actions.type',
+  'actions.body',
+  { targetId: 'actions.target_id' },
+];
 
 module.exports = {
-  TABLE: 'scenes',
-  ACTION_TABLE: 'actions',
-  COLUMNS: [{ sceneId: 'scene_id' }, 'name', 'description'],
-  ACTIONS_COLUMNS: [
-    'actions.name',
-    'actions.type',
-    'actions.body',
-    { targetId: 'actions.target_id' },
-  ],
+  TABLE,
+  ACTION_TABLE,
+  COLUMNS,
+  ACTIONS_COLUMNS,
 
   validate(data) {
     const ajv = new Ajv();
@@ -19,12 +23,12 @@ module.exports = {
   },
 
   findAll() {
-    return knex(this.TABLE).select(this.COLUMNS);
+    return knex(TABLE).select(COLUMNS);
   },
 
   findActionsBySceneId(sceneId) {
-    return knex(this.ACTION_TABLE)
-      .select(this.ACTIONS_COLUMNS)
+    return knex(ACTION_TABLE)
+      .select(ACTIONS_COLUMNS)
       .where('scene_id', sceneId)
       .then(entries => {
         return entries.reduce((acc, entry) => {
@@ -43,7 +47,7 @@ module.exports = {
     return knex.transaction(trx => {
       return trx
         .insert({ description, name })
-        .into(this.TABLE)
+        .into(TABLE)
         .then(([sceneId]) => {
           return Promise.all(
             actions.map(action => {
@@ -53,7 +57,7 @@ module.exports = {
                 scene_id: sceneId,
                 body: JSON.stringify(action.body),
               };
-              return trx.insert(formatedAction).into(this.ACTION_TABLE);
+              return trx.insert(formatedAction).into(ACTION_TABLE);
             }),
           );
         });
@@ -65,12 +69,12 @@ module.exports = {
       const removeScene = trx
         .del()
         .where('scene_id', sceneId)
-        .into(this.TABLE);
+        .into(TABLE);
 
       const removeActions = trx
         .del()
         .where('scene_id', sceneId)
-        .into(this.ACTION_TABLE);
+        .into(ACTION_TABLE);
 
       return Promise.all([removeScene, removeActions]);
     });

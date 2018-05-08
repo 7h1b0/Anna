@@ -3,15 +3,18 @@ const aliasSchema = require('../schemas/alias');
 const knex = require('../../knexClient');
 const { returnFirst } = require('../dbUtil');
 
+const TABLE = 'alias';
+const COLUMNS = [
+  { aliasId: 'alias_id' },
+  { sceneId: 'scene_id' },
+  'name',
+  'description',
+  'enabled',
+];
+
 module.exports = {
-  TABLE: 'alias',
-  COLUMNS: [
-    { aliasId: 'alias_id' },
-    { sceneId: 'scene_id' },
-    'name',
-    'description',
-    'enabled',
-  ],
+  TABLE,
+  COLUMNS,
 
   validate(data) {
     const ajv = new Ajv();
@@ -19,27 +22,27 @@ module.exports = {
   },
 
   findAll() {
-    return knex(this.TABLE).select(this.COLUMNS);
+    return knex(TABLE).select(COLUMNS);
   },
 
   findById(aliasId) {
     return returnFirst(
-      knex(this.TABLE)
-        .select(this.COLUMNS)
+      knex(TABLE)
+        .select(COLUMNS)
         .where('alias_id', aliasId),
     );
   },
 
   findByName(name) {
     return returnFirst(
-      knex(this.TABLE)
-        .select(this.COLUMNS)
+      knex(TABLE)
+        .select(COLUMNS)
         .where('name', name),
     );
   },
 
   save({ sceneId, name, description, enabled = true }) {
-    return knex(this.TABLE)
+    return knex(TABLE)
       .insert({
         scene_id: sceneId,
         description,
@@ -52,13 +55,13 @@ module.exports = {
   },
 
   delete(aliasId) {
-    return knex(this.TABLE)
+    return knex(TABLE)
       .where('alias_id', aliasId)
       .del();
   },
 
   findByIdAndUpdate(aliasId, payload) {
-    return knex(this.TABLE)
+    return knex(TABLE)
       .update(payload)
       .where('alias_id', aliasId);
   },

@@ -2,9 +2,10 @@ const Ajv = require('ajv');
 const dioSchema = require('../schemas/dio');
 const knex = require('../../knexClient');
 const { returnFirst } = require('../dbUtil');
+const TABLE = 'dios';
 
 module.exports = {
-  TABLE: 'dios',
+  TABLE,
 
   validate(data) {
     const ajv = new Ajv();
@@ -12,7 +13,7 @@ module.exports = {
   },
 
   findAll() {
-    return knex(this.TABLE).select(
+    return knex(TABLE).select(
       { dioId: 'dio_id' },
       { roomId: 'room_id' },
       'name',
@@ -21,14 +22,14 @@ module.exports = {
 
   findById(id) {
     return returnFirst(
-      knex(this.TABLE)
+      knex(TABLE)
         .select({ dioId: 'dio_id' }, { roomId: 'room_id' }, 'name')
         .where('dio_id', id),
     );
   },
 
   save({ dioId, roomId, name }) {
-    return knex(this.TABLE)
+    return knex(TABLE)
       .insert({ dio_id: dioId, room_id: roomId, name })
       .then(() => {
         return { dioId, roomId, name };
@@ -36,13 +37,13 @@ module.exports = {
   },
 
   delete(dioId) {
-    return knex(this.TABLE)
+    return knex(TABLE)
       .where('dio_id', dioId)
       .del();
   },
 
   findByIdAndUpdate(dioId, payload) {
-    return knex(this.TABLE)
+    return knex(TABLE)
       .update(payload)
       .where('dio_id', dioId);
   },

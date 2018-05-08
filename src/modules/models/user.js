@@ -3,37 +3,39 @@ const userSchema = require('../schemas/user');
 const knex = require('../../knexClient');
 const { returnFirst } = require('../dbUtil');
 
+const TABLE = 'users';
+
 module.exports = {
-  TABLE: 'users',
+  TABLE,
 
   findByToken(token) {
     return returnFirst(
-      knex(this.TABLE)
+      knex(TABLE)
         .select({ userId: 'user_id' }, 'username')
-        .where('token', '=', token),
+        .where('token', token),
     );
   },
 
   findAll() {
-    return knex(this.TABLE).select('user_id', 'username');
+    return knex(TABLE).select('user_id', 'username');
   },
 
   findByUsername(username) {
     return returnFirst(
-      knex(this.TABLE)
+      knex(TABLE)
         .select({ userId: 'user_id' }, 'username', 'password', 'token')
         .where('username', username),
     );
   },
 
   findByIdAndUpdate(userId, payload) {
-    return knex(this.TABLE)
+    return knex(TABLE)
       .update(payload)
       .where('user_id', userId);
   },
 
   save({ username, password, token }) {
-    return knex(this.TABLE)
+    return knex(TABLE)
       .insert({ username, password, token })
       .then(([userId]) => {
         return { userId, token, username };
@@ -41,7 +43,7 @@ module.exports = {
   },
 
   delete(userId) {
-    return knex(this.TABLE)
+    return knex(TABLE)
       .where('user_id', '=', userId)
       .del();
   },

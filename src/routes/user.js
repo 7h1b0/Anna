@@ -17,7 +17,6 @@ module.exports = app => {
           });
         })
         .then(newUser => {
-          console.log(newUser);
           return res.status(201).send(newUser);
         })
         .catch(err => {
@@ -36,7 +35,7 @@ module.exports = app => {
       User.findByUsername(username)
         .then(findUser => {
           if (!findUser) {
-            res.sendStatus(400);
+            res.sendStatus(403);
           } else {
             cryptoUtil
               .verify(password, findUser.password)
@@ -49,7 +48,7 @@ module.exports = app => {
 
                 res.send(copyUser);
               })
-              .catch(() => res.sendStatus(400));
+              .catch(() => res.sendStatus(403));
           }
         })
         .catch(err => res.status(500).send({ err }));

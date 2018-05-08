@@ -23,7 +23,7 @@ module.exports = app => {
   app
     .route('/api/dios/:id_dio([0-9]{1,2})')
     .get((req, res) => {
-      Dio.findOne(req.params.id_dio)
+      Dio.findById(req.params.id_dio)
         .then(dio => {
           if (!dio) {
             res.sendStatus(404);
@@ -38,9 +38,7 @@ module.exports = app => {
       if (!isValid) {
         res.sendStatus(400);
       } else {
-        Dio.findOneAndUpdate(req.params.id_dio, req.body, {
-          new: true,
-        })
+        Dio.findByIdAndUpdate(req.params.id_dio, req.body)
           .then(dio => {
             if (!dio) {
               res.sendStatus(404);

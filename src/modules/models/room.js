@@ -2,10 +2,12 @@ const Ajv = require('ajv');
 const roomSchema = require('../schemas/room');
 const knex = require('../../knexClient');
 const { returnFirst } = require('../dbUtil');
+const TABLE = 'rooms';
+const COLUMNS = [{ roomId: 'room_id' }, 'description', 'name'];
 
 module.exports = {
-  TABLE: 'rooms',
-  COLUMNS: [{ roomId: 'room_id' }, 'description', 'name'],
+  TABLE,
+  COLUMNS,
 
   validate(data) {
     const ajv = new Ajv();
@@ -13,19 +15,19 @@ module.exports = {
   },
 
   findAll() {
-    return knex(this.TABLE).select(this.COLUMNS);
+    return knex(TABLE).select(COLUMNS);
   },
 
   findById(id) {
     return returnFirst(
-      knex(this.TABLE)
-        .select(this.COLUMNS)
+      knex(TABLE)
+        .select(COLUMNS)
         .where('room_id', id),
     );
   },
 
   save({ name, description }) {
-    return knex(this.TABLE)
+    return knex(TABLE)
       .insert({ description, name })
       .then(([roomId]) => {
         return { description, roomId, name };
@@ -33,13 +35,13 @@ module.exports = {
   },
 
   delete(roomId) {
-    return knex(this.TABLE)
+    return knex(TABLE)
       .where('room_id', roomId)
       .del();
   },
 
   findByIdAndUpdate(roomId, payload) {
-    return knex(this.TABLE)
+    return knex(TABLE)
       .update(payload)
       .where('room_id', roomId);
   },

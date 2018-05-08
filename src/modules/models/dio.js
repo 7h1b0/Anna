@@ -37,7 +37,7 @@ module.exports = {
 
   delete(dioId) {
     return knex(this.TABLE)
-      .where('dio_id', '=', dioId)
+      .where('dio_id', dioId)
       .del();
   },
 

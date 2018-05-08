@@ -2,16 +2,16 @@ const Ajv = require('ajv');
 const aliasSchema = require('../schemas/alias');
 const knex = require('../../knexClient');
 const { returnFirst } = require('../dbUtil');
-const columns = [
-  { aliasId: 'alias_id' },
-  { sceneId: 'scene_id' },
-  'name',
-  'description',
-  'enabled',
-];
 
 module.exports = {
   TABLE: 'alias',
+  COLUMNS: [
+    { aliasId: 'alias_id' },
+    { sceneId: 'scene_id' },
+    'name',
+    'description',
+    'enabled',
+  ],
 
   validate(data) {
     const ajv = new Ajv();
@@ -19,13 +19,13 @@ module.exports = {
   },
 
   findAll() {
-    return knex(this.TABLE).select(...columns);
+    return knex(this.TABLE).select(this.COLUMNS);
   },
 
   findById(aliasId) {
     return returnFirst(
       knex(this.TABLE)
-        .select(...columns)
+        .select(this.COLUMNS)
         .where('alias_id', aliasId),
     );
   },
@@ -33,7 +33,7 @@ module.exports = {
   findByName(name) {
     return returnFirst(
       knex(this.TABLE)
-        .select(...columns)
+        .select(this.COLUMNS)
         .where('name', name),
     );
   },
@@ -53,7 +53,7 @@ module.exports = {
 
   delete(aliasId) {
     return knex(this.TABLE)
-      .where('alias_id', '=', aliasId)
+      .where('alias_id', aliasId)
       .del();
   },
 

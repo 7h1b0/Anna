@@ -103,7 +103,7 @@ describe('Alias', () => {
         enabled: false,
       };
 
-      expect(Alias.save(save)).rejects.toBeDefined();
+      await expect(Alias.save(save)).rejects.toBeDefined();
     });
   });
 
@@ -135,7 +135,7 @@ describe('Alias', () => {
     });
 
     it('should reject when updated with a name already taken', async () => {
-      expect(
+      await expect(
         Alias.findByIdAndUpdate(1, { name: 'test_2' }),
       ).rejects.toBeDefined();
     });

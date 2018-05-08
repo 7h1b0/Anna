@@ -78,6 +78,16 @@ describe('Dio', () => {
         .where('dio_id', 3);
       expect(dios).toMatchSnapshot();
     });
+
+    it('should reject when an id is already taken', async () => {
+      const save = {
+        dioId: 2,
+        roomId: 1,
+        name: 'test-save',
+      };
+
+      await expect(Dio.save(save)).rejects.toBeDefined();
+    });
   });
 
   describe('delete', () => {
@@ -101,7 +111,7 @@ describe('Dio', () => {
       expect(dios).toMatchSnapshot();
     });
 
-    it('should update a dio', async () => {
+    it('should not update a dio', async () => {
       await Dio.findByIdAndUpdate(-1, { name: 'updated' });
       const dios = await knex(Dio.TABLE).select('*');
       expect(dios).toEqual(initDios);

@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Room delete should delete a room 1`] = `
+Array [
+  Object {
+    "description": "this is a second test",
+    "name": "room_2",
+    "room_id": 2,
+  },
+]
+`;
+
+exports[`Room findByIdAndUpdate should update a room 1`] = `
+Array [
+  Object {
+    "description": "this is a test",
+    "name": "updated",
+    "room_id": 1,
+  },
+  Object {
+    "description": "this is a second test",
+    "name": "room_2",
+    "room_id": 2,
+  },
+]
+`;

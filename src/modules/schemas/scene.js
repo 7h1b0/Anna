@@ -21,7 +21,9 @@ module.exports = {
           type: 'object',
           additionalProperties: false,
           properties: {
-            id: {},
+            targetId: {
+              type: 'integer',
+            },
             name: {
               type: 'string',
               minLength: 3,

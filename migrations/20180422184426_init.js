@@ -44,6 +44,7 @@ exports.up = function(knex, Promise) {
       .unsigned()
       .notNullable();
     table.string('name');
+    table.integer('target_id').unsigned();
     table.enum('type', ['HUE_LIGHT', 'DIO', 'SCENE', 'ALIAS']);
     table.string('body');
   });

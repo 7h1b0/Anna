@@ -85,7 +85,7 @@ describe('Users', () => {
     });
 
     it('should reject when an username is already taken', async () => {
-      expect(
+      await expect(
         User.findByIdAndUpdate(2, { username: 'one' }),
       ).rejects.toBeDefined();
     });
@@ -113,7 +113,7 @@ describe('Users', () => {
         token: 'fghjkhjkhjhk',
       };
 
-      expect(User.save(save)).rejects.toBeDefined();
+      await expect(User.save(save)).rejects.toBeDefined();
     });
   });
 

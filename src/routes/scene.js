@@ -15,23 +15,22 @@ module.exports = app => {
     .post((req, res) => {
       const isValid = Scene.validate(req.body);
       if (!isValid) {
-        res.sendStatus(400);
-      } else {
-        const { name, description, actions } = req.body;
-        const newScene = new Scene({
-          name,
-          description,
-          actions,
-        });
-
-        Scene.save(newScene)
-          .then(() => res.status(201).send(newScene))
-          .catch(err => res.status(500).send({ err }));
+        return res.sendStatus(400);
       }
+      const { name, description, actions } = req.body;
+      const newScene = new Scene({
+        name,
+        description,
+        actions,
+      });
+
+      Scene.save(newScene)
+        .then(() => res.status(201).send(newScene))
+        .catch(err => res.status(500).send({ err }));
     });
 
   app
-    .route('/api/scenes/:id_scene([0-9a-z]{24})')
+    .route('/api/scenes/:id_scene([0-9]+)')
     .get((req, res) => {
       Scene.findById(req.params.id_scene)
         .then(scene => {
@@ -43,21 +42,20 @@ module.exports = app => {
         })
         .catch(err => res.status(500).send({ err }));
     })
-    .put((req, res) => {
+    .patch((req, res) => {
       const isValid = Scene.validate(req.body);
       if (!isValid) {
-        res.sendStatus(400);
-      } else {
-        Scene.findByIdAndUpdate(req.params.id_scene, req.body, { new: true })
-          .then(scene => {
-            if (!scene) {
-              res.sendStatus(404);
-            } else {
-              res.send(scene);
-            }
-          })
-          .catch(err => res.status(500).send({ err }));
+        return res.sendStatus(400);
       }
+      Scene.findByIdAndUpdate(req.params.id_scene, req.body, { new: true })
+        .then(rowsAffected => {
+          if (rowsAffected < 1) {
+            res.sendStatus(404);
+          } else {
+            res.sendStatus(204);
+          }
+        })
+        .catch(err => res.status(500).send({ err }));
     })
     .delete((req, res) => {
       Scene.findByIdAndRemove(req.params.id_scene)
@@ -71,33 +69,8 @@ module.exports = app => {
         .catch(err => res.status(500).send({ err }));
     });
 
-  app
-    .route('/api/scenes/:id_hue_scene([0-9a-zA-Z-]{15})')
-    .get((req, res) => {
-      hueService
-        .getScene(req.params.id_hue_scene)
-        .then(light => res.send(light))
-        .catch(err => res.status(500).send({ err }));
-    })
-    .delete((req, res) => {
-      hueService
-        .delete(req.params.id_hue_scene)
-        .then(() => res.sendStatus(204))
-        .catch(err => res.status(500).send({ err }));
-    });
-
-  app.get('/api/scenes/:id_scene([0-9a-z]{24})/action', (req, res) => {
+  app.get('/api/scenes/:id_scene([0-9]+)/action', (req, res) => {
     dispatch(callScene(req.params.id_scene))
-      .then(() => res.end())
-      .catch(err => {
-        logger.error(err);
-        res.status(500).send({ err });
-      });
-  });
-
-  app.get('/api/scenes/:id_hue_scene([0-9a-zA-Z-]{15})/action', (req, res) => {
-    hueService
-      .recallScene(req.params.id_hue_scene)
       .then(() => res.end())
       .catch(err => {
         logger.error(err);

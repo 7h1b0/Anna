@@ -73,13 +73,19 @@ describe('Users', () => {
 
   describe('findByIdAndUpdate', () => {
     it('should updat an user', async () => {
-      await User.findByIdAndUpdate(1, { username: 'username' });
+      const rowsAffected = await User.findByIdAndUpdate(1, {
+        username: 'username',
+      });
+      expect(rowsAffected).toBe(1);
       const user = await knex(User.TABLE).select('*');
       expect(user).toMatchSnapshot();
     });
 
     it('should update an user', async () => {
-      await User.findByIdAndUpdate(-1, { username: 'username' });
+      const rowsAffected = await User.findByIdAndUpdate(-1, {
+        username: 'username',
+      });
+      expect(rowsAffected).toBe(0);
       const user = await knex(User.TABLE).select('*');
       expect(user).toEqual(initUsers);
     });

@@ -5,29 +5,29 @@ module.exports = app => {
     return Log.findWithLimit(limit);
   }
 
-  // function toTimestamp(logs) {
-  //   return logs.map(({ date, ip, httpMethod, path, username }) => {
-  //     const timestamp = new Date(date).getTime();
-  //     return {
-  //       date: timestamp,
-  //       ip,
-  //       httpMethod,
-  //       path,
-  //       username,
-  //     };
-  //   });
-  // }
+  function toTimestamp(logs) {
+    return logs.map(({ createdAt, ip, httpMethod, path, username }) => {
+      const timestamp = createdAt.getTime();
+      return {
+        createdAt: timestamp,
+        ip,
+        httpMethod,
+        path,
+        username,
+      };
+    });
+  }
 
   app.get('/api/log', (req, res) => {
     getQuery()
-      // .then(logs => toTimestamp(logs))
+      .then(logs => toTimestamp(logs))
       .then(logs => res.send(logs))
       .catch(err => res.status(500).send({ err }));
   });
 
-  app.get('/api/log/:limit([0-9]{1,3})', (req, res) => {
+  app.get('/api/log/:limit([0-9]+)', (req, res) => {
     getQuery(req.params.limit)
-      // .then(logs => toTimestamp(logs))
+      .then(logs => toTimestamp(logs))
       .then(logs => res.send(logs))
       .catch(err => res.status(500).send({ err }));
   });

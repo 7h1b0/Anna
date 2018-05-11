@@ -33,37 +33,17 @@ module.exports = app => {
         })
         .catch(err => res.status(500).send({ err }));
     })
-    .put((req, res) => {
+    .patch((req, res) => {
       const isValid = Alias.validate(req.body);
       if (!isValid) {
         res.sendStatus(400);
       } else {
         Alias.findByIdAndUpdate(req.params.id_alias, req.body)
-          .then(updatedAlias => {
-            if (!updatedAlias) {
+          .then(rowsAffected => {
+            if (rowsAffected < 1) {
               res.sendStatus(404);
             } else {
-              res.send(updatedAlias);
-            }
-          })
-          .catch(err => res.status(500).send({ err }));
-      }
-    })
-    .patch((req, res) => {
-      const isBadRequest =
-        !req.body || (req.body.enabled !== false && req.body.enabled !== true);
-
-      if (isBadRequest) {
-        res.sendStatus(400);
-      } else {
-        Alias.findByIdAndUpdate(req.params.id_alias, {
-          enabled: req.body.enabled,
-        })
-          .then(updatedAlias => {
-            if (!updatedAlias) {
-              res.sendStatus(404);
-            } else {
-              res.send(updatedAlias);
+              res.sendStatus(204);
             }
           })
           .catch(err => res.status(500).send({ err }));
@@ -80,6 +60,20 @@ module.exports = app => {
         })
         .catch(err => res.status(500).send({ err }));
     });
+
+  app.get('/api/alias/:id_alias(d+)/:enabled(enable|disable)', (req, res) => {
+    Alias.findByIdAndUpdate(req.params.id_alias, {
+      enabled: req.params.enabled === 'enable',
+    })
+      .then(rowsAffected => {
+        if (rowsAffected < 1) {
+          res.sendStatus(404);
+        } else {
+          res.sendStatus(204);
+        }
+      })
+      .catch(err => res.status(500).send({ err }));
+  });
 
   app.get('/api/alias/:name([_a-z]{5,})', (req, res) => {
     Alias.findByName(req.params.name)

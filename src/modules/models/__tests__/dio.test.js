@@ -72,7 +72,8 @@ describe('Dio', () => {
         name: 'test-save',
       };
 
-      await Dio.save(save);
+      const newDio = await Dio.save(save);
+      expect(newDio).toEqual(save);
       const dios = await knex(Dio.TABLE)
         .select('*')
         .where('dio_id', 3);
@@ -106,13 +107,15 @@ describe('Dio', () => {
 
   describe('findByIdAndUpdate', () => {
     it('should update a dio', async () => {
-      await Dio.findByIdAndUpdate(1, { name: 'updated' });
+      const rowsAffected = await Dio.findByIdAndUpdate(1, { name: 'updated' });
+      expect(rowsAffected).toBe(1);
       const dios = await knex(Dio.TABLE).select('*');
       expect(dios).toMatchSnapshot();
     });
 
     it('should not update a dio', async () => {
-      await Dio.findByIdAndUpdate(-1, { name: 'updated' });
+      const rowsAffected = await Dio.findByIdAndUpdate(-1, { name: 'updated' });
+      expect(rowsAffected).toBe(0);
       const dios = await knex(Dio.TABLE).select('*');
       expect(dios).toEqual(initDios);
     });

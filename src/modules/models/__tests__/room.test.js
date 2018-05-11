@@ -79,7 +79,13 @@ describe('Room', () => {
         },
       ];
 
-      await Room.save(save);
+      const newRoom = await Room.save(save);
+      expect(newRoom).toEqual({
+        roomId: 3,
+        name: 'test-save',
+        description: 'test',
+      });
+
       const rooms = await knex(Room.TABLE)
         .select('*')
         .where('room_id', 3);
@@ -104,13 +110,17 @@ describe('Room', () => {
 
   describe('findByIdAndUpdate', () => {
     it('should update a room', async () => {
-      await Room.findByIdAndUpdate(1, { name: 'updated' });
+      const rowsAffected = await Room.findByIdAndUpdate(1, { name: 'updated' });
+      expect(rowsAffected).toBe(1);
       const rooms = await knex(Room.TABLE).select('*');
       expect(rooms).toMatchSnapshot();
     });
 
     it('should not update a room', async () => {
-      await Room.findByIdAndUpdate(-1, { name: 'updated' });
+      const rowsAffected = await Room.findByIdAndUpdate(-1, {
+        name: 'updated',
+      });
+      expect(rowsAffected).toBe(0);
       const rooms = await knex(Room.TABLE).select('*');
       expect(rooms).toEqual(initRooms);
     });

@@ -17,7 +17,7 @@ module.exports = app => {
         });
       })
       .then(newUser => {
-        return res.status(201).send(newUser);
+        return res.status(201).json(newUser);
       })
       .catch(err => {
         res.status(500).send({ err });
@@ -37,14 +37,17 @@ module.exports = app => {
         } else {
           cryptoUtil
             .verify(password, findUser.password)
-            .then(() => {
+            .then(isValid => {
+              if (!isValid) {
+                throw new Error('Wrong password');
+              }
               const copyUser = {
                 _id: findUser.user_id,
                 username: findUser.username,
                 token: findUser.token,
               };
 
-              res.send(copyUser);
+              res.json(copyUser);
             })
             .catch(() => res.sendStatus(403));
         }

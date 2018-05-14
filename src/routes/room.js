@@ -30,7 +30,7 @@ module.exports = app => {
           if (rowsAffected < 1) {
             res.sendStatus(404);
           } else {
-            res.send(room);
+            res.sendStatus(204);
           }
         })
         .catch(err => res.status(500).send({ err }));

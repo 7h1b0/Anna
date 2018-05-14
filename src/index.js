@@ -1,10 +1,7 @@
 // Dependencies
-const app = require('express')();
-
+const express = require('express');
 const bodyParser = require('body-parser');
 // const requireDir = require('require-dir');
-
-const { PORT } = require('./constants');
 // const scheduleService = require('./src/services/scheduleService');
 
 const about = require('./routes/about');
@@ -18,7 +15,6 @@ const schedule = require('./routes/schedule');
 const user = require('./routes/user');
 
 const middlewares = require('./middlewares/');
-const logger = require('./modules/logger');
 
 // const schedules = requireDir('./assets/schedules');
 // Object.keys(schedules).forEach(schedule => {
@@ -32,6 +28,7 @@ const logger = require('./modules/logger');
 // logger.info('Schedules loaded :)');
 
 // Setup Server
+const app = express();
 app.use(bodyParser.json());
 app.all('/api/*', middlewares);
 
@@ -45,8 +42,5 @@ scene(app);
 schedule(app);
 user(app);
 
-app.listen(PORT, () => {
-  logger.info(`Anna is listening on port ${PORT}`);
-});
-
+module.exports = app;
 // app.use((req, res) => res.sendStatus(404));

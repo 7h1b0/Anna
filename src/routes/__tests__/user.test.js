@@ -10,11 +10,11 @@ const user = {
   token: '8e6a76928f76d23665f78ff3688ca86422d5',
 };
 
-beforeAll(async () => {
-  await knex(User.TABLE).truncate();
-});
-
 describe('User', () => {
+  beforeAll(async () => {
+    await knex(User.TABLE).truncate();
+  });
+
   beforeEach(async () => {
     await knex(User.TABLE).insert(user);
   });
@@ -52,6 +52,56 @@ describe('User', () => {
         .send({ username: 'fake', password: 'test' });
 
       expect(response.status).toBe(403);
+    });
+  });
+
+  describe('api/users', () => {
+    describe('GET', () => {
+      it('should retun 200 when user is authenticated', async () => {
+        const response = await request(app)
+          .get('/api/users')
+          .set('Accept', 'application/json')
+          .set('x-access-token', user.token)
+          .send();
+
+        expect(response.status).toBe(200);
+      });
+
+      it('should retun 401 when user is not authenticated', async () => {
+        const response = await request(app)
+          .get('/api/users')
+          .set('Accept', 'application/json')
+          .set('x-access-token', 'fake')
+          .send();
+
+        expect(response.status).toBe(401);
+      });
+    });
+  });
+
+  describe('api/users/id', () => {
+    describe('DELETE', () => {
+      it('should delete target user when user is authenticated', async () => {
+        const response = await request(app)
+          .delete('/api/users/1')
+          .set('Accept', 'application/json')
+          .set('x-access-token', user.token)
+          .send();
+
+        expect(response.status).toBe(204);
+        const users = await knex(User.TABLE).select('*');
+        expect(users).toHaveLength(0);
+      });
+
+      it('should retun 401 when user is not authenticated', async () => {
+        const response = await request(app)
+          .delete('/api/users/1')
+          .set('Accept', 'application/json')
+          .set('x-access-token', 'fake')
+          .send();
+
+        expect(response.status).toBe(401);
+      });
     });
   });
 });

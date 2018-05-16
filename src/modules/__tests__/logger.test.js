@@ -19,7 +19,7 @@ describe('Logger', () => {
 
   describe('info', () => {
     it('should return a valid text', () => {
-      logger.info('test');
+      logger.info('test', true);
 
       expect(console.log).toBeCalled();
       expect(console.log.mock.calls[0][0]).toEqual('10:00:00 [INFO] test');
@@ -28,7 +28,7 @@ describe('Logger', () => {
 
   describe('warn', () => {
     it('should return a valid text', () => {
-      logger.warn('test');
+      logger.warn('test', true);
 
       expect(console.log).toBeCalled();
       expect(console.log.mock.calls[0][0]).toEqual('10:00:00 [WARN] test');
@@ -37,7 +37,7 @@ describe('Logger', () => {
 
   describe('error', () => {
     it('should return a valid text', () => {
-      logger.error('test');
+      logger.error('test', true);
 
       expect(console.log).toBeCalled();
       expect(console.log.mock.calls[0][0]).toEqual('10:00:00 [ERROR] test');

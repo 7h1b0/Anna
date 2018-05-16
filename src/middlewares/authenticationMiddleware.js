@@ -13,13 +13,12 @@ module.exports = function authenticationMiddleware(req, res, next) {
     return authFail();
   }
 
-  findByToken(token)
+  return findByToken(token)
     .then(res => {
       if (res) {
-        next();
-      } else {
-        authFail();
+        return next();
       }
+      authFail();
     })
     .catch(authFail);
 };

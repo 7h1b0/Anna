@@ -1,5 +1,5 @@
 const { HUE_LIGHT, DIO, SCENE } = require('./type');
-const Scene = require('../models/scene');
+const Scene = require('./models/scene');
 const hueService = require('../services/hueService');
 const dioService = require('../services/dioService');
 

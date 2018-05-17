@@ -7,16 +7,22 @@ function getTime() {
   return `${hours}:${minutes}:${seconds}`;
 }
 
+function print(text, level, display = process.env.NODE_ENV === 'production') {
+  if (display) {
+    console.log(`${getTime()} [${level}] ${text}`);
+  }
+}
+
 module.exports = {
-  info(text) {
-    console.log('%s [INFO] %s', getTime(), text);
+  info(text, display) {
+    print(text, 'INFO', display);
   },
 
-  warn(text) {
-    console.log('%s [WARN] %s', getTime(), text);
+  warn(text, display) {
+    print(text, 'WARN', display);
   },
 
-  error(text) {
-    console.log('%s [ERROR] %s', getTime(), text);
+  error(text, display) {
+    print(text, 'ERROR', display);
   },
 };

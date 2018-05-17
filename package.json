@@ -1,38 +1,50 @@
 {
   "name": "anna",
-  "version": "2.10.0",
+  "version": "3.0.0",
   "description": "REST api for home automation",
-  "main": "index.js",
+  "main": "src/index.js",
+  "author": "7h1b0",
+  "engines": {
+    "node": ">= 8.0.0"
+  },
   "dependencies": {
-    "ajv": "^6.4.0",
+    "ajv": "^6.5.0",
     "bcryptjs": "^2.4.3",
-    "body-parser": "^1.18.2",
+    "body-parser": "^1.18.3",
     "cron": "^1.3.0",
-    "env-cmd": "^7.0.0",
     "express": "^4.16.3",
-    "mongoose": "^4.12.4",
+    "knex": "^0.14.6",
+    "mysql": "^2.15.0",
     "require-dir": "^1.0.0",
     "uuid": "^3.2.1"
   },
   "devDependencies": {
     "eslint": "^4.19.1",
-    "eslint-plugin-import": "^2.11.0",
+    "eslint-plugin-import": "^2.12.0",
     "husky": "^0.14.3",
-    "lint-staged": "^7.0.4",
-    "nodemon": "^1.17.3",
-    "prettier": "^1.12.1"
+    "jest": "^22.4.3",
+    "lint-staged": "^7.1.0",
+    "nodemon": "^1.17.4",
+    "prettier": "^1.12.1",
+    "supertest": "^3.1.0"
   },
   "scripts": {
-    "eslint": "eslint --max-warnings 0 src index.js config.js",
-    "start": "env-cmd --no-override .env.local nodemon index.js",
+    "eslint": "eslint --max-warnings 0 src migrations seeds",
+    "test": "jest src --watch --notify --runInBand",
+    "coverage": "jest src --coverage --ci --runInBand --forceExit",
+    "setup": "docker-compose up -d",
+    "postsetup": "npm run db:migrate",
+    "start": "nodemon --watch src index.js",
     "precommit": "lint-staged",
-    "postversion": "git push --follow-tags"
+    "postversion": "git push --follow-tags",
+    "db:migrate": "knex migrate:latest --knexfile src/knexfile.js",
+    "db:rollback": "knex migrate:rollback --knexfile src/knexfile.js",
+    "db:seed": "knex seed:run --knexfile src/knexfile.js"
   },
   "lint-staged": {
     "src/**/*.{js,json}": [
       "prettier --single-quote --trailing-comma all --print-width 80 --write",
       "git add"
     ]
-  },
-  "author": "7h1b0"
+  }
 }

@@ -1,15 +1,16 @@
 module.exports = {
-  $id: 'dio',
+  $id: 'room',
   type: 'object',
   additionalProperties: false,
   properties: {
-    id_dio: {
-      type: 'integer',
-    },
     name: {
       type: 'string',
       minLength: 3,
     },
+    description: {
+      type: 'string',
+      minLength: 3,
+    },
   },
-  required: ['name', 'id_dio'],
+  required: ['name'],
 };

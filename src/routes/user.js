@@ -1,94 +1,93 @@
-const User = require('../models/user');
+const User = require('../modules/models/user');
 const { cryptoUtil } = require('../modules/');
 
 module.exports = app => {
-  app.post('/users', (req, res) => {
+  app.post('/register', (req, res) => {
     const isValid = User.validate(req.body);
     if (!isValid) {
-      res.sendStatus(400);
-    } else {
-      const { username, password } = req.body;
-      Promise.all([cryptoUtil.random(36), cryptoUtil.hash(password)])
-        .then(([token, hashedPassword]) => {
-          const newUser = new User({
-            username,
-            password: hashedPassword,
-            token,
-          });
-          return newUser.save();
-        })
-        .then(({ _id, token }) =>
-          res.status(201).send({ _id, username, token }),
-        )
-        .catch(err => res.status(500).send({ err }));
+      return res.sendStatus(400);
     }
+    const { username, password } = req.body;
+    Promise.all([cryptoUtil.random(36), cryptoUtil.hash(password)])
+      .then(([token, hashedPassword]) => {
+        return User.save({
+          username,
+          password: hashedPassword,
+          token,
+        });
+      })
+      .then(newUser => {
+        return res.status(201).json(newUser);
+      })
+      .catch(err => {
+        res.status(500).send({ err });
+      });
   });
 
   app.post('/login', (req, res) => {
     const isValid = User.validate(req.body);
     if (!isValid) {
-      res.sendStatus(400);
-    } else {
-      const { username, password } = req.body;
-      User.findOne({ username })
-        .then(findUser => {
-          if (!findUser) {
-            res.sendStatus(400);
-          } else {
-            cryptoUtil
-              .verify(password, findUser.password)
-              .then(() => {
-                const copyUser = {
-                  _id: findUser._id,
-                  username: findUser.username,
-                  token: findUser.token,
-                };
-
-                res.send(copyUser);
-              })
-              .catch(() => res.sendStatus(400));
-          }
-        })
-        .catch(err => res.status(500).send({ err }));
+      return res.sendStatus(400);
     }
+    const { username, password } = req.body;
+    User.findByUsername(username)
+      .then(findUser => {
+        if (!findUser) {
+          res.sendStatus(403);
+        } else {
+          cryptoUtil
+            .verify(password, findUser.password)
+            .then(isValid => {
+              if (!isValid) {
+                throw new Error('Wrong password');
+              }
+              const copyUser = {
+                _id: findUser.user_id,
+                username: findUser.username,
+                token: findUser.token,
+              };
+
+              res.json(copyUser);
+            })
+            .catch(() => res.sendStatus(403));
+        }
+      })
+      .catch(err => res.status(500).send({ err }));
   });
 
   app.get('/api/users', (req, res) => {
-    User.find({})
-      .select('username')
+    User.findAll()
       .then(users => res.send(users))
       .catch(err => res.status(500).send({ err }));
   });
 
   app
-    .route('/api/users/:id_user([0-9a-z]{24})')
-    .put((req, res) => {
+    .route('/api/users/:id_user([0-9]+)')
+    .patch((req, res) => {
       const isValid = User.validate(req.body);
       if (!isValid) {
-        res.sendStatus(400);
-      } else {
-        const { password } = req.body;
-        cryptoUtil
-          .hash(password)
-          .then(hashedPassword =>
-            User.findByIdAndUpdate(
-              req.params.id_user,
-              { password: hashedPassword },
-              { new: true },
-            ),
-          )
-          .then(findUser => {
-            if (!findUser) {
-              res.sendStatus(404);
-            } else {
-              res.sendStatus(204);
-            }
-          })
-          .catch(err => res.status(500).send({ err }));
+        return res.sendStatus(400);
       }
+
+      const { password } = req.body;
+      cryptoUtil
+        .hash(password)
+        .then(hashedPassword =>
+          User.findByIdAndUpdate(req.params.id_user, {
+            password: hashedPassword,
+          }),
+        )
+        .then(rowsAffected => {
+          if (rowsAffected < 1) {
+            res.sendStatus(404);
+          } else {
+            res.sendStatus(204);
+          }
+        })
+        .catch(err => res.status(500).send({ err }));
     })
     .delete((req, res) => {
-      User.findByIdAndRemove(req.params.id_user)
+      User.delete(req.params.id_user)
         .then(user => {
           if (!user) {
             res.sendStatus(404);

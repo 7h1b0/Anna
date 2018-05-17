@@ -1,6 +1,6 @@
 const Ajv = require('ajv');
-const Schedule = require('../models/schedule');
-const scheduleSchema = require('../schemas/schedule');
+const Schedule = require('../modules/models/schedule');
+const scheduleSchema = require('../modules/schemas/schedule');
 
 let schedules = [];
 

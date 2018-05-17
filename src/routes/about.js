@@ -1,10 +1,10 @@
 const os = require('os');
-const props = require('./../../package.json');
-const Scene = require('../models/scene');
-const Dio = require('../models/dio');
-const Alias = require('../models/alias');
+const { version } = require('./../../package.json');
+const Scene = require('../modules/models/scene');
+const Dio = require('../modules/models/dio');
+const Room = require('../modules/models/room');
+const Alias = require('../modules/models/alias');
 const scheduleService = require('../services/scheduleService');
-const hueService = require('../services/hueService');
 
 module.exports = app => {
   app.get('/anna', (req, res) => res.end());
@@ -19,27 +19,25 @@ module.exports = app => {
       totalmem: os.totalmem(),
       freemem: os.freemem(),
       nodejs: process.version,
-      version: props.version,
+      version,
     }),
   );
 
   app.get('/api', (req, res) => {
-    const getScenes = Scene.find({});
-    const getDios = Dio.find({});
-    const getAlias = Alias.find({});
-    const getHueLights = hueService.getLights();
-    const getHueGroups = hueService.getGroups();
+    const getScenes = Scene.findAll();
+    const getDios = Dio.findAll();
+    const getAlias = Alias.findAll();
+    const getRooms = Room.findAll();
     const schedules = scheduleService.getAll();
 
-    Promise.all([getScenes, getDios, getHueLights, getHueGroups, getAlias])
-      .then(([scenes, dios, hueLights, hueGroups, alias]) =>
+    Promise.all([getScenes, getDios, getAlias, getRooms])
+      .then(([scenes, dios, alias, rooms]) =>
         res.send({
           scenes,
           dios,
-          hueLights,
-          hueGroups,
           alias,
           schedules,
+          rooms,
         }),
       )
       .catch(err => res.status(500).send({ err }));

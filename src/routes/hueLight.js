@@ -40,25 +40,24 @@ module.exports = app => {
   });
 
   app
-    .route('/api/hue/lights/:id_light([0-9]{1,2})')
+    .route('/api/hue/lights/:id_light([0-9]+)')
     .get((req, res) => {
       hueService
         .getLight(req.params.id_light)
         .then(light => res.send(light))
         .catch(err => res.status(500).send({ err }));
     })
-    .put((req, res) => {
+    .patch((req, res) => {
       if (req.body.name === undefined) {
-        res.sendStatus(400);
-      } else {
-        hueService
-          .renameLight(req.params.id_light, req.body.name)
-          .then(result => res.send(result))
-          .catch(err => res.status(500).send({ err }));
+        return res.sendStatus(400);
       }
+      hueService
+        .renameLight(req.params.id_light, req.body.name)
+        .then(result => res.send(result))
+        .catch(err => res.status(500).send({ err }));
     });
 
-  app.put('/api/hue/lights/:id_light([0-9]{1,2})/state', (req, res) => {
+  app.patch('/api/hue/lights/:id_light([0-9]+)/state', (req, res) => {
     const hasBody = req.body && hasProperties(req.body);
     const state = hasBody ? getState(req.body) : getState(req.query);
 
@@ -72,7 +71,7 @@ module.exports = app => {
     }
   });
 
-  app.get('/api/hue/lights/:id_light([0-9]{1,2})/toggle', (req, res) => {
+  app.get('/api/hue/lights/:id_light([0-9]+)/toggle', (req, res) => {
     hueService
       .getLight(req.params.id_light)
       .then(light =>
@@ -82,14 +81,11 @@ module.exports = app => {
       .catch(err => res.status(500).send({ err }));
   });
 
-  app.get(
-    '/api/hue/lights/:id_light([0-9]{1,2})/:status(on|off)',
-    (req, res) => {
-      dispatch(
-        actions.toggleHueLight(req.params.id_light, req.params.status === 'on'),
-      )
-        .then(result => res.send(result))
-        .catch(err => res.status(500).send({ err }));
-    },
-  );
+  app.get('/api/hue/lights/:id_light([0-9]+)/:status(on|off)', (req, res) => {
+    dispatch(
+      actions.toggleHueLight(req.params.id_light, req.params.status === 'on'),
+    )
+      .then(result => res.send(result))
+      .catch(err => res.status(500).send({ err }));
+  });
 };

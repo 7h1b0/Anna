@@ -1,11 +1,11 @@
-const Dio = require('../models/dio');
+const Dio = require('../modules/models/dio');
 const { actions, dispatch } = require('../modules/');
 
 module.exports = app => {
   app
     .route('/api/dios')
     .get((req, res) => {
-      Dio.find({})
+      Dio.findAll()
         .then(dios => res.send(dios))
         .catch(err => res.status(500).send({ err }));
     })
@@ -14,17 +14,16 @@ module.exports = app => {
       if (!isValid) {
         res.sendStatus(400);
       } else {
-        new Dio(req.body)
-          .save()
+        Dio.save(req.body)
           .then(newDio => res.status(201).send(newDio))
           .catch(err => res.status(500).send({ err }));
       }
     });
 
   app
-    .route('/api/dios/:id_dio([0-9]{1,2})')
+    .route('/api/dios/:id_dio([0-9]+)')
     .get((req, res) => {
-      Dio.findOne({ id_dio: req.params.id_dio })
+      Dio.findById(req.params.id_dio)
         .then(dio => {
           if (!dio) {
             res.sendStatus(404);
@@ -34,28 +33,26 @@ module.exports = app => {
         })
         .catch(err => res.status(500).send({ err }));
     })
-    .put((req, res) => {
+    .patch((req, res) => {
       const isValid = Dio.validate(req.body);
       if (!isValid) {
         res.sendStatus(400);
       } else {
-        Dio.findOneAndUpdate({ id_dio: req.params.id_dio }, req.body, {
-          new: true,
-        })
-          .then(dio => {
-            if (!dio) {
+        Dio.findByIdAndUpdate(req.params.id_dio, req.body)
+          .then(rowsAffected => {
+            if (rowsAffected < 1) {
               res.sendStatus(404);
             } else {
-              res.send(dio);
+              res.sendStatus(204);
             }
           })
           .catch(err => res.status(500).send({ err }));
       }
     })
     .delete((req, res) => {
-      Dio.findOneAndRemove({ id_dio: req.params.id_dio })
-        .then(dio => {
-          if (!dio) {
+      Dio.delete(req.params.id_dio)
+        .then(rowsAffected => {
+          if (rowsAffected < 1) {
             res.sendStatus(404);
           } else {
             res.sendStatus(204);
@@ -64,7 +61,7 @@ module.exports = app => {
         .catch(err => res.status(500).send({ err }));
     });
 
-  app.get('/api/dios/:id_dio([0-9]{1,2})/:status(on|off)', (req, res) => {
+  app.get('/api/dios/:id_dio([0-9]+)/:status(on|off)', (req, res) => {
     dispatch(actions.toggleDio(req.params.id_dio, req.params.status === 'on'));
     res.end();
   });

@@ -1,17 +1,15 @@
-const Log = require('../models/log');
+const Log = require('../modules/models/log');
 
 module.exports = app => {
   function getQuery(limit = 20) {
-    return Log.find({})
-      .sort({ date: 'desc' })
-      .limit(limit);
+    return Log.findWithLimit(limit);
   }
 
   function toTimestamp(logs) {
-    return logs.map(({ date, ip, httpMethod, path, username }) => {
-      const timestamp = new Date(date).getTime();
+    return logs.map(({ createdAt, ip, httpMethod, path, username }) => {
+      const timestamp = createdAt.getTime();
       return {
-        date: timestamp,
+        createdAt: timestamp,
         ip,
         httpMethod,
         path,
@@ -27,7 +25,7 @@ module.exports = app => {
       .catch(err => res.status(500).send({ err }));
   });
 
-  app.get('/api/log/:limit([0-9]{1,3})', (req, res) => {
+  app.get('/api/log/:limit([0-9]+)', (req, res) => {
     getQuery(req.params.limit)
       .then(logs => toTimestamp(logs))
       .then(logs => res.send(logs))

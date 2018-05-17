@@ -16,18 +16,17 @@ module.exports = app => {
         res.sendStatus(404);
       }
     })
-    .put((req, res) => {
+    .patch((req, res) => {
       const isValid = scheduleService.validate(req.body, false);
       if (!isValid) {
-        res.sendStatus(400);
+        return res.sendStatus(400);
+      }
+      const schedule = scheduleService.get(req.params.id_schedule);
+      if (schedule) {
+        const updatedSchedule = schedule.update(req.body);
+        res.send(updatedSchedule.attrs);
       } else {
-        const schedule = scheduleService.get(req.params.id_schedule);
-        if (schedule) {
-          const updatedSchedule = schedule.update(req.body);
-          res.send(updatedSchedule.attrs);
-        } else {
-          res.sendStatus(404);
-        }
+        res.sendStatus(404);
       }
     })
     .delete((req, res) => {

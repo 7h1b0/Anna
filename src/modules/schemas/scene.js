@@ -1,4 +1,4 @@
-const { TYPES } = require('../modules/type');
+const { TYPES } = require('../type');
 
 module.exports = {
   $id: 'scene',
@@ -21,7 +21,9 @@ module.exports = {
           type: 'object',
           additionalProperties: false,
           properties: {
-            id: {},
+            targetId: {
+              type: 'integer',
+            },
             name: {
               type: 'string',
               minLength: 3,

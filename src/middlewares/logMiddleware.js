@@ -1,25 +1,24 @@
-const Log = require('../models/log');
-const User = require('../models/user');
+const Log = require('../modules/models/log');
+const User = require('../modules/models/user');
 const logger = require('../modules/logger');
 
 function saveToBDD(
   { method = 'Unknown', ip = 'Unknown', originalUrl = 'Unknown' },
   username = 'Unknown',
 ) {
-  const log = new Log({
+  Log.save({
     httpMethod: method,
     path: originalUrl,
     ip,
     username,
-  });
-  log.save().catch(() => logger.error(`${method} - ${originalUrl}`));
+  }).catch(() => logger.error(`${method} - ${originalUrl}`));
 }
 
 module.exports = function logMiddleware(req, res, next) {
   const token = req.headers['x-access-token'];
 
   if (token) {
-    User.findOne({ token })
+    User.findByToken(token)
       .then(({ username }) => saveToBDD(req, username), () => saveToBDD(req))
       .catch(logger.error);
   } else {

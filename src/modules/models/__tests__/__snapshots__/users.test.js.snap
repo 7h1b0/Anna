@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Users delete should delete an user 1`] = `
+Array [
+  Object {
+    "password": "test",
+    "token": "token_two",
+    "user_id": 2,
+    "username": "two",
+  },
+]
+`;
+
+exports[`Users findAll should return all users 1`] = `
+Array [
+  Object {
+    "userId": 1,
+    "username": "one",
+  },
+  Object {
+    "userId": 2,
+    "username": "two",
+  },
+]
+`;
+
+exports[`Users findByIdAndUpdate should updat an user 1`] = `
+Array [
+  Object {
+    "password": "test",
+    "token": "token_one",
+    "user_id": 1,
+    "username": "username",
+  },
+  Object {
+    "password": "test",
+    "token": "token_two",
+    "user_id": 2,
+    "username": "two",
+  },
+]
+`;
+
+exports[`Users save should save a new user 1`] = `
+Array [
+  Object {
+    "password": "sdfsdfsdfsdfsdf",
+    "token": "fghjkhjkhjhk",
+    "user_id": 3,
+    "username": "testsave",
+  },
+]
+`;

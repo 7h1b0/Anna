@@ -64,7 +64,12 @@ describe('User', () => {
           .set('x-access-token', user.token)
           .send();
 
-        expect(response.status).toBe(200);
+        expect(response.body).toEqual([
+          {
+            username: user.username,
+            userId: user.user_id,
+          },
+        ]);
       });
 
       it('should retun 401 when user is not authenticated', async () => {
@@ -101,6 +106,64 @@ describe('User', () => {
           .send();
 
         expect(response.status).toBe(401);
+      });
+    });
+
+    describe('PATCH', () => {
+      it.skip('should do not update username', async () => {
+        const response = await request(app)
+          .patch('/api/users/1')
+          .set('Accept', 'application/json')
+          .set('x-access-token', user.token)
+          .send({ username: 'test_changed', password: 'anna' });
+
+        expect(response.status).toBe(204);
+        const users = await knex(User.TABLE).select('*');
+
+        expect(users).toContainEqual({
+          user_id: user.user_id,
+          username: user.username,
+          password: user.password,
+          token: user.token,
+        });
+      });
+
+      it('should update password', async () => {
+        const response = await request(app)
+          .patch('/api/users/1')
+          .set('Accept', 'application/json')
+          .set('x-access-token', user.token)
+          .send({ username: 'test', password: 'toto' });
+
+        expect(response.status).toBe(204);
+        const users = await knex(User.TABLE).select('*');
+        expect(users).toHaveLength(1);
+
+        const { password, username, user_id, token } = users[0];
+        expect(password !== user.password).toBeTruthy();
+        expect(user_id).toBe(user.user_id);
+        expect(username).toBe(user.username);
+        expect(token).toBe(user.token);
+      });
+
+      it('should retun 401 when user is not authenticated', async () => {
+        const response = await request(app)
+          .patch('/api/users/1')
+          .set('Accept', 'application/json')
+          .set('x-access-token', 'fake')
+          .send();
+
+        expect(response.status).toBe(401);
+      });
+
+      it('should retun 400 if body is invalid', async () => {
+        const response = await request(app)
+          .patch('/api/users/1')
+          .set('Accept', 'application/json')
+          .set('x-access-token', user.token)
+          .send();
+
+        expect(response.status).toBe(400);
       });
     });
   });

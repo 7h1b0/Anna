@@ -15,11 +15,11 @@ const initUsers = [
   },
 ];
 
-beforeAll(async () => {
-  await knex(User.TABLE).truncate();
-});
-
 describe('Users', () => {
+  beforeAll(async () => {
+    await knex(User.TABLE).truncate();
+  });
+
   beforeEach(async () => {
     await knex(User.TABLE).insert(initUsers);
   });

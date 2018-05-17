@@ -17,11 +17,11 @@ const initAlias = [
   },
 ];
 
-beforeAll(async () => {
-  await knex(Alias.TABLE).truncate();
-});
-
 describe('Alias', () => {
+  beforeAll(async () => {
+    await knex(Alias.TABLE).truncate();
+  });
+
   beforeEach(async () => {
     await knex(Alias.TABLE).insert(initAlias);
   });

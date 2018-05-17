@@ -13,11 +13,11 @@ const initDios = [
   },
 ];
 
-beforeAll(async () => {
-  await knex(Dio.TABLE).truncate();
-});
-
 describe('Dio', () => {
+  beforeAll(async () => {
+    await knex(Dio.TABLE).truncate();
+  });
+
   beforeEach(async () => {
     await knex(Dio.TABLE).insert(initDios);
   });

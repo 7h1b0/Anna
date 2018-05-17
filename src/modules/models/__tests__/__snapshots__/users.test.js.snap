@@ -14,11 +14,11 @@ Array [
 exports[`Users findAll should return all users 1`] = `
 Array [
   Object {
-    "user_id": 1,
+    "userId": 1,
     "username": "one",
   },
   Object {
-    "user_id": 2,
+    "userId": 2,
     "username": "two",
   },
 ]

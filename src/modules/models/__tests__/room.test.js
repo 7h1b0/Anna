@@ -13,11 +13,11 @@ const initRooms = [
   },
 ];
 
-beforeAll(async () => {
-  await knex(Room.TABLE).truncate();
-});
-
 describe('Room', () => {
+  beforeAll(async () => {
+    await knex(Room.TABLE).truncate();
+  });
+
   beforeEach(async () => {
     await knex(Room.TABLE).insert(initRooms);
   });

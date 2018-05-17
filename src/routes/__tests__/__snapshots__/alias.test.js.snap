@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Alias /api/alias GET should retun the token 1`] = `
+Array [
+  Object {
+    "aliasId": 1,
+    "description": "test",
+    "enabled": true,
+    "name": "test",
+    "sceneId": 1,
+  },
+  Object {
+    "aliasId": 2,
+    "description": "test",
+    "enabled": false,
+    "name": "test_2",
+    "sceneId": 1,
+  },
+]
+`;

@@ -17,7 +17,7 @@ module.exports = {
   },
 
   findAll() {
-    return knex(TABLE).select('user_id', 'username');
+    return knex(TABLE).select({ userId: 'user_id' }, 'username');
   },
 
   findByUsername(username) {

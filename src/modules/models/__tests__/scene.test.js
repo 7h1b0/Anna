@@ -39,14 +39,14 @@ const initActions = [
   },
 ];
 
-beforeAll(async () => {
-  await Promise.all([
-    knex(Scene.TABLE).truncate(),
-    knex(Scene.ACTION_TABLE).truncate(),
-  ]);
-});
-
 describe('Room', () => {
+  beforeAll(async () => {
+    await Promise.all([
+      knex(Scene.TABLE).truncate(),
+      knex(Scene.ACTION_TABLE).truncate(),
+    ]);
+  });
+
   beforeEach(async () => {
     await Promise.all([
       knex(Scene.TABLE).insert(initScenes),

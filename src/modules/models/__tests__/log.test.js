@@ -19,11 +19,11 @@ const initDios = [
   },
 ];
 
-beforeAll(async () => {
-  await knex(Log.TABLE).truncate();
-});
-
 describe('Logs', () => {
+  beforeAll(async () => {
+    await knex(Log.TABLE).truncate();
+  });
+
   beforeEach(async () => {
     await knex(Log.TABLE).insert(initDios);
   });

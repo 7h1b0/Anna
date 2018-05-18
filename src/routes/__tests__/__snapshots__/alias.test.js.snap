@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Alias /api/alias GET should retun the token 1`] = `
+exports[`Alias /api/alias GET should retun all alias 1`] = `
 Array [
   Object {
     "aliasId": 1,

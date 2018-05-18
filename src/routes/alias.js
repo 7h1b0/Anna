@@ -1,4 +1,5 @@
-const { dispatch, actions } = require('../modules/');
+const dispatch = require('../modules/dispatch');
+const actions = require('../modules/actions');
 const Alias = require('../modules/models/alias');
 
 module.exports = app => {
@@ -21,7 +22,7 @@ module.exports = app => {
     });
 
   app
-    .route('/api/alias/:id_alias(d+)')
+    .route('/api/alias/:id_alias(\\d+)')
     .get((req, res) => {
       Alias.findById(req.params.id_alias)
         .then(alias => {
@@ -38,7 +39,13 @@ module.exports = app => {
       if (!isValid) {
         res.sendStatus(400);
       } else {
-        Alias.findByIdAndUpdate(req.params.id_alias, req.body)
+        const updatedAlias = {
+          name: req.body.name,
+          description: req.body.description,
+          enabled: req.body.enabled,
+          scene_id: req.body.sceneId,
+        };
+        Alias.findByIdAndUpdate(req.params.id_alias, updatedAlias)
           .then(rowsAffected => {
             if (rowsAffected < 1) {
               res.sendStatus(404);
@@ -61,7 +68,7 @@ module.exports = app => {
         .catch(err => res.status(500).send({ err }));
     });
 
-  app.get('/api/alias/:id_alias(d+)/:enabled(enable|disable)', (req, res) => {
+  app.get('/api/alias/:id_alias(\\d+)/:enabled(enable|disable)', (req, res) => {
     Alias.findByIdAndUpdate(req.params.id_alias, {
       enabled: req.params.enabled === 'enable',
     })

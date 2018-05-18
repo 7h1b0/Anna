@@ -48,7 +48,7 @@ describe('Alias', () => {
 
   describe('/api/alias', () => {
     describe('GET', () => {
-      it('should retun the token', async () => {
+      it('should retun all alias', async () => {
         const response = await request(app)
           .get('/api/alias')
           .set('Accept', 'application/json')
@@ -65,6 +65,206 @@ describe('Alias', () => {
 
         expect(response.status).toBe(401);
       });
+    });
+
+    describe('POST', () => {
+      it('should create a new alias', async () => {
+        const response = await request(app)
+          .post('/api/alias')
+          .set('Accept', 'application/json')
+          .set('x-access-token', user.token)
+          .send({
+            sceneId: 1,
+            name: 'test_post',
+            description: 'test',
+            enabled: false,
+          });
+
+        expect(response.status).toBe(201);
+
+        const alias = await knex(Alias.TABLE)
+          .select('*')
+          .where('alias_id', 3);
+        expect(alias[0]).toEqual({
+          scene_id: 1,
+          alias_id: 3,
+          name: 'test_post',
+          description: 'test',
+          enabled: false,
+        });
+      });
+
+      it('should retun 401 when user is not authenticated', async () => {
+        const response = await request(app)
+          .post('/api/alias')
+          .set('Accept', 'application/json')
+          .set('x-access-token', 'fake');
+
+        expect(response.status).toBe(401);
+      });
+
+      it('should retun 400 if request is invalid', async () => {
+        const response = await request(app)
+          .post('/api/alias')
+          .set('Accept', 'application/json')
+          .set('x-access-token', user.token)
+          .send({
+            sceneId: 1,
+            name: 'test_post',
+            description: 'test',
+            fake: false,
+          });
+
+        expect(response.status).toBe(400);
+      });
+    });
+  });
+
+  describe('/api/alias/:id', () => {
+    describe('GET', () => {
+      it('should retun an alias', async () => {
+        const response = await request(app)
+          .get('/api/alias/1')
+          .set('Accept', 'application/json')
+          .set('x-access-token', user.token);
+
+        expect(response.body).toEqual({
+          aliasId: 1,
+          sceneId: 1,
+          name: 'test',
+          description: 'test',
+          enabled: true,
+        });
+      });
+
+      it('should retun 401 when user is not authenticated', async () => {
+        const response = await request(app)
+          .get('/api/alias/2')
+          .set('Accept', 'application/json')
+          .set('x-access-token', 'fake');
+
+        expect(response.status).toBe(401);
+      });
+    });
+
+    describe('PATCH', () => {
+      it('should update an alias', async () => {
+        const response = await request(app)
+          .patch('/api/alias/1')
+          .set('Accept', 'application/json')
+          .set('x-access-token', user.token)
+          .send({
+            sceneId: 2,
+            name: 'test_update',
+            description: 'test',
+            enabled: true,
+          });
+
+        expect(response.status).toBe(204);
+
+        const alias = await knex(Alias.TABLE)
+          .select('*')
+          .where('alias_id', 1);
+
+        expect(alias[0]).toEqual({
+          scene_id: 2,
+          alias_id: 1,
+          name: 'test_update',
+          description: 'test',
+          enabled: true,
+        });
+      });
+
+      it('should retun 401 when user is not authenticated', async () => {
+        const response = await request(app)
+          .patch('/api/alias/1')
+          .set('Accept', 'application/json')
+          .set('x-access-token', 'fake');
+
+        expect(response.status).toBe(401);
+      });
+
+      it('should retun 400 when request is invalid', async () => {
+        const response = await request(app)
+          .patch('/api/alias/1')
+          .set('Accept', 'application/json')
+          .set('x-access-token', user.token)
+          .send({
+            sceneId: 2,
+            name: 'test_update',
+            description: 'test',
+            fake: true,
+          });
+
+        expect(response.status).toBe(400);
+      });
+    });
+
+    describe('DELETE', () => {
+      it('should delete an alias', async () => {
+        const response = await request(app)
+          .delete('/api/alias/1')
+          .set('Accept', 'application/json')
+          .set('x-access-token', user.token);
+
+        expect(response.status).toBe(204);
+
+        const alias = await knex(Alias.TABLE)
+          .select('*')
+          .where('alias_id', 1);
+
+        expect(alias).toHaveLength(0);
+      });
+
+      it('should retun 401 when user is not authenticated', async () => {
+        const response = await request(app)
+          .delete('/api/alias/1')
+          .set('Accept', 'application/json')
+          .set('x-access-token', 'fake');
+
+        expect(response.status).toBe(401);
+      });
+    });
+  });
+
+  describe('/api/alias/:id/:enabled', () => {
+    it('should enable an alias', async () => {
+      const response = await request(app)
+        .get('/api/alias/2/enable')
+        .set('Accept', 'application/json')
+        .set('x-access-token', user.token);
+
+      expect(response.status).toBe(204);
+
+      const alias = await knex(Alias.TABLE)
+        .select('*')
+        .where('alias_id', 2);
+
+      expect(alias[0].enabled).toBeTruthy();
+    });
+
+    it('should disable an alias', async () => {
+      const response = await request(app)
+        .get('/api/alias/1/disable')
+        .set('Accept', 'application/json')
+        .set('x-access-token', user.token);
+
+      expect(response.status).toBe(204);
+
+      const alias = await knex(Alias.TABLE)
+        .select('*')
+        .where('alias_id', 1);
+
+      expect(alias[0].enabled).toBeFalsy();
+    });
+
+    it('should retun 401 when user is not authenticated', async () => {
+      const response = await request(app)
+        .delete('/api/alias/1')
+        .set('Accept', 'application/json')
+        .set('x-access-token', 'fake');
+
+      expect(response.status).toBe(401);
     });
   });
 });

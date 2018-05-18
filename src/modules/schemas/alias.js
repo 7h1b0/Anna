@@ -9,7 +9,7 @@ module.exports = {
     },
     description: {
       type: 'string',
-      minLength: 5,
+      minLength: 3,
     },
     sceneId: {
       type: 'integer',

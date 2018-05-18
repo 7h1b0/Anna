@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Rooms /api/rooms GET should retun all rooms 1`] = `
+Array [
+  Object {
+    "description": "this is a test",
+    "name": "room_1",
+    "roomId": 1,
+  },
+  Object {
+    "description": "this is a second test",
+    "name": "room_2",
+    "roomId": 2,
+  },
+]
+`;

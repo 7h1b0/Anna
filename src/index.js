@@ -14,7 +14,8 @@ const scene = require('./routes/scene');
 const schedule = require('./routes/schedule');
 const user = require('./routes/user');
 
-const middlewares = require('./middlewares/');
+const authenticationMiddleware = require('./middlewares/authenticationMiddleware');
+const logMiddleware = require('./middlewares/logMiddleware');
 
 // const schedules = requireDir('./assets/schedules');
 // Object.keys(schedules).forEach(schedule => {
@@ -30,7 +31,7 @@ const middlewares = require('./middlewares/');
 // Setup Server
 const app = express();
 app.use(bodyParser.json());
-app.all('/api/*', middlewares);
+app.all('/api/*', [logMiddleware, authenticationMiddleware]);
 
 about(app);
 alias(app);

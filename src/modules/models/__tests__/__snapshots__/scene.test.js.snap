@@ -1,16 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Room delete should delete a scene 1`] = `
+exports[`Scene delete should delete a scene 1`] = `
 Array [
   Object {
     "description": "this is a second test",
-    "name": "room_2",
+    "name": "scene_2",
     "scene_id": 2,
   },
 ]
 `;
 
-exports[`Room delete should delete a scene 2`] = `
+exports[`Scene delete should delete a scene 2`] = `
 Array [
   Object {
     "action_id": 3,

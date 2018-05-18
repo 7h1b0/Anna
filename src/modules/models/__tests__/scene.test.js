@@ -4,12 +4,12 @@ const initScenes = [
   {
     scene_id: 1,
     description: 'this is a test',
-    name: 'room_1',
+    name: 'scene_1',
   },
   {
     scene_id: 2,
     description: 'this is a second test',
-    name: 'room_2',
+    name: 'scene_2',
   },
 ];
 const initActions = [
@@ -39,7 +39,7 @@ const initActions = [
   },
 ];
 
-describe('Room', () => {
+describe('Scene', () => {
   beforeAll(async () => {
     await Promise.all([
       knex(Scene.TABLE).truncate(),
@@ -67,12 +67,12 @@ describe('Room', () => {
         {
           sceneId: 1,
           description: 'this is a test',
-          name: 'room_1',
+          name: 'scene_1',
         },
         {
           sceneId: 2,
           description: 'this is a second test',
-          name: 'room_2',
+          name: 'scene_2',
         },
       ];
 

@@ -1,5 +1,6 @@
 const hueService = require('../services/hueService');
-const { actions, dispatch } = require('../modules/');
+const dispatch = require('../modules/dispatch');
+const actions = require('../modules/actions');
 
 module.exports = app => {
   function hasProperties(object) {

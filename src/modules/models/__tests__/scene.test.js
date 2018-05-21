@@ -12,6 +12,7 @@ const initScenes = [
     name: 'scene_2',
   },
 ];
+
 const initActions = [
   {
     action_id: 1,

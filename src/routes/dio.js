@@ -39,7 +39,11 @@ module.exports = app => {
       if (!isValid) {
         res.sendStatus(400);
       } else {
-        Dio.findByIdAndUpdate(req.params.id_dio, req.body)
+        const updatedDio = {
+          name: req.body.name,
+          room_id: req.body.roomId,
+        };
+        Dio.findByIdAndUpdate(req.params.id_dio, updatedDio)
           .then(rowsAffected => {
             if (rowsAffected < 1) {
               res.sendStatus(404);

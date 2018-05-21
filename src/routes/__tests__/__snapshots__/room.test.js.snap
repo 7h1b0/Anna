@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Rooms /api/rooms GET should retun all rooms 1`] = `
+exports[`Rooms API /api/rooms GET should retun all rooms 1`] = `
 Array [
   Object {
     "description": "this is a test",

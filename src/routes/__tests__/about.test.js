@@ -10,7 +10,7 @@ const user = {
   token: '8e6a76928f76d23665f78ff3688ca86422d5',
 };
 
-describe('About', () => {
+describe('About API', () => {
   beforeAll(async () => {
     await knex(User.TABLE).truncate();
     await knex(User.TABLE).insert(user);

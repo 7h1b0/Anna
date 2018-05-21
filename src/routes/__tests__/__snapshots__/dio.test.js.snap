@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dio API /api/dios GET should retun all dio 1`] = `
+Array [
+  Object {
+    "dioId": 1,
+    "name": "test",
+    "roomId": 1,
+  },
+  Object {
+    "dioId": 2,
+    "name": "test",
+    "roomId": 2,
+  },
+]
+`;

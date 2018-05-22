@@ -1,6 +1,6 @@
 const request = require('supertest');
 const knex = require('../../knexClient');
-const Dio = require('../../modules/models/Dio');
+const Dio = require('../../modules/models/dio');
 const User = require('../../modules/models/user');
 const app = require('../../index.js');
 

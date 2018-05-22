@@ -2,20 +2,12 @@ const Ajv = require('ajv');
 const knex = require('../../knexClient');
 const sceneSchema = require('../schemas/scene');
 const TABLE = 'scenes';
-const ACTION_TABLE = 'actions';
 const COLUMNS = [{ sceneId: 'scene_id' }, 'name', 'description'];
-const ACTIONS_COLUMNS = [
-  'actions.name',
-  'actions.type',
-  'actions.body',
-  { targetId: 'actions.target_id' },
-];
+const { TABLE: ACTION_TABLE, findBySceneId } = require('./action');
 
 module.exports = {
   TABLE,
-  ACTION_TABLE,
   COLUMNS,
-  ACTIONS_COLUMNS,
 
   validate(data) {
     const ajv = new Ajv();
@@ -26,21 +18,15 @@ module.exports = {
     return knex(TABLE).select(COLUMNS);
   },
 
-  findActionsBySceneId(sceneId) {
-    return knex(ACTION_TABLE)
-      .select(ACTIONS_COLUMNS)
-      .where('scene_id', sceneId)
-      .then(entries => {
-        return entries.reduce((acc, entry) => {
-          try {
-            return acc.concat(
-              Object.assign({}, entry, { body: JSON.parse(entry.body) }),
-            );
-          } catch (e) {
-            return acc;
-          }
-        }, []);
-      });
+  findById(sceneId) {
+    const fetchScene = knex(TABLE)
+      .select(COLUMNS)
+      .where('scene_id', sceneId);
+    const fetchActions = findBySceneId(sceneId);
+
+    return Promise.all([fetchScene, fetchActions]).then(([scene, actions]) => {
+      return Object.assign({}, scene[0], { actions });
+    });
   },
 
   save({ name, description, actions }) {

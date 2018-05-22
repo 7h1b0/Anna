@@ -1,5 +1,6 @@
 const knex = require('../../../knexClient');
 const Scene = require('../scene');
+const Action = require('../action');
 const initScenes = [
   {
     scene_id: 1,
@@ -12,6 +13,7 @@ const initScenes = [
     name: 'scene_2',
   },
 ];
+
 const initActions = [
   {
     action_id: 1,
@@ -43,21 +45,21 @@ describe('Scene', () => {
   beforeAll(async () => {
     await Promise.all([
       knex(Scene.TABLE).truncate(),
-      knex(Scene.ACTION_TABLE).truncate(),
+      knex(Action.TABLE).truncate(),
     ]);
   });
 
   beforeEach(async () => {
     await Promise.all([
       knex(Scene.TABLE).insert(initScenes),
-      knex(Scene.ACTION_TABLE).insert(initActions),
+      knex(Action.TABLE).insert(initActions),
     ]);
   });
 
   afterEach(async () => {
     await Promise.all([
       knex(Scene.TABLE).truncate(),
-      knex(Scene.ACTION_TABLE).truncate(),
+      knex(Action.TABLE).truncate(),
     ]);
   });
 
@@ -81,41 +83,23 @@ describe('Scene', () => {
     });
   });
 
-  describe('findActionsBySceneId', () => {
-    it('should return all actions for a given scene id', async () => {
-      const expected = [
-        {
-          type: 'DIO',
-          name: 'action turn on',
-          targetId: 1,
-          body: { on: true },
-        },
-        {
-          type: 'DIO',
-          name: 'action turn off',
-          targetId: 2,
-          body: { on: false },
-        },
-      ];
-
-      const result = await Scene.findActionsBySceneId(1);
-      expect(result).toEqual(expected);
-    });
-  });
-
   describe('delete', () => {
     it('should delete a scene', async () => {
       await Scene.delete(1);
-      const scenes = await knex(Scene.TABLE).select('*');
-      const actions = await knex(Scene.ACTION_TABLE).select('*');
-      expect(scenes).toMatchSnapshot();
-      expect(actions).toMatchSnapshot();
+      const scenes = await knex(Scene.TABLE)
+        .select('*')
+        .where('scene_id', 1);
+      const actions = await knex(Action.TABLE)
+        .select('*')
+        .where('scene_id', 1);
+      expect(scenes).toHaveLength(0);
+      expect(actions).toHaveLength(0);
     });
 
     it('should not delete a scene', async () => {
       await Scene.delete(-1);
       const scenes = await knex(Scene.TABLE).select('*');
-      const actions = await knex(Scene.ACTION_TABLE).select('*');
+      const actions = await knex(Action.TABLE).select('*');
       expect(scenes).toEqual(initScenes);
       expect(actions).toEqual(initActions);
     });

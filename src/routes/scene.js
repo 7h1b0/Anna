@@ -57,15 +57,17 @@ module.exports = app => {
         .catch(err => res.status(500).send({ err }));
     })
     .delete((req, res) => {
-      Scene.findByIdAndRemove(req.params.id_scene)
-        .then(scene => {
-          if (!scene) {
+      Scene.delete(req.params.id_scene)
+        .then(([removedScene]) => {
+          if (removedScene < 1) {
             res.sendStatus(404);
           } else {
             res.sendStatus(204);
           }
         })
-        .catch(err => res.status(500).send({ err }));
+        .catch(err => {
+          res.status(500).send({ err });
+        });
     });
 
   app.get('/api/scenes/:id_scene([0-9]+)/action', (req, res) => {

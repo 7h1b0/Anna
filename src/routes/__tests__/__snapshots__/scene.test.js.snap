@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Scene API /api/scenes GET should retun all scene 1`] = `
+Array [
+  Object {
+    "description": "this is a test",
+    "name": "scene_1",
+    "sceneId": 1,
+  },
+  Object {
+    "description": "this is a second test",
+    "name": "scene_2",
+    "sceneId": 2,
+  },
+]
+`;

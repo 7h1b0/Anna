@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Scene save should save a new scene 1`] = `
+Array [
+  Object {
+    "description": "save test",
+    "name": "scene_3",
+    "scene_id": 3,
+  },
+]
+`;
+
+exports[`Scene save should save a new scene 2`] = `
+Array [
+  Object {
+    "action_id": 4,
+    "body": "{\\"on\\":true}",
+    "name": "action one",
+    "scene_id": 3,
+    "target_id": 1,
+    "type": "DIO",
+  },
+  Object {
+    "action_id": 5,
+    "body": "{\\"on\\":true,\\"bri\\":255}",
+    "name": "action two",
+    "scene_id": 3,
+    "target_id": 1,
+    "type": "HUE_LIGHT",
+  },
+]
+`;

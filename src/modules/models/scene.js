@@ -40,6 +40,7 @@ module.exports = {
               const formatedAction = {
                 type: action.type,
                 name: action.name,
+                target_id: action.targetId,
                 scene_id: sceneId,
                 body: JSON.stringify(action.body),
               };

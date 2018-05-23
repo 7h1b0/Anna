@@ -116,9 +116,8 @@ class Schedule {
   }
 
   static isPublicHoliday(timestamp) {
-    function getPublicHolidays() {
+    function getPublicHolidays(year) {
       // http://techneilogy.blogspot.fr/2012/02/couple-of-years-ago-i-posted-source.html
-      const year = new Date().getFullYear();
       const a = year % 19;
       const b = Math.floor(year / 100);
       const c = year % 100;
@@ -164,7 +163,7 @@ class Schedule {
 
     const date = timestamp ? new Date(timestamp) : new Date();
     date.setHours(0, 0, 0, 0);
-    return getPublicHolidays().some(
+    return getPublicHolidays(date.getFullYear()).some(
       holiday => date.getTime() === holiday.getTime(),
     );
   }

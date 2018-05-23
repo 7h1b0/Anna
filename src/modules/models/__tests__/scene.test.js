@@ -104,4 +104,43 @@ describe('Scene', () => {
       expect(actions).toEqual(initActions);
     });
   });
+
+  describe('save', () => {
+    it('should save a new scene', async () => {
+      const scene = {
+        description: 'save test',
+        name: 'scene_3',
+        actions: [
+          {
+            targetId: 1,
+            name: 'action one',
+            type: 'DIO',
+            body: {
+              on: true,
+            },
+          },
+          {
+            targetId: 1,
+            name: 'action two',
+            type: 'HUE_LIGHT',
+            body: {
+              on: true,
+              bri: 255,
+            },
+          },
+        ],
+      };
+
+      await Scene.save(scene);
+
+      const scenes = await knex(Scene.TABLE)
+        .select('*')
+        .where('scene_id', 3);
+      const actions = await knex(Action.TABLE)
+        .select('*')
+        .where('scene_id', 3);
+      expect(scenes).toMatchSnapshot();
+      expect(actions).toMatchSnapshot();
+    });
+  });
 });

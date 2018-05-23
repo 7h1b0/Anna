@@ -32,8 +32,6 @@
     "eslint": "eslint --max-warnings 0 src migrations seeds",
     "test": "jest src --watch --notify --runInBand",
     "coverage": "jest src --coverage --ci --runInBand --forceExit --silent",
-    "setup": "docker-compose up -d",
-    "postsetup": "npm run db:migrate",
     "start": "nodemon --watch src index.js",
     "precommit": "lint-staged",
     "postversion": "git push --follow-tags",

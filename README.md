@@ -24,8 +24,10 @@ REST API for home automation using NodeJS
 
 ## Installation
 
+1. Execute `docker-compose up -d`
 1. Execute `npm i`
-1. Execute `npm run setup`
+1. Execute `npm run db:migrate`
+1. Optionnal: run `npm run db:seed`
 
 ## Available Scripts
 In the project directory, you can run:

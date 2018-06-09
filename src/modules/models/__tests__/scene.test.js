@@ -143,4 +143,88 @@ describe('Scene', () => {
       expect(actions).toMatchSnapshot();
     });
   });
+
+  describe('validate', () => {
+    it('should return true when a scene is valid', () => {
+      const scene = {
+        name: 'test',
+        description: 'my scene test',
+        actions: [
+          {
+            targetId: 1,
+            name: 'test',
+            type: 'DIO',
+            body: {
+              on: true,
+            },
+          },
+        ],
+      };
+
+      expect(Scene.validate(scene)).toBeTruthy();
+    });
+
+    it('should return false when no actions is provided', () => {
+      const scene = {
+        name: 'test',
+        description: 'my scene test',
+      };
+
+      expect(Scene.validate(scene)).toBeFalsy();
+    });
+
+    it('should return false when an actions is missing props', () => {
+      const scene = {
+        name: 'test',
+        description: 'my scene test',
+        actions: [
+          {
+            targetId: 1,
+            name: 'test',
+            body: {
+              on: true,
+            },
+          },
+        ],
+      };
+
+      expect(Scene.validate(scene)).toBeFalsy();
+    });
+
+    it('should return true when no description is provided', () => {
+      const scene = {
+        name: 'test',
+        actions: [
+          {
+            targetId: 1,
+            name: 'test',
+            type: 'DIO',
+            body: {
+              on: true,
+            },
+          },
+        ],
+      };
+
+      expect(Scene.validate(scene)).toBeTruthy();
+    });
+
+    it('should return false when the type of an actions is unknow', () => {
+      const scene = {
+        name: 'test',
+        actions: [
+          {
+            targetId: 1,
+            name: 'test',
+            type: 'TEST',
+            body: {
+              on: true,
+            },
+          },
+        ],
+      };
+
+      expect(Scene.validate(scene)).toBeFalsy();
+    });
+  });
 });

@@ -6,7 +6,7 @@ function saveToBDD(
   { method = 'Unknown', ip = 'Unknown', originalUrl = 'Unknown' },
   username = 'Unknown',
 ) {
-  Log.save({
+  return Log.save({
     httpMethod: method,
     path: originalUrl,
     ip,
@@ -18,9 +18,10 @@ module.exports = function logMiddleware(req, res, next) {
   const token = req.headers['x-access-token'];
 
   if (token) {
-    User.findByToken(token)
-      .then(({ username }) => saveToBDD(req, username), () => saveToBDD(req))
-      .catch(logger.error);
+    User.findByToken(token).then(
+      res => saveToBDD(req, res ? res.username : 'Unknown'),
+      () => saveToBDD(req),
+    );
   } else {
     saveToBDD(req);
   }

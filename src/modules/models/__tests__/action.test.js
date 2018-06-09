@@ -1,6 +1,9 @@
 const knex = require('../../../knexClient');
 const Action = require('../action');
 
+jest.mock('../../logger');
+const logger = require('../../logger');
+
 const initActions = [
   {
     action_id: 1,
@@ -60,6 +63,33 @@ describe('Action', () => {
 
       const result = await Action.findBySceneId(1);
       expect(result).toEqual(expected);
+    });
+
+    it('should handle when a body if malformed', async () => {
+      const action = {
+        action_id: 4,
+        scene_id: 2,
+        type: 'DIO',
+        name: 'action turn off',
+        target_id: 2,
+        body: 'tototo',
+      };
+
+      const expected = [
+        {
+          type: 'SCENE',
+          name: 'call scene',
+          targetId: 2,
+          body: null,
+        },
+      ];
+
+      await knex(Action.TABLE).insert(action);
+
+      const result = await Action.findBySceneId(2);
+
+      expect(result).toEqual(expected);
+      expect(logger.error).toHaveBeenCalled();
     });
   });
 });

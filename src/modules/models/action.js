@@ -1,4 +1,5 @@
 const knex = require('../../knexClient');
+const logger = require('../logger');
 
 const TABLE = 'actions';
 const COLUMNS = ['name', 'type', 'body', { targetId: 'target_id' }];
@@ -18,6 +19,7 @@ module.exports = {
               Object.assign({}, entry, { body: JSON.parse(entry.body) }),
             );
           } catch (e) {
+            logger.error(`Body of entry #${entry.name} is malformed`);
             return acc;
           }
         }, []);

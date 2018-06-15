@@ -20,6 +20,6 @@ module.exports = function dispatch({ type, id, body }) {
       });
 
     default:
-      return Promise.reject();
+      return Promise.reject(`Unknow type ${type}`);
   }
 };

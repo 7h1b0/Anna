@@ -32,7 +32,7 @@ module.exports = app => {
 
     Promise.all([getScenes, getDios, getAlias, getRooms])
       .then(([scenes, dios, alias, rooms]) =>
-        res.send({
+        res.json({
           scenes,
           dios,
           alias,

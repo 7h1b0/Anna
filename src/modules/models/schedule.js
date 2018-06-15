@@ -22,17 +22,14 @@ class Schedule {
 
   update({ name, interval, runAtPublicHoliday }) {
     this.attrs.name = name || this.attrs.name;
-    this.attrs.interval = interval || this.attrs.interval;
-    this.attrs.runAtPublicHoliday =
-      runAtPublicHoliday !== undefined
-        ? runAtPublicHoliday
-        : this.attrs.runAtPublicHoliday;
-    this.stop();
 
-    this.start();
-    this.computeNextRunAt();
-
-    return this;
+    if (interval != null) {
+      return this.updateInterval(interval);
+    } else if (runAtPublicHoliday !== undefined) {
+      this.attrs.runAtPublicHoliday = runAtPublicHoliday;
+      this.computeNextRunAt();
+    }
+    return this.process;
   }
 
   updateInterval(interval) {
@@ -41,7 +38,7 @@ class Schedule {
 
     this.start();
     this.computeNextRunAt();
-    return this;
+    return this.process;
   }
 
   start() {
@@ -52,10 +49,14 @@ class Schedule {
       true,
     );
     this.attrs.isRunning = true;
+
+    return this.process;
   }
 
   stop() {
-    this.process.stop();
+    if (this.process) {
+      this.process.stop();
+    }
     this.attrs.isRunning = false;
   }
 
@@ -132,7 +133,7 @@ class Schedule {
       const m = Math.floor((a + 11 * h + 22 * l) / 451);
       const n0 = h + l + 7 * m + 114;
       const month = Math.floor(n0 / 31) - 1;
-      const day = n0 % 31 + 1;
+      const day = (n0 % 31) + 1;
 
       const jourDeLan = new Date(year, 0, 1);
       const lundiDePaques = new Date(year, month, day + 1);

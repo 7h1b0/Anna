@@ -23,8 +23,8 @@ module.exports = app => {
       }
       const schedule = scheduleService.get(req.params.id_schedule);
       if (schedule) {
-        const updatedSchedule = schedule.update(req.body);
-        res.send(updatedSchedule.attrs);
+        schedule.update(req.body);
+        res.send(schedule.attrs);
       } else {
         res.sendStatus(404);
       }

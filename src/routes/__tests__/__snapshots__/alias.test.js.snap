@@ -6,14 +6,14 @@ Array [
     "aliasId": 1,
     "description": "test",
     "enabled": true,
-    "name": "test",
+    "name": "testone",
     "sceneId": 1,
   },
   Object {
     "aliasId": 2,
     "description": "test",
     "enabled": false,
-    "name": "test_2",
+    "name": "testtwo",
     "sceneId": 1,
   },
 ]

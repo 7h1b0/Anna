@@ -3,6 +3,12 @@ const knex = require('../../knexClient');
 const User = require('../../modules/models/user');
 const app = require('../../index.js');
 
+const Scene = require('../../modules/models/scene');
+const Dio = require('../../modules/models/dio');
+const Room = require('../../modules/models/room');
+const Alias = require('../../modules/models/alias');
+const scheduleService = require('../../services/scheduleService');
+
 const user = {
   user_id: 1,
   username: 'test',
@@ -69,6 +75,31 @@ describe('About API', () => {
         .send();
 
       expect(response.status).toBe(200);
+    });
+  });
+
+  describe('/api', () => {
+    it('should returns information about api', async () => {
+      Scene.findAll = jest.fn(() => Promise.resolve('scenes'));
+      Dio.findAll = jest.fn(() => Promise.resolve('dios'));
+      Alias.findAll = jest.fn(() => Promise.resolve('alias'));
+      Room.findAll = jest.fn(() => Promise.resolve('rooms'));
+      scheduleService.getAll = jest.fn(() => 'schedules');
+
+      const response = await request(app)
+        .get('/api')
+        .set('Accept', 'application/json')
+        .set('x-access-token', user.token)
+        .send();
+
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual({
+        scenes: 'scenes',
+        dios: 'dios',
+        alias: 'alias',
+        rooms: 'rooms',
+        schedules: 'schedules',
+      });
     });
   });
 });

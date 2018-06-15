@@ -4,18 +4,21 @@ const Alias = require('../../modules/models/alias');
 const User = require('../../modules/models/user');
 const app = require('../../index.js');
 
+jest.mock('../../modules/dispatch');
+const dispatch = require('../../modules/dispatch');
+
 const initAlias = [
   {
     alias_id: 1,
     scene_id: 1,
-    name: 'test',
+    name: 'testone',
     description: 'test',
     enabled: true,
   },
   {
     alias_id: 2,
     scene_id: 1,
-    name: 'test_2',
+    name: 'testtwo',
     description: 'test',
     enabled: false,
   },
@@ -40,6 +43,7 @@ describe('Alias API', () => {
 
   afterEach(async () => {
     await knex(Alias.TABLE).truncate();
+    dispatch.mockClear();
   });
 
   afterAll(async () => {
@@ -131,7 +135,7 @@ describe('Alias API', () => {
         expect(response.body).toEqual({
           aliasId: 1,
           sceneId: 1,
-          name: 'test',
+          name: 'testone',
           description: 'test',
           enabled: true,
         });
@@ -265,6 +269,32 @@ describe('Alias API', () => {
         .set('x-access-token', 'fake');
 
       expect(response.status).toBe(401);
+    });
+  });
+
+  describe('/api/alias/:name', () => {
+    it('should call a scene', async () => {
+      const response = await request(app)
+        .get('/api/alias/testone')
+        .set('Accept', 'application/json')
+        .set('x-access-token', user.token);
+
+      expect(response.status).toBe(200);
+      expect(dispatch).toHaveBeenCalledTimes(1);
+      expect(dispatch).toHaveBeenCalledWith({
+        type: 'SCENE',
+        id: 1,
+      });
+    });
+
+    it('should not call a scene if alias is disabled', async () => {
+      const response = await request(app)
+        .get('/api/alias/testtwo')
+        .set('Accept', 'application/json')
+        .set('x-access-token', user.token);
+
+      expect(response.status).toBe(403);
+      expect(dispatch).toHaveBeenCalledTimes(0);
     });
   });
 });

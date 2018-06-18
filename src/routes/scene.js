@@ -16,15 +16,11 @@ module.exports = app => {
       if (!isValid) {
         return res.sendStatus(400);
       }
-      const { name, description, actions } = req.body;
-      const newScene = new Scene({
-        name,
-        description,
-        actions,
-      });
 
-      Scene.save(newScene)
-        .then(() => res.status(201).send(newScene))
+      Scene.save(req.body)
+        .then(sceneId =>
+          res.status(201).json(Object.assign(req.body, { sceneId })),
+        )
         .catch(err => res.status(500).send({ err }));
     });
 
@@ -46,15 +42,15 @@ module.exports = app => {
       if (!isValid) {
         return res.sendStatus(400);
       }
-      Scene.findByIdAndUpdate(req.params.id_scene, req.body, { new: true })
-        .then(rowsAffected => {
-          if (rowsAffected < 1) {
-            res.sendStatus(404);
-          } else {
-            res.sendStatus(204);
-          }
-        })
-        .catch(err => res.status(500).send({ err }));
+      // Scene.findByIdAndUpdate(req.params.id_scene, req.body, { new: true })
+      //   .then(rowsAffected => {
+      //     if (rowsAffected < 1) {
+      //       res.sendStatus(404);
+      //     } else {
+      //       res.sendStatus(204);
+      //     }
+      //   })
+      //   .catch(err => res.status(500).send({ err }));
     })
     .delete((req, res) => {
       Scene.delete(req.params.id_scene)

@@ -5,6 +5,9 @@ const Action = require('../../modules/models/action');
 const User = require('../../modules/models/user');
 const app = require('../../index.js');
 
+jest.mock('../../modules/dispatch');
+const dispatch = require('../../modules/dispatch');
+
 const initScenes = [
   {
     scene_id: 1,
@@ -67,6 +70,7 @@ describe('Scene API', () => {
   afterEach(async () => {
     await knex(Scene.TABLE).truncate();
     await knex(Action.TABLE).truncate();
+    dispatch.mockClear();
   });
 
   afterAll(async () => {
@@ -95,8 +99,67 @@ describe('Scene API', () => {
     });
 
     describe('POST', () => {
-      // TODO
-      // Add a test on create a scene
+      it('should return 400 if scene is malformed', async () => {
+        const scene = {
+          description: 'this is a test scene',
+          actions: [
+            {
+              targetId: 2,
+              name: 'action',
+              type: 'DIO',
+              body: {
+                on: true,
+              },
+            },
+          ],
+        };
+
+        const response = await request(app)
+          .post('/api/scenes')
+          .set('Accept', 'application/json')
+          .set('x-access-token', user.token)
+          .send(scene);
+
+        expect(response.status).toBe(400);
+      });
+
+      it('should create a scene', async () => {
+        const scene = {
+          name: 'testScene',
+          description: 'this is a test scene',
+          actions: [
+            {
+              targetId: 2,
+              name: 'action',
+              type: 'DIO',
+              body: {
+                on: true,
+              },
+            },
+          ],
+        };
+
+        const response = await request(app)
+          .post('/api/scenes')
+          .set('Accept', 'application/json')
+          .set('x-access-token', user.token)
+          .send(scene);
+
+        expect(response.status).toBe(201);
+        expect(response.body).toHaveProperty('sceneId', 3);
+
+        const sceneFromDatabase = await knex(Scene.TABLE)
+          .select('*')
+          .where('scene_id', 3);
+
+        expect(sceneFromDatabase).toMatchSnapshot();
+
+        const actions = await knex(Action.TABLE)
+          .select('*')
+          .where('scene_id', 3);
+
+        expect(actions).toMatchSnapshot();
+      });
 
       it('should retun 401 when user is not authenticated', async () => {
         const response = await request(app)
@@ -157,17 +220,26 @@ describe('Scene API', () => {
 
         expect(response.status).toBe(204);
 
-        // const scene = await knex(Scene.TABLE)
-        //   .select('*')
-        //   .where('scene_id', 1);
+        const scene = await knex(Scene.TABLE)
+          .select('*')
+          .where('scene_id', 1);
 
-        // expect(scene).toHaveLength(0);
+        expect(scene).toHaveLength(0);
 
-        // const actions = await knex(Action.TABLE)
-        //   .select('*')
-        //   .where('scene_id', 1);
+        const actions = await knex(Action.TABLE)
+          .select('*')
+          .where('scene_id', 1);
 
-        // expect(actions).toHaveLength(0);
+        expect(actions).toHaveLength(0);
+      });
+
+      it('should return 404 if scene is not found', async () => {
+        const response = await request(app)
+          .delete('/api/scenes/6')
+          .set('Accept', 'application/json')
+          .set('x-access-token', user.token);
+
+        expect(response.status).toBe(404);
       });
 
       it('should retun 401 when user is not authenticated', async () => {
@@ -178,6 +250,96 @@ describe('Scene API', () => {
 
         expect(response.status).toBe(401);
       });
+    });
+
+    describe('PATCH', () => {
+      it('should return 400 if scene is malformed', async () => {
+        const scene = {
+          description: 'this is an updated scene',
+          actions: [
+            {
+              targetId: 2,
+              name: 'action',
+              type: 'DIO',
+              body: {
+                on: true,
+              },
+            },
+          ],
+        };
+
+        const response = await request(app)
+          .patch('/api/scenes/2')
+          .set('Accept', 'application/json')
+          .set('x-access-token', user.token)
+          .send(scene);
+
+        expect(response.status).toBe(400);
+      });
+
+      it('should retun 401 when user is not authenticated', async () => {
+        const response = await request(app)
+          .patch('/api/scenes/2')
+          .set('Accept', 'application/json')
+          .set('x-access-token', 'fake');
+
+        expect(response.status).toBe(401);
+      });
+
+      // it('should return 404 if scene is not found', async () => {
+      //   const response = await request(app)
+      //     .patch('/api/scenes/6')
+      //     .set('Accept', 'application/json')
+      //     .set('x-access-token', user.token);
+
+      //   expect(response.status).toBe(404);
+      // });
+
+      // it('should update a scene', async () => {
+      //   const updatedScene = {
+      //     description: 'this is an updated test',
+      //     name: 'scene_2',
+      //     actions: [
+      //       {
+      //         actionId: 3,
+      //         type: 'SCENE',
+      //         name: 'call scene',
+      //         targetId: 2,
+      //         body: { on: true },
+      //       },
+      //     ],
+      //   };
+
+      //   const response = await request(app)
+      //     .patch('/api/scenes/2')
+      //     .set('Accept', 'application/json')
+      //     .set('x-access-token', user.token)
+      //     .send(updatedScene);
+
+      //   expect(response.status).toBe(204);
+      //   expect(response.body).toMatchSnapshot();
+      // });
+    });
+  });
+
+  describe('/api/scenes/:id_scene/action', () => {
+    it('should call dispatch', async () => {
+      const response = await request(app)
+        .get('/api/scenes/1/action')
+        .set('Accept', 'application/json')
+        .set('x-access-token', user.token);
+
+      expect(response.status).toBe(200);
+      expect(dispatch).toHaveBeenCalledWith({ type: 'SCENE', id: '1' });
+    });
+
+    it('should retun 401 when user is not authenticated', async () => {
+      const response = await request(app)
+        .get('/api/scenes/1/action')
+        .set('Accept', 'application/json')
+        .set('x-access-token', 'fake');
+
+      expect(response.status).toBe(401);
     });
   });
 });

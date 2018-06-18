@@ -131,7 +131,8 @@ describe('Scene', () => {
         ],
       };
 
-      await Scene.save(scene);
+      const id = await Scene.save(scene);
+      expect(id).toBe(3);
 
       const scenes = await knex(Scene.TABLE)
         .select('*')

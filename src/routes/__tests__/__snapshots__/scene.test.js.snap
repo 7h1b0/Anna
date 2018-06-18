@@ -14,3 +14,26 @@ Array [
   },
 ]
 `;
+
+exports[`Scene API /api/scenes POST should create a scene 1`] = `
+Array [
+  Object {
+    "description": "this is a test scene",
+    "name": "testScene",
+    "scene_id": 3,
+  },
+]
+`;
+
+exports[`Scene API /api/scenes POST should create a scene 2`] = `
+Array [
+  Object {
+    "action_id": 4,
+    "body": "{\\"on\\":true}",
+    "name": "action",
+    "scene_id": 3,
+    "target_id": 2,
+    "type": "DIO",
+  },
+]
+`;

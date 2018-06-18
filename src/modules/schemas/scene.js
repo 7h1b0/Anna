@@ -24,6 +24,9 @@ module.exports = {
             targetId: {
               type: 'integer',
             },
+            actionId: {
+              type: 'integer',
+            },
             name: {
               type: 'string',
               minLength: 3,

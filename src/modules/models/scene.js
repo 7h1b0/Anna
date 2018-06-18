@@ -46,7 +46,7 @@ module.exports = {
               };
               return trx.insert(formatedAction).into(ACTION_TABLE);
             }),
-          );
+          ).then(() => sceneId);
         });
     });
   },

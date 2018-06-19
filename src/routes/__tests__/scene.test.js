@@ -286,14 +286,29 @@ describe('Scene API', () => {
         expect(response.status).toBe(401);
       });
 
-      // it('should return 404 if scene is not found', async () => {
-      //   const response = await request(app)
-      //     .patch('/api/scenes/6')
-      //     .set('Accept', 'application/json')
-      //     .set('x-access-token', user.token);
+      it('should return 404 if scene is not found', async () => {
+        const scene = {
+          description: 'this is an updated scene',
+          name: 'testtest',
+          actions: [
+            {
+              targetId: 2,
+              name: 'action',
+              type: 'DIO',
+              body: {
+                on: true,
+              },
+            },
+          ],
+        };
+        const response = await request(app)
+          .patch('/api/scenes/6')
+          .set('Accept', 'application/json')
+          .set('x-access-token', user.token)
+          .send(scene);
 
-      //   expect(response.status).toBe(404);
-      // });
+        expect(response.status).toBe(404);
+      });
 
       // it('should update a scene', async () => {
       //   const updatedScene = {

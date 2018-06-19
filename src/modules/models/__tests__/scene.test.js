@@ -145,6 +145,75 @@ describe('Scene', () => {
     });
   });
 
+  describe('findByIdAndUpdate', () => {
+    it('should update a scene', async () => {
+      const updatedScene = {
+        sceneId: 2,
+        description: 'this is an updated second test',
+        name: 'scene_2',
+        actions: [
+          {
+            type: 'DIO',
+            name: 'action turn off',
+            targetId: 2,
+            body: { on: false },
+          },
+          {
+            type: 'DIO',
+            name: 'action turn off',
+            targetId: 4,
+            body: { on: true },
+          },
+        ],
+      };
+
+      await Scene.findByIdAndUpdate(updatedScene);
+
+      const scenes = await knex(Scene.TABLE)
+        .select('*')
+        .where('scene_id', 2);
+      const actions = await knex(Action.TABLE)
+        .select('*')
+        .where('scene_id', 2);
+      expect(scenes).toMatchSnapshot();
+      expect(actions).toMatchSnapshot();
+    });
+
+    it('should not update a scene if sceneId is unknow', async () => {
+      const updatedScene = {
+        sceneId: 6,
+        description: 'this is an updated second test',
+        name: 'scene_2',
+        actions: [
+          {
+            type: 'DIO',
+            name: 'action turn off',
+            targetId: 2,
+            body: { on: false },
+          },
+          {
+            type: 'DIO',
+            name: 'action turn off',
+            targetId: 4,
+            body: { on: true },
+          },
+        ],
+      };
+
+      const res = await Scene.findByIdAndUpdate(updatedScene);
+      expect(res).toBe(0);
+
+      const scenes = await knex(Scene.TABLE)
+        .select('*')
+        .where('scene_id', 6);
+      expect(scenes).toHaveLength(0);
+      const actions = await knex(Action.TABLE)
+        .select('*')
+        .where('scene_id', 6);
+      expect(actions).toHaveLength(0);
+    });
+  });
+
   describe('validate', () => {
     it('should return true when a scene is valid', () => {
       const scene = {

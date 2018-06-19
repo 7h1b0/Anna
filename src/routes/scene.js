@@ -42,15 +42,17 @@ module.exports = app => {
       if (!isValid) {
         return res.sendStatus(400);
       }
-      // Scene.findByIdAndUpdate(req.params.id_scene, req.body, { new: true })
-      //   .then(rowsAffected => {
-      //     if (rowsAffected < 1) {
-      //       res.sendStatus(404);
-      //     } else {
-      //       res.sendStatus(204);
-      //     }
-      //   })
-      //   .catch(err => res.status(500).send({ err }));
+      Scene.findByIdAndUpdate(
+        Object.assign(req.body, { sceneId: req.params.id_scene }),
+      )
+        .then(rowsAffected => {
+          if (rowsAffected < 1) {
+            res.sendStatus(404);
+          } else {
+            res.sendStatus(204);
+          }
+        })
+        .catch(err => res.status(500).send({ err }));
     })
     .delete((req, res) => {
       Scene.delete(req.params.id_scene)

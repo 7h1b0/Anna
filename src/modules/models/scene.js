@@ -29,6 +29,45 @@ module.exports = {
     });
   },
 
+  findByIdAndUpdate({ sceneId, name, description, actions }) {
+    return knex
+      .transaction(trx => {
+        return trx
+          .update({ name, description })
+          .where('scene_id', sceneId)
+          .into(TABLE)
+          .then(row => {
+            if (row < 1) {
+              throw new Error('No scene found');
+            }
+            return trx
+              .del()
+              .where('scene_id', sceneId)
+              .into(ACTION_TABLE);
+          })
+          .then(() => {
+            return Promise.all(
+              actions.map(action => {
+                const formatedAction = {
+                  type: action.type,
+                  name: action.name,
+                  target_id: action.targetId,
+                  scene_id: sceneId,
+                  body: JSON.stringify(action.body),
+                };
+                return trx.insert(formatedAction).into(ACTION_TABLE);
+              }),
+            );
+          });
+      })
+      .catch(err => {
+        if (err.message === 'No scene found') {
+          return 0;
+        }
+        throw err;
+      });
+  },
+
   save({ name, description, actions }) {
     return knex.transaction(trx => {
       return trx

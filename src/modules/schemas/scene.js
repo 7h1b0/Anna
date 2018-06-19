@@ -5,6 +5,9 @@ module.exports = {
   type: 'object',
   additionalProperties: false,
   properties: {
+    sceneId: {
+      type: 'integer',
+    },
     name: {
       type: 'string',
       minLength: 3,

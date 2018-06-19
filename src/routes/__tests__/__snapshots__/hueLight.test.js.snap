@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Hue Light API /api/hue/lights GET should return all lights 1`] = `
+Array [
+  Object {
+    "id": "1",
+    "manufacturername": "Philips",
+    "modelid": "LCT001",
+    "name": "MOCK",
+    "state": Object {
+      "alert": "none",
+      "bri": 163,
+      "colormode": "xy",
+      "ct": 272,
+      "effect": "none",
+      "hue": 15736,
+      "on": true,
+      "reachable": true,
+      "sat": 32,
+      "xy": Array [
+        0.3969,
+        0.3851,
+      ],
+    },
+    "type": "Extended color light",
+  },
+  Object {
+    "id": "2",
+    "manufacturername": "Philips",
+    "modelid": "LCT001",
+    "name": "JEST",
+    "state": Object {
+      "alert": "none",
+      "bri": 97,
+      "colormode": "xy",
+      "ct": 272,
+      "effect": "none",
+      "hue": 17161,
+      "on": false,
+      "reachable": true,
+      "sat": 38,
+      "xy": Array [
+        0.3978,
+        0.3883,
+      ],
+    },
+    "type": "Extended color light",
+  },
+]
+`;
+
+exports[`Hue Light API api/hue/lights/:id_light GET should return a light 1`] = `Object {}`;

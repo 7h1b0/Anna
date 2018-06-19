@@ -44,7 +44,7 @@ describe('Rooms API', () => {
 
   describe('/api/rooms', () => {
     describe('GET', () => {
-      it('should retun all rooms', async () => {
+      it('should return all rooms', async () => {
         const response = await request(app)
           .get('/api/rooms')
           .set('Accept', 'application/json')
@@ -53,7 +53,7 @@ describe('Rooms API', () => {
         expect(response.body).toMatchSnapshot();
       });
 
-      it('should retun 401 when user is not authenticated', async () => {
+      it('should return 401 when user is not authenticated', async () => {
         const response = await request(app)
           .get('/api/rooms')
           .set('Accept', 'application/json')
@@ -66,7 +66,7 @@ describe('Rooms API', () => {
 
   describe('/api/rooms/:id', () => {
     describe('GET', () => {
-      it('should retun an room', async () => {
+      it('should return an room', async () => {
         const response = await request(app)
           .get('/api/rooms/1')
           .set('Accept', 'application/json')
@@ -79,7 +79,7 @@ describe('Rooms API', () => {
         });
       });
 
-      it('should retun 401 when user is not authenticated', async () => {
+      it('should return 401 when user is not authenticated', async () => {
         const response = await request(app)
           .get('/api/rooms/2')
           .set('Accept', 'application/json')
@@ -113,7 +113,7 @@ describe('Rooms API', () => {
         });
       });
 
-      it('should retun 401 when user is not authenticated', async () => {
+      it('should return 401 when user is not authenticated', async () => {
         const response = await request(app)
           .patch('/api/rooms/1')
           .set('Accept', 'application/json')
@@ -122,7 +122,7 @@ describe('Rooms API', () => {
         expect(response.status).toBe(401);
       });
 
-      it('should retun 400 when request is invalid', async () => {
+      it('should return 400 when request is invalid', async () => {
         const response = await request(app)
           .patch('/api/rooms/1')
           .set('Accept', 'application/json')
@@ -152,7 +152,7 @@ describe('Rooms API', () => {
         expect(room).toHaveLength(0);
       });
 
-      it('should retun 401 when user is not authenticated', async () => {
+      it('should return 401 when user is not authenticated', async () => {
         const response = await request(app)
           .delete('/api/rooms/1')
           .set('Accept', 'application/json')

@@ -4,6 +4,9 @@ const Dio = require('../../modules/models/dio');
 const User = require('../../modules/models/user');
 const app = require('../../index.js');
 
+jest.mock('../../modules/dispatch');
+const dispatch = require('../../modules/dispatch');
+
 const initDios = [
   {
     dio_id: 1,
@@ -218,11 +221,25 @@ describe('Dio API', () => {
   describe('api/dios/:id/:status', () => {
     it('should retun 401 when user is not authenticated', async () => {
       const response = await request(app)
-        .patch('/api/dios/1/on')
+        .get('/api/dios/1/on')
         .set('Accept', 'application/json')
         .set('x-access-token', 'fake');
 
       expect(response.status).toBe(401);
+    });
+
+    it('should call dispatch', async () => {
+      const response = await request(app)
+        .get('/api/dios/1/on')
+        .set('Accept', 'application/json')
+        .set('x-access-token', user.token);
+
+      expect(response.status).toBe(200);
+      expect(dispatch).toHaveBeenCalledWith({
+        type: 'DIO',
+        id: '1',
+        body: { on: true },
+      });
     });
   });
 });

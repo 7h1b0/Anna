@@ -23,6 +23,38 @@ describe('User API', () => {
     await knex(User.TABLE).truncate();
   });
 
+  describe('/register', () => {
+    it('should return 400 if the request is malformed', async () => {
+      const response = await request(app)
+        .post('/register')
+        .set('Accept', 'application/json')
+        .send({ username: 'teste2e' });
+
+      expect(response.status).toBe(400);
+    });
+
+    it('should return the new User and create user in database', async () => {
+      const response = await request(app)
+        .post('/register')
+        .set('Accept', 'application/json')
+        .send({ username: 'teste2e', password: 'anna' });
+
+      expect(response.status).toBe(201);
+      expect(response.body).not.toHaveProperty('password');
+      expect(response.body).toHaveProperty('username', 'teste2e');
+      expect(response.body).toHaveProperty('token');
+      expect(response.body).toHaveProperty('userId');
+
+      const users = await knex(User.TABLE)
+        .select('*')
+        .where('user_id', response.body.userId);
+
+      expect(users[0]).toHaveProperty('username', response.body.username);
+      expect(users[0]).toHaveProperty('token', response.body.token);
+      expect(users[0].password).not.toBe('anna');
+    });
+  });
+
   describe('/login', () => {
     it('should retun the token', async () => {
       const response = await request(app)
@@ -110,7 +142,7 @@ describe('User API', () => {
     });
 
     describe('PATCH', () => {
-      it.skip('should do not update username', async () => {
+      it('should do not update username', async () => {
         const response = await request(app)
           .patch('/api/users/1')
           .set('Accept', 'application/json')
@@ -120,12 +152,7 @@ describe('User API', () => {
         expect(response.status).toBe(204);
         const users = await knex(User.TABLE).select('*');
 
-        expect(users).toContainEqual({
-          user_id: user.user_id,
-          username: user.username,
-          password: user.password,
-          token: user.token,
-        });
+        expect(users[0]).toHaveProperty('username', user.username);
       });
 
       it('should update password', async () => {

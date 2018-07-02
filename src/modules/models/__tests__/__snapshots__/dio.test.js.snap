@@ -2,7 +2,7 @@
 
 exports[`Dio delete should delete a dio 1`] = `
 Array [
-  Object {
+  RowDataPacket {
     "dio_id": 2,
     "name": "test",
     "room_id": 2,
@@ -12,12 +12,12 @@ Array [
 
 exports[`Dio findByIdAndUpdate should update a dio 1`] = `
 Array [
-  Object {
+  RowDataPacket {
     "dio_id": 1,
     "name": "updated",
     "room_id": 1,
   },
-  Object {
+  RowDataPacket {
     "dio_id": 2,
     "name": "test",
     "room_id": 2,
@@ -27,7 +27,7 @@ Array [
 
 exports[`Dio save should save a new dio 1`] = `
 Array [
-  Object {
+  RowDataPacket {
     "dio_id": 3,
     "name": "test-save",
     "room_id": 1,

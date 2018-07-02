@@ -2,7 +2,7 @@
 
 exports[`Alias delete should delete an alias 1`] = `
 Array [
-  Object {
+  RowDataPacket {
     "alias_id": 2,
     "description": "test",
     "enabled": false,
@@ -14,14 +14,14 @@ Array [
 
 exports[`Alias findAll should return all alias 1`] = `
 Array [
-  Object {
+  RowDataPacket {
     "aliasId": 1,
     "description": "test",
     "enabled": true,
     "name": "test",
     "sceneId": 1,
   },
-  Object {
+  RowDataPacket {
     "aliasId": 2,
     "description": "test",
     "enabled": false,
@@ -33,14 +33,14 @@ Array [
 
 exports[`Alias findByIdAndUpdate should update a alias 1`] = `
 Array [
-  Object {
+  RowDataPacket {
     "alias_id": 1,
     "description": "test",
     "enabled": true,
     "name": "updated",
     "scene_id": 1,
   },
-  Object {
+  RowDataPacket {
     "alias_id": 2,
     "description": "test",
     "enabled": false,
@@ -52,7 +52,7 @@ Array [
 
 exports[`Alias save should save a new alias 1`] = `
 Array [
-  Object {
+  RowDataPacket {
     "alias_id": 3,
     "description": "test",
     "enabled": false,

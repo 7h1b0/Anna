@@ -2,7 +2,7 @@
 
 exports[`Room delete should delete a room 1`] = `
 Array [
-  Object {
+  RowDataPacket {
     "description": "this is a second test",
     "name": "room_2",
     "room_id": 2,
@@ -12,12 +12,12 @@ Array [
 
 exports[`Room findByIdAndUpdate should update a room 1`] = `
 Array [
-  Object {
+  RowDataPacket {
     "description": "this is a test",
     "name": "updated",
     "room_id": 1,
   },
-  Object {
+  RowDataPacket {
     "description": "this is a second test",
     "name": "room_2",
     "room_id": 2,

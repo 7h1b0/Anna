@@ -2,7 +2,7 @@
 
 exports[`Scene findByIdAndUpdate should update a scene 1`] = `
 Array [
-  Object {
+  RowDataPacket {
     "description": "this is an updated second test",
     "name": "scene_2",
     "scene_id": 2,
@@ -12,7 +12,7 @@ Array [
 
 exports[`Scene findByIdAndUpdate should update a scene 2`] = `
 Array [
-  Object {
+  RowDataPacket {
     "action_id": 4,
     "body": "{\\"on\\":false}",
     "name": "action turn off",
@@ -20,7 +20,7 @@ Array [
     "target_id": 2,
     "type": "DIO",
   },
-  Object {
+  RowDataPacket {
     "action_id": 5,
     "body": "{\\"on\\":true}",
     "name": "action turn off",
@@ -33,7 +33,7 @@ Array [
 
 exports[`Scene save should save a new scene 1`] = `
 Array [
-  Object {
+  RowDataPacket {
     "description": "save test",
     "name": "scene_3",
     "scene_id": 3,
@@ -43,7 +43,7 @@ Array [
 
 exports[`Scene save should save a new scene 2`] = `
 Array [
-  Object {
+  RowDataPacket {
     "action_id": 4,
     "body": "{\\"on\\":true}",
     "name": "action one",
@@ -51,7 +51,7 @@ Array [
     "target_id": 1,
     "type": "DIO",
   },
-  Object {
+  RowDataPacket {
     "action_id": 5,
     "body": "{\\"on\\":true,\\"bri\\":255}",
     "name": "action two",

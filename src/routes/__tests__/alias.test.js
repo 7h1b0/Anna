@@ -149,6 +149,15 @@ describe('Alias API', () => {
 
         expect(response.status).toBe(401);
       });
+
+      it("should retun 404 when alias don't exist", async () => {
+        const response = await request(app)
+          .get('/api/alias/23')
+          .set('Accept', 'application/json')
+          .set('x-access-token', user.token);
+
+        expect(response.status).toBe(404);
+      });
     });
 
     describe('PATCH', () => {
@@ -202,6 +211,21 @@ describe('Alias API', () => {
 
         expect(response.status).toBe(400);
       });
+
+      it("should retun 404 when alias don't exist", async () => {
+        const response = await request(app)
+          .patch('/api/alias/23')
+          .set('Accept', 'application/json')
+          .set('x-access-token', user.token)
+          .send({
+            sceneId: 2,
+            name: 'test_update',
+            description: 'test',
+            enabled: true,
+          });
+
+        expect(response.status).toBe(404);
+      });
     });
 
     describe('DELETE', () => {
@@ -227,6 +251,15 @@ describe('Alias API', () => {
           .set('x-access-token', 'fake');
 
         expect(response.status).toBe(401);
+      });
+
+      it("should retun 404 when alias don't exist", async () => {
+        const response = await request(app)
+          .delete('/api/alias/23')
+          .set('Accept', 'application/json')
+          .set('x-access-token', user.token);
+
+        expect(response.status).toBe(404);
       });
     });
   });
@@ -264,11 +297,20 @@ describe('Alias API', () => {
 
     it('should retun 401 when user is not authenticated', async () => {
       const response = await request(app)
-        .delete('/api/alias/1')
+        .get('/api/alias/1/disable')
         .set('Accept', 'application/json')
         .set('x-access-token', 'fake');
 
       expect(response.status).toBe(401);
+    });
+
+    it("should retun 404 when alias don't exist", async () => {
+      const response = await request(app)
+        .delete('/api/alias/23/disable')
+        .set('Accept', 'application/json')
+        .set('x-access-token', user.token);
+
+      expect(response.status).toBe(404);
     });
   });
 
@@ -295,6 +337,15 @@ describe('Alias API', () => {
 
       expect(response.status).toBe(403);
       expect(dispatch).toHaveBeenCalledTimes(0);
+    });
+
+    it("should retun 404 when alias don't exist", async () => {
+      const response = await request(app)
+        .get('/api/alias/testanna')
+        .set('Accept', 'application/json')
+        .set('x-access-token', user.token);
+
+      expect(response.status).toBe(404);
     });
   });
 });

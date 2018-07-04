@@ -25,7 +25,10 @@ module.exports = {
     const fetchActions = findBySceneId(sceneId);
 
     return Promise.all([fetchScene, fetchActions]).then(([scene, actions]) => {
-      return Object.assign({}, scene[0], { actions });
+      if (scene.length > 0) {
+        return Object.assign({}, scene[0], { actions });
+      }
+      return;
     });
   },
 

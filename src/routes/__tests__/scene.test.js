@@ -209,6 +209,15 @@ describe('Scene API', () => {
 
         expect(response.status).toBe(401);
       });
+
+      it("should retun 404 when a scene don't exist", async () => {
+        const response = await request(app)
+          .get('/api/scenes/23')
+          .set('Accept', 'application/json')
+          .set('x-access-token', user.token);
+
+        expect(response.status).toBe(404);
+      });
     });
 
     describe('DELETE', () => {
@@ -310,30 +319,30 @@ describe('Scene API', () => {
         expect(response.status).toBe(404);
       });
 
-      // it('should update a scene', async () => {
-      //   const updatedScene = {
-      //     description: 'this is an updated test',
-      //     name: 'scene_2',
-      //     actions: [
-      //       {
-      //         actionId: 3,
-      //         type: 'SCENE',
-      //         name: 'call scene',
-      //         targetId: 2,
-      //         body: { on: true },
-      //       },
-      //     ],
-      //   };
+      it('should update a scene', async () => {
+        const updatedScene = {
+          description: 'this is an updated test',
+          name: 'scene_2',
+          actions: [
+            {
+              actionId: 3,
+              type: 'SCENE',
+              name: 'call scene',
+              targetId: 2,
+              body: { on: true },
+            },
+          ],
+        };
 
-      //   const response = await request(app)
-      //     .patch('/api/scenes/2')
-      //     .set('Accept', 'application/json')
-      //     .set('x-access-token', user.token)
-      //     .send(updatedScene);
+        const response = await request(app)
+          .patch('/api/scenes/2')
+          .set('Accept', 'application/json')
+          .set('x-access-token', user.token)
+          .send(updatedScene);
 
-      //   expect(response.status).toBe(204);
-      //   expect(response.body).toMatchSnapshot();
-      // });
+        expect(response.status).toBe(204);
+        expect(response.body).toMatchSnapshot();
+      });
     });
   });
 

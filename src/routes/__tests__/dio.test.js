@@ -139,6 +139,15 @@ describe('Dio API', () => {
 
         expect(response.status).toBe(401);
       });
+
+      it("should retun 404 when dio don't exist", async () => {
+        const response = await request(app)
+          .get('/api/dios/23')
+          .set('Accept', 'application/json')
+          .set('x-access-token', user.token);
+
+        expect(response.status).toBe(404);
+      });
     });
 
     describe('PATCH', () => {
@@ -189,6 +198,20 @@ describe('Dio API', () => {
 
         expect(response.status).toBe(400);
       });
+
+      it("should retun 404 when dio don't exist", async () => {
+        const response = await request(app)
+          .patch('/api/dios/23')
+          .set('Accept', 'application/json')
+          .set('x-access-token', user.token)
+          .send({
+            dioId: 1,
+            name: 'test_updated',
+            roomId: 1,
+          });
+
+        expect(response.status).toBe(404);
+      });
     });
 
     describe('DELETE', () => {
@@ -214,6 +237,15 @@ describe('Dio API', () => {
           .set('x-access-token', 'fake');
 
         expect(response.status).toBe(401);
+      });
+
+      it("should retun 404 when dio don't exist", async () => {
+        const response = await request(app)
+          .delete('/api/dios/23')
+          .set('Accept', 'application/json')
+          .set('x-access-token', user.token);
+
+        expect(response.status).toBe(404);
       });
     });
   });

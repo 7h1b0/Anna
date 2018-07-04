@@ -37,3 +37,5 @@ Array [
   },
 ]
 `;
+
+exports[`Scene API /api/scenes/:id PATCH should update a scene 1`] = `Object {}`;

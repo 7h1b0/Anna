@@ -87,6 +87,15 @@ describe('Rooms API', () => {
 
         expect(response.status).toBe(401);
       });
+
+      it("should retun 404 when a room don't exist", async () => {
+        const response = await request(app)
+          .get('/api/rooms/23')
+          .set('Accept', 'application/json')
+          .set('x-access-token', user.token);
+
+        expect(response.status).toBe(404);
+      });
     });
 
     describe('PATCH', () => {
@@ -134,6 +143,19 @@ describe('Rooms API', () => {
 
         expect(response.status).toBe(400);
       });
+
+      it("should retun 404 when a room don't exist", async () => {
+        const response = await request(app)
+          .patch('/api/rooms/23')
+          .set('Accept', 'application/json')
+          .set('x-access-token', user.token)
+          .send({
+            description: 'this is a second test',
+            name: 'room_updated',
+          });
+
+        expect(response.status).toBe(404);
+      });
     });
 
     describe('DELETE', () => {
@@ -159,6 +181,15 @@ describe('Rooms API', () => {
           .set('x-access-token', 'fake');
 
         expect(response.status).toBe(401);
+      });
+
+      it("should retun 404 when a room don't exist", async () => {
+        const response = await request(app)
+          .delete('/api/rooms/23')
+          .set('Accept', 'application/json')
+          .set('x-access-token', user.token);
+
+        expect(response.status).toBe(404);
       });
     });
   });

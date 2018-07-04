@@ -46,10 +46,10 @@ module.exports = app => {
         Object.assign(req.body, { sceneId: req.params.id_scene }),
       )
         .then(rowsAffected => {
-          if (rowsAffected < 1) {
-            res.sendStatus(404);
-          } else {
+          if (!!rowsAffected) {
             res.sendStatus(204);
+          } else {
+            res.sendStatus(404);
           }
         })
         .catch(err => res.status(500).send({ err }));

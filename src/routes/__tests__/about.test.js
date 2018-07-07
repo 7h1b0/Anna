@@ -101,5 +101,15 @@ describe('About API', () => {
         schedules: 'schedules',
       });
     });
+
+    it('should returns 401 if user is not connected', async () => {
+      const response = await request(app)
+        .get('/api')
+        .set('Accept', 'application/json')
+        .set('x-access-token', 'fake')
+        .send();
+
+      expect(response.status).toBe(401);
+    });
   });
 });

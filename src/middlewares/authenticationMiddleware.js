@@ -14,8 +14,9 @@ module.exports = function authenticationMiddleware(req, res, next) {
   }
 
   return findByToken(token)
-    .then(res => {
-      if (res) {
+    .then(user => {
+      if (user) {
+        res.locals.user = user;
         return next();
       }
       authFail();

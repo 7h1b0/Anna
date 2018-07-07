@@ -31,17 +31,9 @@ const logMiddleware = require('./middlewares/logMiddleware');
 // Setup Server
 const app = express();
 app.use(bodyParser.json());
-app.all('/api/*', [logMiddleware, authenticationMiddleware]);
+app.all('/api*', [authenticationMiddleware, logMiddleware]);
 
-about(app);
-alias(app);
-dio(app);
-room(app);
-hueLight(app);
-log(app);
-scene(app);
-schedule(app);
-user(app);
+app.use([about, alias, dio, hueLight, log, room, scene, schedule, user]);
+app.use((req, res) => res.sendStatus(404));
 
 module.exports = app;
-// app.use((req, res) => res.sendStatus(404));

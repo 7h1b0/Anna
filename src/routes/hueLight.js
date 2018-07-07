@@ -3,10 +3,6 @@ const hueService = require('../services/hueService');
 const dispatch = require('../modules/dispatch');
 const actions = require('../modules/actions');
 
-function hasProperties(object) {
-  return Object.keys(object).length > 0;
-}
-
 function getState({ on, sat, xy, bri }) {
   const state = {};
 

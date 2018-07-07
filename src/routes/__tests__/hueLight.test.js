@@ -109,4 +109,84 @@ describe('Hue Light API', () => {
       });
     });
   });
+
+  describe('api/hue/lights/:id_light/:status', () => {
+    it('should retun 401 when user is not authenticated', async () => {
+      const response = await request(app)
+        .get('/api/hue/lights/2/on')
+        .set('Accept', 'application/json')
+        .set('x-access-token', 'fake');
+
+      expect(response.status).toBe(401);
+    });
+
+    it('should call requestService with on to true', async () => {
+      const response = await request(app)
+        .get('/api/hue/lights/2/on')
+        .set('Accept', 'application/json')
+        .set('x-access-token', user.token);
+
+      expect(response.status).toBe(200);
+      expect(requestService.put).toHaveBeenCalledTimes(1);
+      expect(requestService.put.mock.calls[0][1]).toEqual({ on: true });
+      expect(requestService.put.mock.calls[0][0]).toMatch(/lights\/2\/state$/);
+    });
+
+    it('should call requestService with on to false', async () => {
+      const response = await request(app)
+        .get('/api/hue/lights/2/off')
+        .set('Accept', 'application/json')
+        .set('x-access-token', user.token);
+
+      expect(response.status).toBe(200);
+      expect(requestService.put).toHaveBeenCalledTimes(1);
+      expect(requestService.put.mock.calls[0][1]).toEqual({ on: false });
+      expect(requestService.put.mock.calls[0][0]).toMatch(/lights\/2\/state$/);
+    });
+  });
+
+  describe('api/hue/lights/:id_light/state', () => {
+    it('should retun 401 when user is not authenticated', async () => {
+      const response = await request(app)
+        .patch('/api/hue/lights/2/state')
+        .set('Accept', 'application/json')
+        .set('x-access-token', 'fake');
+
+      expect(response.status).toBe(401);
+    });
+
+    it('should return 400 when body is invalid', async () => {
+      const response = await request(app)
+        .patch('/api/hue/lights/2/state')
+        .set('Accept', 'application/json')
+        .set('x-access-token', user.token)
+        .send({});
+
+      expect(response.status).toBe(400);
+    });
+
+    it('should return 400 when body is invalid', async () => {
+      const response = await request(app)
+        .patch('/api/hue/lights/2/state')
+        .set('Accept', 'application/json')
+        .set('x-access-token', user.token)
+        .send({ test: true });
+
+      expect(response.status).toBe(400);
+    });
+
+    it('should call requestService with body passed', async () => {
+      const body = { sat: 200, bri: 25, on: true, xy: [23, 45] };
+      const response = await request(app)
+        .patch('/api/hue/lights/2/state')
+        .set('Accept', 'application/json')
+        .set('x-access-token', user.token)
+        .send(body);
+
+      expect(response.status).toBe(200);
+      expect(requestService.put).toHaveBeenCalledTimes(1);
+      expect(requestService.put.mock.calls[0][1]).toEqual(body);
+      expect(requestService.put.mock.calls[0][0]).toMatch(/lights\/2\/state$/);
+    });
+  });
 });

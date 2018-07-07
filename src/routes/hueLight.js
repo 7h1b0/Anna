@@ -59,10 +59,9 @@ module.exports = app => {
     });
 
   app.patch('/api/hue/lights/:id_light([0-9]+)/state', (req, res) => {
-    const hasBody = req.body && hasProperties(req.body);
-    const state = hasBody ? getState(req.body) : getState(req.query);
+    const state = getState(req.body);
 
-    if (hasProperties(state)) {
+    if (Object.keys(state).length > 0) {
       hueService
         .setLightState(req.params.id_light, state)
         .then(result => res.send(result))
@@ -70,16 +69,6 @@ module.exports = app => {
     } else {
       res.sendStatus(400);
     }
-  });
-
-  app.get('/api/hue/lights/:id_light([0-9]+)/toggle', (req, res) => {
-    hueService
-      .getLight(req.params.id_light)
-      .then(light =>
-        dispatch(actions.toggleHueLight(req.params.id_light, !light.state.on)),
-      )
-      .then(result => res.send(result))
-      .catch(err => res.status(500).send({ err }));
   });
 
   app.get('/api/hue/lights/:id_light([0-9]+)/:status(on|off)', (req, res) => {

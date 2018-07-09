@@ -1,5 +1,6 @@
 const knex = require('../../../knexClient');
 const Room = require('../room');
+const Dio = require('../dio');
 const initRooms = [
   {
     room_id: 1,
@@ -13,9 +14,16 @@ const initRooms = [
   },
 ];
 
+const dios = {
+  dio_id: 2,
+  room_id: 2,
+  name: 'test',
+};
+
 describe('Room', () => {
   beforeAll(async () => {
     await knex(Room.TABLE).truncate();
+    await knex(Dio.TABLE).insert(dios);
   });
 
   beforeEach(async () => {
@@ -24,6 +32,10 @@ describe('Room', () => {
 
   afterEach(async () => {
     await knex(Room.TABLE).truncate();
+  });
+
+  afterAll(async () => {
+    await knex(Dio.TABLE).truncate();
   });
 
   describe('findAll', () => {
@@ -103,6 +115,13 @@ describe('Room', () => {
 
     it('should not delete a room', async () => {
       await Room.delete(-1);
+      const rooms = await knex(Room.TABLE).select('*');
+      expect(rooms).toEqual(initRooms);
+    });
+
+    it('should not delete a room if devices are still in it', async () => {
+      const res = await Room.delete(2);
+      expect(res).toBe(0);
       const rooms = await knex(Room.TABLE).select('*');
       expect(rooms).toEqual(initRooms);
     });

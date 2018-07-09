@@ -38,7 +38,7 @@ const get = jest.fn(url => {
         manufacturername: 'Philips',
       },
     });
-  } else if (/\/lights\/{0-9}+$/.test(url)) {
+  } else if (/\/lights\/[0-9]+$/.test(url)) {
     return Promise.resolve({
       state: {
         on: false,
@@ -62,7 +62,7 @@ const get = jest.fn(url => {
 });
 
 const put = jest.fn(url => {
-  if (/\/lights\/{0-9}+$/.test(url)) {
+  if (/\/lights\/[0-9]+$/.test(url)) {
     return Promise.resolve([
       {
         success: {

@@ -1,6 +1,7 @@
 const request = require('supertest');
 const knex = require('../../knexClient');
 const User = require('../../modules/models/user');
+const hueLight = require('../../modules/models/hueLight');
 const app = require('../../index.js');
 
 jest.mock('../../services/requestService');
@@ -13,9 +14,21 @@ const user = {
   token: '8e6a76928f76d23665f78ff3688ca86422d5',
 };
 
+const hueLightRooms = [
+  {
+    light_id: 1,
+    room_id: 1,
+  },
+  {
+    light_id: 2,
+    room_id: 1,
+  },
+];
+
 describe('Hue Light API', () => {
   beforeAll(async () => {
     await knex(User.TABLE).insert(user);
+    await knex(hueLight.TABLE).insert(hueLightRooms);
   });
 
   afterEach(() => {
@@ -25,6 +38,7 @@ describe('Hue Light API', () => {
 
   afterAll(async () => {
     await knex(User.TABLE).truncate();
+    await knex(hueLight.TABLE).truncate();
   });
 
   describe('/api/hue/lights', () => {

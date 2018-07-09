@@ -1,6 +1,8 @@
 const Ajv = require('ajv');
 const roomSchema = require('../schemas/room');
 const knex = require('../../knexClient');
+const Dio = require('./dio');
+const HueLight = require('./hueLight');
 const { returnFirst } = require('../dbUtil');
 const TABLE = 'rooms';
 const COLUMNS = [{ roomId: 'room_id' }, 'description', 'name'];
@@ -34,10 +36,23 @@ module.exports = {
       });
   },
 
-  delete(roomId) {
-    return knex(TABLE)
+  async delete(roomId) {
+    const res = await knex
+      .select('room_id')
+      .from(Dio.TABLE)
       .where('room_id', roomId)
-      .del();
+      .unionAll(function() {
+        this.select('room_id')
+          .from(HueLight.TABLE)
+          .where('room_id', roomId);
+      });
+
+    if (res.length === 0) {
+      return knex(TABLE)
+        .where('room_id', roomId)
+        .del();
+    }
+    return Promise.resolve(0);
   },
 
   findByIdAndUpdate(roomId, payload) {

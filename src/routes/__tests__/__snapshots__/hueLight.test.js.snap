@@ -7,6 +7,7 @@ Array [
     "manufacturername": "Philips",
     "modelid": "LCT001",
     "name": "MOCK",
+    "roomId": 1,
     "state": Object {
       "alert": "none",
       "bri": 163,
@@ -29,6 +30,7 @@ Array [
     "manufacturername": "Philips",
     "modelid": "LCT001",
     "name": "JEST",
+    "roomId": 1,
     "state": Object {
       "alert": "none",
       "bri": 97,
@@ -49,4 +51,27 @@ Array [
 ]
 `;
 
-exports[`Hue Light API api/hue/lights/:id_light GET should return a light 1`] = `Object {}`;
+exports[`Hue Light API api/hue/lights/:id_light GET should return a light 1`] = `
+Object {
+  "manufacturername": "Philips",
+  "modelid": "LCT001",
+  "name": "MOCK",
+  "roomId": 1,
+  "state": Object {
+    "alert": "none",
+    "bri": 163,
+    "colormode": "xy",
+    "ct": 272,
+    "effect": "none",
+    "hue": 15736,
+    "on": false,
+    "reachable": true,
+    "sat": 32,
+    "xy": Array [
+      0.3969,
+      0.3851,
+    ],
+  },
+  "type": "Extended color light",
+}
+`;

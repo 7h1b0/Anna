@@ -1,5 +1,6 @@
 const request = require('./requestService');
 const { HUE_IP, HUE_TOKEN } = require('../constants');
+const hueLight = require('../modules/models/hueLight');
 
 const api = `http://${HUE_IP}/api/${HUE_TOKEN}`;
 
@@ -8,17 +9,29 @@ const toArray = jsonObject =>
 
 module.exports = {
   getLights() {
-    return request.get(`${api}/lights`).then(body => {
-      let correctedBody = body;
-      if (body) {
-        correctedBody = toArray(body);
-      }
-      return correctedBody;
-    });
+    return Promise.all([request.get(`${api}/lights`), hueLight.findAll()]).then(
+      ([body, rooms]) => {
+        let correctedBody = body;
+
+        rooms.forEach(({ roomId, lightId }) => {
+          body[lightId].roomId = roomId;
+        });
+
+        if (body) {
+          correctedBody = toArray(body);
+        }
+        return correctedBody;
+      },
+    );
   },
 
   getLight(id) {
-    return request.get(`${api}/lights/${id}`);
+    return Promise.all([
+      request.get(`${api}/lights/${id}`),
+      hueLight.findRoomId(id),
+    ]).then(([light, roomId]) => {
+      return Object.assign({}, light, roomId);
+    });
   },
 
   renameLight(id, name) {

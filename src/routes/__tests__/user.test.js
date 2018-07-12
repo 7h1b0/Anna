@@ -23,6 +23,10 @@ describe('User API', () => {
     await knex(User.TABLE).truncate();
   });
 
+  afterAll(async () => {
+    await knex.destroy();
+  });
+
   describe('/register', () => {
     it('should return 400 if the request is malformed', async () => {
       const response = await request(app)

@@ -75,6 +75,7 @@ describe('Scene API', () => {
 
   afterAll(async () => {
     await knex(User.TABLE).truncate();
+    await knex.destroy();
   });
 
   describe('/api/scenes', () => {

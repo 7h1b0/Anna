@@ -36,6 +36,7 @@ describe('Room', () => {
 
   afterAll(async () => {
     await knex(Dio.TABLE).truncate();
+    await knex.destroy();
   });
 
   describe('findAll', () => {

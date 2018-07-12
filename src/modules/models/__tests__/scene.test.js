@@ -63,6 +63,10 @@ describe('Scene', () => {
     ]);
   });
 
+  afterAll(async () => {
+    await knex.destroy();
+  });
+
   describe('findAll', () => {
     it('should return all scene', async () => {
       const expected = [

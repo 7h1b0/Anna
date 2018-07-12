@@ -24,6 +24,7 @@ describe('About API', () => {
 
   afterAll(async () => {
     await knex(User.TABLE).truncate();
+    await knex.destroy();
   });
 
   describe('/api/about', () => {

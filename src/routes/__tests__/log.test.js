@@ -18,6 +18,7 @@ describe('Log API', () => {
 
   afterAll(async () => {
     await knex(User.TABLE).truncate();
+    await knex.destroy();
   });
 
   describe('/api/log', () => {

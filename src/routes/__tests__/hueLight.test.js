@@ -87,7 +87,7 @@ describe('Hue Light API', () => {
     });
 
     describe('PATCH', () => {
-      it('should return a light', async () => {
+      it('should update the name of the light', async () => {
         const updatedName = { name: 'test' };
 
         const response = await request(app)
@@ -99,6 +99,28 @@ describe('Hue Light API', () => {
         expect(response.status).toBe(200);
         expect(requestService.put).toHaveBeenCalledTimes(1);
         expect(requestService.put.mock.calls[0][1]).toEqual(updatedName);
+      });
+
+      it('should update the roomId and the name', async () => {
+        const updatedName = { roomId: 2, name: 'test_room' };
+
+        const response = await request(app)
+          .patch('/api/hue/lights/2')
+          .set('Accept', 'application/json')
+          .set('x-access-token', user.token)
+          .send(updatedName);
+
+        expect(response.status).toBe(200);
+        expect(requestService.put).toHaveBeenCalledTimes(1);
+        expect(requestService.put.mock.calls[0][1]).toEqual({
+          name: 'test_room',
+        });
+
+        const res = await knex(hueLight.TABLE)
+          .select('room_id')
+          .where('light_id', 2);
+
+        expect(res).toEqual([{ room_id: 2 }]);
       });
 
       it('should retun 401 when user is not authenticated', async () => {

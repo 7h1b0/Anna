@@ -1,6 +1,7 @@
 const routes = require('express').Router();
 const hueService = require('../services/hueService');
 const dispatch = require('../modules/dispatch');
+const HueLight = require('../modules/models/hueLight');
 const actions = require('../modules/actions');
 
 function getState({ on, sat, xy, bri }) {
@@ -45,13 +46,28 @@ routes
       .catch(err => res.status(500).send({ err }));
   })
   .patch((req, res) => {
-    if (req.body.name === undefined) {
+    if (req.body.name === undefined && req.body.roomId === undefined) {
       return res.sendStatus(400);
     }
-    hueService
-      .renameLight(req.params.id_light, req.body.name)
-      .then(result => res.send(result))
-      .catch(err => res.status(500).send({ err }));
+
+    try {
+      const renameLight = req.body.name
+        ? hueService.renameLight(req.params.id_light, req.body.name)
+        : Promise.resolve();
+
+      const changeRoomId = req.body.roomId
+        ? HueLight.findByIdAndUpdate(req.params.id_light, req.body.roomId)
+        : Promise.resolve();
+
+      Promise.all([renameLight, changeRoomId])
+        .then(() => res.end())
+        .catch(err => {
+          console.log('YOLOOOOOOOOOOOO', err);
+          res.status(500).send({ err });
+        });
+    } catch (err) {
+      console.log(err);
+    }
   });
 
 routes.patch('/api/hue/lights/:id_light([0-9]+)/state', (req, res) => {

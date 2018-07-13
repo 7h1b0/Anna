@@ -18,9 +18,11 @@ function getRoute(url, method = 'GET', body) {
   return route;
 }
 
-function request(route) {
-  const SUCCESSFUL = [200, 201, 202, 203, 204, 205, 206];
+function isSuccess(status) {
+  return status >= 200 && status < 300;
+}
 
+function request(route) {
   return new Promise((resolve, reject) => {
     let body;
     if (route.body) {
@@ -35,7 +37,7 @@ function request(route) {
       let rawData = '';
       res.on('data', chunk => (rawData += chunk));
       res.on('end', () => {
-        if (SUCCESSFUL.includes(res.statusCode)) {
+        if (isSuccess(res.statusCode)) {
           try {
             resolve(JSON.parse(rawData));
           } catch (e) {
@@ -72,4 +74,7 @@ module.exports = {
     const route = getRoute(url, 'DELETE');
     return request(route);
   },
+
+  getRoute,
+  isSuccess,
 };

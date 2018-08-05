@@ -2,7 +2,14 @@ const Ajv = require('ajv');
 const knex = require('../../knexClient');
 const sceneSchema = require('../schemas/scene');
 const TABLE = 'scenes';
-const COLUMNS = [{ sceneId: 'scene_id' }, 'name', 'description'];
+const COLUMNS = [
+  { sceneId: 'scene_id' },
+  'name',
+  'description',
+  { createdAt: 'created_at' },
+  { updatedAt: 'updated_at' },
+  { createdBy: 'created_by' },
+];
 const { TABLE: ACTION_TABLE, findBySceneId } = require('./action');
 
 module.exports = {
@@ -36,7 +43,7 @@ module.exports = {
     return knex
       .transaction(trx => {
         return trx
-          .update({ name, description })
+          .update({ name, description, updated_at: new Date() })
           .where('scene_id', sceneId)
           .into(TABLE)
           .then(row => {
@@ -71,10 +78,17 @@ module.exports = {
       });
   },
 
-  save({ name, description, actions }) {
+  save({ name, description, userId, actions }) {
+    const date = new Date();
     return knex.transaction(trx => {
       return trx
-        .insert({ description, name })
+        .insert({
+          description,
+          name,
+          created_by: userId,
+          updated_at: date,
+          created_at: date,
+        })
         .into(TABLE)
         .then(([sceneId]) => {
           return Promise.all(

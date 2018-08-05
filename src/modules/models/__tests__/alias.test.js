@@ -1,3 +1,4 @@
+const MockDate = require('mockdate');
 const knex = require('../../../knexClient');
 const Alias = require('../alias');
 const initAlias = [
@@ -7,6 +8,9 @@ const initAlias = [
     name: 'test',
     description: 'test',
     enabled: true,
+    created_by: 1,
+    created_at: new Date('2018-01-01'),
+    updated_at: new Date('2018-01-02'),
   },
   {
     alias_id: 2,
@@ -14,6 +18,9 @@ const initAlias = [
     name: 'test_2',
     description: 'test',
     enabled: false,
+    created_by: 1,
+    created_at: new Date('2018-01-01'),
+    updated_at: new Date('2018-01-02'),
   },
 ];
 
@@ -27,6 +34,7 @@ describe('Alias', () => {
   });
 
   afterEach(async () => {
+    MockDate.reset();
     await knex(Alias.TABLE).truncate();
   });
 
@@ -43,16 +51,8 @@ describe('Alias', () => {
 
   describe('findById', () => {
     it('should return only one alias', async () => {
-      const expected = {
-        aliasId: 1,
-        sceneId: 1,
-        name: 'test',
-        description: 'test',
-        enabled: true,
-      };
-
       const result = await Alias.findById(1);
-      expect(result).toEqual(expected);
+      expect(result).toMatchSnapshot();
     });
 
     it('should return undefined', async () => {
@@ -63,16 +63,8 @@ describe('Alias', () => {
 
   describe('findByName', () => {
     it('should return only one alias', async () => {
-      const expected = {
-        aliasId: 1,
-        sceneId: 1,
-        name: 'test',
-        description: 'test',
-        enabled: true,
-      };
-
       const result = await Alias.findByName('test');
-      expect(result).toEqual(expected);
+      expect(result).toMatchSnapshot();
     });
 
     it('should return undefined', async () => {
@@ -83,12 +75,14 @@ describe('Alias', () => {
 
   describe('save', () => {
     it('should save a new alias', async () => {
+      MockDate.set('2018-05-05');
       const save = {
-        alias_id: 3,
-        scene_id: 1,
+        aliasId: 3,
+        sceneId: 1,
         name: 'test_3',
         description: 'test',
         enabled: false,
+        userId: 1,
       };
 
       await Alias.save(save);
@@ -127,12 +121,13 @@ describe('Alias', () => {
 
   describe('findByIdAndUpdate', () => {
     it('should update a alias', async () => {
+      MockDate.set('2018-05-05');
       await Alias.findByIdAndUpdate(1, { name: 'updated' });
       const alias = await knex(Alias.TABLE).select('*');
       expect(alias).toMatchSnapshot();
     });
 
-    it('should update a alias', async () => {
+    it('should not update an alias if id is unknow', async () => {
       await Alias.findByIdAndUpdate(-1, { name: 'updated' });
       const alias = await knex(Alias.TABLE).select('*');
       expect(alias).toEqual(initAlias);

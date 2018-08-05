@@ -1,3 +1,4 @@
+const MockDate = require('mockdate');
 const knex = require('../../../knexClient');
 const Room = require('../room');
 const Dio = require('../dio');
@@ -6,11 +7,17 @@ const initRooms = [
     room_id: 1,
     description: 'this is a test',
     name: 'room_1',
+    created_by: 1,
+    created_at: new Date('2018-01-01'),
+    updated_at: new Date('2018-01-02'),
   },
   {
     room_id: 2,
     description: 'this is a second test',
     name: 'room_2',
+    created_by: 1,
+    created_at: new Date('2018-01-01'),
+    updated_at: new Date('2018-01-02'),
   },
 ];
 
@@ -31,6 +38,7 @@ describe('Room', () => {
   });
 
   afterEach(async () => {
+    MockDate.reset();
     await knex(Room.TABLE).truncate();
   });
 
@@ -41,34 +49,15 @@ describe('Room', () => {
 
   describe('findAll', () => {
     it('should return all room', async () => {
-      const expected = [
-        {
-          roomId: 1,
-          description: 'this is a test',
-          name: 'room_1',
-        },
-        {
-          roomId: 2,
-          description: 'this is a second test',
-          name: 'room_2',
-        },
-      ];
-
       const result = await Room.findAll();
-      expect(result).toEqual(expected);
+      expect(result).toMatchSnapshot();
     });
   });
 
   describe('findById', () => {
     it('should return only one room', async () => {
-      const expected = {
-        roomId: 1,
-        description: 'this is a test',
-        name: 'room_1',
-      };
-
       const result = await Room.findById(1);
-      expect(result).toEqual(expected);
+      expect(result).toMatchSnapshot();
     });
 
     it('should return undefined', async () => {
@@ -79,18 +68,12 @@ describe('Room', () => {
 
   describe('save', () => {
     it('should save a new room', async () => {
+      MockDate.set('2018-05-05');
       const save = {
         name: 'test-save',
         description: 'test',
+        userId: 1,
       };
-
-      const expected = [
-        {
-          room_id: 3,
-          name: 'test-save',
-          description: 'test',
-        },
-      ];
 
       const newRoom = await Room.save(save);
       expect(newRoom).toEqual({
@@ -103,7 +86,7 @@ describe('Room', () => {
         .select('*')
         .where('room_id', 3);
 
-      expect(rooms).toEqual(expected);
+      expect(rooms).toMatchSnapshot();
     });
   });
 
@@ -130,6 +113,7 @@ describe('Room', () => {
 
   describe('findByIdAndUpdate', () => {
     it('should update a room', async () => {
+      MockDate.set('2018-05-05');
       const rowsAffected = await Room.findByIdAndUpdate(1, { name: 'updated' });
       expect(rowsAffected).toBe(1);
       const rooms = await knex(Room.TABLE).select('*');

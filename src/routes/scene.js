@@ -17,7 +17,8 @@ routes
       return res.sendStatus(400);
     }
 
-    Scene.save(req.body)
+    const userId = res.locals.user.userId;
+    Scene.save({ ...req.body, userId })
       .then(sceneId =>
         res.status(201).json(Object.assign(req.body, { sceneId })),
       )

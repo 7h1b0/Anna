@@ -3,14 +3,44 @@
 exports[`Rooms API /api/rooms GET should return all rooms 1`] = `
 Array [
   Object {
+    "createdAt": "2018-01-01T00:00:00.000Z",
+    "createdBy": 1,
     "description": "this is a test",
     "name": "room_1",
     "roomId": 1,
+    "updatedAt": "2018-01-02T00:00:00.000Z",
   },
   Object {
+    "createdAt": "2018-01-01T00:00:00.000Z",
+    "createdBy": 1,
     "description": "this is a second test",
     "name": "room_2",
     "roomId": 2,
+    "updatedAt": "2018-01-02T00:00:00.000Z",
+  },
+]
+`;
+
+exports[`Rooms API /api/rooms/:id GET should return an room 1`] = `
+Object {
+  "createdAt": "2018-01-01T00:00:00.000Z",
+  "createdBy": 1,
+  "description": "this is a test",
+  "name": "room_1",
+  "roomId": 1,
+  "updatedAt": "2018-01-02T00:00:00.000Z",
+}
+`;
+
+exports[`Rooms API /api/rooms/:id PATCH should update an room 1`] = `
+Array [
+  RowDataPacket {
+    "created_at": 2018-01-01T00:00:00.000Z,
+    "created_by": 1,
+    "description": "this is a second test",
+    "name": "room_updated",
+    "room_id": 1,
+    "updated_at": 2018-05-05T00:00:00.000Z,
   },
 ]
 `;

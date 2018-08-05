@@ -1,4 +1,5 @@
 const request = require('supertest');
+const MockDate = require('mockdate');
 const knex = require('../../knexClient');
 const Scene = require('../../modules/models/scene');
 const Action = require('../../modules/models/action');
@@ -13,11 +14,17 @@ const initScenes = [
     scene_id: 1,
     description: 'this is a test',
     name: 'scene_1',
+    created_by: 1,
+    created_at: new Date('2018-01-01'),
+    updated_at: new Date('2018-01-02'),
   },
   {
     scene_id: 2,
     description: 'this is a second test',
     name: 'scene_2',
+    created_by: 1,
+    created_at: new Date('2018-01-01'),
+    updated_at: new Date('2018-01-02'),
   },
 ];
 
@@ -71,6 +78,7 @@ describe('Scene API', () => {
     await knex(Scene.TABLE).truncate();
     await knex(Action.TABLE).truncate();
     dispatch.mockClear();
+    MockDate.reset();
   });
 
   afterAll(async () => {
@@ -125,6 +133,7 @@ describe('Scene API', () => {
       });
 
       it('should create a scene', async () => {
+        MockDate.set('2018-05-05');
         const scene = {
           name: 'testScene',
           description: 'this is a test scene',
@@ -181,25 +190,7 @@ describe('Scene API', () => {
           .set('Accept', 'application/json')
           .set('x-access-token', user.token);
 
-        expect(response.body).toEqual({
-          sceneId: 1,
-          name: initScenes[0].name,
-          description: initScenes[0].description,
-          actions: [
-            {
-              type: 'DIO',
-              name: 'action turn on',
-              targetId: 1,
-              body: { on: true },
-            },
-            {
-              type: 'DIO',
-              name: 'action turn off',
-              targetId: 2,
-              body: { on: false },
-            },
-          ],
-        });
+        expect(response.body).toMatchSnapshot();
       });
 
       it('should retun 401 when user is not authenticated', async () => {
@@ -321,6 +312,7 @@ describe('Scene API', () => {
       });
 
       it('should update a scene', async () => {
+        MockDate.set('2018-05-05');
         const updatedScene = {
           description: 'this is an updated test',
           name: 'scene_2',
@@ -342,7 +334,11 @@ describe('Scene API', () => {
           .send(updatedScene);
 
         expect(response.status).toBe(204);
-        expect(response.body).toMatchSnapshot();
+
+        const sceneFromDatabase = await knex(Scene.TABLE)
+          .select('*')
+          .where('scene_id', 2);
+        expect(sceneFromDatabase).toMatchSnapshot();
       });
     });
   });

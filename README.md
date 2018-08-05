@@ -19,7 +19,7 @@ REST API for home automation using NodeJS
   - [npm run eslint](#npm-run-eslint)
 
 ## Prerequisite
-* NodeJS >= 8
+* NodeJS >= 8.6
 * NPM >= 5
 
 ## Installation

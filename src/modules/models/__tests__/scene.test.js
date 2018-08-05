@@ -1,3 +1,4 @@
+const MockDate = require('mockdate');
 const knex = require('../../../knexClient');
 const Scene = require('../scene');
 const Action = require('../action');
@@ -6,11 +7,17 @@ const initScenes = [
     scene_id: 1,
     description: 'this is a test',
     name: 'scene_1',
+    created_by: 1,
+    created_at: new Date('2018-01-01'),
+    updated_at: new Date('2018-01-02'),
   },
   {
     scene_id: 2,
     description: 'this is a second test',
     name: 'scene_2',
+    created_by: 1,
+    created_at: new Date('2018-01-01'),
+    updated_at: new Date('2018-01-02'),
   },
 ];
 
@@ -57,6 +64,7 @@ describe('Scene', () => {
   });
 
   afterEach(async () => {
+    MockDate.reset();
     await Promise.all([
       knex(Scene.TABLE).truncate(),
       knex(Action.TABLE).truncate(),
@@ -69,21 +77,8 @@ describe('Scene', () => {
 
   describe('findAll', () => {
     it('should return all scene', async () => {
-      const expected = [
-        {
-          sceneId: 1,
-          description: 'this is a test',
-          name: 'scene_1',
-        },
-        {
-          sceneId: 2,
-          description: 'this is a second test',
-          name: 'scene_2',
-        },
-      ];
-
       const result = await Scene.findAll();
-      expect(result).toEqual(expected);
+      expect(result).toMatchSnapshot();
     });
   });
 
@@ -111,9 +106,11 @@ describe('Scene', () => {
 
   describe('save', () => {
     it('should save a new scene', async () => {
+      MockDate.set('2018-05-05');
       const scene = {
         description: 'save test',
         name: 'scene_3',
+        userId: 1,
         actions: [
           {
             targetId: 1,
@@ -151,6 +148,7 @@ describe('Scene', () => {
 
   describe('findByIdAndUpdate', () => {
     it('should update a scene', async () => {
+      MockDate.set('2018-05-05');
       const updatedScene = {
         sceneId: 2,
         description: 'this is an updated second test',

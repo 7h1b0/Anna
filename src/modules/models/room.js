@@ -5,7 +5,14 @@ const Dio = require('./dio');
 const HueLight = require('./hueLight');
 const { returnFirst } = require('../dbUtil');
 const TABLE = 'rooms';
-const COLUMNS = [{ roomId: 'room_id' }, 'description', 'name'];
+const COLUMNS = [
+  { roomId: 'room_id' },
+  'description',
+  'name',
+  { createdAt: 'created_at' },
+  { updatedAt: 'updated_at' },
+  { createdBy: 'created_by' },
+];
 
 module.exports = {
   TABLE,
@@ -28,9 +35,16 @@ module.exports = {
     );
   },
 
-  save({ name, description }) {
+  save({ name, description, userId }) {
+    const date = new Date();
     return knex(TABLE)
-      .insert({ description, name })
+      .insert({
+        description,
+        name,
+        created_by: userId,
+        updated_at: date,
+        created_at: date,
+      })
       .then(([roomId]) => {
         return { description, roomId, name };
       });
@@ -57,7 +71,7 @@ module.exports = {
 
   findByIdAndUpdate(roomId, payload) {
     return knex(TABLE)
-      .update(payload)
+      .update({ ...payload, updated_at: new Date() })
       .where('room_id', roomId);
   },
 };

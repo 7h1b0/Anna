@@ -10,6 +10,9 @@ const COLUMNS = [
   'name',
   'description',
   'enabled',
+  { createdAt: 'created_at' },
+  { updatedAt: 'updated_at' },
+  { createdBy: 'created_by' },
 ];
 
 module.exports = {
@@ -41,13 +44,17 @@ module.exports = {
     );
   },
 
-  save({ sceneId, name, description, enabled = true }) {
+  save({ sceneId, name, description, userId, enabled = true }) {
+    const date = new Date();
     return knex(TABLE)
       .insert({
         scene_id: sceneId,
         description,
         name,
         enabled,
+        created_by: userId,
+        updated_at: date,
+        created_at: date,
       })
       .then(([aliasId]) => {
         return { name, description, enabled, sceneId };
@@ -62,7 +69,7 @@ module.exports = {
 
   findByIdAndUpdate(aliasId, payload) {
     return knex(TABLE)
-      .update(payload)
+      .update({ ...payload, updated_at: new Date() })
       .where('alias_id', aliasId);
   },
 };

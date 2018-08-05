@@ -71,6 +71,49 @@ describe('Rooms API', () => {
         expect(response.status).toBe(401);
       });
     });
+
+    describe('POST', () => {
+      it('should create a new room', async () => {
+        MockDate.set('2018-05-05');
+        const response = await request(app)
+          .post('/api/rooms')
+          .set('Accept', 'application/json')
+          .set('x-access-token', user.token)
+          .send({
+            name: 'Living Room',
+            description: 'a description',
+          });
+
+        expect(response.status).toBe(201);
+        expect(response.body).toMatchSnapshot();
+
+        const rooms = await knex(Room.TABLE)
+          .select('*')
+          .where('room_id', 3);
+        expect(rooms).toMatchSnapshot();
+      });
+
+      it('should return 401 when user is not authenticated', async () => {
+        const response = await request(app)
+          .post('/api/rooms')
+          .set('Accept', 'application/json')
+          .set('x-access-token', 'fake');
+
+        expect(response.status).toBe(401);
+      });
+
+      it('should retun 400 if request is invalid', async () => {
+        const response = await request(app)
+          .post('/api/rooms')
+          .set('Accept', 'application/json')
+          .set('x-access-token', user.token)
+          .send({
+            description: 'missing name',
+          });
+
+        expect(response.status).toBe(400);
+      });
+    });
   });
 
   describe('/api/rooms/:id', () => {

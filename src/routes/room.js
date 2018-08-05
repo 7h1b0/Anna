@@ -1,11 +1,24 @@
 const routes = require('express').Router();
 const Room = require('../modules/models/room');
 
-routes.route('/api/rooms').get((req, res) => {
-  Room.findAll()
-    .then(rooms => res.send(rooms))
-    .catch(err => res.status(500).send({ err }));
-});
+routes
+  .route('/api/rooms')
+  .get((req, res) => {
+    Room.findAll()
+      .then(rooms => res.send(rooms))
+      .catch(err => res.status(500).send({ err }));
+  })
+  .post((req, res) => {
+    const isValid = Room.validate(req.body);
+    if (!isValid) {
+      res.sendStatus(400);
+    } else {
+      const userId = res.locals.user.userId;
+      Room.save({ ...req.body, userId })
+        .then(room => res.status(201).send(room))
+        .catch(err => res.status(500).send({ err }));
+    }
+  });
 
 routes
   .route('/api/rooms/:room_id([0-9]+)')

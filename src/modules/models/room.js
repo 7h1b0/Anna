@@ -46,7 +46,14 @@ module.exports = {
         created_at: date,
       })
       .then(([roomId]) => {
-        return { description, roomId, name };
+        return {
+          description,
+          roomId,
+          name,
+          createdAt: date,
+          updatedAt: date,
+          createdBy: userId,
+        };
       });
   },
 

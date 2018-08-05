@@ -21,6 +21,30 @@ Array [
 ]
 `;
 
+exports[`Rooms API /api/rooms POST should create a new room 1`] = `
+Object {
+  "createdAt": "2018-05-05T00:00:00.000Z",
+  "createdBy": 1,
+  "description": "a description",
+  "name": "Living Room",
+  "roomId": 3,
+  "updatedAt": "2018-05-05T00:00:00.000Z",
+}
+`;
+
+exports[`Rooms API /api/rooms POST should create a new room 2`] = `
+Array [
+  RowDataPacket {
+    "created_at": 2018-05-05T00:00:00.000Z,
+    "created_by": 1,
+    "description": "a description",
+    "name": "Living Room",
+    "room_id": 3,
+    "updated_at": 2018-05-05T00:00:00.000Z,
+  },
+]
+`;
+
 exports[`Rooms API /api/rooms/:id GET should return an room 1`] = `
 Object {
   "createdAt": "2018-01-01T00:00:00.000Z",

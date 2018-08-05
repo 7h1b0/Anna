@@ -76,11 +76,7 @@ describe('Room', () => {
       };
 
       const newRoom = await Room.save(save);
-      expect(newRoom).toEqual({
-        roomId: 3,
-        name: 'test-save',
-        description: 'test',
-      });
+      expect(newRoom).toMatchSnapshot();
 
       const rooms = await knex(Room.TABLE)
         .select('*')

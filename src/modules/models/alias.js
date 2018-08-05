@@ -57,7 +57,15 @@ module.exports = {
         created_at: date,
       })
       .then(([aliasId]) => {
-        return { name, description, enabled, sceneId };
+        return {
+          name,
+          description,
+          enabled,
+          sceneId,
+          createdAt: date,
+          updatedAt: date,
+          createdBy: userId,
+        };
       });
   },
 

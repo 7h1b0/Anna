@@ -95,6 +95,7 @@ describe('Alias API', () => {
           });
 
         expect(response.status).toBe(201);
+        expect(response.body).toMatchSnapshot();
 
         const alias = await knex(Alias.TABLE)
           .select('*')

@@ -5,7 +5,7 @@ module.exports = {
   properties: {
     name: {
       type: 'string',
-      pattern: '^[a-z_]{5,}$',
+      minLength: 3,
     },
     description: {
       type: 'string',

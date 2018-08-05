@@ -310,10 +310,10 @@ describe('Alias API', () => {
     });
   });
 
-  describe('/api/alias/:name', () => {
+  describe('/api/alias/:id/action', () => {
     it('should call a scene', async () => {
       const response = await request(app)
-        .get('/api/alias/testone')
+        .get('/api/alias/1/action')
         .set('Accept', 'application/json')
         .set('x-access-token', user.token);
 
@@ -327,7 +327,7 @@ describe('Alias API', () => {
 
     it('should not call a scene if alias is disabled', async () => {
       const response = await request(app)
-        .get('/api/alias/testtwo')
+        .get('/api/alias/2/action')
         .set('Accept', 'application/json')
         .set('x-access-token', user.token);
 
@@ -337,7 +337,7 @@ describe('Alias API', () => {
 
     it("should retun 404 when alias don't exist", async () => {
       const response = await request(app)
-        .get('/api/alias/testanna')
+        .get('/api/alias/3/action')
         .set('Accept', 'application/json')
         .set('x-access-token', user.token);
 

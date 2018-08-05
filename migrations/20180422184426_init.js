@@ -58,7 +58,6 @@ exports.up = function(knex, Promise) {
     table.string('name').notNullable();
     table.string('description');
     table.boolean('enabled').defaultTo(true);
-    table.unique('name');
   });
 
   const createHueLightTable = knex.schema.createTable('lights', table => {

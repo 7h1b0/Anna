@@ -61,18 +61,6 @@ describe('Alias', () => {
     });
   });
 
-  describe('findByName', () => {
-    it('should return only one alias', async () => {
-      const result = await Alias.findByName('test');
-      expect(result).toMatchSnapshot();
-    });
-
-    it('should return undefined', async () => {
-      const result = await Alias.findByName('no');
-      expect(result).toBe(undefined);
-    });
-  });
-
   describe('save', () => {
     it('should save a new alias', async () => {
       MockDate.set('2018-05-05');
@@ -92,7 +80,7 @@ describe('Alias', () => {
       expect(alias).toMatchSnapshot();
     });
 
-    it('should reject when an alias as a name already taken', async () => {
+    it('should accept when an alias as a name already taken', async () => {
       const save = {
         alias_id: 3,
         scene_id: 1,
@@ -101,7 +89,7 @@ describe('Alias', () => {
         enabled: false,
       };
 
-      await expect(Alias.save(save)).rejects.toBeDefined();
+      await expect(Alias.save(save)).resolves.toBeDefined();
     });
   });
 
@@ -131,12 +119,6 @@ describe('Alias', () => {
       await Alias.findByIdAndUpdate(-1, { name: 'updated' });
       const alias = await knex(Alias.TABLE).select('*');
       expect(alias).toEqual(initAlias);
-    });
-
-    it('should reject when updated with a name already taken', async () => {
-      await expect(
-        Alias.findByIdAndUpdate(1, { name: 'test_2' }),
-      ).rejects.toBeDefined();
     });
   });
 
@@ -175,7 +157,7 @@ describe('Alias', () => {
     it('should return false name is incorrect', () => {
       const alias = {
         sceneId: 1,
-        name: 'test_2',
+        name: 'tt',
         description: 'testtest',
         enabled: false,
       };

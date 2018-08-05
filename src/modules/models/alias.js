@@ -36,14 +36,6 @@ module.exports = {
     );
   },
 
-  findByName(name) {
-    return returnFirst(
-      knex(TABLE)
-        .select(COLUMNS)
-        .where('name', name),
-    );
-  },
-
   save({ sceneId, name, description, userId, enabled = true }) {
     const date = new Date();
     return knex(TABLE)

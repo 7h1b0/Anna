@@ -7,7 +7,7 @@ routes
   .route('/api/dios')
   .get((req, res) => {
     Dio.findAll()
-      .then(dios => res.send(dios))
+      .then(dios => res.json(dios))
       .catch(err => res.status(500).send({ err }));
   })
   .post((req, res) => {
@@ -16,7 +16,7 @@ routes
       res.sendStatus(400);
     } else {
       Dio.save(req.body)
-        .then(newDio => res.status(201).send(newDio))
+        .then(newDio => res.status(201).json(newDio))
         .catch(err => res.status(500).send({ err }));
     }
   });
@@ -29,7 +29,7 @@ routes
         if (!dio) {
           res.sendStatus(404);
         } else {
-          res.send(dio);
+          res.json(dio);
         }
       })
       .catch(err => res.status(500).send({ err }));

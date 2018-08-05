@@ -33,7 +33,7 @@ module.exports = {
 
     return Promise.all([fetchScene, fetchActions]).then(([scene, actions]) => {
       if (scene.length > 0) {
-        return Object.assign({}, scene[0], { actions });
+        return { ...scene[0], actions };
       }
       return;
     });

@@ -33,7 +33,7 @@ function getState({ on, sat, xy, bri }) {
 routes.route('/api/hue/lights').get((req, res) => {
   hueService
     .getLights()
-    .then(lights => res.send(lights))
+    .then(lights => res.json(lights))
     .catch(err => res.status(500).send({ err }));
 });
 
@@ -42,7 +42,7 @@ routes
   .get((req, res) => {
     hueService
       .getLight(req.params.id_light)
-      .then(light => res.send(light))
+      .then(light => res.json(light))
       .catch(err => res.status(500).send({ err }));
   })
   .patch((req, res) => {
@@ -76,7 +76,7 @@ routes.patch('/api/hue/lights/:id_light([0-9]+)/state', (req, res) => {
   if (Object.keys(state).length > 0) {
     hueService
       .setLightState(req.params.id_light, state)
-      .then(result => res.send(result))
+      .then(result => res.json(result))
       .catch(err => res.status(500).send({ err }));
   } else {
     res.sendStatus(400);
@@ -87,7 +87,7 @@ routes.get('/api/hue/lights/:id_light([0-9]+)/:status(on|off)', (req, res) => {
   dispatch(
     actions.toggleHueLight(req.params.id_light, req.params.status === 'on'),
   )
-    .then(result => res.send(result))
+    .then(result => res.json(result))
     .catch(err => res.status(500).send({ err }));
 });
 

@@ -7,7 +7,7 @@ routes
   .route('/api/alias')
   .get((req, res) => {
     Alias.findAll()
-      .then(alias => res.send(alias))
+      .then(alias => res.json(alias))
       .catch(err => res.status(500).send({ err }));
   })
   .post((req, res) => {
@@ -17,7 +17,7 @@ routes
     } else {
       const userId = res.locals.user.userId;
       Alias.save({ ...req.body, userId })
-        .then(alias => res.status(201).send(alias))
+        .then(alias => res.status(201).json(alias))
         .catch(err => res.status(500).send({ err }));
     }
   });
@@ -30,7 +30,7 @@ routes
         if (!alias) {
           res.sendStatus(404);
         } else {
-          res.send(alias);
+          res.json(alias);
         }
       })
       .catch(err => res.status(500).send({ err }));

@@ -5,7 +5,7 @@ const hueLight = require('../modules/models/hueLight');
 const api = `http://${HUE_IP}/api/${HUE_TOKEN}`;
 
 const toArray = jsonObject =>
-  Object.keys(jsonObject).map(id => Object.assign({}, jsonObject[id], { id }));
+  Object.keys(jsonObject).map(id => ({ ...jsonObject[id], id }));
 
 module.exports = {
   getLights() {
@@ -30,7 +30,7 @@ module.exports = {
       request.get(`${api}/lights/${id}`),
       hueLight.findRoomId(id),
     ]).then(([light, roomId]) => {
-      return Object.assign({}, light, roomId);
+      return { ...light, ...roomId };
     });
   },
 

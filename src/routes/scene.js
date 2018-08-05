@@ -8,7 +8,7 @@ routes
   .route('/api/scenes')
   .get((req, res) => {
     Scene.findAll()
-      .then(scenes => res.send(scenes))
+      .then(scenes => res.json(scenes))
       .catch(err => res.status(500).send({ err }));
   })
   .post((req, res) => {
@@ -19,9 +19,7 @@ routes
 
     const userId = res.locals.user.userId;
     Scene.save({ ...req.body, userId })
-      .then(sceneId =>
-        res.status(201).json(Object.assign(req.body, { sceneId })),
-      )
+      .then(sceneId => res.status(201).json({ ...req.body, sceneId }))
       .catch(err => res.status(500).send({ err }));
   });
 
@@ -33,7 +31,7 @@ routes
         if (!scene) {
           res.sendStatus(404);
         } else {
-          res.send(scene);
+          res.json(scene);
         }
       })
       .catch(err => res.status(500).send({ err }));
@@ -43,9 +41,7 @@ routes
     if (!isValid) {
       return res.sendStatus(400);
     }
-    Scene.findByIdAndUpdate(
-      Object.assign(req.body, { sceneId: req.params.id_scene }),
-    )
+    Scene.findByIdAndUpdate({ ...req.body, sceneId: req.params.id_scene })
       .then(rowsAffected => {
         if (!!rowsAffected) {
           res.sendStatus(204);

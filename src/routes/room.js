@@ -5,7 +5,7 @@ routes
   .route('/api/rooms')
   .get((req, res) => {
     Room.findAll()
-      .then(rooms => res.send(rooms))
+      .then(rooms => res.json(rooms))
       .catch(err => res.status(500).send({ err }));
   })
   .post((req, res) => {
@@ -15,7 +15,7 @@ routes
     } else {
       const userId = res.locals.user.userId;
       Room.save({ ...req.body, userId })
-        .then(room => res.status(201).send(room))
+        .then(room => res.status(201).json(room))
         .catch(err => res.status(500).send({ err }));
     }
   });
@@ -28,7 +28,7 @@ routes
         if (!room) {
           res.sendStatus(404);
         } else {
-          res.send(room);
+          res.json(room);
         }
       })
       .catch(err => res.status(500).send({ err }));

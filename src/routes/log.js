@@ -21,14 +21,14 @@ function toTimestamp(logs) {
 routes.get('/api/log', (req, res) => {
   getQuery()
     .then(logs => toTimestamp(logs))
-    .then(logs => res.send(logs))
+    .then(logs => res.json(logs))
     .catch(err => res.status(500).send({ err }));
 });
 
 routes.get('/api/log/:limit([0-9]+)', (req, res) => {
   getQuery(req.params.limit)
     .then(logs => toTimestamp(logs))
-    .then(logs => res.send(logs))
+    .then(logs => res.json(logs))
     .catch(err => res.status(500).send({ err }));
 });
 

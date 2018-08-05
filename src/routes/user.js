@@ -57,7 +57,7 @@ routes.post('/login', (req, res) => {
 
 routes.get('/api/users', (req, res) => {
   User.findAll()
-    .then(users => res.send(users))
+    .then(users => res.json(users))
     .catch(err => res.status(500).send({ err }));
 });
 

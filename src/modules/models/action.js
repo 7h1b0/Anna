@@ -15,9 +15,7 @@ module.exports = {
       .then(entries => {
         return entries.reduce((acc, entry) => {
           try {
-            return acc.concat(
-              Object.assign({}, entry, { body: JSON.parse(entry.body) }),
-            );
+            return acc.concat({ ...entry, body: JSON.parse(entry.body) });
           } catch (e) {
             logger.error(`Body of entry #${entry.name} is malformed`);
             return acc;

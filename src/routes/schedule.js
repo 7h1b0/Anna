@@ -3,7 +3,7 @@ const scheduleService = require('../services/scheduleService');
 
 routes.route('/api/schedules').get((req, res) => {
   const schedules = scheduleService.getAll();
-  res.send(schedules);
+  res.json(schedules);
 });
 
 routes
@@ -11,7 +11,7 @@ routes
   .get((req, res) => {
     const schedule = scheduleService.get(req.params.id_schedule);
     if (schedule) {
-      res.send(schedule.attrs);
+      res.json(schedule.attrs);
     } else {
       res.sendStatus(404);
     }
@@ -24,7 +24,7 @@ routes
     const schedule = scheduleService.get(req.params.id_schedule);
     if (schedule) {
       schedule.update(req.body);
-      res.send(schedule.attrs);
+      res.json(schedule.attrs);
     } else {
       res.sendStatus(404);
     }

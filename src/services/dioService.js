@@ -3,15 +3,13 @@ const logger = require('../modules/logger');
 
 let queue = Promise.resolve();
 const run = async (script, onSuccess, onError) => {
-  queue = queue.then(async () => {
-    try {
-      await execService(script);
-      onSuccess();
-    } catch (err) {
-      onError();
+  queue = queue.then(() => execService(script)).then(
+    () => onSuccess(),
+    err => {
       logger.error(err);
-    }
-  });
+      onError();
+    },
+  );
 };
 
 module.exports = {

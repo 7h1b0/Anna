@@ -8,7 +8,7 @@ describe('Dispatch', () => {
   beforeAll(() => {
     Scene.findById = jest.fn(() =>
       Promise.resolve({
-        actions: [{ type: HUE_LIGHT, id: 5, body: { on: true } }],
+        actions: [{ type: HUE_LIGHT, targetId: 5, body: { on: true } }],
       }),
     );
     hueService.setLightState = jest.fn(() => Promise.resolve());

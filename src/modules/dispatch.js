@@ -14,7 +14,11 @@ module.exports = function dispatch({ type, id, body }) {
     case SCENE:
       return Scene.findById(id).then(scene => {
         if (scene) {
-          return Promise.all(scene.actions.map(dispatch));
+          return Promise.all(
+            scene.actions.map(({ type, targetId, body }) =>
+              dispatch({ type, id: targetId, body }),
+            ),
+          );
         }
         throw new Error(`Cannot find scene ${id}`);
       });

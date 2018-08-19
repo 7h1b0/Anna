@@ -224,7 +224,6 @@ describe('Scene', () => {
         actions: [
           {
             targetId: 1,
-            name: 'test',
             type: 'DIO',
             body: {
               on: true,

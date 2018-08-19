@@ -43,7 +43,7 @@ module.exports = {
               minProperties: 1,
             },
           },
-          required: ['targetId', 'name', 'type'],
+          required: ['targetId', 'body', 'type'],
         },
       ],
     },

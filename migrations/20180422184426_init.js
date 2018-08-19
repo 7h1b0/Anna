@@ -4,13 +4,18 @@ exports.up = function(knex, Promise) {
     table.string('username').notNullable();
     table.string('password').notNullable();
     table.string('token').notNullable();
-    table.unique('username');
+    // table.unique('username');
   });
 
   const createRoomsTable = knex.schema.createTable('rooms', table => {
     table.increments('room_id');
     table.string('name').notNullable();
     table.string('description');
+    table.timestamp('created_at').defaultTo(knex.fn.now());
+    table.timestamp('updated_at').defaultTo(knex.fn.now());
+    table.integer('created_by')
+      .unsigned()
+      .notNullable();
   });
 
   const createLogsTable = knex.schema.createTable('logs', table => {
@@ -35,6 +40,11 @@ exports.up = function(knex, Promise) {
     table.increments('scene_id');
     table.string('name');
     table.string('description');
+    table.timestamp('created_at').defaultTo(knex.fn.now());
+    table.timestamp('updated_at').defaultTo(knex.fn.now());
+    table.integer('created_by')
+      .unsigned()
+      .notNullable();
   });
 
   const createActionsTable = knex.schema.createTable('actions', table => {
@@ -58,6 +68,11 @@ exports.up = function(knex, Promise) {
     table.string('name').notNullable();
     table.string('description');
     table.boolean('enabled').defaultTo(true);
+    table.timestamp('created_at').defaultTo(knex.fn.now());
+    table.timestamp('updated_at').defaultTo(knex.fn.now());
+    table.integer('created_by')
+      .unsigned()
+      .notNullable();
   });
 
   const createHueLightTable = knex.schema.createTable('lights', table => {

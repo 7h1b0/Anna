@@ -62,7 +62,6 @@ routes
       Promise.all([renameLight, changeRoomId])
         .then(() => res.end())
         .catch(err => {
-          console.log('YOLOOOOOOOOOOOO', err);
           res.status(500).send({ err });
         });
     } catch (err) {

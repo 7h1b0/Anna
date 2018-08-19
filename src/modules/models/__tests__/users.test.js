@@ -90,7 +90,7 @@ describe('Users', () => {
       expect(user).toEqual(initUsers);
     });
 
-    it('should reject when an username is already taken', async () => {
+    xit('should reject when an username is already taken', async () => {
       await expect(
         User.findByIdAndUpdate(2, { username: 'one' }),
       ).rejects.toBeDefined();
@@ -112,7 +112,7 @@ describe('Users', () => {
       expect(user).toMatchSnapshot();
     });
 
-    it('should reject when an username is already taken', async () => {
+    xit('should reject when an username is already taken', async () => {
       const save = {
         username: 'one',
         password: 'sdfsdfsdfsdfsdf',

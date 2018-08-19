@@ -1,4 +1,4 @@
-const logger = require('../logger');
+import * as logger from '../logger';
 
 describe('Logger', () => {
   beforeAll(() => {

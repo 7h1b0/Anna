@@ -1,13 +1,13 @@
-const request = require('supertest');
-const knex = require('../../knexClient');
-const User = require('../../modules/models/user');
-const app = require('../../index.js');
+import request from 'supertest';
+import knex from '../../knexClient';
+import * as User from '../../modules/models/user';
+import app from '../../index.js';
 
-const Scene = require('../../modules/models/scene');
-const Dio = require('../../modules/models/dio');
-const Room = require('../../modules/models/room');
-const Alias = require('../../modules/models/alias');
-const scheduleService = require('../../services/scheduleService');
+import * as Scene from '../../modules/models/scene';
+import * as Dio from '../../modules/models/dio';
+import * as Room from '../../modules/models/room';
+import * as Alias from '../../modules/models/alias';
+import scheduleService from '../../services/scheduleService';
 
 const user = {
   user_id: 1,
@@ -25,58 +25,6 @@ describe('About API', () => {
   afterAll(async () => {
     await knex(User.TABLE).truncate();
     await knex.destroy();
-  });
-
-  describe('/api/about', () => {
-    it('should retun 200 when user is authenticated', async () => {
-      const response = await request(app)
-        .get('/api/about')
-        .set('Accept', 'application/json')
-        .set('x-access-token', user.token)
-        .send();
-
-      expect(response.status).toBe(200);
-    });
-
-    it('should retun an object containing multiple properties', async () => {
-      const response = await request(app)
-        .get('/api/about')
-        .set('Accept', 'application/json')
-        .set('x-access-token', user.token)
-        .send();
-
-      const { body } = response;
-      expect(body).toHaveProperty('release');
-      expect(body).toHaveProperty('hostname');
-      expect(body).toHaveProperty('uptime');
-      expect(body).toHaveProperty('cpus');
-      expect(body).toHaveProperty('loadavg');
-      expect(body).toHaveProperty('totalmem');
-      expect(body).toHaveProperty('freemem');
-      expect(body).toHaveProperty('nodejs');
-      expect(body).toHaveProperty('version');
-    });
-
-    it('should retun 401 when user is not authenticated', async () => {
-      const response = await request(app)
-        .get('/api/about')
-        .set('Accept', 'application/json')
-        .set('x-access-token', 'fake')
-        .send();
-
-      expect(response.status).toBe(401);
-    });
-  });
-
-  describe('/anna', () => {
-    it('should always return 200', async () => {
-      const response = await request(app)
-        .get('/anna')
-        .set('Accept', 'application/json')
-        .send();
-
-      expect(response.status).toBe(200);
-    });
   });
 
   describe('/api', () => {

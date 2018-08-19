@@ -1,4 +1,4 @@
-const get = jest.fn(url => {
+export const get = jest.fn(url => {
   if (/\/lights$/.test(url)) {
     return Promise.resolve({
       '1': {
@@ -61,7 +61,7 @@ const get = jest.fn(url => {
   return Promise.resolve();
 });
 
-const put = jest.fn(url => {
+export const put = jest.fn(url => {
   if (/\/lights\/[0-9]+$/.test(url)) {
     return Promise.resolve([
       {
@@ -81,8 +81,3 @@ const put = jest.fn(url => {
   }
   return Promise.resolve();
 });
-
-module.exports = {
-  get,
-  put,
-};

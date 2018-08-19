@@ -1,37 +1,32 @@
-const knex = require('../../knexClient');
-const { returnFirst } = require('../dbUtil');
-const TABLE = 'lights';
-const COLUMNS = [{ roomId: 'room_id' }, { lightId: 'light_id' }];
+import knex from '../../knexClient';
+import { returnFirst } from '../dbUtil';
+export const TABLE = 'lights';
+export const COLUMNS = [{ roomId: 'room_id' }, { lightId: 'light_id' }];
 
-module.exports = {
-  TABLE,
-  COLUMNS,
+export function findRoomId(lightId) {
+  return returnFirst(
+    knex(TABLE)
+      .select({ roomId: 'room_id' })
+      .where('light_id', lightId),
+  );
+}
 
-  findRoomId(lightId) {
-    return returnFirst(
-      knex(TABLE)
-        .select({ roomId: 'room_id' })
-        .where('light_id', lightId),
-    );
-  },
+export function findAll() {
+  return knex(TABLE).select(...COLUMNS);
+}
 
-  findAll() {
-    return knex(TABLE).select(...COLUMNS);
-  },
+export function save(lightId, roomId) {
+  return knex(TABLE).insert({ light_id: lightId, room_id: roomId });
+}
 
-  save(lightId, roomId) {
-    return knex(TABLE).insert({ light_id: lightId, room_id: roomId });
-  },
+export function remove(lightId) {
+  return knex(TABLE)
+    .where('light_id', lightId)
+    .del();
+}
 
-  delete(lightId) {
-    return knex(TABLE)
-      .where('light_id', lightId)
-      .del();
-  },
-
-  findByIdAndUpdate(lightId, roomId) {
-    return knex(TABLE)
-      .update({ room_id: roomId })
-      .where('light_id', lightId);
-  },
-};
+export function findByIdAndUpdate(lightId, roomId) {
+  return knex(TABLE)
+    .update({ room_id: roomId })
+    .where('light_id', lightId);
+}

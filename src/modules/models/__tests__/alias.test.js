@@ -1,6 +1,6 @@
-const MockDate = require('mockdate');
-const knex = require('../../../knexClient');
-const Alias = require('../alias');
+import MockDate from 'mockdate';
+import knex from '../../../knexClient';
+import * as Alias from '../alias';
 const initAlias = [
   {
     alias_id: 1,
@@ -95,13 +95,13 @@ describe('Alias', () => {
 
   describe('delete', () => {
     it('should delete an alias', async () => {
-      await Alias.delete(1);
+      await Alias.remove(1);
       const alias = await knex(Alias.TABLE).select('*');
       expect(alias).toMatchSnapshot();
     });
 
     it('should not delete an alias', async () => {
-      await Alias.delete(-1);
+      await Alias.remove(-1);
       const alias = await knex(Alias.TABLE).select('*');
       expect(alias).toEqual(initAlias);
     });

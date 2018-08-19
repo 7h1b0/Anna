@@ -1,6 +1,8 @@
-const routes = require('express').Router();
-const User = require('../modules/models/user');
-const cryptoUtil = require('../modules/cryptoUtil');
+import { Router } from 'express';
+import * as User from '../modules/models/user';
+import * as cryptoUtil from '../modules/cryptoUtil';
+
+const routes = Router();
 
 routes.post('/register', (req, res) => {
   const isValid = User.validate(req.body);
@@ -87,7 +89,7 @@ routes
       .catch(err => res.status(500).send({ err }));
   })
   .delete((req, res) => {
-    User.delete(req.params.id_user)
+    User.remove(req.params.id_user)
       .then(user => {
         if (!user) {
           res.sendStatus(404);
@@ -98,4 +100,4 @@ routes
       .catch(err => res.status(500).send({ err }));
   });
 
-module.exports = routes;
+export default routes;

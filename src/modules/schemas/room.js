@@ -1,8 +1,11 @@
-module.exports = {
+export default {
   $id: 'room',
   type: 'object',
   additionalProperties: false,
   properties: {
+    roomId: {
+      type: 'integer',
+    },
     name: {
       type: 'string',
       minLength: 3,

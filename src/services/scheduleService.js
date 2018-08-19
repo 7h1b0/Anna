@@ -1,10 +1,10 @@
-const Ajv = require('ajv');
-const Schedule = require('../modules/models/schedule');
-const scheduleSchema = require('../modules/schemas/schedule');
+import Ajv from 'ajv';
+import Schedule from '../modules/models/schedule';
+import scheduleSchema from '../modules/schemas/schedule';
 
 let schedules = [];
 
-module.exports = {
+export default {
   getAll() {
     return schedules.map(schedule => schedule.attrs);
   },

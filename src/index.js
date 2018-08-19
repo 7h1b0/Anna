@@ -1,21 +1,21 @@
 // Dependencies
-const express = require('express');
-const bodyParser = require('body-parser');
-// const requireDir = require('require-dir');
-// const scheduleService = require('./src/services/scheduleService');
+import express from 'express';
+import bodyParser from 'body-parser';
+// import requireDir from dir';
+// import scheduleService from './src/services/scheduleService';
 
-const about = require('./routes/about');
-const alias = require('./routes/alias');
-const dio = require('./routes/dio');
-const room = require('./routes/room');
-const hueLight = require('./routes/hueLight');
-const log = require('./routes/log');
-const scene = require('./routes/scene');
-const schedule = require('./routes/schedule');
-const user = require('./routes/user');
+import about from './routes/about';
+import alias from './routes/alias';
+import dio from './routes/dio';
+import room from './routes/room';
+import hueLight from './routes/hueLight';
+import log from './routes/log';
+import scene from './routes/scene';
+import schedule from './routes/schedule';
+import user from './routes/user';
 
-const authenticationMiddleware = require('./middlewares/authenticationMiddleware');
-const logMiddleware = require('./middlewares/logMiddleware');
+import authenticationMiddleware from './middlewares/authenticationMiddleware';
+import logMiddleware from './middlewares/logMiddleware';
 
 // const schedules = requireDir('./assets/schedules');
 // Object.keys(schedules).forEach(schedule => {
@@ -36,4 +36,4 @@ app.all('/api*', [authenticationMiddleware, logMiddleware]);
 app.use([about, alias, dio, hueLight, log, room, scene, schedule, user]);
 app.use((req, res) => res.sendStatus(404));
 
-module.exports = app;
+export default app;

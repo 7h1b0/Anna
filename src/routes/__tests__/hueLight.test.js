@@ -1,11 +1,11 @@
-const request = require('supertest');
-const knex = require('../../knexClient');
-const User = require('../../modules/models/user');
-const hueLight = require('../../modules/models/hueLight');
-const app = require('../../index.js');
+import request from 'supertest';
+import knex from '../../knexClient';
+import * as User from '../../modules/models/user';
+import * as hueLight from '../../modules/models/hueLight';
+import app from '../../index.js';
 
 jest.mock('../../services/requestService');
-const requestService = require('../../services/requestService');
+import * as requestService from '../../services/requestService';
 
 const user = {
   user_id: 1,

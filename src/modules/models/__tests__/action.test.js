@@ -1,8 +1,8 @@
-const knex = require('../../../knexClient');
-const Action = require('../action');
+import knex from '../../../knexClient';
+import * as Action from '../action';
 
 jest.mock('../../logger');
-const logger = require('../../logger');
+import * as logger from '../../logger';
 
 const initActions = [
   {

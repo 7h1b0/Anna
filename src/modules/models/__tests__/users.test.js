@@ -1,5 +1,5 @@
-const knex = require('../../../knexClient');
-const User = require('../user');
+import knex from '../../../knexClient';
+import * as User from '../user';
 const initUsers = [
   {
     user_id: 1,
@@ -125,13 +125,13 @@ describe('Users', () => {
 
   describe('delete', () => {
     it('should delete an user', async () => {
-      await User.delete(1);
+      await User.remove(1);
       const users = await knex(User.TABLE).select('*');
       expect(users).toMatchSnapshot();
     });
 
     it('should not delete an user', async () => {
-      await User.delete(-1);
+      await User.remove(-1);
       const users = await knex(User.TABLE).select('*');
       expect(users).toEqual(initUsers);
     });

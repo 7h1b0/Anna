@@ -1,7 +1,7 @@
-const knex = require('knex');
-const config = require('./knexfile');
+import knex from 'knex';
+import config from './knexfile';
 
-module.exports = knex(
+export default knex(
   process.env.NODE_ENV === 'production'
     ? config.production
     : config.development,

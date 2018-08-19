@@ -1,7 +1,9 @@
-const routes = require('express').Router();
-const dispatch = require('../modules/dispatch');
-const actions = require('../modules/actions');
-const Alias = require('../modules/models/alias');
+import { Router } from 'express';
+import dispatch from '../modules/dispatch';
+import { callScene } from '../modules/actions';
+import * as Alias from '../modules/models/alias';
+
+const routes = Router();
 
 routes
   .route('/api/alias')
@@ -58,7 +60,7 @@ routes
     }
   })
   .delete((req, res) => {
-    Alias.delete(req.params.id_alias)
+    Alias.remove(req.params.id_alias)
       .then(alias => {
         if (!alias) {
           res.sendStatus(404);
@@ -92,9 +94,9 @@ routes.get('/api/alias/:id_alias(\\d+)/action', (req, res) => {
       if (!alias) return res.sendStatus(404);
       if (alias.enabled !== true) return res.sendStatus(403);
 
-      return dispatch(actions.callScene(alias.sceneId)).then(() => res.end());
+      return dispatch(callScene(alias.sceneId)).then(() => res.end());
     })
     .catch(err => res.status(500).send({ err }));
 });
 
-module.exports = routes;
+export default routes;

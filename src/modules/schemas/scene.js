@@ -1,6 +1,6 @@
-const { TYPES } = require('../type');
+import { TYPES } from '../type';
 
-module.exports = {
+export default {
   $id: 'scene',
   type: 'object',
   additionalProperties: false,

@@ -1,11 +1,12 @@
-const Ajv = require('ajv');
-const roomSchema = require('../schemas/room');
-const knex = require('../../knexClient');
-const Dio = require('./dio');
-const HueLight = require('./hueLight');
-const { returnFirst } = require('../dbUtil');
-const TABLE = 'rooms';
-const COLUMNS = [
+import Ajv from 'ajv';
+import roomSchema from '../schemas/room';
+import knex from '../../knexClient';
+import * as Dio from './dio';
+import * as HueLight from './hueLight';
+import { returnFirst } from '../dbUtil';
+
+export const TABLE = 'rooms';
+export const COLUMNS = [
   { roomId: 'room_id' },
   'description',
   'name',
@@ -14,71 +15,66 @@ const COLUMNS = [
   { createdBy: 'created_by' },
 ];
 
-module.exports = {
-  TABLE,
-  COLUMNS,
+export function validate(data) {
+  const ajv = new Ajv();
+  return ajv.validate(roomSchema, data);
+}
 
-  validate(data) {
-    const ajv = new Ajv();
-    return ajv.validate(roomSchema, data);
-  },
+export function findAll() {
+  return knex(TABLE).select(COLUMNS);
+}
 
-  findAll() {
-    return knex(TABLE).select(COLUMNS);
-  },
+export function findById(id) {
+  return returnFirst(
+    knex(TABLE)
+      .select(COLUMNS)
+      .where('room_id', id),
+  );
+}
 
-  findById(id) {
-    return returnFirst(
-      knex(TABLE)
-        .select(COLUMNS)
-        .where('room_id', id),
-    );
-  },
-
-  save({ name, description, userId }) {
-    const date = new Date();
-    return knex(TABLE)
-      .insert({
+export function save({ name, description, userId }) {
+  const date = new Date();
+  return knex(TABLE)
+    .insert({
+      description,
+      name,
+      created_by: userId,
+      updated_at: date,
+      created_at: date,
+    })
+    .then(([roomId]) => {
+      return {
         description,
+        roomId,
         name,
-        created_by: userId,
-        updated_at: date,
-        created_at: date,
-      })
-      .then(([roomId]) => {
-        return {
-          description,
-          roomId,
-          name,
-          createdAt: date,
-          updatedAt: date,
-          createdBy: userId,
-        };
-      });
-  },
+        createdAt: date,
+        updatedAt: date,
+        createdBy: userId,
+      };
+    });
+}
 
-  async delete(roomId) {
-    const res = await knex
-      .select('room_id')
-      .from(Dio.TABLE)
-      .where('room_id', roomId)
-      .unionAll(function() {
-        this.select('room_id')
-          .from(HueLight.TABLE)
-          .where('room_id', roomId);
-      });
+export async function remove(roomId) {
+  const res = await knex
+    .select('room_id')
+    .from(Dio.TABLE)
+    .where('room_id', roomId)
+    .unionAll(function() {
+      this.select('room_id')
+        .from(HueLight.TABLE)
+        .where('room_id', roomId);
+    });
 
-    if (res.length === 0) {
-      return knex(TABLE)
-        .where('room_id', roomId)
-        .del();
-    }
-    return Promise.resolve(0);
-  },
-
-  findByIdAndUpdate(roomId, payload) {
+  if (res.length === 0) {
     return knex(TABLE)
-      .update({ ...payload, updated_at: new Date() })
-      .where('room_id', roomId);
-  },
-};
+      .where('room_id', roomId)
+      .del();
+  }
+  return Promise.resolve(0);
+}
+
+export function findByIdAndUpdate(roomId, payload) {
+  return knex(TABLE)
+    .update({ ...payload, updated_at: new Date() })
+    .where('room_id', roomId);
+}

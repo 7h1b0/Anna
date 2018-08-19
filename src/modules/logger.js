@@ -13,16 +13,14 @@ function print(text, level, display = process.env.NODE_ENV === 'production') {
   }
 }
 
-module.exports = {
-  info(text, display) {
-    print(text, 'INFO', display);
-  },
+export function info(text, display) {
+  print(text, 'INFO', display);
+}
 
-  warn(text, display) {
-    print(text, 'WARN', display);
-  },
+export function warn(text, display) {
+  print(text, 'WARN', display);
+}
 
-  error(text, display) {
-    print(text, 'ERROR', display);
-  },
-};
+export function error(text, display) {
+  print(text, 'ERROR', display);
+}

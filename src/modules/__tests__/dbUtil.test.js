@@ -1,4 +1,4 @@
-const dbUtil = require('../dbUtil');
+import * as dbUtil from '../dbUtil';
 
 describe('dbUtil', () => {
   describe('returnFirst', () => {

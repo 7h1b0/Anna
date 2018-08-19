@@ -1,9 +1,9 @@
-const MockDate = require('mockdate');
-const request = require('supertest');
-const knex = require('../../knexClient');
-const Room = require('../../modules/models/room');
-const User = require('../../modules/models/user');
-const app = require('../../index.js');
+import MockDate from 'mockdate';
+import request from 'supertest';
+import knex from '../../knexClient';
+import * as Room from '../../modules/models/room';
+import * as User from '../../modules/models/user';
+import app from '../../index.js';
 
 const initRooms = [
   {

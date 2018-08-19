@@ -1,13 +1,13 @@
-const request = require('supertest');
-const MockDate = require('mockdate');
-const knex = require('../../knexClient');
-const Scene = require('../../modules/models/scene');
-const Action = require('../../modules/models/action');
-const User = require('../../modules/models/user');
-const app = require('../../index.js');
+import request from 'supertest';
+import MockDate from 'mockdate';
+import knex from '../../knexClient';
+import * as Scene from '../../modules/models/scene';
+import * as Action from '../../modules/models/action';
+import * as User from '../../modules/models/user';
+import app from '../../index.js';
 
 jest.mock('../../modules/dispatch');
-const dispatch = require('../../modules/dispatch');
+import dispatch from '../../modules/dispatch';
 
 const initScenes = [
   {

@@ -1,21 +1,19 @@
-const crypto = require('crypto');
-const bcrypt = require('bcryptjs');
-const { promisify } = require('util');
+import { randomBytes } from 'crypto';
+import * as bcrypt from 'bcryptjs';
+import { promisify } from 'util';
 
-module.exports = {
-  hash(password) {
-    return bcrypt.genSalt(10).then(salt => {
-      return bcrypt.hash(password, salt);
-    });
-  },
+export function hash(password) {
+  return bcrypt.genSalt(10).then(salt => {
+    return bcrypt.hash(password, salt);
+  });
+}
 
-  verify(password, hashedPassword) {
-    return bcrypt.compare(password, hashedPassword);
-  },
+export function verify(password, hashedPassword) {
+  return bcrypt.compare(password, hashedPassword);
+}
 
-  random(length = 24) {
-    return promisify(crypto.randomBytes)(Math.ceil(length / 2)).then(buf =>
-      buf.toString('hex'),
-    );
-  },
-};
+export function random(length = 24) {
+  return promisify(randomBytes)(Math.ceil(length / 2)).then(buf =>
+    buf.toString('hex'),
+  );
+}

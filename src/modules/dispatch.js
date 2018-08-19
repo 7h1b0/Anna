@@ -1,18 +1,18 @@
-const { HUE_LIGHT, DIO, SCENE } = require('./type');
-const Scene = require('./models/scene');
-const hueService = require('../services/hueService');
-const dioService = require('../services/dioService');
+import { HUE_LIGHT, DIO, SCENE } from './type';
+import { findById as findSceneById } from './models/scene';
+import { setLightState } from '../services/hueService';
+import dioAdd from '../services/dioService';
 
-module.exports = function dispatch({ type, id, body }) {
+export default function dispatch({ type, id, body }) {
   switch (type) {
     case HUE_LIGHT:
-      return hueService.setLightState(id, body);
+      return setLightState(id, body);
 
     case DIO:
-      return dioService.add(id, body.on);
+      return dioAdd(id, body.on);
 
     case SCENE:
-      return Scene.findById(id).then(scene => {
+      return findSceneById(id).then(scene => {
         if (scene) {
           return Promise.all(
             scene.actions.map(({ type, targetId, body }) =>
@@ -26,4 +26,4 @@ module.exports = function dispatch({ type, id, body }) {
     default:
       return Promise.reject(`Unknow type ${type}`);
   }
-};
+}

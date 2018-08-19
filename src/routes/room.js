@@ -1,6 +1,7 @@
-const routes = require('express').Router();
-const Room = require('../modules/models/room');
+import { Router } from 'express';
+import * as Room from '../modules/models/room';
 
+const routes = Router();
 routes
   .route('/api/rooms')
   .get((req, res) => {
@@ -49,7 +50,7 @@ routes
       .catch(err => res.status(500).send({ err }));
   })
   .delete((req, res) => {
-    Room.delete(req.params.room_id)
+    Room.remove(req.params.room_id)
       .then(dio => {
         if (!dio) {
           res.sendStatus(404);
@@ -60,4 +61,4 @@ routes
       .catch(err => res.status(500).send({ err }));
   });
 
-module.exports = routes;
+export default routes;

@@ -1,9 +1,10 @@
-const routes = require('express').Router();
-const hueService = require('../services/hueService');
-const dispatch = require('../modules/dispatch');
-const HueLight = require('../modules/models/hueLight');
-const actions = require('../modules/actions');
+import { Router } from 'express';
+import * as hueService from '../services/hueService';
+import dispatch from '../modules/dispatch';
+import * as HueLight from '../modules/models/hueLight';
+import { toggleHueLight } from '../modules/actions';
 
+const routes = Router();
 function getState({ on, sat, xy, bri }) {
   const state = {};
 
@@ -83,11 +84,9 @@ routes.patch('/api/hue/lights/:id_light([0-9]+)/state', (req, res) => {
 });
 
 routes.get('/api/hue/lights/:id_light([0-9]+)/:status(on|off)', (req, res) => {
-  dispatch(
-    actions.toggleHueLight(req.params.id_light, req.params.status === 'on'),
-  )
+  dispatch(toggleHueLight(req.params.id_light, req.params.status === 'on'))
     .then(result => res.json(result))
     .catch(err => res.status(500).send({ err }));
 });
 
-module.exports = routes;
+export default routes;

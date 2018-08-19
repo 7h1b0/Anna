@@ -1,7 +1,7 @@
-const execService = require('../execService');
+import execService from '../execService';
 
 jest.mock('child_process');
-const child_process = require('child_process');
+import * as child_process from 'child_process';
 
 describe('execService', () => {
   afterEach(() => {

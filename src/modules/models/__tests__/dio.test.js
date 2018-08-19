@@ -1,5 +1,5 @@
-const knex = require('../../../knexClient');
-const Dio = require('../dio');
+import knex from '../../../knexClient';
+import * as Dio from '../dio';
 const initDios = [
   {
     dio_id: 1,
@@ -97,13 +97,13 @@ describe('Dio', () => {
 
   describe('delete', () => {
     it('should delete a dio', async () => {
-      await Dio.delete(1);
+      await Dio.remove(1);
       const dios = await knex(Dio.TABLE).select('*');
       expect(dios).toMatchSnapshot();
     });
 
     it('should not delete a dio', async () => {
-      await Dio.delete(-1);
+      await Dio.remove(-1);
       const dios = await knex(Dio.TABLE).select('*');
       expect(dios).toEqual(initDios);
     });

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   $id: 'scheduleUpdate',
   type: 'object',
   additionalProperties: true,

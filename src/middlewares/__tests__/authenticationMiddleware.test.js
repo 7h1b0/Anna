@@ -1,6 +1,6 @@
-const knex = require('../../knexClient');
-const User = require('../../modules/models/user');
-const authenticationMiddleware = require('../authenticationMiddleware');
+import knex from '../../knexClient';
+import * as User from '../../modules/models/user';
+import authenticationMiddleware from '../authenticationMiddleware';
 const initUsers = [
   {
     user_id: 1,

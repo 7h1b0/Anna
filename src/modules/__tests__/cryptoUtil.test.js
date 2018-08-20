@@ -1,4 +1,4 @@
-const crypto = require('../cryptoUtil');
+import * as crypto from '../cryptoUtil';
 
 describe('cryptoUtil', () => {
   describe('hash', () => {

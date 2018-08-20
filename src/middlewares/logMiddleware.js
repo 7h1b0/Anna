@@ -1,12 +1,12 @@
-const Log = require('../modules/models/log');
-const User = require('../modules/models/user');
-const logger = require('../modules/logger');
+import { save } from '../modules/models/log';
+import { findByToken } from '../modules/models/user';
+import logger from '../modules/logger';
 
 function saveToBDD(
   { method = 'Unknown', ip = 'Unknown', originalUrl = 'Unknown' },
   username = 'Unknown',
 ) {
-  return Log.save({
+  return save({
     httpMethod: method,
     path: originalUrl,
     ip,
@@ -14,11 +14,11 @@ function saveToBDD(
   }).catch(() => logger.error(`${method} - ${originalUrl}`));
 }
 
-module.exports = function logMiddleware(req, res, next) {
+export default function logMiddleware(req, res, next) {
   const token = req.headers['x-access-token'];
 
   if (token) {
-    User.findByToken(token).then(
+    findByToken(token).then(
       res => saveToBDD(req, res ? res.username : 'Unknown'),
       () => saveToBDD(req),
     );
@@ -27,4 +27,4 @@ module.exports = function logMiddleware(req, res, next) {
   }
 
   next();
-};
+}

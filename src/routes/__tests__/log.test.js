@@ -1,7 +1,7 @@
-const request = require('supertest');
-const knex = require('../../knexClient');
-const User = require('../../modules/models/user');
-const app = require('../../index.js');
+import request from 'supertest';
+import knex from '../../knexClient';
+import * as User from '../../modules/models/user';
+import app from '../../index.js';
 
 const user = {
   user_id: 1,

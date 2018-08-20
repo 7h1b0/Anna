@@ -1,26 +1,24 @@
-const type = require('./type');
+import { DIO, HUE_LIGHT, SCENE } from './type';
 
-module.exports = {
-  toggleDio(id, on) {
-    return {
-      type: type.DIO,
-      body: { on },
-      id,
-    };
-  },
+export function toggleDio(id, on) {
+  return {
+    type: DIO,
+    body: { on },
+    id,
+  };
+}
 
-  toggleHueLight(id, on) {
-    return {
-      type: type.HUE_LIGHT,
-      body: { on },
-      id,
-    };
-  },
+export function toggleHueLight(id, on) {
+  return {
+    type: HUE_LIGHT,
+    body: { on },
+    id,
+  };
+}
 
-  callScene(id) {
-    return {
-      type: type.SCENE,
-      id,
-    };
-  },
-};
+export function callScene(id) {
+  return {
+    type: SCENE,
+    id,
+  };
+}

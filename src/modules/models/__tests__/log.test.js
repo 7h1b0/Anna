@@ -1,5 +1,5 @@
-const knex = require('../../../knexClient');
-const Log = require('../log');
+import knex from '../../../knexClient';
+import * as Log from '../log';
 const initDios = [
   {
     id: 1,

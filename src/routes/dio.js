@@ -1,8 +1,9 @@
-const routes = require('express').Router();
-const Dio = require('../modules/models/dio');
-const actions = require('../modules/actions');
-const dispatch = require('../modules/dispatch');
+import { Router } from 'express';
+import * as Dio from '../modules/models/dio';
+import { toggleDio } from '../modules/actions';
+import dispatch from '../modules/dispatch';
 
+const routes = Router();
 routes
   .route('/api/dios')
   .get((req, res) => {
@@ -55,7 +56,7 @@ routes
     }
   })
   .delete((req, res) => {
-    Dio.delete(req.params.id_dio)
+    Dio.remove(req.params.id_dio)
       .then(rowsAffected => {
         if (rowsAffected < 1) {
           res.sendStatus(404);
@@ -67,8 +68,8 @@ routes
   });
 
 routes.get('/api/dios/:id_dio([0-9]+)/:status(on|off)', (req, res) => {
-  dispatch(actions.toggleDio(req.params.id_dio, req.params.status === 'on'));
+  dispatch(toggleDio(req.params.id_dio, req.params.status === 'on'));
   res.end();
 });
 
-module.exports = routes;
+export default routes;

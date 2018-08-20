@@ -1,4 +1,4 @@
-const requestService = require('../requestService');
+import * as requestService from '../requestService';
 
 describe('requestService', () => {
   describe('isSuccess', () => {

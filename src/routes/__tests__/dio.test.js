@@ -1,11 +1,11 @@
-const request = require('supertest');
-const knex = require('../../knexClient');
-const Dio = require('../../modules/models/dio');
-const User = require('../../modules/models/user');
-const app = require('../../index.js');
+import request from 'supertest';
+import knex from '../../knexClient';
+import * as Dio from '../../modules/models/dio';
+import * as User from '../../modules/models/user';
+import app from '../../index.js';
+import dispatch from '../../modules/dispatch';
 
 jest.mock('../../modules/dispatch');
-const dispatch = require('../../modules/dispatch');
 
 const initDios = [
   {

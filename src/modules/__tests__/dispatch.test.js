@@ -1,8 +1,10 @@
-const dispatch = require('../dispatch');
-const hueService = require('../../services/hueService');
-const dioService = require('../../services/dioService');
-const Scene = require('../models/scene');
-const { HUE_LIGHT, DIO, SCENE } = require('../type');
+import dispatch from '../dispatch';
+import * as hueService from '../../services/hueService';
+import dioAdd from '../../services/dioService';
+import * as Scene from '../models/scene';
+import { HUE_LIGHT, DIO, SCENE } from '../type';
+
+jest.mock('../../services/dioService', () => jest.fn(() => Promise.resolve()));
 
 describe('Dispatch', () => {
   beforeAll(() => {
@@ -12,12 +14,11 @@ describe('Dispatch', () => {
       }),
     );
     hueService.setLightState = jest.fn(() => Promise.resolve());
-    dioService.add = jest.fn(() => Promise.resolve());
   });
 
   afterEach(() => {
     hueService.setLightState.mockClear();
-    dioService.add.mockClear();
+    dioAdd.mockClear();
     Scene.findById.mockClear();
   });
 
@@ -30,7 +31,7 @@ describe('Dispatch', () => {
   it('should call dioService when type is DIO', async () => {
     await dispatch({ type: DIO, id: 1, body: { on: false } });
 
-    expect(dioService.add).toHaveBeenCalledWith(1, false);
+    expect(dioAdd).toHaveBeenCalledWith(1, false);
   });
 
   it('should call hueService and dioService when type is SCENE', async () => {

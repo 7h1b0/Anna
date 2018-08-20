@@ -1,10 +1,8 @@
-const uuid = require('uuid/v4');
-const CronJob = require('cron').CronJob;
-const CronTime = require('cron').CronTime;
+import uuid from 'uuid/v4';
+import { CronJob, CronTime } from 'cron';
+import * as logger from '../logger';
 
-const logger = require('../logger');
-
-class Schedule {
+export default class Schedule {
   constructor({ name, interval, cb, runAtPublicHoliday = true }) {
     this.attrs = {};
     this.attrs._id = uuid();
@@ -169,5 +167,3 @@ class Schedule {
     );
   }
 }
-
-module.exports = Schedule;

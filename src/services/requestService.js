@@ -1,8 +1,8 @@
-const http = require('http');
-const https = require('https');
-const urlParser = require('url');
+import http from 'http';
+import https from 'https';
+import urlParser from 'url';
 
-function getRoute(url, method = 'GET', body) {
+export function getRoute(url, method = 'GET', body) {
   const parsed = urlParser.parse(url);
   const route = {
     timeout: 2000,
@@ -18,7 +18,7 @@ function getRoute(url, method = 'GET', body) {
   return route;
 }
 
-function isSuccess(status) {
+export function isSuccess(status) {
   return status >= 200 && status < 300;
 }
 
@@ -54,27 +54,22 @@ function request(route) {
   });
 }
 
-module.exports = {
-  get(url) {
-    const route = getRoute(url, 'GET');
-    return request(route);
-  },
+export function get(url) {
+  const route = getRoute(url, 'GET');
+  return request(route);
+}
 
-  put(url, body) {
-    const route = getRoute(url, 'PUT', body);
-    return request(route);
-  },
+export function put(url, body) {
+  const route = getRoute(url, 'PUT', body);
+  return request(route);
+}
 
-  post(url, body) {
-    const route = getRoute(url, 'POST', body);
-    return request(route);
-  },
+export function post(url, body) {
+  const route = getRoute(url, 'POST', body);
+  return request(route);
+}
 
-  delete(url) {
-    const route = getRoute(url, 'DELETE');
-    return request(route);
-  },
-
-  getRoute,
-  isSuccess,
-};
+export function del(url) {
+  const route = getRoute(url, 'DELETE');
+  return request(route);
+}

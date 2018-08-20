@@ -1,7 +1,7 @@
-const MockDate = require('mockdate');
-const knex = require('../../../knexClient');
-const Room = require('../room');
-const Dio = require('../dio');
+import MockDate from 'mockdate';
+import knex from '../../../knexClient';
+import * as Room from '../room';
+import * as Dio from '../dio';
 const initRooms = [
   {
     room_id: 1,
@@ -88,19 +88,19 @@ describe('Room', () => {
 
   describe('delete', () => {
     it('should delete a room', async () => {
-      await Room.delete(1);
+      await Room.remove(1);
       const rooms = await knex(Room.TABLE).select('*');
       expect(rooms).toMatchSnapshot();
     });
 
     it('should not delete a room', async () => {
-      await Room.delete(-1);
+      await Room.remove(-1);
       const rooms = await knex(Room.TABLE).select('*');
       expect(rooms).toEqual(initRooms);
     });
 
     it('should not delete a room if devices are still in it', async () => {
-      const res = await Room.delete(2);
+      const res = await Room.remove(2);
       expect(res).toBe(0);
       const rooms = await knex(Room.TABLE).select('*');
       expect(rooms).toEqual(initRooms);

@@ -1,8 +1,8 @@
-const app = require('./src/index.js');
-const logger = require('./src/modules/logger');
+import app from './src/index.js';
+import { info } from './src/modules/logger';
 
 const { PORT } = require('./src/constants');
 
 app.listen(PORT, () => {
-  logger.info(`Anna is listening on port ${PORT}`);
+  info(`Anna is listening on port ${PORT}`);
 });

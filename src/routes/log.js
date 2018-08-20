@@ -1,6 +1,7 @@
-const routes = require('express').Router();
-const Log = require('../modules/models/log');
+import { Router } from 'express';
+import * as Log from '../modules/models/log';
 
+const routes = Router();
 function getQuery(limit = 20) {
   return Log.findWithLimit(limit);
 }
@@ -32,4 +33,4 @@ routes.get('/api/log/:limit([0-9]+)', (req, res) => {
     .catch(err => res.status(500).send({ err }));
 });
 
-module.exports = routes;
+export default routes;

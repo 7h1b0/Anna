@@ -1,5 +1,3 @@
-module.exports = {
-  returnFirst(sql) {
-    return sql.then(result => result[0]);
-  },
-};
+export function returnFirst(sql) {
+  return sql.then(result => result[0]);
+}

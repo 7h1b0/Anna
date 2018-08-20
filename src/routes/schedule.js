@@ -1,6 +1,7 @@
-const routes = require('express').Router();
-const scheduleService = require('../services/scheduleService');
+import { Router } from 'express';
+import scheduleService from '../services/scheduleService';
 
+const routes = Router();
 routes.route('/api/schedules').get((req, res) => {
   const schedules = scheduleService.getAll();
   res.json(schedules);
@@ -65,4 +66,4 @@ routes.get('/api/schedules/:id_schedule([0-9a-z-]{36})/action', (req, res) => {
   }
 });
 
-module.exports = routes;
+export default routes;

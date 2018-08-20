@@ -1,7 +1,7 @@
-const Schedule = require('../schedule');
+import Schedule from '../schedule';
+import * as cron from 'cron';
 
 jest.mock('cron');
-const cron = require('cron');
 
 describe('Schedule', () => {
   afterEach(() => {

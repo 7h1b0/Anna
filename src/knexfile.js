@@ -1,3 +1,8 @@
+/**
+ * This file use module.exports in order to be
+ * used by knex for migration/rollback
+ */
+
 module.exports = {
   development: {
     seeds: {

@@ -1,10 +1,9 @@
-const { TABLE } = require('../src/modules/models/user');
-
 /**
  * Insert a fake user into user table
  * User is identified by test as username and anna as password
  */
 exports.seed = function(knex, Promise) {
+  const TABLE = 'users';
   return knex(TABLE)
     .del()
     .then(() => {

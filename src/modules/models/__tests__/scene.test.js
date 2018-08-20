@@ -1,7 +1,7 @@
-const MockDate = require('mockdate');
-const knex = require('../../../knexClient');
-const Scene = require('../scene');
-const Action = require('../action');
+import MockDate from 'mockdate';
+import knex from '../../../knexClient';
+import * as Scene from '../scene';
+import * as Action from '../action';
 const initScenes = [
   {
     scene_id: 1,
@@ -84,7 +84,7 @@ describe('Scene', () => {
 
   describe('delete', () => {
     it('should delete a scene', async () => {
-      await Scene.delete(1);
+      await Scene.remove(1);
       const scenes = await knex(Scene.TABLE)
         .select('*')
         .where('scene_id', 1);
@@ -96,7 +96,7 @@ describe('Scene', () => {
     });
 
     it('should not delete a scene', async () => {
-      await Scene.delete(-1);
+      await Scene.remove(-1);
       const scenes = await knex(Scene.TABLE).select('*');
       const actions = await knex(Action.TABLE).select('*');
       expect(scenes).toEqual(initScenes);

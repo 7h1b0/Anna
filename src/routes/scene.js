@@ -1,9 +1,10 @@
-const routes = require('express').Router();
-const Scene = require('../modules/models/scene');
-const { callScene } = require('../modules/actions');
-const dispatch = require('../modules/dispatch');
-const logger = require('../modules/logger');
+import { Router } from 'express';
+import * as Scene from '../modules/models/scene';
+import { callScene } from '../modules/actions';
+import dispatch from '../modules/dispatch';
+import * as logger from '../modules/logger';
 
+const routes = Router();
 routes
   .route('/api/scenes')
   .get((req, res) => {
@@ -52,7 +53,7 @@ routes
       .catch(err => res.status(500).send({ err }));
   })
   .delete((req, res) => {
-    Scene.delete(req.params.id_scene)
+    Scene.remove(req.params.id_scene)
       .then(([removedScene]) => {
         if (removedScene < 1) {
           res.sendStatus(404);
@@ -74,4 +75,4 @@ routes.get('/api/scenes/:id_scene([0-9]+)/action', (req, res) => {
     });
 });
 
-module.exports = routes;
+export default routes;

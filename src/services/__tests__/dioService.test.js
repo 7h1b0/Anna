@@ -1,7 +1,7 @@
-const dioService = require('../dioService');
+import dioAdd from '../dioService';
+import execService from '../execService';
 
 jest.mock('../execService');
-const execService = require('../execService');
 
 describe('dioService', () => {
   afterEach(() => {
@@ -9,14 +9,14 @@ describe('dioService', () => {
   });
 
   it('should call radioEmission script with valid parameters', async () => {
-    const res = await dioService.add(1, true);
+    const res = await dioAdd(1, true);
     expect(res).toBeUndefined();
     expect(execService).toHaveBeenCalledTimes(1);
     expect(execService.mock.calls[0][0]).toEqual(`./radioEmission 1 1`);
   });
 
   it('should call radioEmission script with valid parameters', async () => {
-    const res = await dioService.add(1, false);
+    const res = await dioAdd(1, false);
     expect(res).toBeUndefined();
     expect(execService).toHaveBeenCalledTimes(1);
     expect(execService.mock.calls[0][0]).toEqual(`./radioEmission 1 0`);

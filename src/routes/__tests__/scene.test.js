@@ -5,9 +5,9 @@ import * as Scene from '../../modules/models/scene';
 import * as Action from '../../modules/models/action';
 import * as User from '../../modules/models/user';
 import app from '../../index.js';
+import dispatch from '../../modules/dispatch';
 
 jest.mock('../../modules/dispatch');
-import dispatch from '../../modules/dispatch';
 
 const initScenes = [
   {

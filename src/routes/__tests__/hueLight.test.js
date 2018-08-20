@@ -3,9 +3,9 @@ import knex from '../../knexClient';
 import * as User from '../../modules/models/user';
 import * as hueLight from '../../modules/models/hueLight';
 import app from '../../index.js';
+import * as requestService from '../../services/requestService';
 
 jest.mock('../../services/requestService');
-import * as requestService from '../../services/requestService';
 
 const user = {
   user_id: 1,

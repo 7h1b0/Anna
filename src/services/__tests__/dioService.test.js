@@ -1,7 +1,7 @@
 import dioAdd from '../dioService';
+import execService from '../execService';
 
 jest.mock('../execService');
-import execService from '../execService';
 
 describe('dioService', () => {
   afterEach(() => {

@@ -1,4 +1,3 @@
-import * as os from 'os';
 import { Router } from 'express';
 import * as Scene from '../modules/models/scene';
 import * as Dio from '../modules/models/dio';

@@ -4,9 +4,9 @@ import knex from '../../knexClient';
 import * as Alias from '../../modules/models/alias';
 import * as User from '../../modules/models/user';
 import app from '../../index.js';
+import dispatch from '../../modules/dispatch';
 
 jest.mock('../../modules/dispatch');
-import dispatch from '../../modules/dispatch';
 
 const initAlias = [
   {

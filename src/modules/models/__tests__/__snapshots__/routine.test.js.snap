@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Routines findAll should return all routines 1`] = `
+Array [
+  RowDataPacket {
+    "createdAt": 2018-01-01T00:00:00.000Z,
+    "createdBy": 1,
+    "enabled": true,
+    "failedAt": "0000-00-00 00:00:00",
+    "lastRunAt": "0000-00-00 00:00:00",
+    "name": "test at 5am",
+    "nextRunAt": "0000-00-00 00:00:00",
+    "routineId": 1,
+    "runAtBankHoliday": true,
+    "sceneId": "1",
+    "schedule": "0 5 * * *",
+    "updatedAt": 2018-01-02T00:00:00.000Z,
+  },
+  RowDataPacket {
+    "createdAt": 2018-01-01T00:00:00.000Z,
+    "createdBy": 1,
+    "enabled": true,
+    "failedAt": "0000-00-00 00:00:00",
+    "lastRunAt": "0000-00-00 00:00:00",
+    "name": "test at 9am",
+    "nextRunAt": "0000-00-00 00:00:00",
+    "routineId": 2,
+    "runAtBankHoliday": true,
+    "sceneId": "1",
+    "schedule": "0 9 * * *",
+    "updatedAt": 2018-01-02T00:00:00.000Z,
+  },
+]
+`;
+
+exports[`Routines findById should return only one routine 1`] = `
+RowDataPacket {
+  "createdAt": 2018-01-01T00:00:00.000Z,
+  "createdBy": 1,
+  "enabled": true,
+  "failedAt": "0000-00-00 00:00:00",
+  "lastRunAt": "0000-00-00 00:00:00",
+  "name": "test at 5am",
+  "nextRunAt": "0000-00-00 00:00:00",
+  "routineId": 1,
+  "runAtBankHoliday": true,
+  "sceneId": "1",
+  "schedule": "0 5 * * *",
+  "updatedAt": 2018-01-02T00:00:00.000Z,
+}
+`;
+
+exports[`Routines save should save a new routine 1`] = `
+Object {
+  "created_at": Any<Date>,
+  "created_by": 1,
+  "enabled": true,
+  "failed_at": "0000-00-00 00:00:00",
+  "last_run_at": "0000-00-00 00:00:00",
+  "name": "test_3",
+  "next_run_at": "0000-00-00 00:00:00",
+  "routine_id": 3,
+  "run_at_bank_holiday": true,
+  "scene_id": "1",
+  "schedule": "schedule",
+  "updated_at": Any<Date>,
+}
+`;

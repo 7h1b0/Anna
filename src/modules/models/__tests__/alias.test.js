@@ -1,4 +1,3 @@
-import MockDate from 'mockdate';
 import knex from '../../../knexClient';
 import * as Alias from '../alias';
 const initAlias = [
@@ -34,7 +33,6 @@ describe('Alias', () => {
   });
 
   afterEach(async () => {
-    MockDate.reset();
     await knex(Alias.TABLE).truncate();
   });
 
@@ -63,7 +61,6 @@ describe('Alias', () => {
 
   describe('save', () => {
     it('should save a new alias', async () => {
-      MockDate.set('2018-05-05');
       const save = {
         aliasId: 3,
         sceneId: 1,
@@ -75,9 +72,12 @@ describe('Alias', () => {
 
       await Alias.save(save);
       const alias = await knex(Alias.TABLE)
-        .select('*')
+        .first('*')
         .where('alias_id', 3);
-      expect(alias).toMatchSnapshot();
+      expect(alias).toMatchSnapshot({
+        created_at: expect.any(Date),
+        updated_at: expect.any(Date),
+      });
     });
 
     it('should accept when an alias as a name already taken', async () => {
@@ -109,10 +109,14 @@ describe('Alias', () => {
 
   describe('findByIdAndUpdate', () => {
     it('should update a alias', async () => {
-      MockDate.set('2018-05-05');
       await Alias.findByIdAndUpdate(1, { name: 'updated' });
-      const alias = await knex(Alias.TABLE).select('*');
-      expect(alias).toMatchSnapshot();
+      const alias = await knex(Alias.TABLE)
+        .first('*')
+        .where('alias_id', 1);
+      expect(alias).toMatchSnapshot({
+        created_at: expect.any(Date),
+        updated_at: expect.any(Date),
+      });
     });
 
     it('should not update an alias if id is unknow', async () => {

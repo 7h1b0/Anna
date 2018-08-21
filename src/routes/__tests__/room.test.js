@@ -1,4 +1,3 @@
-import MockDate from 'mockdate';
 import request from 'supertest';
 import knex from '../../knexClient';
 import * as Room from '../../modules/models/room';
@@ -42,7 +41,6 @@ describe('Rooms API', () => {
   });
 
   afterEach(async () => {
-    MockDate.reset();
     await knex(Room.TABLE).truncate();
   });
 
@@ -74,7 +72,6 @@ describe('Rooms API', () => {
 
     describe('POST', () => {
       it('should create a new room', async () => {
-        MockDate.set('2018-05-05');
         const response = await request(app)
           .post('/api/rooms')
           .set('Accept', 'application/json')
@@ -88,9 +85,12 @@ describe('Rooms API', () => {
         expect(response.body).toMatchSnapshot();
 
         const rooms = await knex(Room.TABLE)
-          .select('*')
+          .first('*')
           .where('room_id', 3);
-        expect(rooms).toMatchSnapshot();
+        expect(rooms).toMatchSnapshot({
+          created_at: expect.any(Date),
+          updated_at: expect.any(Date),
+        });
       });
 
       it('should return 401 when user is not authenticated', async () => {
@@ -148,7 +148,6 @@ describe('Rooms API', () => {
 
     describe('PATCH', () => {
       it('should update an room', async () => {
-        MockDate.set('2018-05-05');
         const response = await request(app)
           .patch('/api/rooms/1')
           .set('Accept', 'application/json')
@@ -161,10 +160,13 @@ describe('Rooms API', () => {
         expect(response.status).toBe(204);
 
         const room = await knex(Room.TABLE)
-          .select('*')
+          .first('*')
           .where('room_id', 1);
 
-        expect(room).toMatchSnapshot();
+        expect(room).toMatchSnapshot({
+          created_at: expect.any(Date),
+          updated_at: expect.any(Date),
+        });
       });
 
       it('should return 401 when user is not authenticated', async () => {

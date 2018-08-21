@@ -1,16 +1,13 @@
 import Ajv from 'ajv';
 import userSchema from '../schemas/user';
 import knex from '../../knexClient';
-import { returnFirst } from '../dbUtil';
 
 export const TABLE = 'users';
 
 export function findByToken(token) {
-  return returnFirst(
-    knex(TABLE)
-      .select({ userId: 'user_id' }, 'username')
-      .where('token', token),
-  );
+  return knex(TABLE)
+    .first({ userId: 'user_id' }, 'username')
+    .where('token', token);
 }
 
 export function findAll() {
@@ -18,11 +15,9 @@ export function findAll() {
 }
 
 export function findByUsername(username) {
-  return returnFirst(
-    knex(TABLE)
-      .select({ userId: 'user_id' }, 'username', 'password', 'token')
-      .where('username', username),
-  );
+  return knex(TABLE)
+    .first({ userId: 'user_id' }, 'username', 'password', 'token')
+    .where('username', username);
 }
 
 export function findByIdAndUpdate(userId, payload) {

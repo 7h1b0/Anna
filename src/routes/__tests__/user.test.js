@@ -50,12 +50,12 @@ describe('User API', () => {
       expect(response.body).toHaveProperty('userId');
 
       const users = await knex(User.TABLE)
-        .select('*')
+        .first('*')
         .where('user_id', response.body.userId);
 
-      expect(users[0]).toHaveProperty('username', response.body.username);
-      expect(users[0]).toHaveProperty('token', response.body.token);
-      expect(users[0].password).not.toBe('anna');
+      expect(users).toHaveProperty('username', response.body.username);
+      expect(users).toHaveProperty('token', response.body.token);
+      expect(users.password).not.toBe('anna');
     });
   });
 
@@ -154,9 +154,11 @@ describe('User API', () => {
           .send({ username: 'test_changed', password: 'anna' });
 
         expect(response.status).toBe(204);
-        const users = await knex(User.TABLE).select('*');
+        const users = await knex(User.TABLE)
+          .first('*')
+          .where('user_id', 1);
 
-        expect(users[0]).toHaveProperty('username', user.username);
+        expect(users).toHaveProperty('username', user.username);
       });
 
       it('should update password', async () => {

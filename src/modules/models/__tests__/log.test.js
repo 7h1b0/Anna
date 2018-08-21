@@ -83,7 +83,6 @@ describe('Logs', () => {
         path: '/test/third',
         ip: '127.0.0.1',
         username: 'test',
-        createdAt: new Date(2019, 1, 1),
       };
 
       const expected = [
@@ -92,7 +91,7 @@ describe('Logs', () => {
           path: '/test/third',
           ip: '127.0.0.1',
           username: 'test',
-          createdAt: new Date(2019, 1, 1),
+          createdAt: expect.any(Date),
         },
       ];
 

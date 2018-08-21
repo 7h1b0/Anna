@@ -24,13 +24,13 @@ export function findAll() {
 
 export function findById(sceneId) {
   const fetchScene = knex(TABLE)
-    .select(COLUMNS)
+    .first(COLUMNS)
     .where('scene_id', sceneId);
   const fetchActions = findBySceneId(sceneId);
 
   return Promise.all([fetchScene, fetchActions]).then(([scene, actions]) => {
-    if (scene.length > 0) {
-      return { ...scene[0], actions };
+    if (scene && scene.length > 0) {
+      return { ...scene, actions };
     }
     return;
   });
@@ -40,7 +40,7 @@ export function findByIdAndUpdate({ sceneId, name, description, actions }) {
   return knex
     .transaction(trx => {
       return trx
-        .update({ name, description, updated_at: new Date() })
+        .update({ name, description })
         .where('scene_id', sceneId)
         .into(TABLE)
         .then(row => {
@@ -76,15 +76,12 @@ export function findByIdAndUpdate({ sceneId, name, description, actions }) {
 }
 
 export function save({ name, description, userId, actions }) {
-  const date = new Date();
   return knex.transaction(trx => {
     return trx
       .insert({
         description,
         name,
         created_by: userId,
-        updated_at: date,
-        created_at: date,
       })
       .into(TABLE)
       .then(([sceneId]) => {

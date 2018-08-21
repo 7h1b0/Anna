@@ -1,4 +1,3 @@
-import MockDate from 'mockdate';
 import request from 'supertest';
 import knex from '../../knexClient';
 import * as Alias from '../../modules/models/alias';
@@ -49,7 +48,6 @@ describe('Alias API', () => {
   });
 
   afterEach(async () => {
-    MockDate.reset();
     await knex(Alias.TABLE).truncate();
     dispatch.mockClear();
   });
@@ -82,7 +80,6 @@ describe('Alias API', () => {
 
     describe('POST', () => {
       it('should create a new alias', async () => {
-        MockDate.set('2018-05-05');
         const response = await request(app)
           .post('/api/alias')
           .set('Accept', 'application/json')
@@ -98,9 +95,12 @@ describe('Alias API', () => {
         expect(response.body).toMatchSnapshot();
 
         const alias = await knex(Alias.TABLE)
-          .select('*')
+          .first('*')
           .where('alias_id', 3);
-        expect(alias[0]).toMatchSnapshot();
+        expect(alias).toMatchSnapshot({
+          created_at: expect.any(Date),
+          updated_at: expect.any(Date),
+        });
       });
 
       it('should retun 401 when user is not authenticated', async () => {
@@ -161,7 +161,6 @@ describe('Alias API', () => {
 
     describe('PATCH', () => {
       it('should update an alias', async () => {
-        MockDate.set('2018-05-05');
         const response = await request(app)
           .patch('/api/alias/1')
           .set('Accept', 'application/json')
@@ -176,10 +175,13 @@ describe('Alias API', () => {
         expect(response.status).toBe(204);
 
         const alias = await knex(Alias.TABLE)
-          .select('*')
+          .first('*')
           .where('alias_id', 1);
 
-        expect(alias[0]).toMatchSnapshot();
+        expect(alias).toMatchSnapshot({
+          created_at: expect.any(Date),
+          updated_at: expect.any(Date),
+        });
       });
 
       it('should retun 401 when user is not authenticated', async () => {
@@ -260,7 +262,6 @@ describe('Alias API', () => {
 
   describe('/api/alias/:id/:enabled', () => {
     it('should enable an alias', async () => {
-      MockDate.set('2018-05-05');
       const response = await request(app)
         .get('/api/alias/2/enable')
         .set('Accept', 'application/json')
@@ -269,14 +270,16 @@ describe('Alias API', () => {
       expect(response.status).toBe(204);
 
       const alias = await knex(Alias.TABLE)
-        .select('*')
+        .first('*')
         .where('alias_id', 2);
 
-      expect(alias).toMatchSnapshot();
+      expect(alias).toMatchSnapshot({
+        created_at: expect.any(Date),
+        updated_at: expect.any(Date),
+      });
     });
 
     it('should disable an alias', async () => {
-      MockDate.set('2018-05-05');
       const response = await request(app)
         .get('/api/alias/1/disable')
         .set('Accept', 'application/json')
@@ -285,10 +288,13 @@ describe('Alias API', () => {
       expect(response.status).toBe(204);
 
       const alias = await knex(Alias.TABLE)
-        .select('*')
+        .first('*')
         .where('alias_id', 1);
 
-      expect(alias).toMatchSnapshot();
+      expect(alias).toMatchSnapshot({
+        created_at: expect.any(Date),
+        updated_at: expect.any(Date),
+      });
     });
 
     it('should retun 401 when user is not authenticated', async () => {

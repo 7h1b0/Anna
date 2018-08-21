@@ -82,9 +82,9 @@ describe('Dio API', () => {
         expect(response.status).toBe(201);
 
         const dio = await knex(Dio.TABLE)
-          .select('*')
+          .first('*')
           .where('dio_id', 3);
-        expect(dio[0]).toEqual({
+        expect(dio).toEqual({
           dio_id: 3,
           name: 'test_post',
           room_id: 1,
@@ -166,10 +166,10 @@ describe('Dio API', () => {
         expect(response.status).toBe(204);
 
         const dio = await knex(Dio.TABLE)
-          .select('*')
+          .first('*')
           .where('room_id', 1);
 
-        expect(dio[0]).toEqual({
+        expect(dio).toEqual({
           dio_id: 1,
           name: 'test_updated',
           room_id: 1,

@@ -1,14 +1,11 @@
 import knex from '../../knexClient';
-import { returnFirst } from '../dbUtil';
 export const TABLE = 'lights';
 export const COLUMNS = [{ roomId: 'room_id' }, { lightId: 'light_id' }];
 
 export function findRoomId(lightId) {
-  return returnFirst(
-    knex(TABLE)
-      .select({ roomId: 'room_id' })
-      .where('light_id', lightId),
-  );
+  return knex(TABLE)
+    .first({ roomId: 'room_id' })
+    .where('light_id', lightId);
 }
 
 export function findAll() {

@@ -1,7 +1,6 @@
 import Ajv from 'ajv';
 import dioSchema from '../schemas/dio';
 import knex from '../../knexClient';
-import { returnFirst } from '../dbUtil';
 
 export const TABLE = 'dios';
 
@@ -15,11 +14,9 @@ export function findAll() {
 }
 
 export function findById(id) {
-  return returnFirst(
-    knex(TABLE)
-      .select({ dioId: 'dio_id' }, { roomId: 'room_id' }, 'name')
-      .where('dio_id', id),
-  );
+  return knex(TABLE)
+    .first({ dioId: 'dio_id' }, { roomId: 'room_id' }, 'name')
+    .where('dio_id', id);
 }
 
 export function save({ dioId, roomId, name }) {

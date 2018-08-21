@@ -4,16 +4,22 @@ exports.up = function(knex, Promise) {
     table.string('username').notNullable();
     table.string('password').notNullable();
     table.string('token').notNullable();
-    // table.unique('username');
   });
 
   const createRoomsTable = knex.schema.createTable('rooms', table => {
     table.increments('room_id');
     table.string('name').notNullable();
     table.string('description');
-    table.timestamp('created_at').defaultTo(knex.fn.now());
-    table.timestamp('updated_at').defaultTo(knex.fn.now());
-    table.integer('created_by')
+    table
+      .timestamp('created_at')
+      .notNullable()
+      .defaultTo(knex.raw('CURRENT_TIMESTAMP'));
+    table
+      .timestamp('updated_at')
+      .notNullable()
+      .defaultTo(knex.raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+    table
+      .integer('created_by')
       .unsigned()
       .notNullable();
   });
@@ -40,9 +46,16 @@ exports.up = function(knex, Promise) {
     table.increments('scene_id');
     table.string('name');
     table.string('description');
-    table.timestamp('created_at').defaultTo(knex.fn.now());
-    table.timestamp('updated_at').defaultTo(knex.fn.now());
-    table.integer('created_by')
+    table
+      .timestamp('created_at')
+      .notNullable()
+      .defaultTo(knex.raw('CURRENT_TIMESTAMP'));
+    table
+      .timestamp('updated_at')
+      .notNullable()
+      .defaultTo(knex.raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+    table
+      .integer('created_by')
       .unsigned()
       .notNullable();
   });
@@ -68,9 +81,16 @@ exports.up = function(knex, Promise) {
     table.string('name').notNullable();
     table.string('description');
     table.boolean('enabled').defaultTo(true);
-    table.timestamp('created_at').defaultTo(knex.fn.now());
-    table.timestamp('updated_at').defaultTo(knex.fn.now());
-    table.integer('created_by')
+    table
+      .timestamp('created_at')
+      .notNullable()
+      .defaultTo(knex.raw('CURRENT_TIMESTAMP'));
+    table
+      .timestamp('updated_at')
+      .notNullable()
+      .defaultTo(knex.raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+    table
+      .integer('created_by')
       .unsigned()
       .notNullable();
   });

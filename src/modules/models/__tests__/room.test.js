@@ -1,4 +1,3 @@
-import MockDate from 'mockdate';
 import knex from '../../../knexClient';
 import * as Room from '../room';
 import * as Dio from '../dio';
@@ -38,7 +37,6 @@ describe('Room', () => {
   });
 
   afterEach(async () => {
-    MockDate.reset();
     await knex(Room.TABLE).truncate();
   });
 
@@ -68,7 +66,6 @@ describe('Room', () => {
 
   describe('save', () => {
     it('should save a new room', async () => {
-      MockDate.set('2018-05-05');
       const save = {
         name: 'test-save',
         description: 'test',
@@ -79,10 +76,13 @@ describe('Room', () => {
       expect(newRoom).toMatchSnapshot();
 
       const rooms = await knex(Room.TABLE)
-        .select('*')
+        .first('*')
         .where('room_id', 3);
 
-      expect(rooms).toMatchSnapshot();
+      expect(rooms).toMatchSnapshot({
+        created_at: expect.any(Date),
+        updated_at: expect.any(Date),
+      });
     });
   });
 
@@ -109,11 +109,15 @@ describe('Room', () => {
 
   describe('findByIdAndUpdate', () => {
     it('should update a room', async () => {
-      MockDate.set('2018-05-05');
       const rowsAffected = await Room.findByIdAndUpdate(1, { name: 'updated' });
       expect(rowsAffected).toBe(1);
-      const rooms = await knex(Room.TABLE).select('*');
-      expect(rooms).toMatchSnapshot();
+      const room = await knex(Room.TABLE)
+        .first('*')
+        .where('room_id', 1);
+      expect(room).toMatchSnapshot({
+        created_at: expect.any(Date),
+        updated_at: expect.any(Date),
+      });
     });
 
     it('should not update a room', async () => {

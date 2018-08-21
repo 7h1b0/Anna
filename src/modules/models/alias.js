@@ -1,7 +1,6 @@
 import knex from '../../knexClient';
 import Ajv from 'ajv';
 import aliasSchema from '../schemas/alias';
-import { returnFirst } from '../dbUtil';
 
 export const TABLE = 'alias';
 export const COLUMNS = [
@@ -25,15 +24,12 @@ export function findAll() {
 }
 
 export function findById(aliasId) {
-  return returnFirst(
-    knex(TABLE)
-      .select(COLUMNS)
-      .where('alias_id', aliasId),
-  );
+  return knex(TABLE)
+    .first(COLUMNS)
+    .where('alias_id', aliasId);
 }
 
 export function save({ sceneId, name, description, userId, enabled = true }) {
-  const date = new Date();
   return knex(TABLE)
     .insert({
       scene_id: sceneId,
@@ -41,8 +37,6 @@ export function save({ sceneId, name, description, userId, enabled = true }) {
       name,
       enabled,
       created_by: userId,
-      updated_at: date,
-      created_at: date,
     })
     .then(([aliasId]) => {
       return {
@@ -50,8 +44,6 @@ export function save({ sceneId, name, description, userId, enabled = true }) {
         description,
         enabled,
         sceneId,
-        createdAt: date,
-        updatedAt: date,
         createdBy: userId,
       };
     });
@@ -65,6 +57,6 @@ export function remove(aliasId) {
 
 export function findByIdAndUpdate(aliasId, payload) {
   return knex(TABLE)
-    .update({ ...payload, updated_at: new Date() })
+    .update({ ...payload })
     .where('alias_id', aliasId);
 }

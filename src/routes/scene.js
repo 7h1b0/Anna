@@ -35,7 +35,10 @@ routes
           res.json(scene);
         }
       })
-      .catch(err => res.status(500).send({ err }));
+      .catch(err => {
+        console.log(err);
+        res.status(500).send({ err });
+      });
   })
   .patch((req, res) => {
     const isValid = Scene.validate(req.body);

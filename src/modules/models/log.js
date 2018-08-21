@@ -8,19 +8,12 @@ export const COLUMNS = [
   'username',
 ];
 
-export function save({
-  httpMethod,
-  path,
-  ip,
-  username,
-  createdAt = new Date(),
-}) {
+export function save({ httpMethod, path, ip, username }) {
   return knex(TABLE).insert({
     httpMethod,
     path,
     ip,
     username,
-    created_at: createdAt,
   });
 }
 

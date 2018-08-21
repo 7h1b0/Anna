@@ -1,4 +1,3 @@
-import MockDate from 'mockdate';
 import knex from '../../../knexClient';
 import * as Scene from '../scene';
 import * as Action from '../action';
@@ -64,7 +63,6 @@ describe('Scene', () => {
   });
 
   afterEach(async () => {
-    MockDate.reset();
     await Promise.all([
       knex(Scene.TABLE).truncate(),
       knex(Action.TABLE).truncate(),
@@ -106,7 +104,6 @@ describe('Scene', () => {
 
   describe('save', () => {
     it('should save a new scene', async () => {
-      MockDate.set('2018-05-05');
       const scene = {
         description: 'save test',
         name: 'scene_3',
@@ -136,19 +133,21 @@ describe('Scene', () => {
       expect(id).toBe(3);
 
       const scenes = await knex(Scene.TABLE)
-        .select('*')
-        .where('scene_id', 3);
+        .first('*')
+        .where('scene_id', id);
       const actions = await knex(Action.TABLE)
         .select('*')
-        .where('scene_id', 3);
-      expect(scenes).toMatchSnapshot();
+        .where('scene_id', id);
+      expect(scenes).toMatchSnapshot({
+        created_at: expect.any(Date),
+        updated_at: expect.any(Date),
+      });
       expect(actions).toMatchSnapshot();
     });
   });
 
   describe('findByIdAndUpdate', () => {
     it('should update a scene', async () => {
-      MockDate.set('2018-05-05');
       const updatedScene = {
         sceneId: 2,
         description: 'this is an updated second test',
@@ -172,12 +171,15 @@ describe('Scene', () => {
       await Scene.findByIdAndUpdate(updatedScene);
 
       const scenes = await knex(Scene.TABLE)
-        .select('*')
+        .first('*')
         .where('scene_id', 2);
       const actions = await knex(Action.TABLE)
         .select('*')
         .where('scene_id', 2);
-      expect(scenes).toMatchSnapshot();
+      expect(scenes).toMatchSnapshot({
+        created_at: expect.any(Date),
+        updated_at: expect.any(Date),
+      });
       expect(actions).toMatchSnapshot();
     });
 

@@ -3,7 +3,6 @@ import roomSchema from '../schemas/room';
 import knex from '../../knexClient';
 import * as Dio from './dio';
 import * as HueLight from './hueLight';
-import { returnFirst } from '../dbUtil';
 
 export const TABLE = 'rooms';
 export const COLUMNS = [
@@ -25,30 +24,23 @@ export function findAll() {
 }
 
 export function findById(id) {
-  return returnFirst(
-    knex(TABLE)
-      .select(COLUMNS)
-      .where('room_id', id),
-  );
+  return knex(TABLE)
+    .first(COLUMNS)
+    .where('room_id', id);
 }
 
 export function save({ name, description, userId }) {
-  const date = new Date();
   return knex(TABLE)
     .insert({
       description,
       name,
       created_by: userId,
-      updated_at: date,
-      created_at: date,
     })
     .then(([roomId]) => {
       return {
         description,
         roomId,
         name,
-        createdAt: date,
-        updatedAt: date,
         createdBy: userId,
       };
     });
@@ -75,6 +67,6 @@ export async function remove(roomId) {
 
 export function findByIdAndUpdate(roomId, payload) {
   return knex(TABLE)
-    .update({ ...payload, updated_at: new Date() })
+    .update({ ...payload })
     .where('room_id', roomId);
 }

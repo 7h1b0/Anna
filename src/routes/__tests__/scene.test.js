@@ -1,5 +1,4 @@
 import request from 'supertest';
-import MockDate from 'mockdate';
 import knex from '../../knexClient';
 import * as Scene from '../../modules/models/scene';
 import * as Action from '../../modules/models/action';
@@ -78,7 +77,6 @@ describe('Scene API', () => {
     await knex(Scene.TABLE).truncate();
     await knex(Action.TABLE).truncate();
     dispatch.mockClear();
-    MockDate.reset();
   });
 
   afterAll(async () => {
@@ -133,7 +131,6 @@ describe('Scene API', () => {
       });
 
       it('should create a scene', async () => {
-        MockDate.set('2018-05-05');
         const scene = {
           name: 'testScene',
           description: 'this is a test scene',
@@ -159,10 +156,13 @@ describe('Scene API', () => {
         expect(response.body).toHaveProperty('sceneId', 3);
 
         const sceneFromDatabase = await knex(Scene.TABLE)
-          .select('*')
+          .first('*')
           .where('scene_id', 3);
 
-        expect(sceneFromDatabase).toMatchSnapshot();
+        expect(sceneFromDatabase).toMatchSnapshot({
+          created_at: expect.any(Date),
+          updated_at: expect.any(Date),
+        });
 
         const actions = await knex(Action.TABLE)
           .select('*')
@@ -312,7 +312,6 @@ describe('Scene API', () => {
       });
 
       it('should update a scene', async () => {
-        MockDate.set('2018-05-05');
         const updatedScene = {
           description: 'this is an updated test',
           name: 'scene_2',
@@ -336,9 +335,12 @@ describe('Scene API', () => {
         expect(response.status).toBe(204);
 
         const sceneFromDatabase = await knex(Scene.TABLE)
-          .select('*')
+          .first('*')
           .where('scene_id', 2);
-        expect(sceneFromDatabase).toMatchSnapshot();
+        expect(sceneFromDatabase).toMatchSnapshot({
+          created_at: expect.any(Date),
+          updated_at: expect.any(Date),
+        });
       });
     });
   });

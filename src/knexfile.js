@@ -3,6 +3,13 @@
  * used by knex for migration/rollback
  */
 
+function typeCast(field, next) {
+  if (field.type === 'TINY' && field.length === 1) {
+    return field.string() === '1';
+  }
+  return next();
+}
+
 module.exports = {
   development: {
     seeds: {
@@ -17,12 +24,7 @@ module.exports = {
       user: 'root',
       password: '',
       database: 'anna',
-      typeCast: (field, next) => {
-        if (field.type === 'TINY' && field.length === 1) {
-          return field.string() === '1';
-        }
-        return next();
-      },
+      typeCast,
     },
     pool: { min: 0, max: 4 },
   },
@@ -37,12 +39,7 @@ module.exports = {
       user: process.env.DATABASE_USER,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
-      typeCast: (field, next) => {
-        if (field.type === 'TINY' && field.length === 1) {
-          return field.string() === '1';
-        }
-        return next();
-      },
+      typeCast,
     },
     pool: { min: 0, max: 4 },
   },

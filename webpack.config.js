@@ -1,7 +1,6 @@
 const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const webpack = require('webpack');
-const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
   mode: 'production',
@@ -22,7 +21,14 @@ module.exports = {
   optimization: {
     minimize: false,
   },
-  externals: [nodeExternals()],
+  externals: [
+    (context, request, callback) => {
+      if (/(express|knex)$/.test(request)) {
+        return callback(null, `commonjs ${request}`);
+      }
+      return callback();
+    },
+  ],
   plugins: [new CleanWebpackPlugin(path.join(__dirname, 'dist'))],
   bail: true,
   node: false,

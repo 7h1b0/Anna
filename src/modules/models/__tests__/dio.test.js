@@ -92,7 +92,11 @@ describe('Dio', () => {
 
   describe('findByIdAndUpdate', () => {
     it('should update a dio', async () => {
-      const rowsAffected = await Dio.findByIdAndUpdate(1, { name: 'updated' });
+      const rowsAffected = await Dio.findByIdAndUpdate(1, {
+        roomId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
+        name: 'updated',
+        dioId: 2,
+      });
       expect(rowsAffected).toBe(1);
       const dios = await knex(Dio.TABLE).select('*');
       expect(dios).toMatchSnapshot();

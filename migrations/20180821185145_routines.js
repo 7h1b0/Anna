@@ -1,26 +1,24 @@
 exports.up = function(knex, Promise) {
   const createRoutinesTable = knex.schema.createTable('routines', table => {
-    table.increments('routine_id');
+    table.uuid('routineId').primary();
     table.string('name').notNullable();
-    table.string('scene_id').notNullable();
-    table.string('schedule').notNullable();
-    table.boolean('run_at_bank_holiday').defaultTo(true);
+    table.uuid('sceneId').notNullable();
+    table.string('interval').notNullable();
+    table.boolean('runAtBankHoliday').defaultTo(true);
     table.boolean('enabled').defaultTo(true);
     table
-      .timestamp('created_at')
+      .timestamp('createdAt')
       .notNullable()
       .defaultTo(knex.raw('CURRENT_TIMESTAMP'));
     table
-      .timestamp('updated_at')
+      .timestamp('updatedAt')
       .notNullable()
       .defaultTo(knex.raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
-    table.timestamp('failed_at');
-    table.timestamp('last_run_at');
-    table.timestamp('next_run_at');
-    table
-      .integer('created_by')
-      .unsigned()
-      .notNullable();
+    table.timestamp('lastFailedAt');
+    table.timestamp('lastRunAt');
+    table.timestamp('nextRunAt');
+    table.string('failReason');
+    table.uuid('createdBy').notNullable();
   });
 
   return createRoutinesTable;

@@ -1,4 +1,4 @@
-const CronJob = jest.fn(() => {
+const CronJob = jest.fn((interval, callback, inComplete, start) => {
   return {
     stop: jest.fn(),
   };

@@ -1,1 +1,2 @@
-module.exports = jest.fn(() => Promise.resolve());
+const dispatch = jest.fn(() => Promise.resolve());
+export default dispatch;

@@ -33,8 +33,8 @@ export function remove(dioId) {
     .del();
 }
 
-export function findByIdAndUpdate(dioId, payload) {
+export function findByIdAndUpdate(dioId, { name, roomId }) {
   return knex(TABLE)
-    .update(payload)
+    .update({ name, roomId })
     .where('dioId', dioId);
 }

@@ -8,7 +8,7 @@ export default {
       type: 'string',
       minLength: 3,
     },
-    schedule: { type: 'string' },
+    interval: { type: 'string' },
     sceneId: { type: 'integer' },
     enabled: { type: 'boolean' },
     runAtBankHoliday: { type: 'boolean' },

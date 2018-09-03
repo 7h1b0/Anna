@@ -1,22 +1,28 @@
 import Ajv from 'ajv';
+import uuidv4 from 'uuid/v4';
+import { CronTime } from 'cron';
 import knex from '../../knexClient';
 import routineSchema from '../schemas/routine';
-import { returnFirst } from '../dbUtil';
+import dispatch from '../dispatch';
+import { omit, isBankHoliday } from '../utils';
+import * as logger from '../logger';
+import { callScene } from '../actions';
 
 export const TABLE = 'routines';
 export const COLUMNS = [
-  { routineId: 'routine_id' },
+  'routineId',
   'name',
-  'schedule',
-  { sceneId: 'scene_id' },
-  { runAtBankHoliday: 'run_at_bank_holiday' },
+  'interval',
+  'sceneId',
+  'runAtBankHoliday',
   'enabled',
-  { createdAt: 'created_at' },
-  { updatedAt: 'updated_at' },
-  { failedAt: 'failed_at' },
-  { lastRunAt: 'last_run_at' },
-  { nextRunAt: 'next_run_at' },
-  { createdBy: 'created_by' },
+  'createdAt',
+  'updatedAt',
+  'lastFailedAt',
+  'lastRunAt',
+  'nextRunAt',
+  'failReason',
+  'createdBy',
 ];
 
 export function validate(data) {
@@ -29,41 +35,114 @@ export function findAll() {
 }
 
 export function findById(routineId) {
-  return returnFirst(
-    knex(TABLE)
-      .select(COLUMNS)
-      .where('routine_id', routineId),
-  );
+  return knex(TABLE)
+    .first(COLUMNS)
+    .where('routineId', routineId);
 }
 
-export function save(
+export async function save(
   userId,
   name,
   sceneId,
-  schedule,
+  interval,
   enabled = true,
   runAtBankHoliday = true,
 ) {
-  return returnFirst(
-    knex(TABLE).insert({
-      scene_id: sceneId,
-      name,
-      schedule,
-      enabled,
-      run_at_bank_holiday: runAtBankHoliday,
-      created_by: userId,
-    }),
-  );
+  const routineId = uuidv4();
+  await knex(TABLE).insert({
+    routineId,
+    sceneId,
+    name,
+    interval,
+    enabled,
+    runAtBankHoliday,
+    createdBy: userId,
+  });
+
+  return routineId;
 }
 
 export function remove(routineId) {
   return knex(TABLE)
-    .where('routine_id', routineId)
+    .where('routineId', routineId)
     .del();
 }
 
 export function findByIdAndUpdate(routineId, payload) {
+  const safePayload = omit(payload, [
+    'routineId',
+    'createdAt',
+    'updatedAt',
+    'failedAt',
+    'lastRunAt',
+    'nextRunAt',
+    'createdBy',
+  ]);
   return knex(TABLE)
-    .update({ ...payload, updated_at: new Date() })
-    .where('routine_id', routineId);
+    .update(safePayload)
+    .where('routineId', routineId);
 }
+
+export function computeNextRunAt(routine) {
+  const getDateWithOffset = timestamp => new Date(timestamp + 10000);
+
+  const currentDateOffset = getDateWithOffset(Date.now());
+
+  try {
+    const cronTime = new CronTime(routine.interval);
+    let nextDate = cronTime._getNextDateFrom(currentDateOffset);
+
+    if (!routine.runAtPublicHoliday && isBankHoliday(nextDate)) {
+      const nextDateOffset = getDateWithOffset(nextDate);
+      nextDate = cronTime._getNextDateFrom(nextDateOffset);
+    }
+
+    return nextDate.toDate();
+  } catch (e) {
+    logger.error(e);
+    return undefined;
+  }
+}
+
+export async function run(routine) {
+  if (!routine.runAtBankHoliday && isBankHoliday(Date.now())) return;
+
+  const nextRunAt = Routine.computeNextRunAt();
+
+  const done = (error = '') => {
+    const failReason = JSON.stringify(error);
+    const lastRunAt = new Date();
+    const lastFailedAt = error !== '' ? new Date() : routine.lastFailedAt;
+    const updatedRoutine = {
+      ...routine,
+      lastRunAt,
+      nextRunAt,
+      failReason,
+      lastFailedAt,
+    };
+
+    return Routine.findByIdAndUpdate(routine.routineId, updatedRoutine);
+  };
+
+  try {
+    await dispatch(callScene(routine.sceneId));
+    return await done();
+  } catch (error) {
+    return await done(error);
+  }
+}
+
+const Routine = {
+  COLUMNS,
+  TABLE,
+  validate,
+  run,
+  computeNextRunAt,
+  findByIdAndUpdate,
+  remove,
+  save,
+  findById,
+  findAll,
+};
+
+export default Routine;

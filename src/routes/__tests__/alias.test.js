@@ -9,29 +9,29 @@ jest.mock('../../modules/dispatch');
 
 const initAlias = [
   {
-    alias_id: 1,
-    scene_id: 1,
+    aliasId: 1,
+    sceneId: 1,
     name: 'testone',
     description: 'test',
     enabled: true,
-    created_by: 1,
-    created_at: new Date('2018-01-01'),
-    updated_at: new Date('2018-01-02'),
+    createdBy: 1,
+    createdAt: new Date('2018-01-01'),
+    updatedAt: new Date('2018-01-02'),
   },
   {
-    alias_id: 2,
-    scene_id: 1,
+    aliasId: 2,
+    sceneId: 1,
     name: 'testtwo',
     description: 'test',
     enabled: false,
-    created_by: 1,
-    created_at: new Date('2018-01-01'),
-    updated_at: new Date('2018-01-02'),
+    createdBy: 1,
+    createdAt: new Date('2018-01-01'),
+    updatedAt: new Date('2018-01-02'),
   },
 ];
 
 const user = {
-  user_id: 1,
+  userId: 1,
   username: 'test',
   password: '$2a$10$4ftuQxquI/5NR3POJy.2O.DmscxoSdCBzUvlnX2iXGMxtpqhd3w6O', // anna
   token: '8e6a76928f76d23665f78ff3688ca86422d5',
@@ -96,10 +96,10 @@ describe('Alias API', () => {
 
         const alias = await knex(Alias.TABLE)
           .first('*')
-          .where('alias_id', 3);
+          .where('aliasId', 3);
         expect(alias).toMatchSnapshot({
-          created_at: expect.any(Date),
-          updated_at: expect.any(Date),
+          createdAt: expect.any(Date),
+          updatedAt: expect.any(Date),
         });
       });
 
@@ -176,11 +176,11 @@ describe('Alias API', () => {
 
         const alias = await knex(Alias.TABLE)
           .first('*')
-          .where('alias_id', 1);
+          .where('aliasId', 1);
 
         expect(alias).toMatchSnapshot({
-          created_at: expect.any(Date),
-          updated_at: expect.any(Date),
+          createdAt: expect.any(Date),
+          updatedAt: expect.any(Date),
         });
       });
 
@@ -235,7 +235,7 @@ describe('Alias API', () => {
 
         const alias = await knex(Alias.TABLE)
           .select('*')
-          .where('alias_id', 1);
+          .where('aliasId', 1);
 
         expect(alias).toHaveLength(0);
       });
@@ -271,11 +271,11 @@ describe('Alias API', () => {
 
       const alias = await knex(Alias.TABLE)
         .first('*')
-        .where('alias_id', 2);
+        .where('aliasId', 2);
 
       expect(alias).toMatchSnapshot({
-        created_at: expect.any(Date),
-        updated_at: expect.any(Date),
+        createdAt: expect.any(Date),
+        updatedAt: expect.any(Date),
       });
     });
 
@@ -289,11 +289,11 @@ describe('Alias API', () => {
 
       const alias = await knex(Alias.TABLE)
         .first('*')
-        .where('alias_id', 1);
+        .where('aliasId', 1);
 
       expect(alias).toMatchSnapshot({
-        created_at: expect.any(Date),
-        updated_at: expect.any(Date),
+        createdAt: expect.any(Date),
+        updatedAt: expect.any(Date),
       });
     });
 

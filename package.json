@@ -40,7 +40,7 @@
   "scripts": {
     "eslint": "eslint --max-warnings 0 src migrations seeds",
     "test": "jest src --watch --notify --runInBand",
-    "coverage": "jest src --coverage --ci --runInBand --silent --forceExit",
+    "coverage": "jest src --coverage --ci --runInBand --silent",
     "start": "nodemon --watch src --exec babel-node index.js",
     "precommit": "lint-staged",
     "postversion": "git push --follow-tags",

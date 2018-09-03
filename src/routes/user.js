@@ -43,13 +43,10 @@ routes.post('/login', (req, res) => {
             if (!isValid) {
               throw new Error('Wrong password');
             }
-            const copyUser = {
-              _id: findUser.user_id,
-              username: findUser.username,
-              token: findUser.token,
-            };
 
-            res.json(copyUser);
+            res.json({
+              token: findUser.token,
+            });
           })
           .catch(() => res.sendStatus(403));
       }

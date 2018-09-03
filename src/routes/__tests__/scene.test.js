@@ -10,52 +10,52 @@ jest.mock('../../modules/dispatch');
 
 const initScenes = [
   {
-    scene_id: 1,
+    sceneId: 1,
     description: 'this is a test',
     name: 'scene_1',
-    created_by: 1,
-    created_at: new Date('2018-01-01'),
-    updated_at: new Date('2018-01-02'),
+    createdBy: 1,
+    createdAt: new Date('2018-01-01'),
+    updatedAt: new Date('2018-01-02'),
   },
   {
-    scene_id: 2,
+    sceneId: 2,
     description: 'this is a second test',
     name: 'scene_2',
-    created_by: 1,
-    created_at: new Date('2018-01-01'),
-    updated_at: new Date('2018-01-02'),
+    createdBy: 1,
+    createdAt: new Date('2018-01-01'),
+    updatedAt: new Date('2018-01-02'),
   },
 ];
 
 const initActions = [
   {
-    action_id: 1,
-    scene_id: 1,
+    actionId: 1,
+    sceneId: 1,
     type: 'DIO',
     name: 'action turn on',
-    target_id: 1,
+    targetId: 1,
     body: JSON.stringify({ on: true }),
   },
   {
-    action_id: 2,
-    scene_id: 1,
+    actionId: 2,
+    sceneId: 1,
     type: 'DIO',
     name: 'action turn off',
-    target_id: 2,
+    targetId: 2,
     body: JSON.stringify({ on: false }),
   },
   {
-    action_id: 3,
-    scene_id: 2,
+    actionId: 3,
+    sceneId: 2,
     type: 'SCENE',
     name: 'call scene',
-    target_id: 2,
+    targetId: 2,
     body: null,
   },
 ];
 
 const user = {
-  user_id: 1,
+  userId: 1,
   username: 'test',
   password: '$2a$10$4ftuQxquI/5NR3POJy.2O.DmscxoSdCBzUvlnX2iXGMxtpqhd3w6O', // anna
   token: '8e6a76928f76d23665f78ff3688ca86422d5',
@@ -157,16 +157,16 @@ describe('Scene API', () => {
 
         const sceneFromDatabase = await knex(Scene.TABLE)
           .first('*')
-          .where('scene_id', 3);
+          .where('sceneId', 3);
 
         expect(sceneFromDatabase).toMatchSnapshot({
-          created_at: expect.any(Date),
-          updated_at: expect.any(Date),
+          createdAt: expect.any(Date),
+          updatedAt: expect.any(Date),
         });
 
         const actions = await knex(Action.TABLE)
           .select('*')
-          .where('scene_id', 3);
+          .where('sceneId', 3);
 
         expect(actions).toMatchSnapshot();
       });
@@ -223,13 +223,13 @@ describe('Scene API', () => {
 
         const scene = await knex(Scene.TABLE)
           .select('*')
-          .where('scene_id', 1);
+          .where('sceneId', 1);
 
         expect(scene).toHaveLength(0);
 
         const actions = await knex(Action.TABLE)
           .select('*')
-          .where('scene_id', 1);
+          .where('sceneId', 1);
 
         expect(actions).toHaveLength(0);
       });
@@ -336,10 +336,10 @@ describe('Scene API', () => {
 
         const sceneFromDatabase = await knex(Scene.TABLE)
           .first('*')
-          .where('scene_id', 2);
+          .where('sceneId', 2);
         expect(sceneFromDatabase).toMatchSnapshot({
-          created_at: expect.any(Date),
-          updated_at: expect.any(Date),
+          createdAt: expect.any(Date),
+          updatedAt: expect.any(Date),
         });
       });
     });

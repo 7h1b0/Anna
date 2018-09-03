@@ -8,7 +8,7 @@ import * as requestService from '../../services/requestService';
 jest.mock('../../services/requestService');
 
 const user = {
-  user_id: 1,
+  userId: 1,
   username: 'test',
   password: '$2a$10$4ftuQxquI/5NR3POJy.2O.DmscxoSdCBzUvlnX2iXGMxtpqhd3w6O', // anna
   token: '8e6a76928f76d23665f78ff3688ca86422d5',
@@ -16,12 +16,12 @@ const user = {
 
 const hueLightRooms = [
   {
-    light_id: 1,
-    room_id: 1,
+    lightId: 1,
+    roomId: 1,
   },
   {
-    light_id: 2,
-    room_id: 1,
+    lightId: 2,
+    roomId: 1,
   },
 ];
 
@@ -118,10 +118,10 @@ describe('Hue Light API', () => {
         });
 
         const res = await knex(hueLight.TABLE)
-          .select('room_id')
-          .where('light_id', 2);
+          .select('roomId')
+          .where('lightId', 2);
 
-        expect(res).toEqual([{ room_id: 2 }]);
+        expect(res).toEqual([{ roomId: 2 }]);
       });
 
       it('should retun 401 when user is not authenticated', async () => {

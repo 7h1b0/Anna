@@ -5,7 +5,7 @@ Array [
   RowDataPacket {
     "password": "test",
     "token": "token_two",
-    "user_id": 2,
+    "userId": 2,
     "username": "two",
   },
 ]
@@ -29,13 +29,13 @@ Array [
   RowDataPacket {
     "password": "test",
     "token": "token_one",
-    "user_id": 1,
+    "userId": 1,
     "username": "username",
   },
   RowDataPacket {
     "password": "test",
     "token": "token_two",
-    "user_id": 2,
+    "userId": 2,
     "username": "two",
   },
 ]
@@ -46,7 +46,7 @@ Array [
   RowDataPacket {
     "password": "sdfsdfsdfsdfsdf",
     "token": "fghjkhjkhjhk",
-    "user_id": 3,
+    "userId": 3,
     "username": "testsave",
   },
 ]

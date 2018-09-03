@@ -4,7 +4,7 @@ import * as User from '../../modules/models/user';
 import app from '../../index.js';
 
 const user = {
-  user_id: 1,
+  userId: 1,
   username: 'test',
   password: '$2a$10$4ftuQxquI/5NR3POJy.2O.DmscxoSdCBzUvlnX2iXGMxtpqhd3w6O', // anna
   token: '8e6a76928f76d23665f78ff3688ca86422d5',

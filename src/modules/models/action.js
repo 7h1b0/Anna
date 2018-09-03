@@ -2,12 +2,12 @@ import knex from '../../knexClient';
 import * as logger from '../logger';
 
 export const TABLE = 'actions';
-export const COLUMNS = ['name', 'type', 'body', { targetId: 'target_id' }];
+export const COLUMNS = ['name', 'type', 'body', 'targetId'];
 
 export function findBySceneId(sceneId) {
   return knex(TABLE)
     .select(COLUMNS)
-    .where('scene_id', sceneId)
+    .where('sceneId', sceneId)
     .then(entries => {
       return entries.reduce((acc, entry) => {
         try {

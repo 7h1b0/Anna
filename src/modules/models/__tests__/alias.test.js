@@ -2,24 +2,24 @@ import knex from '../../../knexClient';
 import * as Alias from '../alias';
 const initAlias = [
   {
-    alias_id: 1,
-    scene_id: 1,
+    aliasId: 1,
+    sceneId: 1,
     name: 'test',
     description: 'test',
     enabled: true,
-    created_by: 1,
-    created_at: new Date('2018-01-01'),
-    updated_at: new Date('2018-01-02'),
+    createdBy: 1,
+    createdAt: new Date('2018-01-01'),
+    updatedAt: new Date('2018-01-02'),
   },
   {
-    alias_id: 2,
-    scene_id: 1,
+    aliasId: 2,
+    sceneId: 1,
     name: 'test_2',
     description: 'test',
     enabled: false,
-    created_by: 1,
-    created_at: new Date('2018-01-01'),
-    updated_at: new Date('2018-01-02'),
+    createdBy: 1,
+    createdAt: new Date('2018-01-01'),
+    updatedAt: new Date('2018-01-02'),
   },
 ];
 
@@ -43,19 +43,19 @@ describe('Alias', () => {
   describe('findAll', () => {
     it('should return all alias', async () => {
       const result = await Alias.findAll();
-      expect(result).toMatchSnapshot();
+      expect(result).toEqual(initAlias);
     });
   });
 
   describe('findById', () => {
     it('should return only one alias', async () => {
       const result = await Alias.findById(1);
-      expect(result).toMatchSnapshot();
+      expect(result).toMatchSnapshot(initAlias[0]);
     });
 
     it('should return undefined', async () => {
       const result = await Alias.findById(-1);
-      expect(result).toBe(undefined);
+      expect(result).toBeUndefined();
     });
   });
 
@@ -70,20 +70,21 @@ describe('Alias', () => {
         userId: 1,
       };
 
-      await Alias.save(save);
+      const res = await Alias.save(save);
       const alias = await knex(Alias.TABLE)
         .first('*')
-        .where('alias_id', 3);
+        .where('aliasId', res.aliasId);
+
       expect(alias).toMatchSnapshot({
-        created_at: expect.any(Date),
-        updated_at: expect.any(Date),
+        createdAt: expect.any(Date),
+        updatedAt: expect.any(Date),
       });
     });
 
     it('should accept when an alias as a name already taken', async () => {
       const save = {
-        alias_id: 3,
-        scene_id: 1,
+        aliasId: 3,
+        sceneId: 1,
         name: 'test',
         description: 'test',
         enabled: false,
@@ -97,7 +98,7 @@ describe('Alias', () => {
     it('should delete an alias', async () => {
       await Alias.remove(1);
       const alias = await knex(Alias.TABLE).select('*');
-      expect(alias).toMatchSnapshot();
+      expect(alias).toEqual([initAlias[1]]);
     });
 
     it('should not delete an alias', async () => {
@@ -112,10 +113,10 @@ describe('Alias', () => {
       await Alias.findByIdAndUpdate(1, { name: 'updated' });
       const alias = await knex(Alias.TABLE)
         .first('*')
-        .where('alias_id', 1);
+        .where('aliasId', 1);
       expect(alias).toMatchSnapshot({
-        created_at: expect.any(Date),
-        updated_at: expect.any(Date),
+        createdAt: expect.any(Date),
+        updatedAt: expect.any(Date),
       });
     });
 

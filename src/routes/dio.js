@@ -42,7 +42,7 @@ routes
     } else {
       const updatedDio = {
         name: req.body.name,
-        room_id: req.body.roomId,
+        roomId: req.body.roomId,
       };
       Dio.findByIdAndUpdate(req.params.id_dio, updatedDio)
         .then(rowsAffected => {
@@ -52,7 +52,10 @@ routes
             res.sendStatus(204);
           }
         })
-        .catch(err => res.status(500).send({ err }));
+        .catch(err => {
+          console.log(err);
+          res.status(500).send({ err });
+        });
     }
   })
   .delete((req, res) => {

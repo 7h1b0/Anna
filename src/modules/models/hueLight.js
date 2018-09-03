@@ -1,11 +1,11 @@
 import knex from '../../knexClient';
 export const TABLE = 'lights';
-export const COLUMNS = [{ roomId: 'room_id' }, { lightId: 'light_id' }];
+export const COLUMNS = ['roomId', 'lightId'];
 
 export function findRoomId(lightId) {
   return knex(TABLE)
-    .first({ roomId: 'room_id' })
-    .where('light_id', lightId);
+    .first('roomId')
+    .where('lightId', lightId);
 }
 
 export function findAll() {
@@ -13,17 +13,17 @@ export function findAll() {
 }
 
 export function save(lightId, roomId) {
-  return knex(TABLE).insert({ light_id: lightId, room_id: roomId });
+  return knex(TABLE).insert({ lightId, roomId });
 }
 
 export function remove(lightId) {
   return knex(TABLE)
-    .where('light_id', lightId)
+    .where('lightId', lightId)
     .del();
 }
 
 export function findByIdAndUpdate(lightId, roomId) {
   return knex(TABLE)
-    .update({ room_id: roomId })
-    .where('light_id', lightId);
+    .update({ roomId })
+    .where('lightId', lightId);
 }

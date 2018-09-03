@@ -2,13 +2,13 @@ import knex from '../../../knexClient';
 import * as User from '../user';
 const initUsers = [
   {
-    user_id: 1,
+    userId: 1,
     username: 'one',
     password: 'test',
     token: 'token_one',
   },
   {
-    user_id: 2,
+    userId: 2,
     username: 'two',
     password: 'test',
     token: 'token_two',
@@ -26,6 +26,10 @@ describe('Users', () => {
 
   afterEach(async () => {
     await knex(User.TABLE).truncate();
+  });
+
+  afterAll(async () => {
+    await knex.destroy();
   });
 
   describe('findAll', () => {

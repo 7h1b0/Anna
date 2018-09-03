@@ -2,13 +2,13 @@ import knex from '../../../knexClient';
 import * as Dio from '../dio';
 const initDios = [
   {
-    dio_id: 1,
-    room_id: 1,
+    dioId: 1,
+    roomId: 1,
     name: 'test',
   },
   {
-    dio_id: 2,
-    room_id: 2,
+    dioId: 2,
+    roomId: 2,
     name: 'test',
   },
 ];
@@ -32,39 +32,20 @@ describe('Dio', () => {
 
   describe('findAll', () => {
     it('should return all dios', async () => {
-      const expected = [
-        {
-          dioId: 1,
-          roomId: 1,
-          name: 'test',
-        },
-        {
-          dioId: 2,
-          roomId: 2,
-          name: 'test',
-        },
-      ];
-
       const result = await Dio.findAll();
-      expect(result).toEqual(expected);
+      expect(result).toEqual(initDios);
     });
   });
 
   describe('findById', () => {
     it('should return only one dio', async () => {
-      const expected = {
-        dioId: 1,
-        roomId: 1,
-        name: 'test',
-      };
-
       const result = await Dio.findById(1);
-      expect(result).toEqual(expected);
+      expect(result).toEqual(initDios[0]);
     });
 
     it('should return undefined', async () => {
       const result = await Dio.findById(-1);
-      expect(result).toBe(undefined);
+      expect(result).toBeUndefined();
     });
   });
 
@@ -79,9 +60,9 @@ describe('Dio', () => {
       const newDio = await Dio.save(save);
       expect(newDio).toEqual(save);
       const dios = await knex(Dio.TABLE)
-        .select('*')
-        .where('dio_id', 3);
-      expect(dios).toMatchSnapshot();
+        .first('*')
+        .where('dioId', save.dioId);
+      expect(dios).toEqual(save);
     });
 
     it('should reject when an id is already taken', async () => {
@@ -99,7 +80,7 @@ describe('Dio', () => {
     it('should delete a dio', async () => {
       await Dio.remove(1);
       const dios = await knex(Dio.TABLE).select('*');
-      expect(dios).toMatchSnapshot();
+      expect(dios).toEqual([initDios[1]]);
     });
 
     it('should not delete a dio', async () => {

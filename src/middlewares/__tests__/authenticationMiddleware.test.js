@@ -3,7 +3,7 @@ import * as User from '../../modules/models/user';
 import authenticationMiddleware from '../authenticationMiddleware';
 const initUsers = [
   {
-    user_id: 1,
+    userId: 1,
     username: 'one',
     password: 'test',
     token: 'token_one',

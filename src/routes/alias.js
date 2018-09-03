@@ -46,7 +46,7 @@ routes
         name: req.body.name,
         description: req.body.description,
         enabled: req.body.enabled,
-        scene_id: req.body.sceneId,
+        sceneId: req.body.sceneId,
       };
       Alias.findByIdAndUpdate(req.params.id_alias, updatedAlias)
         .then(rowsAffected => {

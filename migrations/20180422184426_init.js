@@ -1,25 +1,25 @@
 exports.up = function(knex, Promise) {
   const createUsersTable = knex.schema.createTable('users', table => {
-    table.increments('user_id');
+    table.increments('userId');
     table.string('username').notNullable();
     table.string('password').notNullable();
     table.string('token').notNullable();
   });
 
   const createRoomsTable = knex.schema.createTable('rooms', table => {
-    table.increments('room_id');
+    table.increments('roomId');
     table.string('name').notNullable();
     table.string('description');
     table
-      .timestamp('created_at')
+      .timestamp('createdAt')
       .notNullable()
       .defaultTo(knex.raw('CURRENT_TIMESTAMP'));
     table
-      .timestamp('updated_at')
+      .timestamp('updatedAt')
       .notNullable()
       .defaultTo(knex.raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
     table
-      .integer('created_by')
+      .integer('createdBy')
       .unsigned()
       .notNullable();
   });
@@ -29,78 +29,78 @@ exports.up = function(knex, Promise) {
     table.string('ip');
     table.string('httpMethod');
     table.string('path');
-    table.timestamp('created_at').defaultTo(knex.fn.now());
+    table.timestamp('createdAt').defaultTo(knex.fn.now());
     table.string('username');
   });
 
   const createDioTable = knex.schema.createTable('dios', table => {
     table
-      .integer('dio_id')
+      .integer('dioId')
       .primary()
       .notNullable();
     table.string('name');
-    table.integer('room_id').unsigned();
+    table.integer('roomId').unsigned();
   });
 
   const createScenesTable = knex.schema.createTable('scenes', table => {
-    table.increments('scene_id');
+    table.increments('sceneId');
     table.string('name');
     table.string('description');
     table
-      .timestamp('created_at')
+      .timestamp('createdAt')
       .notNullable()
       .defaultTo(knex.raw('CURRENT_TIMESTAMP'));
     table
-      .timestamp('updated_at')
+      .timestamp('updatedAt')
       .notNullable()
       .defaultTo(knex.raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
     table
-      .integer('created_by')
+      .integer('createdBy')
       .unsigned()
       .notNullable();
   });
 
   const createActionsTable = knex.schema.createTable('actions', table => {
-    table.increments('action_id');
+    table.increments('actionId');
     table
-      .integer('scene_id')
+      .integer('sceneId')
       .unsigned()
       .notNullable();
     table.string('name');
-    table.integer('target_id').unsigned();
+    table.integer('targetId').unsigned();
     table.enum('type', ['HUE_LIGHT', 'DIO', 'SCENE', 'ALIAS']);
     table.string('body');
   });
 
   const createAliasTable = knex.schema.createTable('alias', table => {
-    table.increments('alias_id');
+    table.increments('aliasId');
     table
-      .integer('scene_id')
+      .integer('sceneId')
       .unsigned()
       .notNullable();
     table.string('name').notNullable();
     table.string('description');
     table.boolean('enabled').defaultTo(true);
     table
-      .timestamp('created_at')
+      .timestamp('createdAt')
       .notNullable()
       .defaultTo(knex.raw('CURRENT_TIMESTAMP'));
     table
-      .timestamp('updated_at')
+      .timestamp('updatedAt')
       .notNullable()
       .defaultTo(knex.raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
     table
-      .integer('created_by')
+      .integer('createdBy')
       .unsigned()
       .notNullable();
   });
 
   const createHueLightTable = knex.schema.createTable('lights', table => {
     table
-      .integer('light_id')
+      .integer('lightId')
       .primary()
       .notNullable();
-    table.integer('room_id').unsigned();
+    table.integer('roomId').unsigned();
   });
 
   return Promise.all([

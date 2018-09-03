@@ -9,7 +9,7 @@ exports.seed = function(knex, Promise) {
     .then(() => {
       return knex(TABLE).insert([
         {
-          user_id: 1,
+          userId: 1,
           username: 'test',
           password:
             '$2a$10$4ftuQxquI/5NR3POJy.2O.DmscxoSdCBzUvlnX2iXGMxtpqhd3w6O', // anna

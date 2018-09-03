@@ -4,7 +4,7 @@ import * as User from '../../modules/models/user';
 import app from '../../index.js';
 
 const user = {
-  user_id: 1,
+  userId: 1,
   username: 'test',
   password: '$2a$10$4ftuQxquI/5NR3POJy.2O.DmscxoSdCBzUvlnX2iXGMxtpqhd3w6O', // anna
   token: '8e6a76928f76d23665f78ff3688ca86422d5',
@@ -51,7 +51,7 @@ describe('User API', () => {
 
       const users = await knex(User.TABLE)
         .first('*')
-        .where('user_id', response.body.userId);
+        .where('userId', response.body.userId);
 
       expect(users).toHaveProperty('username', response.body.username);
       expect(users).toHaveProperty('token', response.body.token);
@@ -67,7 +67,6 @@ describe('User API', () => {
         .send({ username: 'test', password: 'anna' });
 
       expect(response.body).toEqual({
-        username: user.username,
         token: user.token,
       });
     });
@@ -103,7 +102,7 @@ describe('User API', () => {
         expect(response.body).toEqual([
           {
             username: user.username,
-            userId: user.user_id,
+            userId: user.userId,
           },
         ]);
       });
@@ -156,7 +155,7 @@ describe('User API', () => {
         expect(response.status).toBe(204);
         const users = await knex(User.TABLE)
           .first('*')
-          .where('user_id', 1);
+          .where('userId', 1);
 
         expect(users).toHaveProperty('username', user.username);
       });
@@ -172,9 +171,9 @@ describe('User API', () => {
         const users = await knex(User.TABLE).select('*');
         expect(users).toHaveLength(1);
 
-        const { password, username, user_id, token } = users[0];
+        const { password, username, userId, token } = users[0];
         expect(password !== user.password).toBeTruthy();
-        expect(user_id).toBe(user.user_id);
+        expect(userId).toBe(user.userId);
         expect(username).toBe(user.username);
         expect(token).toBe(user.token);
       });

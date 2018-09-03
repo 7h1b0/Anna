@@ -27,6 +27,7 @@ Array [
 
 exports[`Alias API /api/alias POST should create a new alias 1`] = `
 Object {
+  "aliasId": 3,
   "createdBy": 1,
   "description": "test",
   "enabled": false,
@@ -37,14 +38,14 @@ Object {
 
 exports[`Alias API /api/alias POST should create a new alias 2`] = `
 Object {
-  "alias_id": 3,
-  "created_at": Any<Date>,
-  "created_by": 1,
+  "aliasId": 3,
+  "createdAt": Any<Date>,
+  "createdBy": 1,
   "description": "test",
   "enabled": false,
   "name": "test_post",
-  "scene_id": 1,
-  "updated_at": Any<Date>,
+  "sceneId": 1,
+  "updatedAt": Any<Date>,
 }
 `;
 
@@ -63,39 +64,39 @@ Object {
 
 exports[`Alias API /api/alias/:id PATCH should update an alias 1`] = `
 Object {
-  "alias_id": 1,
-  "created_at": Any<Date>,
-  "created_by": 1,
+  "aliasId": 1,
+  "createdAt": Any<Date>,
+  "createdBy": 1,
   "description": "test",
   "enabled": true,
   "name": "test_update",
-  "scene_id": 2,
-  "updated_at": Any<Date>,
+  "sceneId": 2,
+  "updatedAt": Any<Date>,
 }
 `;
 
 exports[`Alias API /api/alias/:id/:enabled should disable an alias 1`] = `
 Object {
-  "alias_id": 1,
-  "created_at": Any<Date>,
-  "created_by": 1,
+  "aliasId": 1,
+  "createdAt": Any<Date>,
+  "createdBy": 1,
   "description": "test",
   "enabled": false,
   "name": "testone",
-  "scene_id": 1,
-  "updated_at": Any<Date>,
+  "sceneId": 1,
+  "updatedAt": Any<Date>,
 }
 `;
 
 exports[`Alias API /api/alias/:id/:enabled should enable an alias 1`] = `
 Object {
-  "alias_id": 2,
-  "created_at": Any<Date>,
-  "created_by": 1,
+  "aliasId": 2,
+  "createdAt": Any<Date>,
+  "createdBy": 1,
   "description": "test",
   "enabled": true,
   "name": "testtwo",
-  "scene_id": 1,
-  "updated_at": Any<Date>,
+  "sceneId": 1,
+  "updatedAt": Any<Date>,
 }
 `;

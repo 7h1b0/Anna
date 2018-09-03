@@ -1,36 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Dio delete should delete a dio 1`] = `
-Array [
-  RowDataPacket {
-    "dio_id": 2,
-    "name": "test",
-    "room_id": 2,
-  },
-]
-`;
-
 exports[`Dio findByIdAndUpdate should update a dio 1`] = `
 Array [
   RowDataPacket {
-    "dio_id": 1,
+    "dioId": 1,
     "name": "updated",
-    "room_id": 1,
+    "roomId": 1,
   },
   RowDataPacket {
-    "dio_id": 2,
+    "dioId": 2,
     "name": "test",
-    "room_id": 2,
-  },
-]
-`;
-
-exports[`Dio save should save a new dio 1`] = `
-Array [
-  RowDataPacket {
-    "dio_id": 3,
-    "name": "test-save",
-    "room_id": 1,
+    "roomId": 2,
   },
 ]
 `;

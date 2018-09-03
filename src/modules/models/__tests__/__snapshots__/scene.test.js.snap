@@ -1,53 +1,32 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Scene findAll should return all scene 1`] = `
-Array [
-  RowDataPacket {
-    "createdAt": 2018-01-01T00:00:00.000Z,
-    "createdBy": 1,
-    "description": "this is a test",
-    "name": "scene_1",
-    "sceneId": 1,
-    "updatedAt": 2018-01-02T00:00:00.000Z,
-  },
-  RowDataPacket {
-    "createdAt": 2018-01-01T00:00:00.000Z,
-    "createdBy": 1,
-    "description": "this is a second test",
-    "name": "scene_2",
-    "sceneId": 2,
-    "updatedAt": 2018-01-02T00:00:00.000Z,
-  },
-]
-`;
-
 exports[`Scene findByIdAndUpdate should update a scene 1`] = `
 Object {
-  "created_at": Any<Date>,
-  "created_by": 1,
+  "createdAt": Any<Date>,
+  "createdBy": 1,
   "description": "this is an updated second test",
   "name": "scene_2",
-  "scene_id": 2,
-  "updated_at": Any<Date>,
+  "sceneId": 2,
+  "updatedAt": Any<Date>,
 }
 `;
 
 exports[`Scene findByIdAndUpdate should update a scene 2`] = `
 Array [
   RowDataPacket {
-    "action_id": 4,
+    "actionId": 4,
     "body": "{\\"on\\":false}",
     "name": "action turn off",
-    "scene_id": 2,
-    "target_id": 2,
+    "sceneId": 2,
+    "targetId": 2,
     "type": "DIO",
   },
   RowDataPacket {
-    "action_id": 5,
+    "actionId": 5,
     "body": "{\\"on\\":true}",
     "name": "action turn off",
-    "scene_id": 2,
-    "target_id": 4,
+    "sceneId": 2,
+    "targetId": 4,
     "type": "DIO",
   },
 ]
@@ -55,31 +34,31 @@ Array [
 
 exports[`Scene save should save a new scene 1`] = `
 Object {
-  "created_at": Any<Date>,
-  "created_by": 1,
+  "createdAt": Any<Date>,
+  "createdBy": 1,
   "description": "save test",
   "name": "scene_3",
-  "scene_id": 3,
-  "updated_at": Any<Date>,
+  "sceneId": 3,
+  "updatedAt": Any<Date>,
 }
 `;
 
 exports[`Scene save should save a new scene 2`] = `
 Array [
   RowDataPacket {
-    "action_id": 4,
+    "actionId": 4,
     "body": "{\\"on\\":true}",
     "name": "action one",
-    "scene_id": 3,
-    "target_id": 1,
+    "sceneId": 3,
+    "targetId": 1,
     "type": "DIO",
   },
   RowDataPacket {
-    "action_id": 5,
+    "actionId": 5,
     "body": "{\\"on\\":true,\\"bri\\":255}",
     "name": "action two",
-    "scene_id": 3,
-    "target_id": 1,
+    "sceneId": 3,
+    "targetId": 1,
     "type": "HUE_LIGHT",
   },
 ]

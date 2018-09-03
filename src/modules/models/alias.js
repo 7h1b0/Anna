@@ -4,14 +4,14 @@ import aliasSchema from '../schemas/alias';
 
 export const TABLE = 'alias';
 export const COLUMNS = [
-  { aliasId: 'alias_id' },
-  { sceneId: 'scene_id' },
+  'aliasId',
+  'sceneId',
   'name',
   'description',
   'enabled',
-  { createdAt: 'created_at' },
-  { updatedAt: 'updated_at' },
-  { createdBy: 'created_by' },
+  'createdAt',
+  'updatedAt',
+  'createdBy',
 ];
 
 export function validate(data) {
@@ -26,17 +26,17 @@ export function findAll() {
 export function findById(aliasId) {
   return knex(TABLE)
     .first(COLUMNS)
-    .where('alias_id', aliasId);
+    .where('aliasId', aliasId);
 }
 
 export function save({ sceneId, name, description, userId, enabled = true }) {
   return knex(TABLE)
     .insert({
-      scene_id: sceneId,
+      sceneId,
       description,
       name,
       enabled,
-      created_by: userId,
+      createdBy: userId,
     })
     .then(([aliasId]) => {
       return {
@@ -45,18 +45,19 @@ export function save({ sceneId, name, description, userId, enabled = true }) {
         enabled,
         sceneId,
         createdBy: userId,
+        aliasId,
       };
     });
 }
 
 export function remove(aliasId) {
   return knex(TABLE)
-    .where('alias_id', aliasId)
+    .where('aliasId', aliasId)
     .del();
 }
 
 export function findByIdAndUpdate(aliasId, payload) {
   return knex(TABLE)
     .update({ ...payload })
-    .where('alias_id', aliasId);
+    .where('aliasId', aliasId);
 }

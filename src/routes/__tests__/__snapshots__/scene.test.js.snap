@@ -23,23 +23,23 @@ Array [
 
 exports[`Scene API /api/scenes POST should create a scene 1`] = `
 Object {
-  "created_at": Any<Date>,
-  "created_by": 1,
+  "createdAt": Any<Date>,
+  "createdBy": 1,
   "description": "this is a test scene",
   "name": "testScene",
-  "scene_id": 3,
-  "updated_at": Any<Date>,
+  "sceneId": 3,
+  "updatedAt": Any<Date>,
 }
 `;
 
 exports[`Scene API /api/scenes POST should create a scene 2`] = `
 Array [
   RowDataPacket {
-    "action_id": 4,
+    "actionId": 4,
     "body": "{\\"on\\":true}",
     "name": "action",
-    "scene_id": 3,
-    "target_id": 2,
+    "sceneId": 3,
+    "targetId": 2,
     "type": "DIO",
   },
 ]
@@ -49,11 +49,11 @@ exports[`Scene API /api/scenes/:id GET should retun a scene 1`] = `Object {}`;
 
 exports[`Scene API /api/scenes/:id PATCH should update a scene 1`] = `
 Object {
-  "created_at": Any<Date>,
-  "created_by": 1,
+  "createdAt": Any<Date>,
+  "createdBy": 1,
   "description": "this is an updated test",
   "name": "scene_2",
-  "scene_id": 2,
-  "updated_at": Any<Date>,
+  "sceneId": 2,
+  "updatedAt": Any<Date>,
 }
 `;

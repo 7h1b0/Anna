@@ -7,7 +7,7 @@ const initDios = [
     path: '/test',
     ip: '127.0.0.1',
     username: 'test',
-    created_at: new Date(2017, 1, 1),
+    createdAt: new Date(2017, 1, 1),
   },
   {
     id: 2,
@@ -15,7 +15,7 @@ const initDios = [
     path: '/test/second',
     ip: '127.0.0.1',
     username: 'test',
-    created_at: new Date(2018, 1, 1),
+    createdAt: new Date(2018, 1, 1),
   },
 ];
 

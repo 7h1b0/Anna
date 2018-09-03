@@ -6,24 +6,24 @@ export const TABLE = 'users';
 
 export function findByToken(token) {
   return knex(TABLE)
-    .first({ userId: 'user_id' }, 'username')
+    .first('userId', 'username')
     .where('token', token);
 }
 
 export function findAll() {
-  return knex(TABLE).select({ userId: 'user_id' }, 'username');
+  return knex(TABLE).select('userId', 'username');
 }
 
 export function findByUsername(username) {
   return knex(TABLE)
-    .first({ userId: 'user_id' }, 'username', 'password', 'token')
+    .first('userId', 'username', 'password', 'token')
     .where('username', username);
 }
 
 export function findByIdAndUpdate(userId, payload) {
   return knex(TABLE)
     .update(payload)
-    .where('user_id', userId);
+    .where('userId', userId);
 }
 
 export function save({ username, password, token }) {
@@ -36,7 +36,7 @@ export function save({ username, password, token }) {
 
 export function remove(userId) {
   return knex(TABLE)
-    .where('user_id', '=', userId)
+    .where('userId', userId)
     .del();
 }
 

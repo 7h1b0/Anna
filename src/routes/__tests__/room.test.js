@@ -6,25 +6,25 @@ import app from '../../index.js';
 
 const initRooms = [
   {
-    room_id: 1,
+    roomId: 1,
     description: 'this is a test',
     name: 'room_1',
-    created_by: 1,
-    created_at: new Date('2018-01-01'),
-    updated_at: new Date('2018-01-02'),
+    createdBy: 1,
+    createdAt: new Date('2018-01-01'),
+    updatedAt: new Date('2018-01-02'),
   },
   {
-    room_id: 2,
+    roomId: 2,
     description: 'this is a second test',
     name: 'room_2',
-    created_by: 1,
-    created_at: new Date('2018-01-01'),
-    updated_at: new Date('2018-01-02'),
+    createdBy: 1,
+    createdAt: new Date('2018-01-01'),
+    updatedAt: new Date('2018-01-02'),
   },
 ];
 
 const user = {
-  user_id: 1,
+  userId: 1,
   username: 'test',
   password: '$2a$10$4ftuQxquI/5NR3POJy.2O.DmscxoSdCBzUvlnX2iXGMxtpqhd3w6O', // anna
   token: '8e6a76928f76d23665f78ff3688ca86422d5',
@@ -86,10 +86,10 @@ describe('Rooms API', () => {
 
         const rooms = await knex(Room.TABLE)
           .first('*')
-          .where('room_id', 3);
+          .where('roomId', 3);
         expect(rooms).toMatchSnapshot({
-          created_at: expect.any(Date),
-          updated_at: expect.any(Date),
+          createdAt: expect.any(Date),
+          updatedAt: expect.any(Date),
         });
       });
 
@@ -161,11 +161,11 @@ describe('Rooms API', () => {
 
         const room = await knex(Room.TABLE)
           .first('*')
-          .where('room_id', 1);
+          .where('roomId', 1);
 
         expect(room).toMatchSnapshot({
-          created_at: expect.any(Date),
-          updated_at: expect.any(Date),
+          createdAt: expect.any(Date),
+          updatedAt: expect.any(Date),
         });
       });
 
@@ -216,7 +216,7 @@ describe('Rooms API', () => {
 
         const room = await knex(Room.TABLE)
           .select('*')
-          .where('room_id', 1);
+          .where('roomId', 1);
 
         expect(room).toHaveLength(0);
       });

@@ -6,27 +6,27 @@ jest.mock('../../logger');
 
 const initActions = [
   {
-    action_id: 1,
-    scene_id: 1,
+    actionId: 1,
+    sceneId: 1,
     type: 'DIO',
     name: 'action turn on',
-    target_id: 1,
+    targetId: 1,
     body: JSON.stringify({ on: true }),
   },
   {
-    action_id: 2,
-    scene_id: 1,
+    actionId: 2,
+    sceneId: 1,
     type: 'DIO',
     name: 'action turn off',
-    target_id: 2,
+    targetId: 2,
     body: JSON.stringify({ on: false }),
   },
   {
-    action_id: 3,
-    scene_id: 2,
+    actionId: 3,
+    sceneId: 2,
     type: 'SCENE',
     name: 'call scene',
-    target_id: 2,
+    targetId: 2,
     body: null,
   },
 ];
@@ -71,11 +71,11 @@ describe('Action', () => {
 
     it('should handle when a body if malformed', async () => {
       const action = {
-        action_id: 4,
-        scene_id: 2,
+        actionId: 4,
+        sceneId: 2,
         type: 'DIO',
         name: 'action turn off',
-        target_id: 2,
+        targetId: 2,
         body: 'tototo',
       };
 

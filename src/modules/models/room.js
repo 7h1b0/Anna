@@ -6,12 +6,12 @@ import * as HueLight from './hueLight';
 
 export const TABLE = 'rooms';
 export const COLUMNS = [
-  { roomId: 'room_id' },
+  'roomId',
   'description',
   'name',
-  { createdAt: 'created_at' },
-  { updatedAt: 'updated_at' },
-  { createdBy: 'created_by' },
+  'createdAt',
+  'updatedAt',
+  'createdBy',
 ];
 
 export function validate(data) {
@@ -26,7 +26,7 @@ export function findAll() {
 export function findById(id) {
   return knex(TABLE)
     .first(COLUMNS)
-    .where('room_id', id);
+    .where('roomId', id);
 }
 
 export function save({ name, description, userId }) {
@@ -34,7 +34,7 @@ export function save({ name, description, userId }) {
     .insert({
       description,
       name,
-      created_by: userId,
+      createdBy: userId,
     })
     .then(([roomId]) => {
       return {
@@ -48,25 +48,25 @@ export function save({ name, description, userId }) {
 
 export async function remove(roomId) {
   const res = await knex
-    .select('room_id')
+    .select('roomId')
     .from(Dio.TABLE)
-    .where('room_id', roomId)
+    .where('roomId', roomId)
     .unionAll(function() {
-      this.select('room_id')
+      this.select('roomId')
         .from(HueLight.TABLE)
-        .where('room_id', roomId);
+        .where('roomId', roomId);
     });
 
   if (res.length === 0) {
     return knex(TABLE)
-      .where('room_id', roomId)
+      .where('roomId', roomId)
       .del();
   }
-  return Promise.resolve(0);
+  return 0;
 }
 
 export function findByIdAndUpdate(roomId, payload) {
   return knex(TABLE)
     .update({ ...payload })
-    .where('room_id', roomId);
+    .where('roomId', roomId);
 }

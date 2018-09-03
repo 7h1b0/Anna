@@ -1,12 +1,6 @@
 import knex from '../../knexClient';
 export const TABLE = 'logs';
-export const COLUMNS = [
-  'ip',
-  'httpMethod',
-  'path',
-  { createdAt: 'created_at' },
-  'username',
-];
+export const COLUMNS = ['ip', 'httpMethod', 'path', 'createdAt', 'username'];
 
 export function save({ httpMethod, path, ip, username }) {
   return knex(TABLE).insert({

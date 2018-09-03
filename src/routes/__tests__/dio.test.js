@@ -9,19 +9,19 @@ jest.mock('../../modules/dispatch');
 
 const initDios = [
   {
-    dio_id: 1,
-    room_id: 1,
+    dioId: 1,
+    roomId: 1,
     name: 'test',
   },
   {
-    dio_id: 2,
-    room_id: 2,
+    dioId: 2,
+    roomId: 2,
     name: 'test',
   },
 ];
 
 const user = {
-  user_id: 1,
+  userId: 1,
   username: 'test',
   password: '$2a$10$4ftuQxquI/5NR3POJy.2O.DmscxoSdCBzUvlnX2iXGMxtpqhd3w6O', // anna
   token: '8e6a76928f76d23665f78ff3688ca86422d5',
@@ -83,11 +83,11 @@ describe('Dio API', () => {
 
         const dio = await knex(Dio.TABLE)
           .first('*')
-          .where('dio_id', 3);
+          .where('dioId', 3);
         expect(dio).toEqual({
-          dio_id: 3,
+          dioId: 3,
           name: 'test_post',
-          room_id: 1,
+          roomId: 1,
         });
       });
 
@@ -128,7 +128,7 @@ describe('Dio API', () => {
         expect(response.body).toEqual({
           dioId: 1,
           name: initDios[0].name,
-          roomId: initDios[0].room_id,
+          roomId: initDios[0].roomId,
         });
       });
 
@@ -167,12 +167,12 @@ describe('Dio API', () => {
 
         const dio = await knex(Dio.TABLE)
           .first('*')
-          .where('room_id', 1);
+          .where('roomId', 1);
 
         expect(dio).toEqual({
-          dio_id: 1,
+          dioId: 1,
           name: 'test_updated',
-          room_id: 1,
+          roomId: 1,
         });
       });
 
@@ -226,7 +226,7 @@ describe('Dio API', () => {
 
         const dio = await knex(Dio.TABLE)
           .select('*')
-          .where('room_id', 1);
+          .where('roomId', 1);
 
         expect(dio).toHaveLength(0);
       });

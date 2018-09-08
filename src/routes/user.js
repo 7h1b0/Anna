@@ -10,20 +10,23 @@ routes.post('/register', (req, res) => {
     return res.sendStatus(400);
   }
   const { username, password } = req.body;
-  Promise.all([cryptoUtil.random(36), cryptoUtil.hash(password)])
-    .then(([token, hashedPassword]) => {
-      return User.save({
-        username,
-        password: hashedPassword,
-        token,
-      });
-    })
-    .then(newUser => {
-      return res.status(201).json(newUser);
-    })
-    .catch(err => {
-      res.status(500).send({ err });
+
+  const createUser = async () => {
+    const [token, hashedPassword] = await Promise.all([
+      cryptoUtil.random(36),
+      cryptoUtil.hash(password),
+    ]);
+    const userId = await User.save({
+      username,
+      password: hashedPassword,
+      token,
     });
+    return { userId, token, username };
+  };
+
+  createUser()
+    .then(user => res.status(201).json(user))
+    .catch(err => res.status(500).send({ err }));
 });
 
 routes.post('/login', (req, res) => {
@@ -61,7 +64,7 @@ routes.get('/api/users', (req, res) => {
 });
 
 routes
-  .route('/api/users/:id_user([0-9]+)')
+  .route('/api/users/:id_user([a-fA-F0-9-]{36})')
   .patch((req, res) => {
     const isValid = User.validate(req.body);
     if (!isValid) {

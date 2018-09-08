@@ -2,13 +2,13 @@ import knex from '../../../knexClient';
 import * as User from '../user';
 const initUsers = [
   {
-    userId: 1,
+    userId: '010c80e8-49e4-4d6b-b966-4fc9fb98879f',
     username: 'one',
     password: 'test',
     token: 'token_one',
   },
   {
-    userId: 2,
+    userId: '1fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
     username: 'two',
     password: 'test',
     token: 'token_two',
@@ -41,43 +41,34 @@ describe('Users', () => {
 
   describe('findByUsername', () => {
     it('should return only one user', async () => {
-      const expected = {
-        userId: 1,
-        username: 'one',
-        password: 'test',
-        token: 'token_one',
-      };
-
-      const result = await User.findByUsername('one');
-      expect(result).toEqual(expected);
+      const result = await User.findByUsername(initUsers[0].username);
+      expect(result).toEqual(initUsers[0]);
     });
 
     it('should return undefined', async () => {
       const result = await User.findByUsername('no');
-      expect(result).toBe(undefined);
+      expect(result).toBeUndefined();
     });
   });
 
   describe('findByToken', () => {
     it('should return only one user', async () => {
-      const expected = {
-        userId: 1,
-        username: 'one',
-      };
-
-      const result = await User.findByToken('token_one');
-      expect(result).toEqual(expected);
+      const result = await User.findByToken(initUsers[0].token);
+      expect(result).toEqual({
+        userId: initUsers[0].userId,
+        username: initUsers[0].username,
+      });
     });
 
     it('should return undefined', async () => {
       const result = await User.findByToken('no');
-      expect(result).toBe(undefined);
+      expect(result).toBeUndefined();
     });
   });
 
   describe('findByIdAndUpdate', () => {
-    it('should updat an user', async () => {
-      const rowsAffected = await User.findByIdAndUpdate(1, {
+    it('should update an user', async () => {
+      const rowsAffected = await User.findByIdAndUpdate(initUsers[0].userId, {
         username: 'username',
       });
       expect(rowsAffected).toBe(1);
@@ -85,7 +76,7 @@ describe('Users', () => {
       expect(user).toMatchSnapshot();
     });
 
-    it('should update an user', async () => {
+    it('should not update an user if userId is unknow', async () => {
       const rowsAffected = await User.findByIdAndUpdate(-1, {
         username: 'username',
       });
@@ -109,11 +100,14 @@ describe('Users', () => {
         token: 'fghjkhjkhjhk',
       };
 
-      await User.save(save);
+      const userId = await User.save(save);
       const user = await knex(User.TABLE)
-        .select('*')
-        .where('username', 'testsave');
-      expect(user).toMatchSnapshot();
+        .first('*')
+        .where('userId', userId);
+
+      expect(user).toMatchSnapshot({
+        userId: expect.stringMatching(/[a-fA-F0-9-]{36}/),
+      });
     });
 
     xit('should reject when an username is already taken', async () => {
@@ -129,7 +123,7 @@ describe('Users', () => {
 
   describe('delete', () => {
     it('should delete an user', async () => {
-      await User.remove(1);
+      await User.remove(initUsers[0].userId);
       const users = await knex(User.TABLE).select('*');
       expect(users).toMatchSnapshot();
     });

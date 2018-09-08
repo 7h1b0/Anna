@@ -1,4 +1,5 @@
 import Ajv from 'ajv';
+import uuidv4 from 'uuid/v4';
 import roomSchema from '../schemas/room';
 import knex from '../../knexClient';
 import * as Dio from './dio';
@@ -29,21 +30,16 @@ export function findById(id) {
     .where('roomId', id);
 }
 
-export function save({ name, description, userId }) {
-  return knex(TABLE)
-    .insert({
-      description,
-      name,
-      createdBy: userId,
-    })
-    .then(([roomId]) => {
-      return {
-        description,
-        roomId,
-        name,
-        createdBy: userId,
-      };
-    });
+export async function save({ name, description, userId }) {
+  const roomId = uuidv4();
+  await knex(TABLE).insert({
+    roomId,
+    description,
+    name,
+    createdBy: userId,
+  });
+
+  return roomId;
 }
 
 export async function remove(roomId) {

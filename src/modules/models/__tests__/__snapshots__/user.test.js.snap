@@ -5,7 +5,7 @@ Array [
   RowDataPacket {
     "password": "test",
     "token": "token_two",
-    "userId": 2,
+    "userId": "1fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
     "username": "two",
   },
 ]
@@ -14,40 +14,38 @@ Array [
 exports[`Users findAll should return all users 1`] = `
 Array [
   RowDataPacket {
-    "userId": 1,
+    "userId": "010c80e8-49e4-4d6b-b966-4fc9fb98879f",
     "username": "one",
   },
   RowDataPacket {
-    "userId": 2,
+    "userId": "1fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
     "username": "two",
   },
 ]
 `;
 
-exports[`Users findByIdAndUpdate should updat an user 1`] = `
+exports[`Users findByIdAndUpdate should update an user 1`] = `
 Array [
   RowDataPacket {
     "password": "test",
     "token": "token_one",
-    "userId": 1,
+    "userId": "010c80e8-49e4-4d6b-b966-4fc9fb98879f",
     "username": "username",
   },
   RowDataPacket {
     "password": "test",
     "token": "token_two",
-    "userId": 2,
+    "userId": "1fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
     "username": "two",
   },
 ]
 `;
 
 exports[`Users save should save a new user 1`] = `
-Array [
-  RowDataPacket {
-    "password": "sdfsdfsdfsdfsdf",
-    "token": "fghjkhjkhjhk",
-    "userId": 3,
-    "username": "testsave",
-  },
-]
+Object {
+  "password": "sdfsdfsdfsdfsdf",
+  "token": "fghjkhjkhjhk",
+  "userId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,
+  "username": "testsave",
+}
 `;

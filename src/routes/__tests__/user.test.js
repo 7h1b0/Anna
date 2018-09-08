@@ -1,10 +1,10 @@
 import request from 'supertest';
 import knex from '../../knexClient';
 import * as User from '../../modules/models/user';
-import app from '../../index.js';
+import app from '../..';
 
 const user = {
-  userId: 1,
+  userId: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f',
   username: 'test',
   password: '$2a$10$4ftuQxquI/5NR3POJy.2O.DmscxoSdCBzUvlnX2iXGMxtpqhd3w6O', // anna
   token: '8e6a76928f76d23665f78ff3688ca86422d5',
@@ -123,7 +123,7 @@ describe('User API', () => {
     describe('DELETE', () => {
       it('should delete target user when user is authenticated', async () => {
         const response = await request(app)
-          .delete('/api/users/1')
+          .delete(`/api/users/${user.userId}`)
           .set('Accept', 'application/json')
           .set('x-access-token', user.token)
           .send();
@@ -135,7 +135,7 @@ describe('User API', () => {
 
       it('should retun 401 when user is not authenticated', async () => {
         const response = await request(app)
-          .delete('/api/users/1')
+          .delete(`/api/users/${user.userId}`)
           .set('Accept', 'application/json')
           .set('x-access-token', 'fake')
           .send();
@@ -147,7 +147,7 @@ describe('User API', () => {
     describe('PATCH', () => {
       it('should do not update username', async () => {
         const response = await request(app)
-          .patch('/api/users/1')
+          .patch(`/api/users/${user.userId}`)
           .set('Accept', 'application/json')
           .set('x-access-token', user.token)
           .send({ username: 'test_changed', password: 'anna' });
@@ -155,14 +155,14 @@ describe('User API', () => {
         expect(response.status).toBe(204);
         const users = await knex(User.TABLE)
           .first('*')
-          .where('userId', 1);
+          .where('userId', user.userId);
 
         expect(users).toHaveProperty('username', user.username);
       });
 
       it('should update password', async () => {
         const response = await request(app)
-          .patch('/api/users/1')
+          .patch(`/api/users/${user.userId}`)
           .set('Accept', 'application/json')
           .set('x-access-token', user.token)
           .send({ username: 'test', password: 'toto' });
@@ -180,7 +180,7 @@ describe('User API', () => {
 
       it('should retun 401 when user is not authenticated', async () => {
         const response = await request(app)
-          .patch('/api/users/1')
+          .patch(`/api/users/${user.userId}`)
           .set('Accept', 'application/json')
           .set('x-access-token', 'fake')
           .send();
@@ -190,7 +190,7 @@ describe('User API', () => {
 
       it('should retun 400 if body is invalid', async () => {
         const response = await request(app)
-          .patch('/api/users/1')
+          .patch(`/api/users/${user.userId}`)
           .set('Accept', 'application/json')
           .set('x-access-token', user.token)
           .send();

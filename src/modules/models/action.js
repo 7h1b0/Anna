@@ -2,7 +2,14 @@ import knex from '../../knexClient';
 import * as logger from '../logger';
 
 export const TABLE = 'actions';
-export const COLUMNS = ['name', 'type', 'body', 'targetId'];
+export const COLUMNS = [
+  'name',
+  'type',
+  'body',
+  'targetId',
+  'sceneId',
+  'actionId',
+];
 
 export function findBySceneId(sceneId) {
   return knex(TABLE)

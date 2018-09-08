@@ -1,4 +1,5 @@
 import Ajv from 'ajv';
+import uuidv4 from 'uuid/v4';
 import knex from '../../knexClient';
 import sceneSchema from '../schemas/scene';
 import { TABLE as ACTION_TABLE, findBySceneId } from './action';
@@ -22,18 +23,17 @@ export function findAll() {
   return knex(TABLE).select(COLUMNS);
 }
 
-export function findById(sceneId) {
+export async function findById(sceneId) {
   const fetchScene = knex(TABLE)
     .first(COLUMNS)
     .where('sceneId', sceneId);
   const fetchActions = findBySceneId(sceneId);
 
-  return Promise.all([fetchScene, fetchActions]).then(([scene, actions]) => {
-    if (scene && scene.length > 0) {
-      return { ...scene, actions };
-    }
-    return;
-  });
+  const [scene, actions] = await Promise.all([fetchScene, fetchActions]);
+  if (scene && scene.length > 0) {
+    return { ...scene, actions };
+  }
+  return;
 }
 
 export function findByIdAndUpdate({ sceneId, name, description, actions }) {
@@ -75,30 +75,34 @@ export function findByIdAndUpdate({ sceneId, name, description, actions }) {
     });
 }
 
-export function save({ name, description, userId, actions }) {
-  return knex.transaction(trx => {
-    return trx
+export async function save({ name, description, userId, actions }) {
+  const sceneId = uuidv4();
+  await knex.transaction(trx => {
+    const insertIntoScene = trx
       .insert({
+        sceneId,
         description,
         name,
         createdBy: userId,
       })
-      .into(TABLE)
-      .then(([sceneId]) => {
-        return Promise.all(
-          actions.map(action => {
-            const formatedAction = {
-              type: action.type,
-              name: action.name,
-              targetId: action.targetId,
-              sceneId: sceneId,
-              body: JSON.stringify(action.body),
-            };
-            return trx.insert(formatedAction).into(ACTION_TABLE);
-          }),
-        ).then(() => sceneId);
-      });
+      .into(TABLE);
+
+    const insertIntoActions = actions.map(action => {
+      const formatedAction = {
+        type: action.type,
+        name: action.name,
+        targetId: action.targetId,
+        sceneId,
+        body: JSON.stringify(action.body),
+        actionId: uuidv4(),
+      };
+      return trx.insert(formatedAction).into(ACTION_TABLE);
+    });
+
+    return Promise.all([insertIntoScene, ...insertIntoActions]);
   });
+
+  return sceneId;
 }
 
 export function remove(sceneId) {

@@ -5,12 +5,12 @@ Array [
   RowDataPacket {
     "dioId": 1,
     "name": "updated",
-    "roomId": 1,
+    "roomId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
   },
   RowDataPacket {
     "dioId": 2,
     "name": "test",
-    "roomId": 2,
+    "roomId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
   },
 ]
 `;

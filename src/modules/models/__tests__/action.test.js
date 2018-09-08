@@ -6,28 +6,28 @@ jest.mock('../../logger');
 
 const initActions = [
   {
-    actionId: 1,
-    sceneId: 1,
+    actionId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
+    sceneId: '75442486-0878-440c-9db1-a7006c25a39f',
     type: 'DIO',
     name: 'action turn on',
-    targetId: 1,
-    body: JSON.stringify({ on: true }),
+    targetId: '4fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
+    body: { on: true },
   },
   {
-    actionId: 2,
-    sceneId: 1,
+    actionId: '1fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
+    sceneId: '75442486-0878-440c-9db1-a7006c25a39f',
     type: 'DIO',
     name: 'action turn off',
-    targetId: 2,
-    body: JSON.stringify({ on: false }),
+    targetId: '29699398-449c-48fb-8f5c-84186cdf8279',
+    body: { on: false },
   },
   {
-    actionId: 3,
-    sceneId: 2,
+    actionId: '2fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
+    sceneId: '18feb598-32cb-472f-8b29-a7e7fe41e06b',
     type: 'SCENE',
     name: 'call scene',
-    targetId: 2,
-    body: null,
+    targetId: '29699398-449c-48fb-8f5c-84186cdf8279',
+    body: 'not a valid JSON}',
   },
 ];
 
@@ -37,7 +37,14 @@ describe('Action', () => {
   });
 
   beforeEach(async () => {
-    await knex(Action.TABLE).insert(initActions);
+    await knex(Action.TABLE).insert(
+      initActions.map((action, index) => {
+        if (index !== 2) {
+          return { ...action, body: JSON.stringify(action.body) };
+        }
+        return action;
+      }),
+    );
   });
 
   afterEach(async () => {
@@ -50,49 +57,18 @@ describe('Action', () => {
 
   describe('findBySceneId', () => {
     it('should return all actions given scene id', async () => {
-      const expected = [
-        {
-          type: 'DIO',
-          name: 'action turn on',
-          targetId: 1,
-          body: { on: true },
-        },
-        {
-          type: 'DIO',
-          name: 'action turn off',
-          targetId: 2,
-          body: { on: false },
-        },
-      ];
-
-      const result = await Action.findBySceneId(1);
-      expect(result).toEqual(expected);
+      const result = await Action.findBySceneId(
+        '75442486-0878-440c-9db1-a7006c25a39f',
+      );
+      expect(result).toEqual([initActions[0], initActions[1]]);
     });
 
     it('should handle when a body if malformed', async () => {
-      const action = {
-        actionId: 4,
-        sceneId: 2,
-        type: 'DIO',
-        name: 'action turn off',
-        targetId: 2,
-        body: 'tototo',
-      };
+      const result = await Action.findBySceneId(
+        '18feb598-32cb-472f-8b29-a7e7fe41e06b',
+      );
 
-      const expected = [
-        {
-          type: 'SCENE',
-          name: 'call scene',
-          targetId: 2,
-          body: null,
-        },
-      ];
-
-      await knex(Action.TABLE).insert(action);
-
-      const result = await Action.findBySceneId(2);
-
-      expect(result).toEqual(expected);
+      expect(result).toEqual([]);
       expect(logger.error).toHaveBeenCalled();
     });
   });

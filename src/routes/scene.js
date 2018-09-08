@@ -20,12 +20,12 @@ routes
 
     const userId = res.locals.user.userId;
     Scene.save({ ...req.body, userId })
-      .then(sceneId => res.status(201).json({ ...req.body, sceneId }))
+      .then(sceneId => res.status(201).json({ sceneId }))
       .catch(err => res.status(500).send({ err }));
   });
 
 routes
-  .route('/api/scenes/:id_scene([0-9]+)')
+  .route('/api/scenes/:id_scene([a-fA-F0-9-]{36})')
   .get((req, res) => {
     Scene.findById(req.params.id_scene)
       .then(scene => {
@@ -69,7 +69,7 @@ routes
       });
   });
 
-routes.get('/api/scenes/:id_scene([0-9]+)/action', (req, res) => {
+routes.get('/api/scenes/:id_scene([a-fA-F0-9-]{36})/action', (req, res) => {
   dispatch(callScene(req.params.id_scene))
     .then(() => res.end())
     .catch(err => {

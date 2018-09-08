@@ -6,18 +6,18 @@ import app from '../../index.js';
 
 const initRooms = [
   {
-    roomId: 1,
+    roomId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
     description: 'this is a test',
     name: 'room_1',
-    createdBy: 1,
+    createdBy: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f',
     createdAt: new Date('2018-01-01'),
     updatedAt: new Date('2018-01-02'),
   },
   {
-    roomId: 2,
+    roomId: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f',
     description: 'this is a second test',
     name: 'room_2',
-    createdBy: 1,
+    createdBy: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f',
     createdAt: new Date('2018-01-01'),
     updatedAt: new Date('2018-01-02'),
   },
@@ -82,12 +82,13 @@ describe('Rooms API', () => {
           });
 
         expect(response.status).toBe(201);
-        expect(response.body).toMatchSnapshot();
 
         const rooms = await knex(Room.TABLE)
           .first('*')
-          .where('roomId', 3);
+          .where('roomId', response.body);
+
         expect(rooms).toMatchSnapshot({
+          roomId: expect.stringMatching(/[a-fA-F0-9-]{36}/),
           createdAt: expect.any(Date),
           updatedAt: expect.any(Date),
         });
@@ -120,7 +121,7 @@ describe('Rooms API', () => {
     describe('GET', () => {
       it('should return an room', async () => {
         const response = await request(app)
-          .get('/api/rooms/1')
+          .get(`/api/rooms/${initRooms[0].roomId}`)
           .set('Accept', 'application/json')
           .set('x-access-token', user.token);
 
@@ -129,7 +130,7 @@ describe('Rooms API', () => {
 
       it('should return 401 when user is not authenticated', async () => {
         const response = await request(app)
-          .get('/api/rooms/2')
+          .get(`/api/rooms/${initRooms[0].roomId}`)
           .set('Accept', 'application/json')
           .set('x-access-token', 'fake');
 
@@ -138,7 +139,7 @@ describe('Rooms API', () => {
 
       it("should retun 404 when a room don't exist", async () => {
         const response = await request(app)
-          .get('/api/rooms/23')
+          .get('/api/rooms/c10c80e8-49e4-4d6b-b966-4fc9fb9887aa')
           .set('Accept', 'application/json')
           .set('x-access-token', user.token);
 
@@ -149,7 +150,7 @@ describe('Rooms API', () => {
     describe('PATCH', () => {
       it('should update an room', async () => {
         const response = await request(app)
-          .patch('/api/rooms/1')
+          .patch(`/api/rooms/${initRooms[0].roomId}`)
           .set('Accept', 'application/json')
           .set('x-access-token', user.token)
           .send({
@@ -161,9 +162,10 @@ describe('Rooms API', () => {
 
         const room = await knex(Room.TABLE)
           .first('*')
-          .where('roomId', 1);
+          .where('roomId', initRooms[0].roomId);
 
         expect(room).toMatchSnapshot({
+          roomId: expect.stringMatching(/[a-fA-F0-9-]{36}/),
           createdAt: expect.any(Date),
           updatedAt: expect.any(Date),
         });
@@ -171,7 +173,7 @@ describe('Rooms API', () => {
 
       it('should return 401 when user is not authenticated', async () => {
         const response = await request(app)
-          .patch('/api/rooms/1')
+          .patch(`/api/rooms/${initRooms[0].roomId}`)
           .set('Accept', 'application/json')
           .set('x-access-token', 'fake');
 
@@ -180,7 +182,7 @@ describe('Rooms API', () => {
 
       it('should return 400 when request is invalid', async () => {
         const response = await request(app)
-          .patch('/api/rooms/1')
+          .patch(`/api/rooms/${initRooms[0].roomId}`)
           .set('Accept', 'application/json')
           .set('x-access-token', user.token)
           .send({
@@ -193,7 +195,7 @@ describe('Rooms API', () => {
 
       it("should retun 404 when a room don't exist", async () => {
         const response = await request(app)
-          .patch('/api/rooms/23')
+          .patch('/api/rooms/c10c80e8-49e4-4d6b-b966-4fc9fb9887aa')
           .set('Accept', 'application/json')
           .set('x-access-token', user.token)
           .send({
@@ -208,7 +210,7 @@ describe('Rooms API', () => {
     describe('DELETE', () => {
       it('should delete an room', async () => {
         const response = await request(app)
-          .delete('/api/rooms/1')
+          .delete(`/api/rooms/${initRooms[0].roomId}`)
           .set('Accept', 'application/json')
           .set('x-access-token', user.token);
 
@@ -216,14 +218,14 @@ describe('Rooms API', () => {
 
         const room = await knex(Room.TABLE)
           .select('*')
-          .where('roomId', 1);
+          .where('roomId', initRooms[0].roomId);
 
         expect(room).toHaveLength(0);
       });
 
       it('should return 401 when user is not authenticated', async () => {
         const response = await request(app)
-          .delete('/api/rooms/1')
+          .delete(`/api/rooms/${initRooms[0].roomId}`)
           .set('Accept', 'application/json')
           .set('x-access-token', 'fake');
 
@@ -232,7 +234,7 @@ describe('Rooms API', () => {
 
       it("should retun 404 when a room don't exist", async () => {
         const response = await request(app)
-          .delete('/api/rooms/23')
+          .delete('/api/rooms/c10c80e8-49e4-4d6b-b966-4fc9fb9887aa')
           .set('Accept', 'application/json')
           .set('x-access-token', user.token);
 

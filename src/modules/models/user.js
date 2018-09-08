@@ -1,4 +1,5 @@
 import Ajv from 'ajv';
+import uuidv4 from 'uuid/v4';
 import userSchema from '../schemas/user';
 import knex from '../../knexClient';
 
@@ -26,12 +27,10 @@ export function findByIdAndUpdate(userId, payload) {
     .where('userId', userId);
 }
 
-export function save({ username, password, token }) {
-  return knex(TABLE)
-    .insert({ username, password, token })
-    .then(([userId]) => {
-      return { userId, token, username };
-    });
+export async function save({ username, password, token }) {
+  const userId = uuidv4();
+  await knex(TABLE).insert({ username, password, token, userId });
+  return userId;
 }
 
 export function remove(userId) {

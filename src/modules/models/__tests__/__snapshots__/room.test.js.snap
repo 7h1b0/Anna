@@ -3,30 +3,21 @@
 exports[`Room findByIdAndUpdate should update a room 1`] = `
 Object {
   "createdAt": Any<Date>,
-  "createdBy": 1,
+  "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
   "description": "this is a test",
   "name": "updated",
-  "roomId": 1,
+  "roomId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
   "updatedAt": Any<Date>,
 }
 `;
 
 exports[`Room save should save a new room 1`] = `
 Object {
-  "createdBy": 1,
-  "description": "test",
-  "name": "test-save",
-  "roomId": 3,
-}
-`;
-
-exports[`Room save should save a new room 2`] = `
-Object {
   "createdAt": Any<Date>,
-  "createdBy": 1,
+  "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
   "description": "test",
   "name": "test-save",
-  "roomId": 3,
+  "roomId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,
   "updatedAt": Any<Date>,
 }
 `;

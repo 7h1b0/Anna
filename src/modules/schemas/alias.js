@@ -4,7 +4,8 @@ export default {
   additionalProperties: false,
   properties: {
     aliasId: {
-      type: 'integer',
+      type: 'string',
+      format: 'uuid',
     },
     name: {
       type: 'string',
@@ -15,7 +16,8 @@ export default {
       minLength: 3,
     },
     sceneId: {
-      type: 'integer',
+      type: 'string',
+      format: 'uuid',
     },
     enabled: { type: 'boolean' },
   },

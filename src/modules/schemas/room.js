@@ -4,7 +4,8 @@ export default {
   additionalProperties: false,
   properties: {
     roomId: {
-      type: 'integer',
+      type: 'string',
+      format: 'uuid',
     },
     name: {
       type: 'string',

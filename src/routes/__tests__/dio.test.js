@@ -10,12 +10,12 @@ jest.mock('../../modules/dispatch');
 const initDios = [
   {
     dioId: 1,
-    roomId: 1,
+    roomId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
     name: 'test',
   },
   {
     dioId: 2,
-    roomId: 2,
+    roomId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
     name: 'test',
   },
 ];
@@ -76,7 +76,7 @@ describe('Dio API', () => {
           .send({
             dioId: 3,
             name: 'test_post',
-            roomId: 1,
+            roomId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
           });
 
         expect(response.status).toBe(201);
@@ -87,7 +87,7 @@ describe('Dio API', () => {
         expect(dio).toEqual({
           dioId: 3,
           name: 'test_post',
-          roomId: 1,
+          roomId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
         });
       });
 
@@ -108,7 +108,7 @@ describe('Dio API', () => {
           .send({
             dioId: 1,
             name: 'test_post',
-            roomId: 1,
+            roomId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
             admin: true,
           });
 
@@ -160,19 +160,19 @@ describe('Dio API', () => {
           .send({
             dioId: 1,
             name: 'test_updated',
-            roomId: 1,
+            roomId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
           });
 
         expect(response.status).toBe(204);
 
         const dio = await knex(Dio.TABLE)
           .first('*')
-          .where('roomId', 1);
+          .where('roomId', '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2');
 
         expect(dio).toEqual({
           dioId: 1,
           name: 'test_updated',
-          roomId: 1,
+          roomId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
         });
       });
 
@@ -193,7 +193,7 @@ describe('Dio API', () => {
           .send({
             dioId: 1,
             name: 'test_post',
-            roomId: 1,
+            roomId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
             admin: true,
           });
 
@@ -208,7 +208,7 @@ describe('Dio API', () => {
           .send({
             dioId: 1,
             name: 'test_updated',
-            roomId: 1,
+            roomId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
           });
 
         expect(response.status).toBe(404);

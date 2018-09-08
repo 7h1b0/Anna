@@ -16,13 +16,13 @@ routes
     } else {
       const userId = res.locals.user.userId;
       Room.save({ ...req.body, userId })
-        .then(room => res.status(201).json(room))
+        .then(newRoomId => res.status(201).json(newRoomId))
         .catch(err => res.status(500).send({ err }));
     }
   });
 
 routes
-  .route('/api/rooms/:room_id([0-9]+)')
+  .route('/api/rooms/:room_id([a-fA-F0-9-]{36})')
   .get((req, res) => {
     Room.findById(req.params.room_id)
       .then(room => {

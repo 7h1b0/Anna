@@ -35,31 +35,10 @@ Array [
 exports[`Scene save should save a new scene 1`] = `
 Object {
   "createdAt": Any<Date>,
-  "createdBy": 1,
+  "createdBy": "75442486-0878-440c-9db1-a7006c25a39f",
   "description": "save test",
   "name": "scene_3",
-  "sceneId": 3,
+  "sceneId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,
   "updatedAt": Any<Date>,
 }
-`;
-
-exports[`Scene save should save a new scene 2`] = `
-Array [
-  RowDataPacket {
-    "actionId": 4,
-    "body": "{\\"on\\":true}",
-    "name": "action one",
-    "sceneId": 3,
-    "targetId": 1,
-    "type": "DIO",
-  },
-  RowDataPacket {
-    "actionId": 5,
-    "body": "{\\"on\\":true,\\"bri\\":255}",
-    "name": "action two",
-    "sceneId": 3,
-    "targetId": 1,
-    "type": "HUE_LIGHT",
-  },
-]
 `;

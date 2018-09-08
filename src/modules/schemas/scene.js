@@ -6,7 +6,8 @@ export default {
   additionalProperties: false,
   properties: {
     sceneId: {
-      type: 'integer',
+      type: 'string',
+      format: 'uuid',
     },
     name: {
       type: 'string',
@@ -25,10 +26,12 @@ export default {
           additionalProperties: false,
           properties: {
             targetId: {
-              type: 'integer',
+              type: 'string',
+              format: 'uuid',
             },
             actionId: {
-              type: 'integer',
+              type: 'string',
+              format: 'uuid',
             },
             name: {
               type: 'string',

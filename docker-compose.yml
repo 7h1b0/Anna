@@ -1,10 +1,10 @@
 version: '3'
 services:
   db:
-    image: mariadb:10.1.26
-    container_name: "mariadb"
+    image: mariadb:10.1.23
+    container_name: 'mariadb'
     environment:
       - MYSQL_DATABASE=anna
       - MYSQL_ALLOW_EMPTY_PASSWORD=true
     ports:
-      - "127.0.0.1:3306:3306"
+      - '127.0.0.1:3306:3306'

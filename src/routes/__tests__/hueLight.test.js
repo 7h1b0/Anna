@@ -8,7 +8,7 @@ import * as requestService from '../../services/requestService';
 jest.mock('../../services/requestService');
 
 const user = {
-  userId: 1,
+  userId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
   username: 'test',
   password: '$2a$10$4ftuQxquI/5NR3POJy.2O.DmscxoSdCBzUvlnX2iXGMxtpqhd3w6O', // anna
   token: '8e6a76928f76d23665f78ff3688ca86422d5',
@@ -17,11 +17,11 @@ const user = {
 const hueLightRooms = [
   {
     lightId: 1,
-    roomId: 1,
+    roomId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
   },
   {
     lightId: 2,
-    roomId: 1,
+    roomId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b3',
   },
 ];
 
@@ -103,7 +103,10 @@ describe('Hue Light API', () => {
       });
 
       it('should update the roomId and the name', async () => {
-        const updatedName = { roomId: 2, name: 'test_room' };
+        const updatedName = {
+          roomId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b3',
+          name: 'test_room',
+        };
 
         const response = await request(app)
           .patch('/api/hue/lights/2')
@@ -118,10 +121,10 @@ describe('Hue Light API', () => {
         });
 
         const res = await knex(hueLight.TABLE)
-          .select('roomId')
+          .first('roomId')
           .where('lightId', 2);
 
-        expect(res).toEqual([{ roomId: 2 }]);
+        expect(res).toEqual({ roomId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b3' });
       });
 
       it('should retun 401 when user is not authenticated', async () => {

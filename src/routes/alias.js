@@ -19,13 +19,13 @@ routes
     } else {
       const userId = res.locals.user.userId;
       Alias.save({ ...req.body, userId })
-        .then(alias => res.status(201).json(alias))
+        .then(aliasId => res.status(201).json(aliasId))
         .catch(err => res.status(500).send({ err }));
     }
   });
 
 routes
-  .route('/api/alias/:id_alias(\\d+)')
+  .route('/api/alias/:id_alias([a-fA-F0-9-]{36})')
   .get((req, res) => {
     Alias.findById(req.params.id_alias)
       .then(alias => {
@@ -72,7 +72,7 @@ routes
   });
 
 routes.get(
-  '/api/alias/:id_alias(\\d+)/:enabled(enable|disable)',
+  '/api/alias/:id_alias([a-fA-F0-9-]{36})/:enabled(enable|disable)',
   (req, res) => {
     Alias.findByIdAndUpdate(req.params.id_alias, {
       enabled: req.params.enabled === 'enable',
@@ -88,7 +88,7 @@ routes.get(
   },
 );
 
-routes.get('/api/alias/:id_alias(\\d+)/action', (req, res) => {
+routes.get('/api/alias/:id_alias([a-fA-F0-9-]{36})/action', (req, res) => {
   Alias.findById(req.params.id_alias)
     .then(alias => {
       if (!alias) return res.sendStatus(404);

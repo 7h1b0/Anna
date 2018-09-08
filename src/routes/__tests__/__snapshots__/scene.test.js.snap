@@ -4,18 +4,18 @@ exports[`Scene API /api/scenes GET should retun all scene 1`] = `
 Array [
   Object {
     "createdAt": "2018-01-01T00:00:00.000Z",
-    "createdBy": 1,
+    "createdBy": "29699398-449c-48fb-8f5c-84186cdf8279",
     "description": "this is a test",
     "name": "scene_1",
-    "sceneId": 1,
+    "sceneId": "05442486-0878-440c-9db1-a7006c25a39f",
     "updatedAt": "2018-01-02T00:00:00.000Z",
   },
   Object {
     "createdAt": "2018-01-01T00:00:00.000Z",
-    "createdBy": 1,
+    "createdBy": "29699398-449c-48fb-8f5c-84186cdf8279",
     "description": "this is a second test",
     "name": "scene_2",
-    "sceneId": 2,
+    "sceneId": "18feb598-32cb-472f-8b29-a7e7fe41e06b",
     "updatedAt": "2018-01-02T00:00:00.000Z",
   },
 ]
@@ -24,25 +24,23 @@ Array [
 exports[`Scene API /api/scenes POST should create a scene 1`] = `
 Object {
   "createdAt": Any<Date>,
-  "createdBy": 1,
+  "createdBy": "29699398-449c-48fb-8f5c-84186cdf8279",
   "description": "this is a test scene",
   "name": "testScene",
-  "sceneId": 3,
+  "sceneId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,
   "updatedAt": Any<Date>,
 }
 `;
 
 exports[`Scene API /api/scenes POST should create a scene 2`] = `
-Array [
-  RowDataPacket {
-    "actionId": 4,
-    "body": "{\\"on\\":true}",
-    "name": "action",
-    "sceneId": 3,
-    "targetId": 2,
-    "type": "DIO",
-  },
-]
+Object {
+  "actionId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,
+  "body": "{\\"on\\":true}",
+  "name": "action",
+  "sceneId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,
+  "targetId": "29699398-449c-48fb-8f5c-84186cdf8279",
+  "type": "DIO",
+}
 `;
 
 exports[`Scene API /api/scenes/:id GET should retun a scene 1`] = `Object {}`;
@@ -50,10 +48,10 @@ exports[`Scene API /api/scenes/:id GET should retun a scene 1`] = `Object {}`;
 exports[`Scene API /api/scenes/:id PATCH should update a scene 1`] = `
 Object {
   "createdAt": Any<Date>,
-  "createdBy": 1,
+  "createdBy": "29699398-449c-48fb-8f5c-84186cdf8279",
   "description": "this is an updated test",
   "name": "scene_2",
-  "sceneId": 2,
+  "sceneId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,
   "updatedAt": Any<Date>,
 }
 `;

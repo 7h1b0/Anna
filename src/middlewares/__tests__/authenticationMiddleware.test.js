@@ -3,7 +3,7 @@ import * as User from '../../modules/models/user';
 import authenticationMiddleware from '../authenticationMiddleware';
 const initUsers = [
   {
-    userId: 1,
+    userId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
     username: 'one',
     password: 'test',
     token: 'token_one',
@@ -51,7 +51,7 @@ describe('authenticationMiddleware', () => {
 
     await authenticationMiddleware(req, res, next);
     expect(res.locals.user).toEqual({
-      userId: 1,
+      userId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
       username: 'one',
     });
   });

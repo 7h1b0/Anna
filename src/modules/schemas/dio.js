@@ -11,7 +11,8 @@ export default {
       minLength: 3,
     },
     roomId: {
-      type: 'integer',
+      type: 'string',
+      format: 'uuid',
     },
   },
   required: ['name', 'dioId', 'roomId'],

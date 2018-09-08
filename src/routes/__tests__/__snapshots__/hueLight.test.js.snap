@@ -7,7 +7,7 @@ Array [
     "manufacturername": "Philips",
     "modelid": "LCT001",
     "name": "MOCK",
-    "roomId": 1,
+    "roomId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
     "state": Object {
       "alert": "none",
       "bri": 163,
@@ -30,7 +30,7 @@ Array [
     "manufacturername": "Philips",
     "modelid": "LCT001",
     "name": "JEST",
-    "roomId": 1,
+    "roomId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b3",
     "state": Object {
       "alert": "none",
       "bri": 97,
@@ -56,7 +56,7 @@ Object {
   "manufacturername": "Philips",
   "modelid": "LCT001",
   "name": "MOCK",
-  "roomId": 1,
+  "roomId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b3",
   "state": Object {
     "alert": "none",
     "bri": 163,

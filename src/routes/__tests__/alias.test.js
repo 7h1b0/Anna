@@ -9,29 +9,29 @@ jest.mock('../../modules/dispatch');
 
 const initAlias = [
   {
-    aliasId: 1,
-    sceneId: 1,
-    name: 'testone',
+    aliasId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
+    sceneId: 'fa1834fe-40c8-4a6f-9b74-b79be7694644',
+    name: 'test',
     description: 'test',
     enabled: true,
-    createdBy: 1,
+    createdBy: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f',
     createdAt: new Date('2018-01-01'),
     updatedAt: new Date('2018-01-02'),
   },
   {
-    aliasId: 2,
-    sceneId: 1,
-    name: 'testtwo',
+    aliasId: '1fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
+    sceneId: 'fa1834fe-40c8-4a6f-9b74-b79be7694644',
+    name: 'test_2',
     description: 'test',
     enabled: false,
-    createdBy: 1,
+    createdBy: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f',
     createdAt: new Date('2018-01-01'),
     updatedAt: new Date('2018-01-02'),
   },
 ];
 
 const user = {
-  userId: 1,
+  userId: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f',
   username: 'test',
   password: '$2a$10$4ftuQxquI/5NR3POJy.2O.DmscxoSdCBzUvlnX2iXGMxtpqhd3w6O', // anna
   token: '8e6a76928f76d23665f78ff3688ca86422d5',
@@ -85,19 +85,19 @@ describe('Alias API', () => {
           .set('Accept', 'application/json')
           .set('x-access-token', user.token)
           .send({
-            sceneId: 1,
+            sceneId: 'fa1834fe-40c8-4a6f-9b74-b79be7694644',
             name: 'test_post',
             description: 'test',
             enabled: false,
           });
 
         expect(response.status).toBe(201);
-        expect(response.body).toMatchSnapshot();
 
         const alias = await knex(Alias.TABLE)
           .first('*')
-          .where('aliasId', 3);
+          .where('aliasId', response.body);
         expect(alias).toMatchSnapshot({
+          aliasId: expect.stringMatching(/[a-fA-F0-9-]{36}/),
           createdAt: expect.any(Date),
           updatedAt: expect.any(Date),
         });
@@ -118,7 +118,7 @@ describe('Alias API', () => {
           .set('Accept', 'application/json')
           .set('x-access-token', user.token)
           .send({
-            sceneId: 1,
+            sceneId: 'fa1834fe-40c8-4a6f-9b74-b79be7694644',
             name: 'test_post',
             description: 'test',
             fake: false,
@@ -133,7 +133,7 @@ describe('Alias API', () => {
     describe('GET', () => {
       it('should retun an alias', async () => {
         const response = await request(app)
-          .get('/api/alias/1')
+          .get(`/api/alias/${initAlias[0].aliasId}`)
           .set('Accept', 'application/json')
           .set('x-access-token', user.token);
 
@@ -142,7 +142,7 @@ describe('Alias API', () => {
 
       it('should retun 401 when user is not authenticated', async () => {
         const response = await request(app)
-          .get('/api/alias/2')
+          .get(`/api/alias/${initAlias[1].aliasId}`)
           .set('Accept', 'application/json')
           .set('x-access-token', 'fake');
 
@@ -151,7 +151,7 @@ describe('Alias API', () => {
 
       it("should retun 404 when alias don't exist", async () => {
         const response = await request(app)
-          .get('/api/alias/23')
+          .get('/api/alias/11111111-fd1c-4717-b610-65d2fa3d01b2')
           .set('Accept', 'application/json')
           .set('x-access-token', user.token);
 
@@ -162,11 +162,11 @@ describe('Alias API', () => {
     describe('PATCH', () => {
       it('should update an alias', async () => {
         const response = await request(app)
-          .patch('/api/alias/1')
+          .patch(`/api/alias/${initAlias[0].aliasId}`)
           .set('Accept', 'application/json')
           .set('x-access-token', user.token)
           .send({
-            sceneId: 2,
+            sceneId: 'fa1834fe-40c8-4a6f-9b74-b79be7694644',
             name: 'test_update',
             description: 'test',
             enabled: true,
@@ -186,7 +186,7 @@ describe('Alias API', () => {
 
       it('should retun 401 when user is not authenticated', async () => {
         const response = await request(app)
-          .patch('/api/alias/1')
+          .patch(`/api/alias/${initAlias[0].aliasId}`)
           .set('Accept', 'application/json')
           .set('x-access-token', 'fake');
 
@@ -195,11 +195,11 @@ describe('Alias API', () => {
 
       it('should retun 400 when request is invalid', async () => {
         const response = await request(app)
-          .patch('/api/alias/1')
+          .patch(`/api/alias/${initAlias[0].aliasId}`)
           .set('Accept', 'application/json')
           .set('x-access-token', user.token)
           .send({
-            sceneId: 2,
+            sceneId: 'fa1834fe-40c8-4a6f-9b74-b79be7694644',
             name: 'test_update',
             description: 'test',
             fake: true,
@@ -214,7 +214,7 @@ describe('Alias API', () => {
           .set('Accept', 'application/json')
           .set('x-access-token', user.token)
           .send({
-            sceneId: 2,
+            sceneId: 'fa1834fe-40c8-4a6f-9b74-b79be7694644',
             name: 'test_update',
             description: 'test',
             enabled: true,
@@ -227,7 +227,7 @@ describe('Alias API', () => {
     describe('DELETE', () => {
       it('should delete an alias', async () => {
         const response = await request(app)
-          .delete('/api/alias/1')
+          .delete(`/api/alias/${initAlias[0].aliasId}`)
           .set('Accept', 'application/json')
           .set('x-access-token', user.token);
 
@@ -235,14 +235,14 @@ describe('Alias API', () => {
 
         const alias = await knex(Alias.TABLE)
           .select('*')
-          .where('aliasId', 1);
+          .where('aliasId', initAlias[0].aliasId);
 
         expect(alias).toHaveLength(0);
       });
 
       it('should retun 401 when user is not authenticated', async () => {
         const response = await request(app)
-          .delete('/api/alias/1')
+          .delete(`/api/alias/${initAlias[0].aliasId}`)
           .set('Accept', 'application/json')
           .set('x-access-token', 'fake');
 
@@ -263,7 +263,7 @@ describe('Alias API', () => {
   describe('/api/alias/:id/:enabled', () => {
     it('should enable an alias', async () => {
       const response = await request(app)
-        .get('/api/alias/2/enable')
+        .get(`/api/alias/${initAlias[1].aliasId}/enable`)
         .set('Accept', 'application/json')
         .set('x-access-token', user.token);
 
@@ -271,9 +271,10 @@ describe('Alias API', () => {
 
       const alias = await knex(Alias.TABLE)
         .first('*')
-        .where('aliasId', 2);
+        .where('aliasId', initAlias[1].aliasId);
 
       expect(alias).toMatchSnapshot({
+        aliasId: expect.stringMatching(/[a-fA-F0-9-]{36}/),
         createdAt: expect.any(Date),
         updatedAt: expect.any(Date),
       });
@@ -281,7 +282,7 @@ describe('Alias API', () => {
 
     it('should disable an alias', async () => {
       const response = await request(app)
-        .get('/api/alias/1/disable')
+        .get(`/api/alias/${initAlias[0].aliasId}/disable`)
         .set('Accept', 'application/json')
         .set('x-access-token', user.token);
 
@@ -289,9 +290,10 @@ describe('Alias API', () => {
 
       const alias = await knex(Alias.TABLE)
         .first('*')
-        .where('aliasId', 1);
+        .where('aliasId', initAlias[0].aliasId);
 
       expect(alias).toMatchSnapshot({
+        aliasId: expect.stringMatching(/[a-fA-F0-9-]{36}/),
         createdAt: expect.any(Date),
         updatedAt: expect.any(Date),
       });
@@ -299,7 +301,7 @@ describe('Alias API', () => {
 
     it('should retun 401 when user is not authenticated', async () => {
       const response = await request(app)
-        .get('/api/alias/1/disable')
+        .get(`/api/alias/${initAlias[0].aliasId}/disable`)
         .set('Accept', 'application/json')
         .set('x-access-token', 'fake');
 
@@ -308,7 +310,7 @@ describe('Alias API', () => {
 
     it("should retun 404 when alias don't exist", async () => {
       const response = await request(app)
-        .delete('/api/alias/23/disable')
+        .delete('/api/alias/11111111-fd1c-4717-b610-65d2fa3d01b2/disable')
         .set('Accept', 'application/json')
         .set('x-access-token', user.token);
 
@@ -319,7 +321,7 @@ describe('Alias API', () => {
   describe('/api/alias/:id/action', () => {
     it('should call a scene', async () => {
       const response = await request(app)
-        .get('/api/alias/1/action')
+        .get(`/api/alias/${initAlias[0].aliasId}/action`)
         .set('Accept', 'application/json')
         .set('x-access-token', user.token);
 
@@ -327,13 +329,13 @@ describe('Alias API', () => {
       expect(dispatch).toHaveBeenCalledTimes(1);
       expect(dispatch).toHaveBeenCalledWith({
         type: 'SCENE',
-        id: 1,
+        id: 'fa1834fe-40c8-4a6f-9b74-b79be7694644',
       });
     });
 
     it('should not call a scene if alias is disabled', async () => {
       const response = await request(app)
-        .get('/api/alias/2/action')
+        .get(`/api/alias/${initAlias[1].aliasId}/action`)
         .set('Accept', 'application/json')
         .set('x-access-token', user.token);
 
@@ -343,7 +345,7 @@ describe('Alias API', () => {
 
     it("should retun 404 when alias don't exist", async () => {
       const response = await request(app)
-        .get('/api/alias/3/action')
+        .get('/api/alias/11111111-fd1c-4717-b610-65d2fa3d01b2/action')
         .set('Accept', 'application/json')
         .set('x-access-token', user.token);
 

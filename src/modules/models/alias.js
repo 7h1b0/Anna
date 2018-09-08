@@ -1,5 +1,6 @@
-import knex from '../../knexClient';
 import Ajv from 'ajv';
+import uuidv4 from 'uuid/v4';
+import knex from '../../knexClient';
 import aliasSchema from '../schemas/alias';
 
 export const TABLE = 'alias';
@@ -29,25 +30,23 @@ export function findById(aliasId) {
     .where('aliasId', aliasId);
 }
 
-export function save({ sceneId, name, description, userId, enabled = true }) {
-  return knex(TABLE)
-    .insert({
-      sceneId,
-      description,
-      name,
-      enabled,
-      createdBy: userId,
-    })
-    .then(([aliasId]) => {
-      return {
-        name,
-        description,
-        enabled,
-        sceneId,
-        createdBy: userId,
-        aliasId,
-      };
-    });
+export async function save({
+  sceneId,
+  name,
+  description,
+  userId,
+  enabled = true,
+}) {
+  const aliasId = uuidv4();
+  await knex(TABLE).insert({
+    aliasId,
+    sceneId,
+    description,
+    name,
+    enabled,
+    createdBy: userId,
+  });
+  return aliasId;
 }
 
 export function remove(aliasId) {

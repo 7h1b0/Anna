@@ -10,18 +10,18 @@ jest.mock('../../modules/dispatch');
 
 const initScenes = [
   {
-    sceneId: 1,
+    sceneId: '05442486-0878-440c-9db1-a7006c25a39f',
     description: 'this is a test',
     name: 'scene_1',
-    createdBy: 1,
+    createdBy: '29699398-449c-48fb-8f5c-84186cdf8279',
     createdAt: new Date('2018-01-01'),
     updatedAt: new Date('2018-01-02'),
   },
   {
-    sceneId: 2,
+    sceneId: '18feb598-32cb-472f-8b29-a7e7fe41e06b',
     description: 'this is a second test',
     name: 'scene_2',
-    createdBy: 1,
+    createdBy: '29699398-449c-48fb-8f5c-84186cdf8279',
     createdAt: new Date('2018-01-01'),
     updatedAt: new Date('2018-01-02'),
   },
@@ -29,33 +29,33 @@ const initScenes = [
 
 const initActions = [
   {
-    actionId: 1,
-    sceneId: 1,
+    actionId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
+    sceneId: '05442486-0878-440c-9db1-a7006c25a39f',
     type: 'DIO',
     name: 'action turn on',
-    targetId: 1,
+    targetId: '4fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
     body: JSON.stringify({ on: true }),
   },
   {
-    actionId: 2,
-    sceneId: 1,
+    actionId: '1fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
+    sceneId: '05442486-0878-440c-9db1-a7006c25a39f',
     type: 'DIO',
     name: 'action turn off',
-    targetId: 2,
+    targetId: '29699398-449c-48fb-8f5c-84186cdf8279',
     body: JSON.stringify({ on: false }),
   },
   {
-    actionId: 3,
-    sceneId: 2,
+    actionId: '2fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
+    sceneId: '18feb598-32cb-472f-8b29-a7e7fe41e06b',
     type: 'SCENE',
     name: 'call scene',
-    targetId: 2,
+    targetId: '29699398-449c-48fb-8f5c-84186cdf8279',
     body: null,
   },
 ];
 
 const user = {
-  userId: 1,
+  userId: '29699398-449c-48fb-8f5c-84186cdf8279',
   username: 'test',
   password: '$2a$10$4ftuQxquI/5NR3POJy.2O.DmscxoSdCBzUvlnX2iXGMxtpqhd3w6O', // anna
   token: '8e6a76928f76d23665f78ff3688ca86422d5',
@@ -136,7 +136,7 @@ describe('Scene API', () => {
           description: 'this is a test scene',
           actions: [
             {
-              targetId: 2,
+              targetId: '29699398-449c-48fb-8f5c-84186cdf8279',
               name: 'action',
               type: 'DIO',
               body: {
@@ -153,22 +153,26 @@ describe('Scene API', () => {
           .send(scene);
 
         expect(response.status).toBe(201);
-        expect(response.body).toHaveProperty('sceneId', 3);
 
         const sceneFromDatabase = await knex(Scene.TABLE)
           .first('*')
-          .where('sceneId', 3);
+          .where('sceneId', response.body.sceneId);
 
         expect(sceneFromDatabase).toMatchSnapshot({
+          sceneId: expect.stringMatching(/[a-fA-F0-9-]{36}/),
           createdAt: expect.any(Date),
           updatedAt: expect.any(Date),
         });
 
         const actions = await knex(Action.TABLE)
           .select('*')
-          .where('sceneId', 3);
+          .where('sceneId', response.body.sceneId);
 
-        expect(actions).toMatchSnapshot();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toMatchSnapshot({
+          actionId: expect.stringMatching(/[a-fA-F0-9-]{36}/),
+          sceneId: expect.stringMatching(/[a-fA-F0-9-]{36}/),
+        });
       });
 
       it('should retun 401 when user is not authenticated', async () => {
@@ -186,7 +190,7 @@ describe('Scene API', () => {
     describe('GET', () => {
       it('should retun a scene', async () => {
         const response = await request(app)
-          .get('/api/scenes/1')
+          .get(`/api/scenes/${initScenes[0].sceneId}`)
           .set('Accept', 'application/json')
           .set('x-access-token', user.token);
 
@@ -195,7 +199,7 @@ describe('Scene API', () => {
 
       it('should retun 401 when user is not authenticated', async () => {
         const response = await request(app)
-          .get('/api/scenes/2')
+          .get(`/api/scenes/${initScenes[1].sceneId}`)
           .set('Accept', 'application/json')
           .set('x-access-token', 'fake');
 
@@ -204,7 +208,7 @@ describe('Scene API', () => {
 
       it("should retun 404 when a scene don't exist", async () => {
         const response = await request(app)
-          .get('/api/scenes/23')
+          .get('/api/scenes/3fc1d78e-fd1c-4717-b610-65d2fa3d01b2')
           .set('Accept', 'application/json')
           .set('x-access-token', user.token);
 
@@ -215,7 +219,7 @@ describe('Scene API', () => {
     describe('DELETE', () => {
       it('should delete a scene and all associated actions', async () => {
         const response = await request(app)
-          .delete('/api/scenes/1')
+          .delete(`/api/scenes/${initScenes[0].sceneId}`)
           .set('Accept', 'application/json')
           .set('x-access-token', user.token);
 
@@ -223,20 +227,20 @@ describe('Scene API', () => {
 
         const scene = await knex(Scene.TABLE)
           .select('*')
-          .where('sceneId', 1);
+          .where('sceneId', initScenes[0].sceneId);
 
         expect(scene).toHaveLength(0);
 
         const actions = await knex(Action.TABLE)
           .select('*')
-          .where('sceneId', 1);
+          .where('sceneId', initScenes[0].sceneId);
 
         expect(actions).toHaveLength(0);
       });
 
       it('should return 404 if scene is not found', async () => {
         const response = await request(app)
-          .delete('/api/scenes/6')
+          .delete('/api/scenes/5fc1d78e-fd1c-4717-b610-65d2fa3d01b2')
           .set('Accept', 'application/json')
           .set('x-access-token', user.token);
 
@@ -245,7 +249,7 @@ describe('Scene API', () => {
 
       it('should retun 401 when user is not authenticated', async () => {
         const response = await request(app)
-          .delete('/api/scenes/1')
+          .delete(`/api/scenes/${initScenes[1].sceneId}`)
           .set('Accept', 'application/json')
           .set('x-access-token', 'fake');
 
@@ -270,7 +274,7 @@ describe('Scene API', () => {
         };
 
         const response = await request(app)
-          .patch('/api/scenes/2')
+          .patch(`/api/scenes/${initScenes[1].sceneId}`)
           .set('Accept', 'application/json')
           .set('x-access-token', user.token)
           .send(scene);
@@ -280,7 +284,7 @@ describe('Scene API', () => {
 
       it('should retun 401 when user is not authenticated', async () => {
         const response = await request(app)
-          .patch('/api/scenes/2')
+          .patch(`/api/scenes/${initScenes[1].sceneId}`)
           .set('Accept', 'application/json')
           .set('x-access-token', 'fake');
 
@@ -293,7 +297,7 @@ describe('Scene API', () => {
           name: 'testtest',
           actions: [
             {
-              targetId: 2,
+              targetId: 'faked78e-fd1c-4717-b610-65d2fa3d01b2',
               name: 'action',
               type: 'DIO',
               body: {
@@ -303,7 +307,7 @@ describe('Scene API', () => {
           ],
         };
         const response = await request(app)
-          .patch('/api/scenes/6')
+          .patch('/api/scenes/faked78e-fd1c-4717-b610-65d2fa3d01b2')
           .set('Accept', 'application/json')
           .set('x-access-token', user.token)
           .send(scene);
@@ -317,17 +321,16 @@ describe('Scene API', () => {
           name: 'scene_2',
           actions: [
             {
-              actionId: 3,
               type: 'SCENE',
               name: 'call scene',
-              targetId: 2,
+              targetId: 'faaad78e-fd1c-4717-b610-65d2fa3d01b2',
               body: { on: true },
             },
           ],
         };
 
         const response = await request(app)
-          .patch('/api/scenes/2')
+          .patch(`/api/scenes/${initScenes[1].sceneId}`)
           .set('Accept', 'application/json')
           .set('x-access-token', user.token)
           .send(updatedScene);
@@ -336,8 +339,10 @@ describe('Scene API', () => {
 
         const sceneFromDatabase = await knex(Scene.TABLE)
           .first('*')
-          .where('sceneId', 2);
+          .where('sceneId', initScenes[1].sceneId);
+
         expect(sceneFromDatabase).toMatchSnapshot({
+          sceneId: expect.stringMatching(/[a-fA-F0-9-]{36}/),
           createdAt: expect.any(Date),
           updatedAt: expect.any(Date),
         });
@@ -348,17 +353,20 @@ describe('Scene API', () => {
   describe('/api/scenes/:id_scene/action', () => {
     it('should call dispatch', async () => {
       const response = await request(app)
-        .get('/api/scenes/1/action')
+        .get(`/api/scenes/${initScenes[1].sceneId}/action`)
         .set('Accept', 'application/json')
         .set('x-access-token', user.token);
 
       expect(response.status).toBe(200);
-      expect(dispatch).toHaveBeenCalledWith({ type: 'SCENE', id: '1' });
+      expect(dispatch).toHaveBeenCalledWith({
+        type: 'SCENE',
+        id: initScenes[1].sceneId,
+      });
     });
 
     it('should retun 401 when user is not authenticated', async () => {
       const response = await request(app)
-        .get('/api/scenes/1/action')
+        .get(`/api/scenes/${initScenes[0].sceneId}/action`)
         .set('Accept', 'application/json')
         .set('x-access-token', 'fake');
 

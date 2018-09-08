@@ -2,22 +2,22 @@ import knex from '../../../knexClient';
 import * as Alias from '../alias';
 const initAlias = [
   {
-    aliasId: 1,
-    sceneId: 1,
+    aliasId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
+    sceneId: 'fa1834fe-40c8-4a6f-9b74-b79be7694644',
     name: 'test',
     description: 'test',
     enabled: true,
-    createdBy: 1,
+    createdBy: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f',
     createdAt: new Date('2018-01-01'),
     updatedAt: new Date('2018-01-02'),
   },
   {
-    aliasId: 2,
-    sceneId: 1,
+    aliasId: '1fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
+    sceneId: 'fa1834fe-40c8-4a6f-9b74-b79be7694644',
     name: 'test_2',
     description: 'test',
     enabled: false,
-    createdBy: 1,
+    createdBy: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f',
     createdAt: new Date('2018-01-01'),
     updatedAt: new Date('2018-01-02'),
   },
@@ -49,7 +49,7 @@ describe('Alias', () => {
 
   describe('findById', () => {
     it('should return only one alias', async () => {
-      const result = await Alias.findById(1);
+      const result = await Alias.findById(initAlias[0].aliasId);
       expect(result).toMatchSnapshot(initAlias[0]);
     });
 
@@ -62,20 +62,20 @@ describe('Alias', () => {
   describe('save', () => {
     it('should save a new alias', async () => {
       const save = {
-        aliasId: 3,
-        sceneId: 1,
+        sceneId: 'fa1834fe-40c8-4a6f-9b74-b79be7694644',
         name: 'test_3',
         description: 'test',
         enabled: false,
-        userId: 1,
+        userId: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f',
       };
 
-      const res = await Alias.save(save);
+      const aliasId = await Alias.save(save);
       const alias = await knex(Alias.TABLE)
         .first('*')
-        .where('aliasId', res.aliasId);
+        .where('aliasId', aliasId);
 
       expect(alias).toMatchSnapshot({
+        aliasId: expect.stringMatching(/[a-fA-F0-9-]{36}/),
         createdAt: expect.any(Date),
         updatedAt: expect.any(Date),
       });
@@ -96,7 +96,7 @@ describe('Alias', () => {
 
   describe('delete', () => {
     it('should delete an alias', async () => {
-      await Alias.remove(1);
+      await Alias.remove(initAlias[0].aliasId);
       const alias = await knex(Alias.TABLE).select('*');
       expect(alias).toEqual([initAlias[1]]);
     });
@@ -110,11 +110,13 @@ describe('Alias', () => {
 
   describe('findByIdAndUpdate', () => {
     it('should update a alias', async () => {
-      await Alias.findByIdAndUpdate(1, { name: 'updated' });
+      await Alias.findByIdAndUpdate(initAlias[0].aliasId, { name: 'updated' });
       const alias = await knex(Alias.TABLE)
         .first('*')
-        .where('aliasId', 1);
+        .where('aliasId', initAlias[0].aliasId);
+
       expect(alias).toMatchSnapshot({
+        aliasId: expect.stringMatching(/[a-fA-F0-9-]{36}/),
         createdAt: expect.any(Date),
         updatedAt: expect.any(Date),
       });
@@ -130,7 +132,7 @@ describe('Alias', () => {
   describe('validate', () => {
     it('should return true when an alias is valid', () => {
       const alias = {
-        sceneId: 1,
+        sceneId: '1fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
         name: 'test_t',
         description: 'testtest',
         enabled: false,
@@ -141,7 +143,7 @@ describe('Alias', () => {
 
     it('should return false when an alias is missing a props', () => {
       const alias = {
-        sceneId: 1,
+        sceneId: '1fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
       };
 
       expect(Alias.validate(alias)).toBeFalsy();
@@ -149,7 +151,7 @@ describe('Alias', () => {
 
     it('should return false when an alias has unknow props', () => {
       const alias = {
-        sceneId: 1,
+        sceneId: '1fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
         name: 'test_t',
         description: 'testtest',
         enabled: false,
@@ -161,7 +163,7 @@ describe('Alias', () => {
 
     it('should return false name is incorrect', () => {
       const alias = {
-        sceneId: 1,
+        sceneId: '1fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
         name: 'tt',
         description: 'testtest',
         enabled: false,
@@ -172,7 +174,7 @@ describe('Alias', () => {
 
     it('should return false description is too small', () => {
       const alias = {
-        sceneId: 1,
+        sceneId: '1fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
         name: 'test_t',
         description: 'tt',
         enabled: false,
@@ -183,7 +185,7 @@ describe('Alias', () => {
 
     it('should return true when an alias is valid even if description is missing', () => {
       const alias = {
-        sceneId: 1,
+        sceneId: '1fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
         name: 'test_t',
         enabled: false,
       };

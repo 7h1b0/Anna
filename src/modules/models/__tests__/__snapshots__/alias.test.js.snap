@@ -2,39 +2,39 @@
 
 exports[`Alias findById should return only one alias 1`] = `
 Object {
-  "aliasId": 1,
+  "aliasId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
   "createdAt": Object {},
-  "createdBy": 1,
+  "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
   "description": "test",
   "enabled": true,
   "name": "test",
-  "sceneId": 1,
+  "sceneId": "fa1834fe-40c8-4a6f-9b74-b79be7694644",
   "updatedAt": Object {},
 }
 `;
 
 exports[`Alias findByIdAndUpdate should update a alias 1`] = `
 Object {
-  "aliasId": 1,
+  "aliasId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,
   "createdAt": Any<Date>,
-  "createdBy": 1,
+  "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
   "description": "test",
   "enabled": true,
   "name": "updated",
-  "sceneId": 1,
+  "sceneId": "fa1834fe-40c8-4a6f-9b74-b79be7694644",
   "updatedAt": Any<Date>,
 }
 `;
 
 exports[`Alias save should save a new alias 1`] = `
 Object {
-  "aliasId": 3,
+  "aliasId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,
   "createdAt": Any<Date>,
-  "createdBy": 1,
+  "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
   "description": "test",
   "enabled": false,
   "name": "test_3",
-  "sceneId": 1,
+  "sceneId": "fa1834fe-40c8-4a6f-9b74-b79be7694644",
   "updatedAt": Any<Date>,
 }
 `;

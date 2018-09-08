@@ -1,6 +1,6 @@
 import { save } from '../modules/models/log';
 import { findByToken } from '../modules/models/user';
-import logger from '../modules/logger';
+import * as logger from '../modules/logger';
 
 function saveToBDD(
   { method = 'Unknown', ip = 'Unknown', originalUrl = 'Unknown' },

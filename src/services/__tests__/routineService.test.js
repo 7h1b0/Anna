@@ -36,6 +36,10 @@ describe('routineService', () => {
     CronJob.mockClear();
   });
 
+  afterAll(() => {
+    CronJob.mockRestore();
+  });
+
   describe('start', () => {
     it('should start a new process', () => {
       const process = routineService.start({

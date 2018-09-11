@@ -5,6 +5,7 @@ import { isBankHoliday } from '../../utils';
 
 jest.mock('../../dispatch');
 jest.mock('../../utils');
+jest.unmock('cron');
 
 const initRoutines = [
   {
@@ -86,6 +87,82 @@ describe('Routines', () => {
         createdAt: expect.any(Date),
         updatedAt: expect.any(Date),
       });
+    });
+  });
+
+  describe('remove', () => {
+    it('should remove a routine', async () => {
+      const res = await Routine.remove(initRoutines[0].routineId);
+      expect(res).toBe(1);
+
+      const routine = await knex(Routine.TABLE)
+        .first('*')
+        .where('routineId', initRoutines[0].routineId);
+
+      expect(routine).toBeUndefined();
+    });
+
+    it('should not remove a routine if routineId is unknow', async () => {
+      const res = await Routine.remove('fake-id');
+      expect(res).toBe(0);
+    });
+  });
+
+  describe('validate', () => {
+    it('should return true if routine is valid #1', () => {
+      const routine = {
+        name: 'My routine',
+        sceneId: '00c1d78e-fd1c-4717-b610-65d2fa3d01b2',
+        interval: '* * * * *',
+      };
+
+      expect(Routine.validate(routine)).toBeTruthy();
+    });
+
+    it('should return true if routine is valid #2', () => {
+      const routine = {
+        routineId: '00c1d78e-fd1c-4717-b610-65d2fa3d01b2',
+        name: 'My routine',
+        sceneId: '00c1d78e-fd1c-4717-b610-65d2fa3d01b2',
+        createdBy: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f',
+        interval: '* * * * *',
+        runAtBankHoliday: true,
+        createdAt: Date.now(),
+      };
+      expect(Routine.validate(routine)).toBeTruthy();
+    });
+
+    it('should return false if a property is unknow', () => {
+      const routine = {
+        routineId: '00c1d78e-fd1c-4717-b610-65d2fa3d01b2',
+        name: 'My routine',
+        sceneId: '00c1d78e-fd1c-4717-b610-65d2fa3d01b2',
+        interval: '* * * * *',
+        admin: true,
+      };
+
+      expect(Routine.validate(routine)).toBeFalsy();
+    });
+  });
+
+  describe('computeNextRunAt', () => {
+    afterEach(async () => {
+      isBankHoliday.mockClear();
+    });
+
+    it('should compute the next date the routine will execute', () => {
+      isBankHoliday.mockImplementation(() => false);
+      Date.now = jest
+        .fn()
+        .mockImplementationOnce(cb => new Date('2017-09-01T16:00').getTime());
+
+      const routine = {
+        interval: '0 12 * * *',
+        runAtBankHoliday: false,
+      };
+
+      const nextRunAt = Routine.computeNextRunAt(routine);
+      expect(nextRunAt).toEqual(new Date('2017-09-02T12:00'));
     });
   });
 

@@ -15,7 +15,7 @@ import user from './routes/user';
 import authenticationMiddleware from './middlewares/authenticationMiddleware';
 import logMiddleware from './middlewares/logMiddleware';
 
-import { load } from './services/routineService';
+import { load as loadRoutine } from './services/routineService';
 
 // Setup Server
 const app = express();
@@ -25,6 +25,6 @@ app.all('/api*', [authenticationMiddleware, logMiddleware]);
 app.use([about, alias, dio, hueLight, log, room, scene, routine, user]);
 app.use((req, res) => res.sendStatus(404));
 
-load();
+loadRoutine();
 
 export default app;

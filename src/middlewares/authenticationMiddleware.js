@@ -1,7 +1,7 @@
 import { findByToken } from '../modules/models/user';
 import * as logger from '../modules/logger';
 
-export default function authenticationMiddleware(req, res, next) {
+export default async function authenticationMiddleware(req, res, next) {
   const authFail = () => {
     logger.warn('Authentification failed');
     res.sendStatus(401);
@@ -13,13 +13,14 @@ export default function authenticationMiddleware(req, res, next) {
     return authFail();
   }
 
-  return findByToken(token)
-    .then(user => {
-      if (user) {
-        res.locals.user = user;
-        return next();
-      }
-      authFail();
-    })
-    .catch(authFail);
+  try {
+    const user = await findByToken(token);
+    if (user) {
+      res.locals.user = user;
+      return next();
+    }
+    authFail();
+  } catch (error) {
+    authFail();
+  }
 }

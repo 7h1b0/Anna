@@ -7,29 +7,32 @@ const api = `http://${HUE_IP}/api/${HUE_TOKEN}`;
 const toArray = jsonObject =>
   Object.keys(jsonObject).map(id => ({ ...jsonObject[id], id }));
 
-export function getLights() {
-  return Promise.all([request.get(`${api}/lights`), findAll()]).then(
-    ([body, rooms]) => {
-      let correctedBody = body;
+export async function getLights() {
+  const [body, rooms] = await Promise.all([
+    request.get(`${api}/lights`),
+    findAll(),
+  ]);
 
-      rooms.forEach(({ roomId, lightId }) => {
-        body[lightId].roomId = roomId;
-      });
+  let correctedBody = body;
 
-      if (body) {
-        correctedBody = toArray(body);
-      }
-      return correctedBody;
-    },
-  );
+  rooms.forEach(({ roomId, lightId }) => {
+    body[lightId].roomId = roomId;
+  });
+
+  if (body) {
+    correctedBody = toArray(body);
+  }
+
+  return correctedBody;
 }
 
-export function getLight(id) {
-  return Promise.all([request.get(`${api}/lights/${id}`), findRoomId(id)]).then(
-    ([light, roomId]) => {
-      return { ...light, ...roomId };
-    },
-  );
+export async function getLight(lightId) {
+  const [light, roomId] = await Promise.all([
+    request.get(`${api}/lights/${lightId}`),
+    findRoomId(lightId),
+  ]);
+
+  return { ...light, ...roomId };
 }
 
 export function renameLight(id, name) {

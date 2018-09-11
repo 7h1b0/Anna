@@ -25,7 +25,6 @@ describe('Utils', () => {
         anna: 1,
         id: 2,
         updatedAt: 3,
-        updatedAt: 4,
       };
       expect(utils.omit(a, ['anna', 'id', 'updatedAt'])).toEqual({});
     });

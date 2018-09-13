@@ -25,9 +25,9 @@ routes
   });
 
 routes
-  .route('/api/scenes/:id_scene([a-fA-F0-9-]{36})')
+  .route('/api/scenes/:sceneId([a-fA-F0-9-]{36})')
   .get((req, res) => {
-    Scene.findById(req.params.id_scene)
+    Scene.findById(req.params.sceneId)
       .then(scene => {
         if (!scene) {
           res.sendStatus(404);
@@ -36,7 +36,6 @@ routes
         }
       })
       .catch(err => {
-        console.log(err);
         res.status(500).send({ err });
       });
   })
@@ -45,7 +44,7 @@ routes
     if (!isValid) {
       return res.sendStatus(400);
     }
-    Scene.findByIdAndUpdate({ ...req.body, sceneId: req.params.id_scene })
+    Scene.findByIdAndUpdate({ ...req.body, sceneId: req.params.sceneId })
       .then(rowsAffected => {
         if (!!rowsAffected) {
           res.sendStatus(204);
@@ -56,7 +55,7 @@ routes
       .catch(err => res.status(500).send({ err }));
   })
   .delete((req, res) => {
-    Scene.remove(req.params.id_scene)
+    Scene.remove(req.params.sceneId)
       .then(([removedScene]) => {
         if (removedScene < 1) {
           res.sendStatus(404);
@@ -69,8 +68,8 @@ routes
       });
   });
 
-routes.get('/api/scenes/:id_scene([a-fA-F0-9-]{36})/action', (req, res) => {
-  dispatch(callScene(req.params.id_scene))
+routes.get('/api/scenes/:sceneId([a-fA-F0-9-]{36})/action', (req, res) => {
+  dispatch(callScene(req.params.sceneId))
     .then(() => res.end())
     .catch(err => {
       logger.error(err);

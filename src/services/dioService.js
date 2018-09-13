@@ -2,7 +2,7 @@ import execService from './execService';
 import * as logger from '../modules/logger';
 
 let queue = Promise.resolve();
-const run = async (script, onSuccess, onError) => {
+function run(script, onSuccess, onError) {
   queue = queue.then(() => execService(script)).then(
     () => onSuccess(),
     err => {
@@ -10,7 +10,7 @@ const run = async (script, onSuccess, onError) => {
       onError();
     },
   );
-};
+}
 
 export default function add(device, on = false) {
   return new Promise((resolve, reject) => {

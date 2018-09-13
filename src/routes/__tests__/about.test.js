@@ -7,7 +7,7 @@ import * as Scene from '../../modules/models/scene';
 import * as Dio from '../../modules/models/dio';
 import * as Room from '../../modules/models/room';
 import * as Alias from '../../modules/models/alias';
-import scheduleService from '../../services/scheduleService';
+import * as Routine from '../../modules/models/routine';
 
 const user = {
   userId: 1,
@@ -33,7 +33,7 @@ describe('About API', () => {
       Dio.findAll = jest.fn(() => Promise.resolve('dios'));
       Alias.findAll = jest.fn(() => Promise.resolve('alias'));
       Room.findAll = jest.fn(() => Promise.resolve('rooms'));
-      scheduleService.getAll = jest.fn(() => 'schedules');
+      Routine.findAll = jest.fn(() => Promise.resolve('routines'));
 
       const response = await request(app)
         .get('/api')
@@ -47,7 +47,7 @@ describe('About API', () => {
         dios: 'dios',
         alias: 'alias',
         rooms: 'rooms',
-        schedules: 'schedules',
+        routines: 'routines',
       });
     });
 

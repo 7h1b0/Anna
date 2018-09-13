@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Routine API /api/routines GET should retun all routines 1`] = `
+Array [
+  Object {
+    "createdAt": "2018-01-01T00:00:00.000Z",
+    "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
+    "enabled": true,
+    "failReason": null,
+    "interval": "0 5 * * *",
+    "lastFailedAt": "0000-00-00 00:00:00",
+    "lastRunAt": "0000-00-00 00:00:00",
+    "name": "test at 5am",
+    "nextRunAt": "0000-00-00 00:00:00",
+    "routineId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
+    "runAtBankHoliday": true,
+    "sceneId": "00c1d78e-fd1c-4717-b610-65d2fa3d01b2",
+    "updatedAt": "2018-01-02T00:00:00.000Z",
+  },
+  Object {
+    "createdAt": "2018-01-01T00:00:00.000Z",
+    "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
+    "enabled": true,
+    "failReason": null,
+    "interval": "0 9 * * *",
+    "lastFailedAt": "0000-00-00 00:00:00",
+    "lastRunAt": "0000-00-00 00:00:00",
+    "name": "test at 9am",
+    "nextRunAt": "0000-00-00 00:00:00",
+    "routineId": "1fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
+    "runAtBankHoliday": false,
+    "sceneId": "10c1d78e-fd1c-4717-b610-65d2fa3d01b2",
+    "updatedAt": "2018-01-02T00:00:00.000Z",
+  },
+]
+`;
+
+exports[`Routine API /api/routines/:routineId GET should return one routine 1`] = `
+Object {
+  "createdAt": "2018-01-01T00:00:00.000Z",
+  "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
+  "enabled": true,
+  "failReason": null,
+  "interval": "0 5 * * *",
+  "lastFailedAt": "0000-00-00 00:00:00",
+  "lastRunAt": "0000-00-00 00:00:00",
+  "name": "test at 5am",
+  "nextRunAt": "0000-00-00 00:00:00",
+  "routineId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
+  "runAtBankHoliday": true,
+  "sceneId": "00c1d78e-fd1c-4717-b610-65d2fa3d01b2",
+  "updatedAt": "2018-01-02T00:00:00.000Z",
+}
+`;

@@ -3,9 +3,10 @@ import Routine from '../routine';
 import dispatch from '../../dispatch';
 import { isBankHoliday } from '../../utils';
 
-jest.mock('../../dispatch');
-jest.mock('../../utils');
-jest.unmock('cron');
+jest
+  .mock('../../dispatch')
+  .mock('../../utils')
+  .unmock('cron');
 
 const initRoutines = [
   {
@@ -163,6 +164,21 @@ describe('Routines', () => {
 
       const nextRunAt = Routine.computeNextRunAt(routine);
       expect(nextRunAt).toEqual(new Date('2017-09-02T12:00'));
+    });
+
+    it('should handle bank holiday to compute the next date the routine will execute', () => {
+      isBankHoliday.mockImplementation(() => true);
+      Date.now = jest
+        .fn()
+        .mockImplementationOnce(cb => new Date('2017-08-14T16:00').getTime());
+
+      const routine = {
+        interval: '0 12 * * *',
+        runAtBankHoliday: false,
+      };
+
+      const nextRunAt = Routine.computeNextRunAt(routine);
+      expect(nextRunAt).toEqual(new Date('2017-08-16T12:00'));
     });
   });
 

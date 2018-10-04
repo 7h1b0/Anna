@@ -1,6 +1,5 @@
 const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const webpack = require('webpack');
 
 module.exports = {
   mode: 'production',
@@ -15,6 +14,7 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
+        include: [path.resolve(__dirname, 'node_modules/')],
       },
     ],
   },
@@ -23,7 +23,7 @@ module.exports = {
   },
   externals: [
     (context, request, callback) => {
-      if (/(express|knex)$/.test(request)) {
+      if (/(express|knex|got)$/.test(request)) {
         return callback(null, `commonjs ${request}`);
       }
       return callback();

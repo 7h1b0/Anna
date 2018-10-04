@@ -4,8 +4,7 @@
 [![Dev Dependency Status](https://img.shields.io/david/dev/7h1b0/anna/master.svg)](https://david-dm.org/7h1b0/Anna#info=devDependencies)
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
-Anna-API
-=====================
+# Anna-API
 
 REST API for home automation using NodeJS
 
@@ -19,8 +18,9 @@ REST API for home automation using NodeJS
   - [npm run eslint](#npm-run-eslint)
 
 ## Prerequisite
-* NodeJS >= 8.6
-* NPM >= 5
+
+- NodeJS >= 8.6
+- NPM >= 5
 
 ## Installation
 
@@ -30,16 +30,29 @@ REST API for home automation using NodeJS
 1. Optionnal: run `npm run db:seed`
 
 ## Available Scripts
+
 In the project directory, you can run:
 
 ### `npm start`
 
 Runs the app in the development mode.
 
+### `npm run build`
+
+Builds the application for production.
+
 ### `npm test`
 
-Runs unit test using Jest. 
+Runs unit test using Jest.
 
 ### `npm run eslint`
 
 Use eslint to check src folder.
+
+### `npm run db:migrate`
+
+Applies migrations to your database.
+
+### `npm run db:rollback`
+
+Rolls back the latest migration group.

@@ -75,3 +75,54 @@ Object {
   "type": "Extended color light",
 }
 `;
+
+exports[`Hue Light API api/hue/lights/:id_light PATCH should update the name of the light 1`] = `
+Object {
+  "body": Object {
+    "name": "test",
+  },
+  "json": true,
+}
+`;
+
+exports[`Hue Light API api/hue/lights/:id_light PATCH should update the roomId and the name 1`] = `
+Object {
+  "body": Object {
+    "name": "test_room",
+  },
+  "json": true,
+}
+`;
+
+exports[`Hue Light API api/hue/lights/:id_light/:status should call requestService with on to false 1`] = `
+Object {
+  "body": Object {
+    "on": false,
+  },
+  "json": true,
+}
+`;
+
+exports[`Hue Light API api/hue/lights/:id_light/:status should call requestService with on to true 1`] = `
+Object {
+  "body": Object {
+    "on": true,
+  },
+  "json": true,
+}
+`;
+
+exports[`Hue Light API api/hue/lights/:id_light/state should call requestService with body passed 1`] = `
+Object {
+  "body": Object {
+    "bri": 25,
+    "on": true,
+    "sat": 200,
+    "xy": Array [
+      23,
+      45,
+    ],
+  },
+  "json": true,
+}
+`;

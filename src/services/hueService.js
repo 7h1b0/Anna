@@ -1,4 +1,4 @@
-import * as request from './requestService';
+import * as request from 'got';
 import { HUE_IP, HUE_TOKEN } from '../constants';
 import { findAll, findRoomId } from '../modules/models/hueLight';
 
@@ -8,8 +8,8 @@ const toArray = jsonObject =>
   Object.keys(jsonObject).map(id => ({ ...jsonObject[id], id }));
 
 export async function getLights() {
-  const [body, rooms] = await Promise.all([
-    request.get(`${api}/lights`),
+  const [{ body }, rooms] = await Promise.all([
+    request.get(`${api}/lights`, { json: true }),
     findAll(),
   ]);
 
@@ -27,18 +27,18 @@ export async function getLights() {
 }
 
 export async function getLight(lightId) {
-  const [light, roomId] = await Promise.all([
-    request.get(`${api}/lights/${lightId}`),
+  const [{ body }, roomId] = await Promise.all([
+    request.get(`${api}/lights/${lightId}`, { json: true }),
     findRoomId(lightId),
   ]);
 
-  return { ...light, ...roomId };
+  return { ...body, ...roomId };
 }
 
 export function renameLight(id, name) {
-  return request.put(`${api}/lights/${id}`, { name });
+  return request.put(`${api}/lights/${id}`, { body: { name }, json: true });
 }
 
 export function setLightState(id, body) {
-  return request.put(`${api}/lights/${id}/state`, body);
+  return request.put(`${api}/lights/${id}/state`, { body, json: true });
 }

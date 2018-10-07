@@ -3,33 +3,34 @@
 exports[`Scene findByIdAndUpdate should update a scene 1`] = `
 Object {
   "createdAt": Any<Date>,
-  "createdBy": 1,
+  "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
   "description": "this is an updated second test",
   "name": "scene_2",
-  "sceneId": 2,
+  "sceneId": "110c80e8-49e4-4d6b-b966-4fc9fb98879f",
   "updatedAt": Any<Date>,
 }
 `;
 
-exports[`Scene findByIdAndUpdate should update a scene 2`] = `
-Array [
-  RowDataPacket {
-    "actionId": 4,
-    "body": "{\\"on\\":false}",
-    "name": "action turn off",
-    "sceneId": 2,
-    "targetId": 2,
-    "type": "DIO",
-  },
-  RowDataPacket {
-    "actionId": 5,
-    "body": "{\\"on\\":true}",
-    "name": "action turn off",
-    "sceneId": 2,
-    "targetId": 4,
-    "type": "DIO",
-  },
-]
+exports[`Scene findByIdAndUpdate should update a scene: first action 1`] = `
+Object {
+  "actionId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,
+  "body": "{\\"on\\":false}",
+  "name": "action turn off",
+  "sceneId": "110c80e8-49e4-4d6b-b966-4fc9fb98879f",
+  "targetId": "2",
+  "type": "DIO",
+}
+`;
+
+exports[`Scene findByIdAndUpdate should update a scene: second action 1`] = `
+Object {
+  "actionId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,
+  "body": "{\\"on\\":true}",
+  "name": "action turn off",
+  "sceneId": "110c80e8-49e4-4d6b-b966-4fc9fb98879f",
+  "targetId": "4",
+  "type": "DIO",
+}
 `;
 
 exports[`Scene save should save a new scene 1`] = `

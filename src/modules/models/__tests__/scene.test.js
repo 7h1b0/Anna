@@ -147,7 +147,7 @@ describe('Scene', () => {
     });
   });
 
-  xdescribe('findByIdAndUpdate', () => {
+  describe('findByIdAndUpdate', () => {
     it('should update a scene', async () => {
       const updatedScene = {
         sceneId: initScenes[1].sceneId,
@@ -173,20 +173,36 @@ describe('Scene', () => {
 
       const scenes = await knex(Scene.TABLE)
         .first('*')
-        .where('sceneId', 2);
+        .where('sceneId', initScenes[1].sceneId);
       const actions = await knex(Action.TABLE)
         .select('*')
-        .where('sceneId', 2);
+        .where('sceneId', initScenes[1].sceneId)
+        .orderBy('targetId');
+
       expect(scenes).toMatchSnapshot({
         createdAt: expect.any(Date),
         updatedAt: expect.any(Date),
       });
-      expect(actions).toMatchSnapshot();
+
+      expect(actions).toHaveLength(2);
+      expect(actions[0]).toMatchSnapshot(
+        {
+          actionId: expect.stringMatching(/[a-fA-F0-9-]{36}/),
+        },
+        'first action',
+      );
+      expect(actions[1]).toMatchSnapshot(
+        {
+          actionId: expect.stringMatching(/[a-fA-F0-9-]{36}/),
+        },
+        'second action',
+      );
     });
 
     it('should not update a scene if sceneId is unknow', async () => {
+      const fakeSceneId = 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f';
       const updatedScene = {
-        sceneId: 6,
+        sceneId: fakeSceneId,
         description: 'this is an updated second test',
         name: 'scene_2',
         actions: [
@@ -210,11 +226,12 @@ describe('Scene', () => {
 
       const scenes = await knex(Scene.TABLE)
         .select('*')
-        .where('sceneId', 6);
-      expect(scenes).toHaveLength(0);
+        .where('sceneId', fakeSceneId);
       const actions = await knex(Action.TABLE)
         .select('*')
-        .where('sceneId', 6);
+        .where('sceneId', fakeSceneId);
+
+      expect(scenes).toHaveLength(0);
       expect(actions).toHaveLength(0);
     });
   });

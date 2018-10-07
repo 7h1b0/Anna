@@ -55,11 +55,13 @@ export function findByIdAndUpdate({ sceneId, name, description, actions }) {
         .then(() => {
           return Promise.all(
             actions.map(action => {
+              const actionId = uuidv4();
               const formatedAction = {
                 type: action.type,
                 name: action.name,
                 targetId: action.targetId,
                 sceneId,
+                actionId,
                 body: JSON.stringify(action.body),
               };
               return trx.insert(formatedAction).into(ACTION_TABLE);

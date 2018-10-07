@@ -84,12 +84,6 @@ describe('Users', () => {
       const user = await knex(User.TABLE).select('*');
       expect(user).toEqual(initUsers);
     });
-
-    xit('should reject when an username is already taken', async () => {
-      await expect(
-        User.findByIdAndUpdate(2, { username: 'one' }),
-      ).rejects.toBeDefined();
-    });
   });
 
   describe('save', () => {
@@ -108,16 +102,6 @@ describe('Users', () => {
       expect(user).toMatchSnapshot({
         userId: expect.stringMatching(/[a-fA-F0-9-]{36}/),
       });
-    });
-
-    xit('should reject when an username is already taken', async () => {
-      const save = {
-        username: 'one',
-        password: 'sdfsdfsdfsdfsdf',
-        token: 'fghjkhjkhjhk',
-      };
-
-      await expect(User.save(save)).rejects.toBeDefined();
     });
   });
 

@@ -88,6 +88,15 @@ describe('User API', () => {
 
       expect(response.status).toBe(403);
     });
+
+    it('should return 400 body is invalid', async () => {
+      const response = await request(app)
+        .post('/login')
+        .set('Accept', 'application/json')
+        .send({ name: 'fake', password: 'test' });
+
+      expect(response.status).toBe(400);
+    });
   });
 
   describe('api/users', () => {

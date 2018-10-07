@@ -79,24 +79,12 @@ routes
           password: hashedPassword,
         }),
       )
-      .then(rowsAffected => {
-        if (rowsAffected < 1) {
-          res.sendStatus(404);
-        } else {
-          res.sendStatus(204);
-        }
-      })
+      .then(rowsAffected => res.sendStatus(204))
       .catch(err => res.status(500).send({ err }));
   })
   .delete((req, res) => {
     User.remove(req.params.id_user)
-      .then(user => {
-        if (!user) {
-          res.sendStatus(404);
-        } else {
-          res.sendStatus(204);
-        }
-      })
+      .then(user => res.sendStatus(204))
       .catch(err => res.status(500).send({ err }));
   });
 

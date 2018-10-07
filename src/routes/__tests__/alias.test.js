@@ -210,7 +210,7 @@ describe('Alias API', () => {
 
       it("should retun 404 when alias don't exist", async () => {
         const response = await request(app)
-          .patch('/api/alias/23')
+          .patch('/api/alias/11111111-fd1c-4717-b610-65d2fa3d01b2')
           .set('Accept', 'application/json')
           .set('x-access-token', user.token)
           .send({
@@ -251,7 +251,7 @@ describe('Alias API', () => {
 
       it("should retun 404 when alias don't exist", async () => {
         const response = await request(app)
-          .delete('/api/alias/23')
+          .delete('/api/alias/11111111-fd1c-4717-b610-65d2fa3d01b2')
           .set('Accept', 'application/json')
           .set('x-access-token', user.token);
 
@@ -310,7 +310,7 @@ describe('Alias API', () => {
 
     it("should retun 404 when alias don't exist", async () => {
       const response = await request(app)
-        .delete('/api/alias/11111111-fd1c-4717-b610-65d2fa3d01b2/disable')
+        .get('/api/alias/11111111-fd1c-4717-b610-65d2fa3d01b2/disable')
         .set('Accept', 'application/json')
         .set('x-access-token', user.token);
 

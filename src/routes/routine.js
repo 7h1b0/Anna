@@ -19,19 +19,12 @@ routes
 
     const userId = res.locals.user.userId;
     const { name, sceneId, interval, enabled, runAtBankHoliday } = req.body;
+
     Routine.save(userId, name, sceneId, interval, enabled, runAtBankHoliday)
       .then(routineId => {
-        const routine = {
-          routineId,
-          name,
-          sceneId,
-          interval,
-          enabled,
-          runAtBankHoliday,
-        };
-        RoutineService.start(routine);
+        RoutineService.start(req.body);
+        res.status(201).json({ routineId });
       })
-      .then(() => res.status(201).json({ sceneId }))
       .catch(err => res.status(500).send({ err }));
   });
 
@@ -57,24 +50,12 @@ routes
     }
     const routineId = req.params.routineId;
     Routine.findByIdAndUpdate(routineId, req.body)
-      .then(rowsAffected => {
+      .then(async rowsAffected => {
         if (!!rowsAffected) {
-          const {
-            name,
-            sceneId,
-            interval,
-            enabled,
-            runAtBankHoliday,
-          } = req.body;
-
-          RoutineService.start({
+          const { updatedAt, createdAt, ...routine } = await Routine.findById(
             routineId,
-            name,
-            sceneId,
-            interval,
-            enabled,
-            runAtBankHoliday,
-          });
+          );
+          RoutineService.start(routine);
           res.sendStatus(204);
         } else {
           res.sendStatus(404);
@@ -84,7 +65,7 @@ routes
   })
   .delete((req, res) => {
     Routine.remove(req.params.routineId)
-      .then(([removedScene]) => {
+      .then(removedScene => {
         if (removedScene < 1) {
           res.sendStatus(404);
         } else {
@@ -99,9 +80,17 @@ routes
 
 routes.get('/api/routines/:routineId([a-fA-F0-9-]{36})/action', (req, res) => {
   Routine.findById(req.params.routineId)
-    .then(routine => Routine.run(routine))
+    .then(routine => {
+      if (routine) {
+        return Routine.run(routine);
+      }
+      throw new Error('Routine not found');
+    })
     .then(() => res.end())
     .catch(err => {
+      if (err.message === 'Routine not found') {
+        return res.sendStatus(404);
+      }
       logger.error(err);
       res.status(500).send({ err });
     });

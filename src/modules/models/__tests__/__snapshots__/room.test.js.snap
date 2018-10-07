@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Room findByIdAndUpdate should update a room 1`] = `
+exports[`Room findByIdAndUpdate should update a room safely 1`] = `
 Object {
   "createdAt": Any<Date>,
   "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",

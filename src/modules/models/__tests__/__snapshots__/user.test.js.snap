@@ -24,7 +24,7 @@ Array [
 ]
 `;
 
-exports[`Users findByIdAndUpdate should update an user 1`] = `
+exports[`Users findByIdAndUpdate should update an user safely 1`] = `
 Array [
   RowDataPacket {
     "password": "test",

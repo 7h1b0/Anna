@@ -18,9 +18,6 @@ module.exports = {
       },
     ],
   },
-  optimization: {
-    minimize: false,
-  },
   externals: [
     (context, request, callback) => {
       if (/(express|knex|got)$/.test(request)) {
@@ -39,7 +36,7 @@ module.exports = {
     children: false,
     modules: false,
     hash: false,
-    version: true,
+    version: false,
     timings: true,
     warnings: true,
     errors: true,

@@ -4,6 +4,7 @@ import roomSchema from '../schemas/room';
 import knex from '../../knexClient';
 import * as Dio from './dio';
 import * as HueLight from './hueLight';
+import { omit } from '../utils';
 
 export const TABLE = 'rooms';
 export const COLUMNS = [
@@ -62,7 +63,13 @@ export async function remove(roomId) {
 }
 
 export function findByIdAndUpdate(roomId, payload) {
+  const safePayload = omit(payload, [
+    'roomId',
+    'createdAt',
+    'updatedAt',
+    'createdBy',
+  ]);
   return knex(TABLE)
-    .update({ ...payload })
+    .update(safePayload)
     .where('roomId', roomId);
 }

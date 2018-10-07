@@ -2,6 +2,7 @@ import Ajv from 'ajv';
 import uuidv4 from 'uuid/v4';
 import knex from '../../knexClient';
 import aliasSchema from '../schemas/alias';
+import { omit } from '../utils';
 
 export const TABLE = 'alias';
 export const COLUMNS = [
@@ -56,7 +57,13 @@ export function remove(aliasId) {
 }
 
 export function findByIdAndUpdate(aliasId, payload) {
+  const safePayload = omit(payload, [
+    'aliasId',
+    'createdAt',
+    'updatedAt',
+    'createdBy',
+  ]);
   return knex(TABLE)
-    .update({ ...payload })
+    .update(safePayload)
     .where('aliasId', aliasId);
 }

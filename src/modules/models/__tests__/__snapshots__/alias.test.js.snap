@@ -13,7 +13,7 @@ Object {
 }
 `;
 
-exports[`Alias findByIdAndUpdate should update a alias 1`] = `
+exports[`Alias findByIdAndUpdate should update a alias safely 1`] = `
 Object {
   "aliasId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,
   "createdAt": Any<Date>,

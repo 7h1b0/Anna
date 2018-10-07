@@ -109,8 +109,12 @@ describe('Alias', () => {
   });
 
   describe('findByIdAndUpdate', () => {
-    it('should update a alias', async () => {
-      await Alias.findByIdAndUpdate(initAlias[0].aliasId, { name: 'updated' });
+    it('should update a alias safely', async () => {
+      await Alias.findByIdAndUpdate(initAlias[0].aliasId, {
+        name: 'updated',
+        aliasId: 'pwned',
+        createdBy: 'Mr. Robot',
+      });
       const alias = await knex(Alias.TABLE)
         .first('*')
         .where('aliasId', initAlias[0].aliasId);

@@ -194,6 +194,7 @@ describe('Scene API', () => {
           .set('Accept', 'application/json')
           .set('x-access-token', user.token);
 
+        expect(response.status).toBe(200);
         expect(response.body).toMatchSnapshot();
       });
 
@@ -297,7 +298,7 @@ describe('Scene API', () => {
           name: 'testtest',
           actions: [
             {
-              targetId: 'faked78e-fd1c-4717-b610-65d2fa3d01b2',
+              targetId: 'faaed78e-fd1c-4717-b610-65d2fa3d01b2',
               name: 'action',
               type: 'DIO',
               body: {
@@ -307,7 +308,7 @@ describe('Scene API', () => {
           ],
         };
         const response = await request(app)
-          .patch('/api/scenes/faked78e-fd1c-4717-b610-65d2fa3d01b2')
+          .patch('/api/scenes/faaed78e-fd1c-4717-b610-65d2fa3d01b2')
           .set('Accept', 'application/json')
           .set('x-access-token', user.token)
           .send(scene);

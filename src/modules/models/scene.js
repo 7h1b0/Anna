@@ -30,7 +30,7 @@ export async function findById(sceneId) {
   const fetchActions = findBySceneId(sceneId);
 
   const [scene, actions] = await Promise.all([fetchScene, fetchActions]);
-  if (scene && scene.length > 0) {
+  if (scene) {
     return { ...scene, actions };
   }
   return;

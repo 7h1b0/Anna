@@ -46,14 +46,5 @@
     "db:rollback": "knex migrate:rollback --knexfile src/knexfile.js",
     "db:seed": "knex seed:run --knexfile src/knexfile.js",
     "build": "webpack --config webpack.config.js"
-  },
-  "lint-staged": {
-    "src/**/*.{js,json}": [
-      "prettier --single-quote --trailing-comma all --print-width 80 --write",
-      "git add"
-    ]
-  },
-  "jest": {
-    "testURL": "http://localhost"
   }
 }

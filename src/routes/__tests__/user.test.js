@@ -50,7 +50,7 @@ describe('User API', () => {
       expect(response.body).toHaveProperty('userId');
 
       const users = await knex(User.TABLE)
-        .first('*')
+        .first()
         .where('userId', response.body.userId);
 
       expect(users).toHaveProperty('username', response.body.username);
@@ -138,7 +138,7 @@ describe('User API', () => {
           .send();
 
         expect(response.status).toBe(204);
-        const users = await knex(User.TABLE).select('*');
+        const users = await knex(User.TABLE).select();
         expect(users).toHaveLength(0);
       });
 
@@ -163,7 +163,7 @@ describe('User API', () => {
 
         expect(response.status).toBe(204);
         const users = await knex(User.TABLE)
-          .first('*')
+          .first()
           .where('userId', user.userId);
 
         expect(users).toHaveProperty('username', user.username);
@@ -177,7 +177,7 @@ describe('User API', () => {
           .send({ username: 'test', password: 'toto' });
 
         expect(response.status).toBe(204);
-        const users = await knex(User.TABLE).select('*');
+        const users = await knex(User.TABLE).select();
         expect(users).toHaveLength(1);
 
         const { password, username, userId, token } = users[0];

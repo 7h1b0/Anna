@@ -1,14 +1,12 @@
 import knex from '../../knexClient';
 import * as User from '../../modules/models/user';
 import authenticationMiddleware from '../authenticationMiddleware';
-const initUsers = [
-  {
-    userId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
-    username: 'one',
-    password: 'test',
-    token: 'token_one',
-  },
-];
+const userTest = {
+  userId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
+  username: 'one',
+  password: 'test',
+  token: 'token_one',
+};
 
 describe('authenticationMiddleware', () => {
   beforeAll(async () => {
@@ -16,7 +14,7 @@ describe('authenticationMiddleware', () => {
   });
 
   beforeEach(async () => {
-    await knex(User.TABLE).insert(initUsers);
+    await knex(User.TABLE).insert(userTest);
   });
 
   afterEach(async () => {
@@ -30,7 +28,7 @@ describe('authenticationMiddleware', () => {
   it('should call next when user exist', async () => {
     const req = {
       headers: {
-        'x-access-token': 'token_one',
+        'x-access-token': userTest.token,
       },
     };
     const res = { sendStatus: jest.fn(), locals: {} };
@@ -43,7 +41,7 @@ describe('authenticationMiddleware', () => {
   it('should save the current user into res.locals', async () => {
     const req = {
       headers: {
-        'x-access-token': 'token_one',
+        'x-access-token': userTest.token,
       },
     };
     const res = { sendStatus: jest.fn(), locals: {} };
@@ -51,15 +49,15 @@ describe('authenticationMiddleware', () => {
 
     await authenticationMiddleware(req, res, next);
     expect(res.locals.user).toEqual({
-      userId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
-      username: 'one',
+      userId: userTest.userId,
+      username: userTest.username,
     });
   });
 
   it('should send 401 if token is invalid', async () => {
     const req = {
       headers: {
-        'x-access-token': 'test',
+        'x-access-token': 'invalid-token',
       },
     };
     const res = { sendStatus: jest.fn() };

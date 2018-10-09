@@ -155,7 +155,7 @@ describe('Scene API', () => {
         expect(response.status).toBe(201);
 
         const sceneFromDatabase = await knex(Scene.TABLE)
-          .first('*')
+          .first()
           .where('sceneId', response.body.sceneId);
 
         expect(sceneFromDatabase).toMatchSnapshot({
@@ -165,7 +165,7 @@ describe('Scene API', () => {
         });
 
         const actions = await knex(Action.TABLE)
-          .select('*')
+          .select()
           .where('sceneId', response.body.sceneId);
 
         expect(actions).toHaveLength(1);
@@ -227,13 +227,13 @@ describe('Scene API', () => {
         expect(response.status).toBe(204);
 
         const scene = await knex(Scene.TABLE)
-          .select('*')
+          .select()
           .where('sceneId', initScenes[0].sceneId);
 
         expect(scene).toHaveLength(0);
 
         const actions = await knex(Action.TABLE)
-          .select('*')
+          .select()
           .where('sceneId', initScenes[0].sceneId);
 
         expect(actions).toHaveLength(0);
@@ -339,7 +339,7 @@ describe('Scene API', () => {
         expect(response.status).toBe(204);
 
         const sceneFromDatabase = await knex(Scene.TABLE)
-          .first('*')
+          .first()
           .where('sceneId', initScenes[1].sceneId);
 
         expect(sceneFromDatabase).toMatchSnapshot({

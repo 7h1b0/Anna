@@ -39,7 +39,7 @@ describe('Dio', () => {
 
   describe('findById', () => {
     it('should return only one dio', async () => {
-      const result = await Dio.findById(1);
+      const result = await Dio.findById(initDios[0].dioId);
       expect(result).toEqual(initDios[0]);
     });
 
@@ -60,7 +60,7 @@ describe('Dio', () => {
       const newDio = await Dio.save(save);
       expect(newDio).toEqual(save);
       const dios = await knex(Dio.TABLE)
-        .first('*')
+        .first()
         .where('dioId', save.dioId);
       expect(dios).toEqual(save);
     });
@@ -79,13 +79,13 @@ describe('Dio', () => {
   describe('delete', () => {
     it('should delete a dio', async () => {
       await Dio.remove(1);
-      const dios = await knex(Dio.TABLE).select('*');
+      const dios = await knex(Dio.TABLE).select();
       expect(dios).toEqual([initDios[1]]);
     });
 
     it('should not delete a dio', async () => {
       await Dio.remove(-1);
-      const dios = await knex(Dio.TABLE).select('*');
+      const dios = await knex(Dio.TABLE).select();
       expect(dios).toEqual(initDios);
     });
   });
@@ -98,14 +98,14 @@ describe('Dio', () => {
         dioId: 2,
       });
       expect(rowsAffected).toBe(1);
-      const dios = await knex(Dio.TABLE).select('*');
+      const dios = await knex(Dio.TABLE).select();
       expect(dios).toMatchSnapshot();
     });
 
     it('should not update a dio', async () => {
       const rowsAffected = await Dio.findByIdAndUpdate(-1, { name: 'updated' });
       expect(rowsAffected).toBe(0);
-      const dios = await knex(Dio.TABLE).select('*');
+      const dios = await knex(Dio.TABLE).select();
       expect(dios).toEqual(initDios);
     });
   });

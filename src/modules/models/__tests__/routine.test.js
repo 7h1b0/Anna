@@ -79,7 +79,7 @@ describe('Routines', () => {
         'schedule',
       );
       const routine = await knex(Routine.TABLE)
-        .first('*')
+        .first()
         .where('routineId', id);
 
       expect(routine).toMatchSnapshot({
@@ -97,7 +97,7 @@ describe('Routines', () => {
       expect(res).toBe(1);
 
       const routine = await knex(Routine.TABLE)
-        .first('*')
+        .first()
         .where('routineId', initRoutines[0].routineId);
 
       expect(routine).toBeUndefined();

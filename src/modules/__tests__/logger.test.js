@@ -22,7 +22,7 @@ describe('Logger', () => {
       logger.info('test', true);
 
       expect(console.log).toBeCalled();
-      expect(console.log.mock.calls[0][0]).toEqual('10:00:00 [INFO] test');
+      expect(console.log).toHaveBeenCalledWith('10:00:00 [INFO] test');
     });
   });
 
@@ -31,7 +31,7 @@ describe('Logger', () => {
       logger.warn('test', true);
 
       expect(console.log).toBeCalled();
-      expect(console.log.mock.calls[0][0]).toEqual('10:00:00 [WARN] test');
+      expect(console.log).toHaveBeenCalledWith('10:00:00 [WARN] test');
     });
   });
 
@@ -40,7 +40,7 @@ describe('Logger', () => {
       logger.error('test', true);
 
       expect(console.log).toBeCalled();
-      expect(console.log.mock.calls[0][0]).toEqual('10:00:00 [ERROR] test');
+      expect(console.log).toHaveBeenCalledWith('10:00:00 [ERROR] test');
     });
   });
 });

@@ -118,7 +118,7 @@ describe('Routine API', () => {
         expect(RoutineService.start.mock.calls).toMatchSnapshot();
 
         const routines = await knex(Routine.TABLE)
-          .first('*')
+          .first()
           .where('routineId', response.body.routineId);
 
         expect(routines).toMatchSnapshot({
@@ -225,7 +225,7 @@ describe('Routine API', () => {
         expect(RoutineService.start.mock.calls).toMatchSnapshot();
 
         const routine = await knex(Routine.TABLE)
-          .first('*')
+          .first()
           .where('routineId', initRoutines[0].routineId);
 
         expect(routine).toMatchSnapshot({
@@ -272,7 +272,7 @@ describe('Routine API', () => {
         );
 
         const routines = await knex(Routine.TABLE)
-          .select('*')
+          .select()
           .where('routineId', initRoutines[0].routineId);
 
         expect(routines).toHaveLength(0);

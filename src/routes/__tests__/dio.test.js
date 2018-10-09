@@ -82,7 +82,7 @@ describe('Dio API', () => {
         expect(response.status).toBe(201);
 
         const dio = await knex(Dio.TABLE)
-          .first('*')
+          .first()
           .where('dioId', 3);
         expect(dio).toEqual({
           dioId: 3,
@@ -166,7 +166,7 @@ describe('Dio API', () => {
         expect(response.status).toBe(204);
 
         const dio = await knex(Dio.TABLE)
-          .first('*')
+          .first()
           .where('roomId', '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2');
 
         expect(dio).toEqual({
@@ -225,7 +225,7 @@ describe('Dio API', () => {
         expect(response.status).toBe(204);
 
         const dio = await knex(Dio.TABLE)
-          .select('*')
+          .select()
           .where('roomId', 1);
 
         expect(dio).toHaveLength(0);

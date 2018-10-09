@@ -74,7 +74,7 @@ describe('Room', () => {
 
       const newRoomId = await Room.save(save);
       const rooms = await knex(Room.TABLE)
-        .first('*')
+        .first()
         .where('roomId', newRoomId);
 
       expect(rooms).toMatchSnapshot({
@@ -88,20 +88,20 @@ describe('Room', () => {
   describe('delete', () => {
     it('should delete a room', async () => {
       await Room.remove(initRooms[0].roomId);
-      const rooms = await knex(Room.TABLE).select('*');
+      const rooms = await knex(Room.TABLE).select();
       expect(rooms).toEqual([initRooms[1]]);
     });
 
     it('should not delete a room', async () => {
       await Room.remove(-1);
-      const rooms = await knex(Room.TABLE).select('*');
+      const rooms = await knex(Room.TABLE).select();
       expect(rooms).toEqual(initRooms);
     });
 
     it('should not delete a room if devices are still in it', async () => {
       const res = await Room.remove(initRooms[1].roomId);
       expect(res).toBe(0);
-      const rooms = await knex(Room.TABLE).select('*');
+      const rooms = await knex(Room.TABLE).select();
       expect(rooms).toEqual(initRooms);
     });
   });
@@ -115,7 +115,7 @@ describe('Room', () => {
       });
       expect(rowsAffected).toBe(1);
       const room = await knex(Room.TABLE)
-        .first('*')
+        .first()
         .where('roomId', initRooms[0].roomId);
       expect(room).toMatchSnapshot({
         createdAt: expect.any(Date),
@@ -128,7 +128,7 @@ describe('Room', () => {
         name: 'updated',
       });
       expect(rowsAffected).toBe(0);
-      const rooms = await knex(Room.TABLE).select('*');
+      const rooms = await knex(Room.TABLE).select();
       expect(rooms).toEqual(initRooms);
     });
   });

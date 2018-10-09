@@ -94,7 +94,7 @@ describe('Alias API', () => {
         expect(response.status).toBe(201);
 
         const alias = await knex(Alias.TABLE)
-          .first('*')
+          .first()
           .where('aliasId', response.body);
         expect(alias).toMatchSnapshot({
           aliasId: expect.stringMatching(/[a-fA-F0-9-]{36}/),
@@ -175,7 +175,7 @@ describe('Alias API', () => {
         expect(response.status).toBe(204);
 
         const alias = await knex(Alias.TABLE)
-          .first('*')
+          .first()
           .where('aliasId', 1);
 
         expect(alias).toMatchSnapshot({
@@ -234,7 +234,7 @@ describe('Alias API', () => {
         expect(response.status).toBe(204);
 
         const alias = await knex(Alias.TABLE)
-          .select('*')
+          .select()
           .where('aliasId', initAlias[0].aliasId);
 
         expect(alias).toHaveLength(0);
@@ -270,7 +270,7 @@ describe('Alias API', () => {
       expect(response.status).toBe(204);
 
       const alias = await knex(Alias.TABLE)
-        .first('*')
+        .first()
         .where('aliasId', initAlias[1].aliasId);
 
       expect(alias).toMatchSnapshot({
@@ -289,7 +289,7 @@ describe('Alias API', () => {
       expect(response.status).toBe(204);
 
       const alias = await knex(Alias.TABLE)
-        .first('*')
+        .first()
         .where('aliasId', initAlias[0].aliasId);
 
       expect(alias).toMatchSnapshot({

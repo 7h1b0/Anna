@@ -84,10 +84,10 @@ describe('Scene', () => {
     it('should delete a scene', async () => {
       await Scene.remove(initScenes[0].sceneId);
       const scenes = await knex(Scene.TABLE)
-        .select('*')
+        .select()
         .where('sceneId', initScenes[0].sceneId);
       const actions = await knex(Action.TABLE)
-        .select('*')
+        .select()
         .where('sceneId', initScenes[0].sceneId);
       expect(scenes).toHaveLength(0);
       expect(actions).toHaveLength(0);
@@ -95,8 +95,8 @@ describe('Scene', () => {
 
     it('should not delete a scene', async () => {
       await Scene.remove(-1);
-      const scenes = await knex(Scene.TABLE).select('*');
-      const actions = await knex(Action.TABLE).select('*');
+      const scenes = await knex(Scene.TABLE).select();
+      const actions = await knex(Action.TABLE).select();
       expect(scenes).toEqual(initScenes);
       expect(actions).toEqual(initActions);
     });
@@ -133,10 +133,10 @@ describe('Scene', () => {
       expect(id).toMatch(/[a-fA-F0-9-]{36}/);
 
       const scenes = await knex(Scene.TABLE)
-        .first('*')
+        .first()
         .where('sceneId', id);
       const actions = await knex(Action.TABLE)
-        .select('*')
+        .select()
         .where('sceneId', id);
       expect(scenes).toMatchSnapshot({
         sceneId: expect.stringMatching(/[a-fA-F0-9-]{36}/),
@@ -172,10 +172,10 @@ describe('Scene', () => {
       await Scene.findByIdAndUpdate(updatedScene);
 
       const scenes = await knex(Scene.TABLE)
-        .first('*')
+        .first()
         .where('sceneId', initScenes[1].sceneId);
       const actions = await knex(Action.TABLE)
-        .select('*')
+        .select()
         .where('sceneId', initScenes[1].sceneId)
         .orderBy('targetId');
 
@@ -225,10 +225,10 @@ describe('Scene', () => {
       expect(res).toBe(0);
 
       const scenes = await knex(Scene.TABLE)
-        .select('*')
+        .select()
         .where('sceneId', fakeSceneId);
       const actions = await knex(Action.TABLE)
-        .select('*')
+        .select()
         .where('sceneId', fakeSceneId);
 
       expect(scenes).toHaveLength(0);

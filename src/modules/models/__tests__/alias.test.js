@@ -71,7 +71,7 @@ describe('Alias', () => {
 
       const aliasId = await Alias.save(save);
       const alias = await knex(Alias.TABLE)
-        .first('*')
+        .first()
         .where('aliasId', aliasId);
 
       expect(alias).toMatchSnapshot({
@@ -97,13 +97,13 @@ describe('Alias', () => {
   describe('delete', () => {
     it('should delete an alias', async () => {
       await Alias.remove(initAlias[0].aliasId);
-      const alias = await knex(Alias.TABLE).select('*');
+      const alias = await knex(Alias.TABLE).select();
       expect(alias).toEqual([initAlias[1]]);
     });
 
     it('should not delete an alias', async () => {
       await Alias.remove(-1);
-      const alias = await knex(Alias.TABLE).select('*');
+      const alias = await knex(Alias.TABLE).select();
       expect(alias).toEqual(initAlias);
     });
   });
@@ -116,7 +116,7 @@ describe('Alias', () => {
         createdBy: 'Mr. Robot',
       });
       const alias = await knex(Alias.TABLE)
-        .first('*')
+        .first()
         .where('aliasId', initAlias[0].aliasId);
 
       expect(alias).toMatchSnapshot({
@@ -128,7 +128,7 @@ describe('Alias', () => {
 
     it('should not update an alias if id is unknow', async () => {
       await Alias.findByIdAndUpdate(-1, { name: 'updated' });
-      const alias = await knex(Alias.TABLE).select('*');
+      const alias = await knex(Alias.TABLE).select();
       expect(alias).toEqual(initAlias);
     });
   });

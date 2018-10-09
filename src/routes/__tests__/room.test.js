@@ -84,7 +84,7 @@ describe('Rooms API', () => {
         expect(response.status).toBe(201);
 
         const rooms = await knex(Room.TABLE)
-          .first('*')
+          .first()
           .where('roomId', response.body);
 
         expect(rooms).toMatchSnapshot({
@@ -161,7 +161,7 @@ describe('Rooms API', () => {
         expect(response.status).toBe(204);
 
         const room = await knex(Room.TABLE)
-          .first('*')
+          .first()
           .where('roomId', initRooms[0].roomId);
 
         expect(room).toMatchSnapshot({
@@ -217,7 +217,7 @@ describe('Rooms API', () => {
         expect(response.status).toBe(204);
 
         const room = await knex(Room.TABLE)
-          .select('*')
+          .select()
           .where('roomId', initRooms[0].roomId);
 
         expect(room).toHaveLength(0);

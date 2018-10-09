@@ -73,7 +73,7 @@ describe('Users', () => {
         userId: 'toto',
       });
       expect(rowsAffected).toBe(1);
-      const user = await knex(User.TABLE).select('*');
+      const user = await knex(User.TABLE).select();
       expect(user).toMatchSnapshot();
     });
 
@@ -82,7 +82,7 @@ describe('Users', () => {
         username: 'username',
       });
       expect(rowsAffected).toBe(0);
-      const user = await knex(User.TABLE).select('*');
+      const user = await knex(User.TABLE).select();
       expect(user).toEqual(initUsers);
     });
   });
@@ -97,7 +97,7 @@ describe('Users', () => {
 
       const userId = await User.save(save);
       const user = await knex(User.TABLE)
-        .first('*')
+        .first()
         .where('userId', userId);
 
       expect(user).toMatchSnapshot({
@@ -109,13 +109,13 @@ describe('Users', () => {
   describe('delete', () => {
     it('should delete an user', async () => {
       await User.remove(initUsers[0].userId);
-      const users = await knex(User.TABLE).select('*');
+      const users = await knex(User.TABLE).select();
       expect(users).toMatchSnapshot();
     });
 
     it('should not delete an user', async () => {
       await User.remove(-1);
-      const users = await knex(User.TABLE).select('*');
+      const users = await knex(User.TABLE).select();
       expect(users).toEqual(initUsers);
     });
   });

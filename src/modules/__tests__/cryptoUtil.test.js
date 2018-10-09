@@ -7,9 +7,9 @@ describe('cryptoUtil', () => {
       const firstHash = crypto.hash(password);
       const secondHash = crypto.hash(password);
 
-      expect(firstHash !== secondHash).toBeTruthy();
-      expect(password !== secondHash).toBeTruthy();
-      expect(password !== firstHash).toBeTruthy();
+      expect(firstHash).not.toBe(secondHash);
+      expect(password).not.toBe(secondHash);
+      expect(password).not.toBe(firstHash);
     });
   });
 
@@ -34,7 +34,7 @@ describe('cryptoUtil', () => {
       const first = await crypto.random();
       const second = await crypto.random();
 
-      expect(first === second).toBeFalsy();
+      expect(first).not.toBe(second);
       expect(`${first}`).toHaveLength(24);
       expect(`${second}`).toHaveLength(24);
     });

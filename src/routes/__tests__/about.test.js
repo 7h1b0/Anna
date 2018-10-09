@@ -8,6 +8,7 @@ import * as Dio from '../../modules/models/dio';
 import * as Room from '../../modules/models/room';
 import * as Alias from '../../modules/models/alias';
 import * as Routine from '../../modules/models/routine';
+import * as hueService from '../../services/hueService';
 
 const user = {
   userId: 1,
@@ -34,6 +35,7 @@ describe('About API', () => {
       Alias.findAll = jest.fn(() => Promise.resolve('alias'));
       Room.findAll = jest.fn(() => Promise.resolve('rooms'));
       Routine.findAll = jest.fn(() => Promise.resolve('routines'));
+      hueService.getLights = jest.fn(() => Promise.resolve('hueLights'));
 
       const response = await request(app)
         .get('/api')
@@ -48,6 +50,7 @@ describe('About API', () => {
         alias: 'alias',
         rooms: 'rooms',
         routines: 'routines',
+        hueLights: 'hueLights',
       });
     });
 

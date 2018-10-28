@@ -1,4 +1,5 @@
 import request from 'supertest';
+import createUser from 'createUser';
 import knex from '../../knexClient';
 import * as Alias from '../../modules/models/alias';
 import * as User from '../../modules/models/user';
@@ -7,6 +8,7 @@ import dispatch from '../../modules/dispatch';
 
 jest.mock('../../modules/dispatch');
 
+const user = createUser({ userId: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f' });
 const initAlias = [
   {
     aliasId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
@@ -29,13 +31,6 @@ const initAlias = [
     updatedAt: new Date('2018-01-02'),
   },
 ];
-
-const user = {
-  userId: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f',
-  username: 'test',
-  password: '$2a$10$4ftuQxquI/5NR3POJy.2O.DmscxoSdCBzUvlnX2iXGMxtpqhd3w6O', // anna
-  token: '8e6a76928f76d23665f78ff3688ca86422d5',
-};
 
 describe('Alias API', () => {
   beforeAll(async () => {

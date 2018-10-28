@@ -1,4 +1,5 @@
 import request from 'supertest';
+import createUser from 'createUser';
 import knex from '../../knexClient';
 import * as Scene from '../../modules/models/scene';
 import * as Action from '../../modules/models/action';
@@ -8,6 +9,7 @@ import dispatch from '../../modules/dispatch';
 
 jest.mock('../../modules/dispatch');
 
+const user = createUser({ userId: '29699398-449c-48fb-8f5c-84186cdf8279' });
 const initScenes = [
   {
     sceneId: '05442486-0878-440c-9db1-a7006c25a39f',
@@ -53,13 +55,6 @@ const initActions = [
     body: null,
   },
 ];
-
-const user = {
-  userId: '29699398-449c-48fb-8f5c-84186cdf8279',
-  username: 'test',
-  password: '$2a$10$4ftuQxquI/5NR3POJy.2O.DmscxoSdCBzUvlnX2iXGMxtpqhd3w6O', // anna
-  token: '8e6a76928f76d23665f78ff3688ca86422d5',
-};
 
 describe('Scene API', () => {
   beforeAll(async () => {

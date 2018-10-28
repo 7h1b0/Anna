@@ -1,4 +1,5 @@
 import request from 'supertest';
+import createUser from 'createUser';
 import knex from '../../knexClient';
 import * as Dio from '../../modules/models/dio';
 import * as User from '../../modules/models/user';
@@ -7,6 +8,7 @@ import dispatch from '../../modules/dispatch';
 
 jest.mock('../../modules/dispatch');
 
+const user = createUser();
 const initDios = [
   {
     dioId: 1,
@@ -19,13 +21,6 @@ const initDios = [
     name: 'test',
   },
 ];
-
-const user = {
-  userId: 1,
-  username: 'test',
-  password: '$2a$10$4ftuQxquI/5NR3POJy.2O.DmscxoSdCBzUvlnX2iXGMxtpqhd3w6O', // anna
-  token: '8e6a76928f76d23665f78ff3688ca86422d5',
-};
 
 describe('Dio API', () => {
   beforeAll(async () => {

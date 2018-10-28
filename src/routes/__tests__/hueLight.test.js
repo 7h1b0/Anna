@@ -1,4 +1,5 @@
 import request from 'supertest';
+import createUser from 'createUser';
 import knex from '../../knexClient';
 import * as User from '../../modules/models/user';
 import * as hueLight from '../../modules/models/hueLight';
@@ -7,13 +8,7 @@ import * as requestService from 'got';
 
 jest.mock('got');
 
-const user = {
-  userId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
-  username: 'test',
-  password: '$2a$10$4ftuQxquI/5NR3POJy.2O.DmscxoSdCBzUvlnX2iXGMxtpqhd3w6O', // anna
-  token: '8e6a76928f76d23665f78ff3688ca86422d5',
-};
-
+const user = createUser();
 const hueLightRooms = [
   {
     lightId: 1,

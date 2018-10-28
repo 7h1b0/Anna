@@ -24,7 +24,7 @@ Array [
 exports[`Rooms API /api/rooms POST should create a new room 1`] = `
 Object {
   "createdAt": Any<Date>,
-  "createdBy": "1",
+  "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
   "description": "a description",
   "name": "Living Room",
   "roomId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,

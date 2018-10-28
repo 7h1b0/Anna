@@ -41,7 +41,6 @@
     "test": "jest src --watch --notify --runInBand",
     "coverage": "jest src --coverage --ci --runInBand --silent",
     "start": "nodemon --watch src --exec babel-node index.js",
-    "postversion": "git push --follow-tags",
     "db:migrate": "knex migrate:latest --knexfile src/knexfile.js",
     "db:rollback": "knex migrate:rollback --knexfile src/knexfile.js",
     "db:seed": "knex seed:run --knexfile src/knexfile.js",

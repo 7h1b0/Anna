@@ -1,12 +1,9 @@
 import knex from '../../knexClient';
 import * as User from '../../modules/models/user';
 import authenticationMiddleware from '../authenticationMiddleware';
-const userTest = {
-  userId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
-  username: 'one',
-  password: 'test',
-  token: 'token_one',
-};
+import createUser from 'createUser';
+
+const userTest = createUser();
 
 describe('authenticationMiddleware', () => {
   beforeAll(async () => {

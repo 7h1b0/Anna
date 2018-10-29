@@ -18,10 +18,6 @@ describe('authenticationMiddleware', () => {
     await knex(User.TABLE).truncate();
   });
 
-  afterAll(async () => {
-    await knex.destroy();
-  });
-
   it('should call next when user exist', async () => {
     const req = {
       headers: {

@@ -28,10 +28,6 @@ describe('Users', () => {
     await knex(User.TABLE).truncate();
   });
 
-  afterAll(async () => {
-    await knex.destroy();
-  });
-
   describe('findAll', () => {
     it('should return all users', async () => {
       const result = await User.findAll();

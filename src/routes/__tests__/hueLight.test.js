@@ -29,7 +29,6 @@ describe('Hue Light API', () => {
   afterAll(async () => {
     await knex(User.TABLE).truncate();
     await knex(hueLight.TABLE).truncate();
-    await knex.destroy();
   });
 
   describe('/api/hue/lights', () => {

@@ -36,10 +36,6 @@ describe('Alias', () => {
     await knex(Alias.TABLE).truncate();
   });
 
-  afterAll(async () => {
-    await knex.destroy();
-  });
-
   describe('findAll', () => {
     it('should return all alias', async () => {
       const result = await Alias.findAll();

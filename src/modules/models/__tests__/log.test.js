@@ -32,10 +32,6 @@ describe('Logs', () => {
     await knex(Log.TABLE).truncate();
   });
 
-  afterAll(async () => {
-    await knex.destroy();
-  });
-
   describe('findWithLimit', () => {
     it('should return all logs', async () => {
       const expected = [

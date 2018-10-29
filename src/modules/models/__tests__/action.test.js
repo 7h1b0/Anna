@@ -51,10 +51,6 @@ describe('Action', () => {
     await knex(Action.TABLE).truncate();
   });
 
-  afterAll(async () => {
-    await knex.destroy();
-  });
-
   describe('findBySceneId', () => {
     it('should return all actions given scene id', async () => {
       const result = await Action.findBySceneId(

@@ -26,10 +26,6 @@ describe('Dio', () => {
     await knex(Dio.TABLE).truncate();
   });
 
-  afterAll(async () => {
-    await knex.destroy();
-  });
-
   describe('findAll', () => {
     it('should return all dios', async () => {
       const result = await Dio.findAll();

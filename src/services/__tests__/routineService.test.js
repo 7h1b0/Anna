@@ -120,10 +120,6 @@ describe('routineService', () => {
       await knex(Routine.TABLE).truncate();
     });
 
-    afterAll(async () => {
-      await knex.destroy();
-    });
-
     it('should load and start every routine', async () => {
       await routineService.load();
       expect(routineService.processes.size).toBe(2);

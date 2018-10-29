@@ -46,10 +46,6 @@ describe('Routines', () => {
     await knex(Routine.TABLE).truncate();
   });
 
-  afterAll(async () => {
-    await knex.destroy();
-  });
-
   describe('findAll', () => {
     it('should return all routines', async () => {
       const result = await Routine.findAll();

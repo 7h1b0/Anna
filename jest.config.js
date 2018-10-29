@@ -1,5 +1,6 @@
 module.exports = {
   moduleDirectories: ['node_modules', 'test/factories'],
+  setupTestFrameworkScriptFile: '<rootDir>/test/setup.js',
   automock: false,
   clearMocks: true,
   coverageThreshold: {

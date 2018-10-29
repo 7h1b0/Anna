@@ -26,11 +26,6 @@ describe('Hue Light API', () => {
     await knex(hueLight.TABLE).insert(hueLightRooms);
   });
 
-  afterEach(() => {
-    requestService.put.mockClear();
-    requestService.get.mockClear();
-  });
-
   afterAll(async () => {
     await knex(User.TABLE).truncate();
     await knex(hueLight.TABLE).truncate();

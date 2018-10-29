@@ -4,10 +4,6 @@ import execService from '../execService';
 jest.mock('../execService');
 
 describe('dioService', () => {
-  afterEach(() => {
-    execService.mockClear();
-  });
-
   it('should call radioEmission script with valid parameters', async () => {
     const res = await dioAdd(1, true);
     expect(res).toBeUndefined();

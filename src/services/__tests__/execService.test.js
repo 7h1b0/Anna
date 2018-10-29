@@ -4,10 +4,6 @@ import * as child_process from 'child_process';
 jest.mock('child_process');
 
 describe('execService', () => {
-  afterEach(() => {
-    child_process.exec.mockClear();
-  });
-
   it('should return fake_test', () => {
     expect(execService('fake_script')).resolves.toBeDefined();
     expect(child_process.exec).toHaveBeenCalledTimes(1);

@@ -33,7 +33,6 @@ jest.mock('cron');
 describe('routineService', () => {
   afterEach(() => {
     routineService.processes.clear();
-    CronJob.mockClear();
   });
 
   afterAll(() => {

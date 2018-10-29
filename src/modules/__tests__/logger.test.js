@@ -7,11 +7,6 @@ describe('Logger', () => {
     global.console.log = jest.fn();
   });
 
-  afterEach(() => {
-    global.Date.mockClear();
-    global.console.log.mockClear();
-  });
-
   afterAll(() => {
     global.Date.mockReset();
     global.console.log.mockReset();

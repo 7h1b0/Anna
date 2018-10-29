@@ -44,7 +44,6 @@ describe('Alias API', () => {
 
   afterEach(async () => {
     await knex(Alias.TABLE).truncate();
-    dispatch.mockClear();
   });
 
   afterAll(async () => {

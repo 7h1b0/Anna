@@ -16,12 +16,6 @@ describe('Dispatch', () => {
     hueService.setLightState = jest.fn(() => Promise.resolve());
   });
 
-  afterEach(() => {
-    hueService.setLightState.mockClear();
-    dioAdd.mockClear();
-    Scene.findById.mockClear();
-  });
-
   it('should call hueService when type is HUE_LIGHT', async () => {
     await dispatch({ type: HUE_LIGHT, id: 1, body: {} });
 

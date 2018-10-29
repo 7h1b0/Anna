@@ -44,7 +44,6 @@ describe('Routines', () => {
 
   afterEach(async () => {
     await knex(Routine.TABLE).truncate();
-    dispatch.mockClear();
   });
 
   afterAll(async () => {
@@ -147,10 +146,6 @@ describe('Routines', () => {
   });
 
   describe('computeNextRunAt', () => {
-    afterEach(async () => {
-      isBankHoliday.mockClear();
-    });
-
     it('should compute the next date the routine will execute', () => {
       isBankHoliday.mockImplementation(() => false);
       Date.now = jest
@@ -186,12 +181,6 @@ describe('Routines', () => {
     beforeAll(async () => {
       Routine.computeNextRunAt = jest.fn(() => new Date(2010, 5, 5));
       Routine.findByIdAndUpdate = jest.fn(() => Promise.resolve());
-    });
-
-    afterEach(async () => {
-      Routine.findByIdAndUpdate.mockClear();
-      Routine.computeNextRunAt.mockClear();
-      isBankHoliday.mockClear();
     });
 
     it('should dispatch a sceneId and call findByIdAndUpdate', async () => {

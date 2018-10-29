@@ -71,7 +71,6 @@ describe('Scene API', () => {
   afterEach(async () => {
     await knex(Scene.TABLE).truncate();
     await knex(Action.TABLE).truncate();
-    dispatch.mockClear();
   });
 
   afterAll(async () => {

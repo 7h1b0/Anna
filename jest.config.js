@@ -1,4 +1,5 @@
 module.exports = {
+  testEnvironment: 'jest-environment-node',
   moduleDirectories: ['node_modules', 'test/factories'],
   setupTestFrameworkScriptFile: '<rootDir>/test/setup.js',
   automock: false,

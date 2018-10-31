@@ -3,14 +3,14 @@ node_js:
   - 'lts/*'
 services:
   - mysql
-# cache:
-#   directories:
-#     - 'node_modules'
+cache:
+  directories:
+    - '$HOME/.npm'
 env:
   - NODE_ENV=development
 
 install:
-  - npm i
+  - npm ci
 
 before_script:
   - mysql -e 'CREATE DATABASE anna;'

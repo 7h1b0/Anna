@@ -4,6 +4,8 @@ module.exports = {
   setupTestFrameworkScriptFile: '<rootDir>/test/setup.js',
   automock: false,
   clearMocks: true,
+  errorOnDeprecated: true,
+  coveragePathIgnorePatterns: ['/node_modules/', '/test/'],
   coverageThreshold: {
     global: {
       branches: 80,

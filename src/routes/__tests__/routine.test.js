@@ -69,7 +69,7 @@ describe('Routine API', () => {
           .set('Accept', 'application/json')
           .set('x-access-token', 'fake');
 
-        expect(response.status).toBe(401);
+        expect(response.status).toBeUnauthorized();
       });
     });
 
@@ -80,7 +80,7 @@ describe('Routine API', () => {
           .set('Accept', 'application/json')
           .set('x-access-token', 'fake');
 
-        expect(response.status).toBe(401);
+        expect(response.status).toBeUnauthorized();
       });
 
       it('should retun 400 when routine is invalid', async () => {
@@ -93,7 +93,7 @@ describe('Routine API', () => {
             name: 'room_updated',
           });
 
-        expect(response.status).toBe(400);
+        expect(response.status).toBeBadRequest();
       });
 
       it('should save and start a new routine', async () => {
@@ -108,7 +108,7 @@ describe('Routine API', () => {
             interval: '* * * * * *',
           });
 
-        expect(response.status).toBe(201);
+        expect(response.status).toHaveStatusOk();
         expect(RoutineService.start.mock.calls).toMatchSnapshot();
 
         const routines = await knex(Routine.TABLE)
@@ -153,7 +153,7 @@ describe('Routine API', () => {
           .set('Accept', 'application/json')
           .set('x-access-token', 'fake');
 
-        expect(response.status).toBe(401);
+        expect(response.status).toBeUnauthorized();
         expect(response.body).toEqual({});
       });
     });
@@ -185,7 +185,7 @@ describe('Routine API', () => {
             interval: '* * * * * *',
           });
 
-        expect(response.status).toBe(401);
+        expect(response.status).toBeUnauthorized();
         expect(response.body).toEqual({});
       });
 
@@ -199,7 +199,7 @@ describe('Routine API', () => {
             name: 'room_updated',
           });
 
-        expect(response.status).toBe(400);
+        expect(response.status).toBeBadRequest();
       });
 
       it('should update a routine', async () => {
@@ -215,7 +215,7 @@ describe('Routine API', () => {
             interval: '* * * * * *',
           });
 
-        expect(response.status).toBe(204);
+        expect(response.status).toHaveStatusOk();
         expect(RoutineService.start.mock.calls).toMatchSnapshot();
 
         const routine = await knex(Routine.TABLE)
@@ -248,7 +248,7 @@ describe('Routine API', () => {
           .set('Accept', 'application/json')
           .set('x-access-token', 'fake');
 
-        expect(response.status).toBe(401);
+        expect(response.status).toBeUnauthorized();
         expect(response.body).toEqual({});
       });
 
@@ -260,7 +260,7 @@ describe('Routine API', () => {
           .set('Accept', 'application/json')
           .set('x-access-token', user.token);
 
-        expect(response.status).toBe(204);
+        expect(response.status).toHaveStatusOk();
         expect(RoutineService.stop).toHaveBeenCalledWith(
           initRoutines[0].routineId,
         );
@@ -284,7 +284,7 @@ describe('Routine API', () => {
         .set('Accept', 'application/json')
         .set('x-access-token', user.token);
 
-      expect(response.status).toBe(200);
+      expect(response.status).toHaveStatusOk();
       expect(response.body).toEqual({});
       expect(Routine.run).toHaveBeenCalled();
       expect(Routine.run.mock.calls).toMatchSnapshot();
@@ -308,7 +308,7 @@ describe('Routine API', () => {
         .set('Accept', 'application/json')
         .set('x-access-token', 'fake');
 
-      expect(response.status).toBe(401);
+      expect(response.status).toBeUnauthorized();
       expect(response.body).toEqual({});
     });
   });

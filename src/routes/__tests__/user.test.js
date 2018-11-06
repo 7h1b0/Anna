@@ -26,7 +26,7 @@ describe('User API', () => {
         .set('Accept', 'application/json')
         .send({ username: 'teste2e' });
 
-      expect(response.status).toBe(400);
+      expect(response.status).toBeBadRequest();
     });
 
     it('should return the new User and create user in database', async () => {
@@ -35,7 +35,7 @@ describe('User API', () => {
         .set('Accept', 'application/json')
         .send({ username: 'teste2e', password: 'anna' });
 
-      expect(response.status).toBe(201);
+      expect(response.status).toHaveStatusOk();
       expect(response.body).not.toHaveProperty('password');
       expect(response.body).toHaveProperty('username', 'teste2e');
       expect(response.body).toHaveProperty('token');
@@ -87,7 +87,7 @@ describe('User API', () => {
         .set('Accept', 'application/json')
         .send({ name: 'fake', password: 'test' });
 
-      expect(response.status).toBe(400);
+      expect(response.status).toBeBadRequest();
     });
   });
 
@@ -115,7 +115,7 @@ describe('User API', () => {
           .set('x-access-token', 'fake')
           .send();
 
-        expect(response.status).toBe(401);
+        expect(response.status).toBeUnauthorized();
       });
     });
   });
@@ -129,7 +129,7 @@ describe('User API', () => {
           .set('x-access-token', user.token)
           .send();
 
-        expect(response.status).toBe(204);
+        expect(response.status).toHaveStatusOk();
         const users = await knex(User.TABLE).select();
         expect(users).toHaveLength(0);
       });
@@ -141,7 +141,7 @@ describe('User API', () => {
           .set('x-access-token', 'fake')
           .send();
 
-        expect(response.status).toBe(401);
+        expect(response.status).toBeUnauthorized();
       });
     });
 
@@ -153,7 +153,7 @@ describe('User API', () => {
           .set('x-access-token', user.token)
           .send({ username: 'test_changed', password: 'anna' });
 
-        expect(response.status).toBe(204);
+        expect(response.status).toHaveStatusOk();
         const users = await knex(User.TABLE)
           .first()
           .where('userId', user.userId);
@@ -168,7 +168,7 @@ describe('User API', () => {
           .set('x-access-token', user.token)
           .send({ username: 'test', password: 'toto' });
 
-        expect(response.status).toBe(204);
+        expect(response.status).toHaveStatusOk();
         const users = await knex(User.TABLE).select();
         expect(users).toHaveLength(1);
 
@@ -186,7 +186,7 @@ describe('User API', () => {
           .set('x-access-token', 'fake')
           .send();
 
-        expect(response.status).toBe(401);
+        expect(response.status).toBeUnauthorized();
       });
 
       it('should retun 400 if body is invalid', async () => {
@@ -196,7 +196,7 @@ describe('User API', () => {
           .set('x-access-token', user.token)
           .send();
 
-        expect(response.status).toBe(400);
+        expect(response.status).toBeBadRequest();
       });
     });
   });

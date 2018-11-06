@@ -67,7 +67,7 @@ describe('Alias API', () => {
           .set('Accept', 'application/json')
           .set('x-access-token', 'fake');
 
-        expect(response.status).toBe(401);
+        expect(response.status).toBeUnauthorized();
       });
     });
 
@@ -84,7 +84,7 @@ describe('Alias API', () => {
             enabled: false,
           });
 
-        expect(response.status).toBe(201);
+        expect(response.status).toHaveStatusOk();
 
         const alias = await knex(Alias.TABLE)
           .first()
@@ -102,7 +102,7 @@ describe('Alias API', () => {
           .set('Accept', 'application/json')
           .set('x-access-token', 'fake');
 
-        expect(response.status).toBe(401);
+        expect(response.status).toBeUnauthorized();
       });
 
       it('should retun 400 if request is invalid', async () => {
@@ -117,7 +117,7 @@ describe('Alias API', () => {
             fake: false,
           });
 
-        expect(response.status).toBe(400);
+        expect(response.status).toBeBadRequest();
       });
     });
   });
@@ -139,7 +139,7 @@ describe('Alias API', () => {
           .set('Accept', 'application/json')
           .set('x-access-token', 'fake');
 
-        expect(response.status).toBe(401);
+        expect(response.status).toBeUnauthorized();
       });
 
       it("should retun 404 when alias don't exist", async () => {
@@ -165,7 +165,7 @@ describe('Alias API', () => {
             enabled: true,
           });
 
-        expect(response.status).toBe(204);
+        expect(response.status).toHaveStatusOk();
 
         const alias = await knex(Alias.TABLE)
           .first()
@@ -183,7 +183,7 @@ describe('Alias API', () => {
           .set('Accept', 'application/json')
           .set('x-access-token', 'fake');
 
-        expect(response.status).toBe(401);
+        expect(response.status).toBeUnauthorized();
       });
 
       it('should retun 400 when request is invalid', async () => {
@@ -198,7 +198,7 @@ describe('Alias API', () => {
             fake: true,
           });
 
-        expect(response.status).toBe(400);
+        expect(response.status).toBeBadRequest();
       });
 
       it("should retun 404 when alias don't exist", async () => {
@@ -224,7 +224,7 @@ describe('Alias API', () => {
           .set('Accept', 'application/json')
           .set('x-access-token', user.token);
 
-        expect(response.status).toBe(204);
+        expect(response.status).toHaveStatusOk();
 
         const alias = await knex(Alias.TABLE)
           .select()
@@ -239,7 +239,7 @@ describe('Alias API', () => {
           .set('Accept', 'application/json')
           .set('x-access-token', 'fake');
 
-        expect(response.status).toBe(401);
+        expect(response.status).toBeUnauthorized();
       });
 
       it("should retun 404 when alias don't exist", async () => {
@@ -260,7 +260,7 @@ describe('Alias API', () => {
         .set('Accept', 'application/json')
         .set('x-access-token', user.token);
 
-      expect(response.status).toBe(204);
+      expect(response.status).toHaveStatusOk();
 
       const alias = await knex(Alias.TABLE)
         .first()
@@ -279,7 +279,7 @@ describe('Alias API', () => {
         .set('Accept', 'application/json')
         .set('x-access-token', user.token);
 
-      expect(response.status).toBe(204);
+      expect(response.status).toHaveStatusOk();
 
       const alias = await knex(Alias.TABLE)
         .first()
@@ -298,7 +298,7 @@ describe('Alias API', () => {
         .set('Accept', 'application/json')
         .set('x-access-token', 'fake');
 
-      expect(response.status).toBe(401);
+      expect(response.status).toBeUnauthorized();
     });
 
     it("should retun 404 when alias don't exist", async () => {
@@ -318,7 +318,7 @@ describe('Alias API', () => {
         .set('Accept', 'application/json')
         .set('x-access-token', user.token);
 
-      expect(response.status).toBe(200);
+      expect(response.status).toHaveStatusOk();
       expect(dispatch).toHaveBeenCalledTimes(1);
       expect(dispatch).toHaveBeenCalledWith({
         type: 'SCENE',

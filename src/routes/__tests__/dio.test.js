@@ -57,7 +57,7 @@ describe('Dio API', () => {
           .set('Accept', 'application/json')
           .set('x-access-token', 'fake');
 
-        expect(response.status).toBe(401);
+        expect(response.status).toBeUnauthorized();
       });
     });
 
@@ -73,7 +73,7 @@ describe('Dio API', () => {
             roomId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
           });
 
-        expect(response.status).toBe(201);
+        expect(response.status).toHaveStatusOk();
 
         const dio = await knex(Dio.TABLE)
           .first()
@@ -91,7 +91,7 @@ describe('Dio API', () => {
           .set('Accept', 'application/json')
           .set('x-access-token', 'fake');
 
-        expect(response.status).toBe(401);
+        expect(response.status).toBeUnauthorized();
       });
 
       it('should retun 400 if request is invalid', async () => {
@@ -106,7 +106,7 @@ describe('Dio API', () => {
             admin: true,
           });
 
-        expect(response.status).toBe(400);
+        expect(response.status).toBeBadRequest();
       });
     });
   });
@@ -132,7 +132,7 @@ describe('Dio API', () => {
           .set('Accept', 'application/json')
           .set('x-access-token', 'fake');
 
-        expect(response.status).toBe(401);
+        expect(response.status).toBeUnauthorized();
       });
 
       it("should retun 404 when dio don't exist", async () => {
@@ -157,7 +157,7 @@ describe('Dio API', () => {
             roomId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
           });
 
-        expect(response.status).toBe(204);
+        expect(response.status).toHaveStatusOk();
 
         const dio = await knex(Dio.TABLE)
           .first()
@@ -176,7 +176,7 @@ describe('Dio API', () => {
           .set('Accept', 'application/json')
           .set('x-access-token', 'fake');
 
-        expect(response.status).toBe(401);
+        expect(response.status).toBeUnauthorized();
       });
 
       it('should retun 400 when request is invalid', async () => {
@@ -191,7 +191,7 @@ describe('Dio API', () => {
             admin: true,
           });
 
-        expect(response.status).toBe(400);
+        expect(response.status).toBeBadRequest();
       });
 
       it("should retun 404 when dio don't exist", async () => {
@@ -216,7 +216,7 @@ describe('Dio API', () => {
           .set('Accept', 'application/json')
           .set('x-access-token', user.token);
 
-        expect(response.status).toBe(204);
+        expect(response.status).toHaveStatusOk();
 
         const dio = await knex(Dio.TABLE)
           .select()
@@ -231,7 +231,7 @@ describe('Dio API', () => {
           .set('Accept', 'application/json')
           .set('x-access-token', 'fake');
 
-        expect(response.status).toBe(401);
+        expect(response.status).toBeUnauthorized();
       });
 
       it("should retun 404 when dio don't exist", async () => {
@@ -252,7 +252,7 @@ describe('Dio API', () => {
         .set('Accept', 'application/json')
         .set('x-access-token', 'fake');
 
-      expect(response.status).toBe(401);
+      expect(response.status).toBeUnauthorized();
     });
 
     it('should call dispatch', async () => {
@@ -261,7 +261,7 @@ describe('Dio API', () => {
         .set('Accept', 'application/json')
         .set('x-access-token', user.token);
 
-      expect(response.status).toBe(200);
+      expect(response.status).toHaveStatusOk();
       expect(dispatch).toHaveBeenCalledWith({
         type: 'DIO',
         id: '1',

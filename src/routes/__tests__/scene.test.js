@@ -94,7 +94,7 @@ describe('Scene API', () => {
           .set('Accept', 'application/json')
           .set('x-access-token', 'fake');
 
-        expect(response.status).toBe(401);
+        expect(response.status).toBeUnauthorized();
       });
     });
 
@@ -120,7 +120,7 @@ describe('Scene API', () => {
           .set('x-access-token', user.token)
           .send(scene);
 
-        expect(response.status).toBe(400);
+        expect(response.status).toBeBadRequest();
       });
 
       it('should create a scene', async () => {
@@ -145,7 +145,7 @@ describe('Scene API', () => {
           .set('x-access-token', user.token)
           .send(scene);
 
-        expect(response.status).toBe(201);
+        expect(response.status).toHaveStatusOk();
 
         const sceneFromDatabase = await knex(Scene.TABLE)
           .first()
@@ -174,7 +174,7 @@ describe('Scene API', () => {
           .set('Accept', 'application/json')
           .set('x-access-token', 'fake');
 
-        expect(response.status).toBe(401);
+        expect(response.status).toBeUnauthorized();
       });
     });
   });
@@ -187,7 +187,7 @@ describe('Scene API', () => {
           .set('Accept', 'application/json')
           .set('x-access-token', user.token);
 
-        expect(response.status).toBe(200);
+        expect(response.status).toHaveStatusOk();
         expect(response.body).toMatchSnapshot();
       });
 
@@ -197,7 +197,7 @@ describe('Scene API', () => {
           .set('Accept', 'application/json')
           .set('x-access-token', 'fake');
 
-        expect(response.status).toBe(401);
+        expect(response.status).toBeUnauthorized();
       });
 
       it("should retun 404 when a scene don't exist", async () => {
@@ -217,7 +217,7 @@ describe('Scene API', () => {
           .set('Accept', 'application/json')
           .set('x-access-token', user.token);
 
-        expect(response.status).toBe(204);
+        expect(response.status).toHaveStatusOk();
 
         const scene = await knex(Scene.TABLE)
           .select()
@@ -247,7 +247,7 @@ describe('Scene API', () => {
           .set('Accept', 'application/json')
           .set('x-access-token', 'fake');
 
-        expect(response.status).toBe(401);
+        expect(response.status).toBeUnauthorized();
       });
     });
 
@@ -273,7 +273,7 @@ describe('Scene API', () => {
           .set('x-access-token', user.token)
           .send(scene);
 
-        expect(response.status).toBe(400);
+        expect(response.status).toBeBadRequest();
       });
 
       it('should retun 401 when user is not authenticated', async () => {
@@ -282,7 +282,7 @@ describe('Scene API', () => {
           .set('Accept', 'application/json')
           .set('x-access-token', 'fake');
 
-        expect(response.status).toBe(401);
+        expect(response.status).toBeUnauthorized();
       });
 
       it('should return 404 if scene is not found', async () => {
@@ -329,7 +329,7 @@ describe('Scene API', () => {
           .set('x-access-token', user.token)
           .send(updatedScene);
 
-        expect(response.status).toBe(204);
+        expect(response.status).toHaveStatusOk();
 
         const sceneFromDatabase = await knex(Scene.TABLE)
           .first()
@@ -351,7 +351,7 @@ describe('Scene API', () => {
         .set('Accept', 'application/json')
         .set('x-access-token', user.token);
 
-      expect(response.status).toBe(200);
+      expect(response.status).toHaveStatusOk();
       expect(dispatch).toHaveBeenCalledWith({
         type: 'SCENE',
         id: initScenes[1].sceneId,
@@ -364,7 +364,7 @@ describe('Scene API', () => {
         .set('Accept', 'application/json')
         .set('x-access-token', 'fake');
 
-      expect(response.status).toBe(401);
+      expect(response.status).toBeUnauthorized();
     });
   });
 });

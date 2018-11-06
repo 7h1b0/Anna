@@ -60,7 +60,7 @@ describe('Rooms API', () => {
           .set('Accept', 'application/json')
           .set('x-access-token', 'fake');
 
-        expect(response.status).toBe(401);
+        expect(response.status).toBeUnauthorized();
       });
     });
 
@@ -75,7 +75,7 @@ describe('Rooms API', () => {
             description: 'a description',
           });
 
-        expect(response.status).toBe(201);
+        expect(response.status).toHaveStatusOk();
 
         const rooms = await knex(Room.TABLE)
           .first()
@@ -94,7 +94,7 @@ describe('Rooms API', () => {
           .set('Accept', 'application/json')
           .set('x-access-token', 'fake');
 
-        expect(response.status).toBe(401);
+        expect(response.status).toBeUnauthorized();
       });
 
       it('should retun 400 if request is invalid', async () => {
@@ -106,7 +106,7 @@ describe('Rooms API', () => {
             description: 'missing name',
           });
 
-        expect(response.status).toBe(400);
+        expect(response.status).toBeBadRequest();
       });
     });
   });
@@ -128,7 +128,7 @@ describe('Rooms API', () => {
           .set('Accept', 'application/json')
           .set('x-access-token', 'fake');
 
-        expect(response.status).toBe(401);
+        expect(response.status).toBeUnauthorized();
       });
 
       it("should retun 404 when a room don't exist", async () => {
@@ -152,7 +152,7 @@ describe('Rooms API', () => {
             name: 'room_updated',
           });
 
-        expect(response.status).toBe(204);
+        expect(response.status).toHaveStatusOk();
 
         const room = await knex(Room.TABLE)
           .first()
@@ -171,7 +171,7 @@ describe('Rooms API', () => {
           .set('Accept', 'application/json')
           .set('x-access-token', 'fake');
 
-        expect(response.status).toBe(401);
+        expect(response.status).toBeUnauthorized();
       });
 
       it('should return 400 when request is invalid', async () => {
@@ -184,7 +184,7 @@ describe('Rooms API', () => {
             fake: true,
           });
 
-        expect(response.status).toBe(400);
+        expect(response.status).toBeBadRequest();
       });
 
       it("should retun 404 when a room don't exist", async () => {
@@ -208,7 +208,7 @@ describe('Rooms API', () => {
           .set('Accept', 'application/json')
           .set('x-access-token', user.token);
 
-        expect(response.status).toBe(204);
+        expect(response.status).toHaveStatusOk();
 
         const room = await knex(Room.TABLE)
           .select()
@@ -223,7 +223,7 @@ describe('Rooms API', () => {
           .set('Accept', 'application/json')
           .set('x-access-token', 'fake');
 
-        expect(response.status).toBe(401);
+        expect(response.status).toBeUnauthorized();
       });
 
       it("should retun 404 when a room don't exist", async () => {

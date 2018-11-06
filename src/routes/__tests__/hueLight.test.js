@@ -39,7 +39,7 @@ describe('Hue Light API', () => {
           .set('Accept', 'application/json')
           .set('x-access-token', 'fake');
 
-        expect(response.status).toBe(401);
+        expect(response.status).toBeUnauthorized();
       });
 
       it('should return all lights', async () => {
@@ -48,7 +48,7 @@ describe('Hue Light API', () => {
           .set('Accept', 'application/json')
           .set('x-access-token', user.token);
 
-        expect(response.status).toBe(200);
+        expect(response.status).toHaveStatusOk();
         expect(response.body).toMatchSnapshot();
       });
     });
@@ -62,7 +62,7 @@ describe('Hue Light API', () => {
           .set('Accept', 'application/json')
           .set('x-access-token', user.token);
 
-        expect(response.status).toBe(200);
+        expect(response.status).toHaveStatusOk();
         expect(response.body).toMatchSnapshot();
       });
 
@@ -72,7 +72,7 @@ describe('Hue Light API', () => {
           .set('Accept', 'application/json')
           .set('x-access-token', 'fake');
 
-        expect(response.status).toBe(401);
+        expect(response.status).toBeUnauthorized();
       });
     });
 
@@ -84,7 +84,7 @@ describe('Hue Light API', () => {
           .set('x-access-token', user.token)
           .send({ name: 'test' });
 
-        expect(response.status).toBe(200);
+        expect(response.status).toHaveStatusOk();
         expect(requestService.mock.calls[0][2]).toMatchSnapshot();
       });
 
@@ -100,7 +100,7 @@ describe('Hue Light API', () => {
           .set('x-access-token', user.token)
           .send(updatedName);
 
-        expect(response.status).toBe(200);
+        expect(response.status).toHaveStatusOk();
         expect(requestService.mock.calls[0][2]).toMatchSnapshot();
 
         const res = await knex(hueLight.TABLE)
@@ -116,7 +116,7 @@ describe('Hue Light API', () => {
           .set('Accept', 'application/json')
           .set('x-access-token', 'fake');
 
-        expect(response.status).toBe(401);
+        expect(response.status).toBeUnauthorized();
       });
 
       it('should retun 400 if name is missing', async () => {
@@ -128,7 +128,7 @@ describe('Hue Light API', () => {
           .set('x-access-token', user.token)
           .send(updatedName);
 
-        expect(response.status).toBe(400);
+        expect(response.status).toBeBadRequest();
       });
     });
   });
@@ -140,7 +140,7 @@ describe('Hue Light API', () => {
         .set('Accept', 'application/json')
         .set('x-access-token', 'fake');
 
-      expect(response.status).toBe(401);
+      expect(response.status).toBeUnauthorized();
     });
 
     it('should call requestService with on to true', async () => {
@@ -149,7 +149,7 @@ describe('Hue Light API', () => {
         .set('Accept', 'application/json')
         .set('x-access-token', user.token);
 
-      expect(response.status).toBe(204);
+      expect(response.status).toHaveStatusOk();
       expect(requestService.mock.calls[0][2]).toMatchSnapshot();
     });
 
@@ -159,7 +159,7 @@ describe('Hue Light API', () => {
         .set('Accept', 'application/json')
         .set('x-access-token', user.token);
 
-      expect(response.status).toBe(204);
+      expect(response.status).toHaveStatusOk();
       expect(requestService.mock.calls[0][2]).toMatchSnapshot();
     });
   });
@@ -171,7 +171,7 @@ describe('Hue Light API', () => {
         .set('Accept', 'application/json')
         .set('x-access-token', 'fake');
 
-      expect(response.status).toBe(401);
+      expect(response.status).toBeUnauthorized();
     });
 
     it('should return 400 when body is invalid', async () => {
@@ -181,7 +181,7 @@ describe('Hue Light API', () => {
         .set('x-access-token', user.token)
         .send({});
 
-      expect(response.status).toBe(400);
+      expect(response.status).toBeBadRequest();
     });
 
     it('should return 400 when body is invalid', async () => {
@@ -191,7 +191,7 @@ describe('Hue Light API', () => {
         .set('x-access-token', user.token)
         .send({ test: true });
 
-      expect(response.status).toBe(400);
+      expect(response.status).toBeBadRequest();
     });
 
     it('should call requestService with body passed', async () => {
@@ -202,7 +202,7 @@ describe('Hue Light API', () => {
         .set('x-access-token', user.token)
         .send(body);
 
-      expect(response.status).toBe(204);
+      expect(response.status).toHaveStatusOk();
       expect(requestService.mock.calls[0][2]).toMatchSnapshot();
     });
   });

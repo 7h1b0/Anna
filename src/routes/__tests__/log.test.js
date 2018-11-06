@@ -24,7 +24,7 @@ describe('Log API', () => {
         .set('x-access-token', 'fake')
         .send();
 
-      expect(response.status).toBe(401);
+      expect(response.status).toBeUnauthorized();
     });
 
     it('should return 200', async () => {
@@ -34,7 +34,7 @@ describe('Log API', () => {
         .set('x-access-token', user.token)
         .send();
 
-      expect(response.status).toBe(200);
+      expect(response.status).toHaveStatusOk();
     });
   });
 
@@ -46,7 +46,7 @@ describe('Log API', () => {
         .set('x-access-token', user.token)
         .send();
 
-      expect(response.status).toBe(200);
+      expect(response.status).toHaveStatusOk();
       expect(response.body).toEqual([]);
     });
 
@@ -57,7 +57,7 @@ describe('Log API', () => {
         .set('x-access-token', 'fake')
         .send();
 
-      expect(response.status).toBe(401);
+      expect(response.status).toBeUnauthorized();
     });
   });
 });

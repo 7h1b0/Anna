@@ -38,7 +38,7 @@ describe('About API', () => {
         .set('x-access-token', user.token)
         .send();
 
-      expect(response.status).toBe(200);
+      expect(response.status).toHaveStatusOk();
       expect(response.body).toEqual({
         scenes: 'scenes',
         dios: 'dios',
@@ -56,7 +56,7 @@ describe('About API', () => {
         .set('x-access-token', 'fake')
         .send();
 
-      expect(response.status).toBe(401);
+      expect(response.status).toBeUnauthorized();
     });
   });
 });

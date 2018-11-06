@@ -76,7 +76,7 @@ routes.patch('/api/hue/lights/:id_light([0-9]+)/state', (req, res) => {
   if (Object.keys(state).length > 0) {
     hueService
       .setLightState(req.params.id_light, state)
-      .then(result => res.json(result))
+      .then(() => res.sendStatus(204))
       .catch(err => res.status(500).send({ err }));
   } else {
     res.sendStatus(400);
@@ -85,7 +85,7 @@ routes.patch('/api/hue/lights/:id_light([0-9]+)/state', (req, res) => {
 
 routes.get('/api/hue/lights/:id_light([0-9]+)/:status(on|off)', (req, res) => {
   dispatch(toggleHueLight(req.params.id_light, req.params.status === 'on'))
-    .then(result => res.json(result))
+    .then(() => res.sendStatus(204))
     .catch(err => res.status(500).send({ err }));
 });
 

@@ -1,4 +1,4 @@
-import * as request from 'got';
+import request from 'needle';
 import { HUE_IP, HUE_TOKEN } from '../constants';
 import { findAll, findRoomId } from '../modules/models/hueLight';
 
@@ -9,7 +9,7 @@ const toArray = jsonObject =>
 
 export async function getLights() {
   const [{ body }, rooms] = await Promise.all([
-    request.get(`${api}/lights`, { json: true }),
+    request('get', `${api}/lights`),
     findAll(),
   ]);
 
@@ -28,7 +28,7 @@ export async function getLights() {
 
 export async function getLight(lightId) {
   const [{ body }, roomId] = await Promise.all([
-    request.get(`${api}/lights/${lightId}`, { json: true }),
+    request('get', `${api}/lights/${lightId}`),
     findRoomId(lightId),
   ]);
 
@@ -36,9 +36,14 @@ export async function getLight(lightId) {
 }
 
 export function renameLight(id, name) {
-  return request.put(`${api}/lights/${id}`, { body: { name }, json: true });
+  return request(
+    'put',
+    `${api}/lights/${id}`,
+    { body: { name } },
+    { json: true },
+  );
 }
 
 export function setLightState(id, body) {
-  return request.put(`${api}/lights/${id}/state`, { body, json: true });
+  return request('put', `${api}/lights/${id}/state`, body, { json: true });
 }

@@ -4,9 +4,9 @@ import knex from '../../knexClient';
 import * as User from '../../modules/models/user';
 import * as hueLight from '../../modules/models/hueLight';
 import app from '../../index.js';
-import * as requestService from 'got';
+import requestService from 'needle';
 
-jest.mock('got');
+jest.mock('needle');
 
 const user = createUser();
 const hueLightRooms = [
@@ -85,8 +85,7 @@ describe('Hue Light API', () => {
           .send({ name: 'test' });
 
         expect(response.status).toBe(200);
-        expect(requestService.put).toHaveBeenCalledTimes(1);
-        expect(requestService.put.mock.calls[0][1]).toMatchSnapshot();
+        expect(requestService.mock.calls[0][2]).toMatchSnapshot();
       });
 
       it('should update the roomId and the name', async () => {
@@ -102,8 +101,7 @@ describe('Hue Light API', () => {
           .send(updatedName);
 
         expect(response.status).toBe(200);
-        expect(requestService.put).toHaveBeenCalledTimes(1);
-        expect(requestService.put.mock.calls[0][1]).toMatchSnapshot();
+        expect(requestService.mock.calls[0][2]).toMatchSnapshot();
 
         const res = await knex(hueLight.TABLE)
           .first('roomId')
@@ -151,10 +149,8 @@ describe('Hue Light API', () => {
         .set('Accept', 'application/json')
         .set('x-access-token', user.token);
 
-      expect(response.status).toBe(200);
-      expect(requestService.put).toHaveBeenCalledTimes(1);
-      expect(requestService.put.mock.calls[0][1]).toMatchSnapshot();
-      expect(requestService.put.mock.calls[0][0]).toMatch(/lights\/2\/state$/);
+      expect(response.status).toBe(204);
+      expect(requestService.mock.calls[0][2]).toMatchSnapshot();
     });
 
     it('should call requestService with on to false', async () => {
@@ -163,10 +159,8 @@ describe('Hue Light API', () => {
         .set('Accept', 'application/json')
         .set('x-access-token', user.token);
 
-      expect(response.status).toBe(200);
-      expect(requestService.put).toHaveBeenCalledTimes(1);
-      expect(requestService.put.mock.calls[0][1]).toMatchSnapshot();
-      expect(requestService.put.mock.calls[0][0]).toMatch(/lights\/2\/state$/);
+      expect(response.status).toBe(204);
+      expect(requestService.mock.calls[0][2]).toMatchSnapshot();
     });
   });
 
@@ -208,10 +202,8 @@ describe('Hue Light API', () => {
         .set('x-access-token', user.token)
         .send(body);
 
-      expect(response.status).toBe(200);
-      expect(requestService.put).toHaveBeenCalledTimes(1);
-      expect(requestService.put.mock.calls[0][1]).toMatchSnapshot();
-      expect(requestService.put.mock.calls[0][0]).toMatch(/lights\/2\/state$/);
+      expect(response.status).toBe(204);
+      expect(requestService.mock.calls[0][2]).toMatchSnapshot();
     });
   });
 });

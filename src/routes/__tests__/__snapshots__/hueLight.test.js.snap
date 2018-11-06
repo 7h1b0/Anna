@@ -81,7 +81,6 @@ Object {
   "body": Object {
     "name": "test",
   },
-  "json": true,
 }
 `;
 
@@ -90,39 +89,29 @@ Object {
   "body": Object {
     "name": "test_room",
   },
-  "json": true,
 }
 `;
 
 exports[`Hue Light API api/hue/lights/:id_light/:status should call requestService with on to false 1`] = `
 Object {
-  "body": Object {
-    "on": false,
-  },
-  "json": true,
+  "on": false,
 }
 `;
 
 exports[`Hue Light API api/hue/lights/:id_light/:status should call requestService with on to true 1`] = `
 Object {
-  "body": Object {
-    "on": true,
-  },
-  "json": true,
+  "on": true,
 }
 `;
 
 exports[`Hue Light API api/hue/lights/:id_light/state should call requestService with body passed 1`] = `
 Object {
-  "body": Object {
-    "bri": 25,
-    "on": true,
-    "sat": 200,
-    "xy": Array [
-      23,
-      45,
-    ],
-  },
-  "json": true,
+  "bri": 25,
+  "on": true,
+  "sat": 200,
+  "xy": Array [
+    23,
+    45,
+  ],
 }
 `;

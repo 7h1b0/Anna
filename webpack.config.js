@@ -20,7 +20,11 @@ module.exports = {
   },
   externals: [
     (context, request, callback) => {
-      if (/(express|knex|got)$/.test(request)) {
+      if (
+        /(oracle|sqlite3|pg-query-stream|pg|oracledb|mssql|tedious|mssql\/package.json|mssql\/lib\/base|mysql2)$/.test(
+          request,
+        )
+      ) {
         return callback(null, `commonjs ${request}`);
       }
       return callback();

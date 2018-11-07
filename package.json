@@ -30,6 +30,7 @@
     "jest": "^23.6.0",
     "lint-staged": "^8.0.4",
     "nodemon": "^1.18.6",
+    "pkg": "^4.3.4",
     "prettier": "^1.14.3",
     "supertest": "^3.3.0",
     "webpack": "^4.25.1",
@@ -43,6 +44,7 @@
     "db:migrate": "knex migrate:latest --knexfile src/knexfile.js",
     "db:rollback": "knex migrate:rollback --knexfile src/knexfile.js",
     "db:seed": "knex seed:run --knexfile src/knexfile.js",
-    "build": "webpack --config webpack.config.js"
+    "build": "webpack --config webpack.config.js",
+    "build:package": "npm run build && pkg -t node10-linux-armv7 ./dist/index.js --public --no-bytecode -o anna"
   }
 }

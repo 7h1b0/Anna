@@ -46,4 +46,5 @@ bdd.json
 *.sqlite3-journal
 coverage/*
 dist/*
+anna
 

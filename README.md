@@ -16,10 +16,14 @@ REST API for home automation using NodeJS
   - [npm start](#npm-start)
   - [npm test](#npm-test)
   - [npm run eslint](#npm-run-eslint)
+  - [npm run build](#npm-run-build)
+  - [npm run build:package](#npm-run-buildpackage)
+  - [npm run db:migrate](#npm-run-dbmigrate)
+  - [npm run db:rollback](#npm-run-dbrollback)
 
 ## Prerequisite
 
-- NodeJS >= 8.6
+- NodeJS >= 8
 - NPM >= 5
 
 ## Installation
@@ -37,10 +41,6 @@ In the project directory, you can run:
 
 Runs the app in the development mode.
 
-### `npm run build`
-
-Builds the application for production.
-
 ### `npm test`
 
 Runs unit test using Jest.
@@ -48,6 +48,14 @@ Runs unit test using Jest.
 ### `npm run eslint`
 
 Use eslint to check src folder.
+
+### `npm run build`
+
+Builds the application for production.
+
+### `npm run build:package`
+
+Builds the application for production and package it with Node 10 for armv7.
 
 ### `npm run db:migrate`
 

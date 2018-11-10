@@ -1,11 +1,7 @@
 import { findByToken } from '../modules/models/user';
-import * as logger from '../modules/logger';
 
 export default async function authenticationMiddleware(req, res, next) {
-  const authFail = () => {
-    logger.warn('Authentification failed');
-    res.sendStatus(401);
-  };
+  const authFail = () => res.sendStatus(401);
 
   const token = req.headers['x-access-token'];
 

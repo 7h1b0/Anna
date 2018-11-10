@@ -105,7 +105,7 @@ describe('Routine API', () => {
           .send({
             sceneId: 'faaed78e-fd1c-4717-b610-65d2fa3d01b2',
             name: 'new_routine',
-            interval: '* * * * * *',
+            interval: '0 0 12 1 10 *',
           });
 
         expect(response.status).toHaveStatusOk();

@@ -49,6 +49,8 @@ export async function save(
   runAtBankHoliday = true,
 ) {
   const routineId = uuidv4();
+  const nextRunAt = computeNextRunAt({ interval, runAtBankHoliday });
+
   await knex(TABLE).insert({
     routineId,
     sceneId,
@@ -57,6 +59,7 @@ export async function save(
     enabled,
     runAtBankHoliday,
     createdBy: userId,
+    nextRunAt,
   });
 
   return routineId;

@@ -7,20 +7,24 @@ function getTime() {
   return `${hours}:${minutes}:${seconds}`;
 }
 
-function print(text, level, display = process.env.NODE_ENV === 'production') {
-  if (display) {
+function print(text, level, display) {
+  if (process.env.NODE_ENV === 'production') {
+    if (display || level === 'ERROR') {
+      console.log(`${getTime()} [${level}] ${text}`);
+    }
+  } else {
     console.log(`${getTime()} [${level}] ${text}`);
   }
 }
 
-export function info(text, display) {
-  print(text, 'INFO', display);
+export function info(text, forceDisplay = false) {
+  print(text, 'INFO', forceDisplay);
 }
 
-export function warn(text, display) {
-  print(text, 'WARN', display);
+export function warn(text, forceDisplay = false) {
+  print(text, 'WARN', forceDisplay);
 }
 
-export function error(text, display) {
-  print(text, 'ERROR', display);
+export function error(text, forceDisplay = false) {
+  print(text, 'ERROR', forceDisplay);
 }

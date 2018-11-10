@@ -23,7 +23,6 @@ app.use(bodyParser.json());
 app.all('/api*', [authenticationMiddleware, logMiddleware]);
 
 app.use([about, alias, dio, hueLight, log, room, scene, routine, user]);
-app.use((req, res) => res.sendStatus(404));
 
 loadRoutine();
 

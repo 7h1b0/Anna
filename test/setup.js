@@ -44,6 +44,9 @@ expect.extend({
   },
 });
 
+process.env.HUE_IP = 'testIP';
+process.env.HUE_TOKEN = 'abcdefghijklmnopqrstuvwxywz';
+
 afterAll(async () => {
   await knex.destroy();
 });

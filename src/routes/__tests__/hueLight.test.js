@@ -4,9 +4,9 @@ import knex from '../../knexClient';
 import * as User from '../../modules/models/user';
 import * as hueLight from '../../modules/models/hueLight';
 import app from '../../index.js';
-import requestService from 'needle';
+import fetch from 'node-fetch';
 
-jest.mock('needle');
+jest.mock('node-fetch');
 
 const user = createUser();
 const hueLightRooms = [
@@ -49,7 +49,6 @@ describe('Hue Light API', () => {
           .set('x-access-token', user.token);
 
         expect(response.status).toHaveStatusOk();
-        expect(response.body).toMatchSnapshot();
       });
     });
   });
@@ -63,7 +62,6 @@ describe('Hue Light API', () => {
           .set('x-access-token', user.token);
 
         expect(response.status).toHaveStatusOk();
-        expect(response.body).toMatchSnapshot();
       });
 
       it('should retun 401 when user is not authenticated', async () => {
@@ -85,7 +83,10 @@ describe('Hue Light API', () => {
           .send({ name: 'test' });
 
         expect(response.status).toHaveStatusOk();
-        expect(requestService.mock.calls[0][2]).toMatchSnapshot();
+        expect(fetch).toHaveBeenCalledWith(
+          'http://testIP/api/abcdefghijklmnopqrstuvwxywz/lights/2',
+          { body: JSON.stringify({ name: 'test' }), method: 'put' },
+        );
       });
 
       it('should update the roomId and the name', async () => {
@@ -101,7 +102,10 @@ describe('Hue Light API', () => {
           .send(updatedName);
 
         expect(response.status).toHaveStatusOk();
-        expect(requestService.mock.calls[0][2]).toMatchSnapshot();
+        expect(fetch).toHaveBeenCalledWith(
+          'http://testIP/api/abcdefghijklmnopqrstuvwxywz/lights/2',
+          { body: JSON.stringify({ name: 'test_room' }), method: 'put' },
+        );
 
         const res = await knex(hueLight.TABLE)
           .first('roomId')
@@ -143,24 +147,30 @@ describe('Hue Light API', () => {
       expect(response.status).toBeUnauthorized();
     });
 
-    it('should call requestService with on to true', async () => {
+    it('should call fetch with on to true', async () => {
       const response = await request(app)
         .get('/api/hue/lights/2/on')
         .set('Accept', 'application/json')
         .set('x-access-token', user.token);
 
       expect(response.status).toHaveStatusOk();
-      expect(requestService.mock.calls[0][2]).toMatchSnapshot();
+      expect(fetch).toHaveBeenCalledWith(
+        'http://testIP/api/abcdefghijklmnopqrstuvwxywz/lights/2/state',
+        { body: JSON.stringify({ on: true }), method: 'put' },
+      );
     });
 
-    it('should call requestService with on to false', async () => {
+    it('should call fetch with on to false', async () => {
       const response = await request(app)
         .get('/api/hue/lights/2/off')
         .set('Accept', 'application/json')
         .set('x-access-token', user.token);
 
       expect(response.status).toHaveStatusOk();
-      expect(requestService.mock.calls[0][2]).toMatchSnapshot();
+      expect(fetch).toHaveBeenCalledWith(
+        'http://testIP/api/abcdefghijklmnopqrstuvwxywz/lights/2/state',
+        { body: JSON.stringify({ on: false }), method: 'put' },
+      );
     });
   });
 
@@ -194,8 +204,8 @@ describe('Hue Light API', () => {
       expect(response.status).toBeBadRequest();
     });
 
-    it('should call requestService with body passed', async () => {
-      const body = { sat: 200, bri: 25, on: true, xy: [23, 45] };
+    it('should call fetch with body passed', async () => {
+      const body = { on: true, bri: 25, sat: 200, xy: [23, 45] };
       const response = await request(app)
         .patch('/api/hue/lights/2/state')
         .set('Accept', 'application/json')
@@ -203,7 +213,10 @@ describe('Hue Light API', () => {
         .send(body);
 
       expect(response.status).toHaveStatusOk();
-      expect(requestService.mock.calls[0][2]).toMatchSnapshot();
+      expect(fetch).toHaveBeenCalledWith(
+        'http://testIP/api/abcdefghijklmnopqrstuvwxywz/lights/2/state',
+        { body: JSON.stringify(body), method: 'put' },
+      );
     });
   });
 });

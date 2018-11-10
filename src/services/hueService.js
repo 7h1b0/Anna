@@ -1,4 +1,4 @@
-import request from 'needle';
+import fetch from 'node-fetch';
 import { HUE_IP, HUE_TOKEN } from '../constants';
 import { findAll, findRoomId } from '../modules/models/hueLight';
 
@@ -8,18 +8,20 @@ const toArray = jsonObject =>
   Object.keys(jsonObject).map(id => ({ ...jsonObject[id], id }));
 
 export async function getLights() {
-  const [{ body }, rooms] = await Promise.all([
-    request('get', `${api}/lights`),
+  const [body, rooms] = await Promise.all([
+    fetch(`${api}/lights`).then(res => res.json()),
     findAll(),
   ]);
 
   let correctedBody = body;
 
-  rooms.forEach(({ roomId, lightId }) => {
-    body[lightId].roomId = roomId;
-  });
-
   if (body) {
+    rooms.forEach(({ roomId, lightId }) => {
+      if (body.hasOwnProperty(lightId)) {
+        body[lightId].roomId = roomId;
+      }
+    });
+
     correctedBody = toArray(body);
   }
 
@@ -27,23 +29,26 @@ export async function getLights() {
 }
 
 export async function getLight(lightId) {
-  const [{ body }, roomId] = await Promise.all([
-    request('get', `${api}/lights/${lightId}`),
+  const [body, roomId] = await Promise.all([
+    fetch(`${api}/lights/${lightId}`).then(res => res.json()),
     findRoomId(lightId),
   ]);
 
   return { ...body, ...roomId };
 }
 
-export function renameLight(id, name) {
-  return request(
-    'put',
-    `${api}/lights/${id}`,
-    { body: { name } },
-    { json: true },
-  );
+export async function renameLight(id, name) {
+  const res = await fetch(`${api}/lights/${id}`, {
+    method: 'put',
+    body: JSON.stringify({ name }),
+  });
+  return res.json();
 }
 
-export function setLightState(id, body) {
-  return request('put', `${api}/lights/${id}/state`, body, { json: true });
+export async function setLightState(id, body) {
+  const res = await fetch(`${api}/lights/${id}/state`, {
+    method: 'put',
+    body: JSON.stringify(body),
+  });
+  return res.json();
 }

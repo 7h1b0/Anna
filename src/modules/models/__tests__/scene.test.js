@@ -26,7 +26,7 @@ const initActions = [
     sceneId: initScenes[0].sceneId,
     type: 'DIO',
     name: 'action turn on',
-    targetId: '75442486-0878-440c-9db1-a7006c25a39f',
+    targetId: 1,
     body: JSON.stringify({ on: true }),
   },
   {
@@ -34,15 +34,15 @@ const initActions = [
     sceneId: initScenes[0].sceneId,
     type: 'DIO',
     name: 'action turn off',
-    targetId: '75442486-0878-440c-9db1-a7006c25a39f',
+    targetId: 2,
     body: JSON.stringify({ on: false }),
   },
   {
     actionId: '29699398-449c-48fb-8f5c-84186cdf8279',
     sceneId: initScenes[1].sceneId,
-    type: 'SCENE',
+    type: 'HUE_LIGHT',
     name: 'call scene',
-    targetId: '75442486-0878-440c-9db1-a7006c25a39f',
+    targetId: 1,
     body: null,
   },
 ];
@@ -106,7 +106,7 @@ describe('Scene', () => {
         userId: '75442486-0878-440c-9db1-a7006c25a39f',
         actions: [
           {
-            targetId: '75442486-0878-440c-9db1-a7006c25a39f',
+            targetId: 1,
             name: 'action one',
             type: 'DIO',
             body: {
@@ -114,7 +114,7 @@ describe('Scene', () => {
             },
           },
           {
-            targetId: '75442486-0878-440c-9db1-a7006c25a39f',
+            targetId: 1,
             name: 'action two',
             type: 'HUE_LIGHT',
             body: {
@@ -239,7 +239,7 @@ describe('Scene', () => {
         description: 'my scene test',
         actions: [
           {
-            targetId: '11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000',
+            targetId: 2,
             type: 'DIO',
             body: {
               on: true,
@@ -266,7 +266,7 @@ describe('Scene', () => {
         description: 'my scene test',
         actions: [
           {
-            targetId: '11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000',
+            targetId: 1,
             name: 'test',
             body: {
               on: true,
@@ -283,7 +283,7 @@ describe('Scene', () => {
         name: 'test',
         actions: [
           {
-            targetId: '11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000',
+            targetId: 1,
             name: 'test',
             type: 'DIO',
             body: {
@@ -301,7 +301,25 @@ describe('Scene', () => {
         name: 'test',
         actions: [
           {
-            targetId: '11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000',
+            targetId: 1,
+            name: 'test',
+            type: 'TEST',
+            body: {
+              on: true,
+            },
+          },
+        ],
+      };
+
+      expect(Scene.validate(scene)).toBeFalsy();
+    });
+
+    it('should return false when targetId is a string', () => {
+      const scene = {
+        name: 'test',
+        actions: [
+          {
+            targetId: '1',
             name: 'test',
             type: 'TEST',
             body: {

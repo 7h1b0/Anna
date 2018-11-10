@@ -35,7 +35,7 @@ const initActions = [
     sceneId: '05442486-0878-440c-9db1-a7006c25a39f',
     type: 'DIO',
     name: 'action turn on',
-    targetId: '4fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
+    targetId: 1,
     body: JSON.stringify({ on: true }),
   },
   {
@@ -43,15 +43,15 @@ const initActions = [
     sceneId: '05442486-0878-440c-9db1-a7006c25a39f',
     type: 'DIO',
     name: 'action turn off',
-    targetId: '29699398-449c-48fb-8f5c-84186cdf8279',
+    targetId: 2,
     body: JSON.stringify({ on: false }),
   },
   {
     actionId: '2fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
     sceneId: '18feb598-32cb-472f-8b29-a7e7fe41e06b',
-    type: 'SCENE',
+    type: 'HUE_LIGHT',
     name: 'call scene',
-    targetId: '29699398-449c-48fb-8f5c-84186cdf8279',
+    targetId: 1,
     body: null,
   },
 ];
@@ -129,7 +129,7 @@ describe('Scene API', () => {
           description: 'this is a test scene',
           actions: [
             {
-              targetId: '29699398-449c-48fb-8f5c-84186cdf8279',
+              targetId: 1,
               name: 'action',
               type: 'DIO',
               body: {
@@ -291,7 +291,7 @@ describe('Scene API', () => {
           name: 'testtest',
           actions: [
             {
-              targetId: 'faaed78e-fd1c-4717-b610-65d2fa3d01b2',
+              targetId: 2,
               name: 'action',
               type: 'DIO',
               body: {
@@ -315,9 +315,9 @@ describe('Scene API', () => {
           name: 'scene_2',
           actions: [
             {
-              type: 'SCENE',
+              type: 'HUE_LIGHT',
               name: 'call scene',
-              targetId: 'faaad78e-fd1c-4717-b610-65d2fa3d01b2',
+              targetId: 3,
               body: { on: true },
             },
           ],

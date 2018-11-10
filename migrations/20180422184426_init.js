@@ -60,7 +60,7 @@ exports.up = function(knex, Promise) {
     table.uuid('actionId').primary();
     table.uuid('sceneId').notNullable();
     table.string('name');
-    table.uuid('targetId');
+    table.integer('targetId');
     table.enum('type', ['HUE_LIGHT', 'DIO', 'SCENE', 'ALIAS']);
     table.string('body');
   });

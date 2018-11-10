@@ -17,7 +17,7 @@ Object {
   "body": "{\\"on\\":false}",
   "name": "action turn off",
   "sceneId": "110c80e8-49e4-4d6b-b966-4fc9fb98879f",
-  "targetId": "2",
+  "targetId": 2,
   "type": "DIO",
 }
 `;
@@ -28,7 +28,7 @@ Object {
   "body": "{\\"on\\":true}",
   "name": "action turn off",
   "sceneId": "110c80e8-49e4-4d6b-b966-4fc9fb98879f",
-  "targetId": "4",
+  "targetId": 4,
   "type": "DIO",
 }
 `;

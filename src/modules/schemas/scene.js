@@ -1,4 +1,4 @@
-import { TYPES } from '../type';
+import { DIO, HUE_LIGHT } from '../type';
 
 export default {
   $id: 'scene',
@@ -26,8 +26,7 @@ export default {
           additionalProperties: false,
           properties: {
             targetId: {
-              type: 'string',
-              format: 'uuid',
+              type: 'number',
             },
             actionId: {
               type: 'string',
@@ -39,7 +38,7 @@ export default {
             },
             type: {
               type: 'string',
-              enum: TYPES,
+              enum: [HUE_LIGHT, DIO],
             },
             body: {
               type: 'object',

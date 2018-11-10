@@ -88,8 +88,8 @@ routes.get(
   },
 );
 
-routes.get('/api/alias/:id_alias([a-fA-F0-9-]{36})/action', (req, res) => {
-  Alias.findById(req.params.id_alias)
+routes.get('/api/alias/:name([a-z_]{4,})/action', (req, res) => {
+  Alias.findByName(req.params.name)
     .then(alias => {
       if (!alias) return res.sendStatus(404);
       if (alias.enabled !== true) return res.sendStatus(403);

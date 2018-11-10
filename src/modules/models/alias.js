@@ -31,6 +31,12 @@ export function findById(aliasId) {
     .where('aliasId', aliasId);
 }
 
+export function findByName(name) {
+  return knex(TABLE)
+    .first(COLUMNS)
+    .where('name', name);
+}
+
 export async function save({
   sceneId,
   name,

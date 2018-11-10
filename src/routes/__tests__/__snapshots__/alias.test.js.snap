@@ -18,7 +18,7 @@ Array [
     "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
     "description": "test",
     "enabled": false,
-    "name": "test_2",
+    "name": "test_b",
     "sceneId": "fa1834fe-40c8-4a6f-9b74-b79be7694644",
     "updatedAt": "2018-01-02T00:00:00.000Z",
   },
@@ -58,7 +58,7 @@ Object {
   "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
   "description": "test",
   "enabled": false,
-  "name": "test_2",
+  "name": "test_b",
   "sceneId": "fa1834fe-40c8-4a6f-9b74-b79be7694644",
   "updatedAt": Any<Date>,
 }
@@ -84,7 +84,7 @@ Object {
   "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
   "description": "test",
   "enabled": true,
-  "name": "test_2",
+  "name": "test_b",
   "sceneId": "fa1834fe-40c8-4a6f-9b74-b79be7694644",
   "updatedAt": Any<Date>,
 }

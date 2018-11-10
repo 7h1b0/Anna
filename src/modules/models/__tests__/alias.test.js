@@ -164,7 +164,7 @@ describe('Alias', () => {
     it('should return false name is incorrect', () => {
       const alias = {
         sceneId: '1fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
-        name: 'tt',
+        name: 'TT',
         description: 'testtest',
         enabled: false,
       };

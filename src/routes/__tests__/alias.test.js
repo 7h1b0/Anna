@@ -23,7 +23,7 @@ const initAlias = [
   {
     aliasId: '1fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
     sceneId: 'fa1834fe-40c8-4a6f-9b74-b79be7694644',
-    name: 'test_2',
+    name: 'test_b',
     description: 'test',
     enabled: false,
     createdBy: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f',
@@ -311,10 +311,10 @@ describe('Alias API', () => {
     });
   });
 
-  describe('/api/alias/:id/action', () => {
+  describe('/api/alias/:name/action', () => {
     it('should call a scene', async () => {
       const response = await request(app)
-        .get(`/api/alias/${initAlias[0].aliasId}/action`)
+        .get(`/api/alias/${initAlias[0].name}/action`)
         .set('Accept', 'application/json')
         .set('x-access-token', user.token);
 
@@ -328,7 +328,7 @@ describe('Alias API', () => {
 
     it('should not call a scene if alias is disabled', async () => {
       const response = await request(app)
-        .get(`/api/alias/${initAlias[1].aliasId}/action`)
+        .get(`/api/alias/${initAlias[1].name}/action`)
         .set('Accept', 'application/json')
         .set('x-access-token', user.token);
 
@@ -338,7 +338,7 @@ describe('Alias API', () => {
 
     it("should retun 404 when alias don't exist", async () => {
       const response = await request(app)
-        .get('/api/alias/11111111-fd1c-4717-b610-65d2fa3d01b2/action')
+        .get('/api/alias/nop_nop/action')
         .set('Accept', 'application/json')
         .set('x-access-token', user.token);
 

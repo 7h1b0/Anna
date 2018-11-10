@@ -9,7 +9,7 @@ export default {
     },
     name: {
       type: 'string',
-      minLength: 3,
+      pattern: '^[a-z_]{4,}$',
     },
     description: {
       type: 'string',

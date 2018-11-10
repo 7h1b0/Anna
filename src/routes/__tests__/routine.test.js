@@ -119,6 +119,7 @@ describe('Routine API', () => {
           routineId: expect.stringMatching(/[a-fA-F0-9-]{36}/),
           createdAt: expect.any(Date),
           updatedAt: expect.any(Date),
+          nextRunAt: expect.any(Date),
         });
 
         spy.mockRestore();

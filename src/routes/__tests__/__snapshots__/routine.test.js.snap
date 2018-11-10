@@ -57,7 +57,7 @@ Object {
   "lastFailedAt": "0000-00-00 00:00:00",
   "lastRunAt": "0000-00-00 00:00:00",
   "name": "new_routine",
-  "nextRunAt": 2020-11-01T11:00:00.000Z,
+  "nextRunAt": Any<Date>,
   "routineId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,
   "runAtBankHoliday": true,
   "sceneId": "faaed78e-fd1c-4717-b610-65d2fa3d01b2",

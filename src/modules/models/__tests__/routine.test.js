@@ -202,7 +202,7 @@ describe('Routines', () => {
           updatedAt: expect.any(Date),
           lastRunAt: expect.any(Date),
           nextRunAt: new Date(2010, 5, 5),
-          failReason: '""',
+          failReason: null,
           lastFailedAt: undefined,
         },
       );

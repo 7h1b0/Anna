@@ -112,10 +112,10 @@ export async function run(routine) {
 
   const nextRunAt = Routine.computeNextRunAt();
 
-  const done = (error = '') => {
-    const failReason = JSON.stringify(error);
+  const done = (error = null) => {
+    const failReason = error ? JSON.stringify(error) : null;
     const lastRunAt = new Date();
-    const lastFailedAt = error !== '' ? new Date() : routine.lastFailedAt;
+    const lastFailedAt = error ? new Date() : routine.lastFailedAt;
     const updatedRoutine = {
       ...routine,
       lastRunAt,

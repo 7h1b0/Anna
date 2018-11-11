@@ -4,23 +4,23 @@ exports[`Alias API /api/alias GET should retun all alias 1`] = `
 Array [
   Object {
     "aliasId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
-    "createdAt": "2018-01-01T00:00:00.000Z",
+    "createdAt": 1514764800000,
     "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
     "description": "test",
     "enabled": true,
     "name": "test",
     "sceneId": "fa1834fe-40c8-4a6f-9b74-b79be7694644",
-    "updatedAt": "2018-01-02T00:00:00.000Z",
+    "updatedAt": 1514851200000,
   },
   Object {
     "aliasId": "1fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
-    "createdAt": "2018-01-01T00:00:00.000Z",
+    "createdAt": 1514764800000,
     "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
     "description": "test",
     "enabled": false,
     "name": "test_b",
     "sceneId": "fa1834fe-40c8-4a6f-9b74-b79be7694644",
-    "updatedAt": "2018-01-02T00:00:00.000Z",
+    "updatedAt": 1514851200000,
   },
 ]
 `;
@@ -28,64 +28,64 @@ Array [
 exports[`Alias API /api/alias POST should create a new alias 1`] = `
 Object {
   "aliasId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,
-  "createdAt": Any<Date>,
+  "createdAt": Any<Number>,
   "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
   "description": "test",
   "enabled": false,
   "name": "test_post",
   "sceneId": "fa1834fe-40c8-4a6f-9b74-b79be7694644",
-  "updatedAt": Any<Date>,
+  "updatedAt": Any<Number>,
 }
 `;
 
 exports[`Alias API /api/alias/:id GET should retun an alias 1`] = `
 Object {
   "aliasId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
-  "createdAt": "2018-01-01T00:00:00.000Z",
+  "createdAt": 1514764800000,
   "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
   "description": "test",
   "enabled": true,
   "name": "test",
   "sceneId": "fa1834fe-40c8-4a6f-9b74-b79be7694644",
-  "updatedAt": "2018-01-02T00:00:00.000Z",
+  "updatedAt": 1514851200000,
 }
 `;
 
 exports[`Alias API /api/alias/:id PATCH should update an alias 1`] = `
 Object {
   "aliasId": "1fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
-  "createdAt": Any<Date>,
+  "createdAt": Any<Number>,
   "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
   "description": "test",
   "enabled": false,
   "name": "test_b",
   "sceneId": "fa1834fe-40c8-4a6f-9b74-b79be7694644",
-  "updatedAt": Any<Date>,
+  "updatedAt": Any<Number>,
 }
 `;
 
 exports[`Alias API /api/alias/:id/:enabled should disable an alias 1`] = `
 Object {
   "aliasId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,
-  "createdAt": Any<Date>,
+  "createdAt": Any<Number>,
   "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
   "description": "test",
   "enabled": false,
   "name": "test",
   "sceneId": "fa1834fe-40c8-4a6f-9b74-b79be7694644",
-  "updatedAt": Any<Date>,
+  "updatedAt": Any<Number>,
 }
 `;
 
 exports[`Alias API /api/alias/:id/:enabled should enable an alias 1`] = `
 Object {
   "aliasId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,
-  "createdAt": Any<Date>,
+  "createdAt": Any<Number>,
   "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
   "description": "test",
   "enabled": true,
   "name": "test_b",
   "sceneId": "fa1834fe-40c8-4a6f-9b74-b79be7694644",
-  "updatedAt": Any<Date>,
+  "updatedAt": Any<Number>,
 }
 `;

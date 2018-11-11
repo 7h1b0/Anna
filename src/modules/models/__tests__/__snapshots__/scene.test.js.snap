@@ -1,13 +1,34 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Scene findAll should return all scene 1`] = `
+Array [
+  RowDataPacket {
+    "createdAt": 1514764800000,
+    "createdBy": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
+    "description": "this is a test",
+    "name": "scene_1",
+    "sceneId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
+    "updatedAt": 1514851200000,
+  },
+  RowDataPacket {
+    "createdAt": 1514764800000,
+    "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
+    "description": "this is a second test",
+    "name": "scene_2",
+    "sceneId": "110c80e8-49e4-4d6b-b966-4fc9fb98879f",
+    "updatedAt": 1514851200000,
+  },
+]
+`;
+
 exports[`Scene findByIdAndUpdate should update a scene 1`] = `
 Object {
-  "createdAt": Any<Date>,
+  "createdAt": Any<Number>,
   "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
   "description": "this is an updated second test",
   "name": "scene_2",
   "sceneId": "110c80e8-49e4-4d6b-b966-4fc9fb98879f",
-  "updatedAt": Any<Date>,
+  "updatedAt": Any<Number>,
 }
 `;
 
@@ -35,11 +56,11 @@ Object {
 
 exports[`Scene save should save a new scene 1`] = `
 Object {
-  "createdAt": Any<Date>,
+  "createdAt": Any<Number>,
   "createdBy": "75442486-0878-440c-9db1-a7006c25a39f",
   "description": "save test",
   "name": "scene_3",
   "sceneId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,
-  "updatedAt": Any<Date>,
+  "updatedAt": Any<Number>,
 }
 `;

@@ -1,40 +1,90 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Alias findAll should return all alias 1`] = `
+Array [
+  RowDataPacket {
+    "aliasId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
+    "createdAt": 1514764800000,
+    "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
+    "description": "test",
+    "enabled": true,
+    "name": "test",
+    "sceneId": "fa1834fe-40c8-4a6f-9b74-b79be7694644",
+    "updatedAt": 1514851200000,
+  },
+  RowDataPacket {
+    "aliasId": "1fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
+    "createdAt": 1514764800000,
+    "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
+    "description": "test",
+    "enabled": false,
+    "name": "test_2",
+    "sceneId": "fa1834fe-40c8-4a6f-9b74-b79be7694644",
+    "updatedAt": 1514851200000,
+  },
+]
+`;
+
 exports[`Alias findById should return only one alias 1`] = `
-Object {
+RowDataPacket {
   "aliasId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
-  "createdAt": Object {},
+  "createdAt": 1514764800000,
   "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
   "description": "test",
   "enabled": true,
   "name": "test",
   "sceneId": "fa1834fe-40c8-4a6f-9b74-b79be7694644",
-  "updatedAt": Object {},
+  "updatedAt": 1514851200000,
 }
+`;
+
+exports[`Alias findByIdAndUpdate should not update an alias if id is unknow 1`] = `
+Array [
+  RowDataPacket {
+    "aliasId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
+    "createdAt": 1514764800000,
+    "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
+    "description": "test",
+    "enabled": true,
+    "name": "test",
+    "sceneId": "fa1834fe-40c8-4a6f-9b74-b79be7694644",
+    "updatedAt": 1514851200000,
+  },
+  RowDataPacket {
+    "aliasId": "1fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
+    "createdAt": 1514764800000,
+    "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
+    "description": "test",
+    "enabled": false,
+    "name": "test_2",
+    "sceneId": "fa1834fe-40c8-4a6f-9b74-b79be7694644",
+    "updatedAt": 1514851200000,
+  },
+]
 `;
 
 exports[`Alias findByIdAndUpdate should update a alias safely 1`] = `
 Object {
   "aliasId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,
-  "createdAt": Any<Date>,
+  "createdAt": Any<Number>,
   "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
   "description": "test",
   "enabled": true,
   "name": "updated",
   "sceneId": "fa1834fe-40c8-4a6f-9b74-b79be7694644",
-  "updatedAt": Any<Date>,
+  "updatedAt": Any<Number>,
 }
 `;
 
 exports[`Alias save should save a new alias 1`] = `
 Object {
   "aliasId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,
-  "createdAt": Any<Date>,
+  "createdAt": Any<Number>,
   "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
   "description": "test",
   "enabled": false,
   "name": "test_3",
   "sceneId": "fa1834fe-40c8-4a6f-9b74-b79be7694644",
-  "updatedAt": Any<Date>,
+  "updatedAt": Any<Number>,
 }
 `;

@@ -1,5 +1,28 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Dio findAll should return all dios 1`] = `
+Array [
+  RowDataPacket {
+    "dioId": 1,
+    "name": "test",
+    "roomId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
+  },
+  RowDataPacket {
+    "dioId": 2,
+    "name": "test",
+    "roomId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
+  },
+]
+`;
+
+exports[`Dio findById should return only one dio 1`] = `
+RowDataPacket {
+  "dioId": 1,
+  "name": "test",
+  "roomId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
+}
+`;
+
 exports[`Dio findByIdAndUpdate should update a dio 1`] = `
 Array [
   RowDataPacket {

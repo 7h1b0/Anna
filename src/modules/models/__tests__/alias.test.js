@@ -39,14 +39,14 @@ describe('Alias', () => {
   describe('findAll', () => {
     it('should return all alias', async () => {
       const result = await Alias.findAll();
-      expect(result).toEqual(initAlias);
+      expect(result).toMatchSnapshot();
     });
   });
 
   describe('findById', () => {
     it('should return only one alias', async () => {
       const result = await Alias.findById(initAlias[0].aliasId);
-      expect(result).toMatchSnapshot(initAlias[0]);
+      expect(result).toMatchSnapshot();
     });
 
     it('should return undefined', async () => {
@@ -72,8 +72,8 @@ describe('Alias', () => {
 
       expect(alias).toMatchSnapshot({
         aliasId: expect.stringMatching(/[a-fA-F0-9-]{36}/),
-        createdAt: expect.any(Date),
-        updatedAt: expect.any(Date),
+        createdAt: expect.any(Number),
+        updatedAt: expect.any(Number),
       });
     });
 
@@ -94,13 +94,17 @@ describe('Alias', () => {
     it('should delete an alias', async () => {
       await Alias.remove(initAlias[0].aliasId);
       const alias = await knex(Alias.TABLE).select();
-      expect(alias).toEqual([initAlias[1]]);
+      expect(alias).toHaveLength(1);
+      expect(alias[0]).toHaveProperty(
+        'aliasId',
+        '1fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
+      );
     });
 
     it('should not delete an alias', async () => {
       await Alias.remove(-1);
       const alias = await knex(Alias.TABLE).select();
-      expect(alias).toEqual(initAlias);
+      expect(alias).toHaveLength(initAlias.length);
     });
   });
 
@@ -117,15 +121,15 @@ describe('Alias', () => {
 
       expect(alias).toMatchSnapshot({
         aliasId: expect.stringMatching(/[a-fA-F0-9-]{36}/),
-        createdAt: expect.any(Date),
-        updatedAt: expect.any(Date),
+        createdAt: expect.any(Number),
+        updatedAt: expect.any(Number),
       });
     });
 
     it('should not update an alias if id is unknow', async () => {
       await Alias.findByIdAndUpdate(-1, { name: 'updated' });
       const alias = await knex(Alias.TABLE).select();
-      expect(alias).toEqual(initAlias);
+      expect(alias).toMatchSnapshot();
     });
   });
 

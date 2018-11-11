@@ -3,32 +3,32 @@
 exports[`Scene API /api/scenes GET should retun all scene 1`] = `
 Array [
   Object {
-    "createdAt": "2018-01-01T00:00:00.000Z",
+    "createdAt": 1514764800000,
     "createdBy": "29699398-449c-48fb-8f5c-84186cdf8279",
     "description": "this is a test",
     "name": "scene_1",
     "sceneId": "05442486-0878-440c-9db1-a7006c25a39f",
-    "updatedAt": "2018-01-02T00:00:00.000Z",
+    "updatedAt": 1514851200000,
   },
   Object {
-    "createdAt": "2018-01-01T00:00:00.000Z",
+    "createdAt": 1514764800000,
     "createdBy": "29699398-449c-48fb-8f5c-84186cdf8279",
     "description": "this is a second test",
     "name": "scene_2",
     "sceneId": "18feb598-32cb-472f-8b29-a7e7fe41e06b",
-    "updatedAt": "2018-01-02T00:00:00.000Z",
+    "updatedAt": 1514851200000,
   },
 ]
 `;
 
 exports[`Scene API /api/scenes POST should create a scene 1`] = `
 Object {
-  "createdAt": Any<Date>,
+  "createdAt": Any<Number>,
   "createdBy": "29699398-449c-48fb-8f5c-84186cdf8279",
   "description": "this is a test scene",
   "name": "testScene",
   "sceneId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,
-  "updatedAt": Any<Date>,
+  "updatedAt": Any<Number>,
 }
 `;
 
@@ -67,22 +67,22 @@ Object {
       "type": "DIO",
     },
   ],
-  "createdAt": "2018-01-01T00:00:00.000Z",
+  "createdAt": 1514764800000,
   "createdBy": "29699398-449c-48fb-8f5c-84186cdf8279",
   "description": "this is a test",
   "name": "scene_1",
   "sceneId": "05442486-0878-440c-9db1-a7006c25a39f",
-  "updatedAt": "2018-01-02T00:00:00.000Z",
+  "updatedAt": 1514851200000,
 }
 `;
 
 exports[`Scene API /api/scenes/:id PATCH should update a scene 1`] = `
 Object {
-  "createdAt": Any<Date>,
+  "createdAt": Any<Number>,
   "createdBy": "29699398-449c-48fb-8f5c-84186cdf8279",
   "description": "this is an updated test",
   "name": "scene_2",
   "sceneId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,
-  "updatedAt": Any<Date>,
+  "updatedAt": Any<Number>,
 }
 `;

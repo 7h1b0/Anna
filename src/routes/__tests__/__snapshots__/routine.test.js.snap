@@ -3,34 +3,34 @@
 exports[`Routine API /api/routines GET should retun all routines 1`] = `
 Array [
   Object {
-    "createdAt": "2018-01-01T00:00:00.000Z",
+    "createdAt": 1514764800000,
     "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
     "enabled": true,
     "failReason": null,
     "interval": "0 5 * * *",
-    "lastFailedAt": "0000-00-00 00:00:00",
-    "lastRunAt": "0000-00-00 00:00:00",
+    "lastFailedAt": 0,
+    "lastRunAt": 0,
     "name": "test at 5am",
-    "nextRunAt": "0000-00-00 00:00:00",
+    "nextRunAt": 0,
     "routineId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
     "runAtBankHoliday": true,
     "sceneId": "00c1d78e-fd1c-4717-b610-65d2fa3d01b2",
-    "updatedAt": "2018-01-02T00:00:00.000Z",
+    "updatedAt": 1514851200000,
   },
   Object {
-    "createdAt": "2018-01-01T00:00:00.000Z",
+    "createdAt": 1514764800000,
     "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
     "enabled": true,
     "failReason": null,
     "interval": "0 9 * * *",
-    "lastFailedAt": "0000-00-00 00:00:00",
-    "lastRunAt": "0000-00-00 00:00:00",
+    "lastFailedAt": 0,
+    "lastRunAt": 0,
     "name": "test at 9am",
-    "nextRunAt": "0000-00-00 00:00:00",
+    "nextRunAt": 0,
     "routineId": "1fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
     "runAtBankHoliday": false,
     "sceneId": "10c1d78e-fd1c-4717-b610-65d2fa3d01b2",
-    "updatedAt": "2018-01-02T00:00:00.000Z",
+    "updatedAt": 1514851200000,
   },
 ]
 `;
@@ -49,37 +49,37 @@ Array [
 
 exports[`Routine API /api/routines POST should save and start a new routine 2`] = `
 Object {
-  "createdAt": Any<Date>,
+  "createdAt": Any<Number>,
   "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
   "enabled": true,
   "failReason": null,
   "interval": "0 0 12 1 10 *",
-  "lastFailedAt": "0000-00-00 00:00:00",
-  "lastRunAt": "0000-00-00 00:00:00",
+  "lastFailedAt": 0,
+  "lastRunAt": 0,
   "name": "new_routine",
-  "nextRunAt": Any<Date>,
+  "nextRunAt": Any<Number>,
   "routineId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,
   "runAtBankHoliday": true,
   "sceneId": "faaed78e-fd1c-4717-b610-65d2fa3d01b2",
-  "updatedAt": Any<Date>,
+  "updatedAt": Any<Number>,
 }
 `;
 
 exports[`Routine API /api/routines/:routineId GET should return one routine 1`] = `
 Object {
-  "createdAt": "2018-01-01T00:00:00.000Z",
+  "createdAt": 1514764800000,
   "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
   "enabled": true,
   "failReason": null,
   "interval": "0 5 * * *",
-  "lastFailedAt": "0000-00-00 00:00:00",
-  "lastRunAt": "0000-00-00 00:00:00",
+  "lastFailedAt": 0,
+  "lastRunAt": 0,
   "name": "test at 5am",
-  "nextRunAt": "0000-00-00 00:00:00",
+  "nextRunAt": 0,
   "routineId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
   "runAtBankHoliday": true,
   "sceneId": "00c1d78e-fd1c-4717-b610-65d2fa3d01b2",
-  "updatedAt": "2018-01-02T00:00:00.000Z",
+  "updatedAt": 1514851200000,
 }
 `;
 
@@ -91,10 +91,10 @@ Array [
       "enabled": true,
       "failReason": null,
       "interval": "* * * * * *",
-      "lastFailedAt": "0000-00-00 00:00:00",
-      "lastRunAt": "0000-00-00 00:00:00",
+      "lastFailedAt": 0,
+      "lastRunAt": 0,
       "name": "routine_updated",
-      "nextRunAt": "0000-00-00 00:00:00",
+      "nextRunAt": 0,
       "routineId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
       "runAtBankHoliday": true,
       "sceneId": "faaed78e-fd1c-4717-b610-65d2fa3d01b2",
@@ -105,19 +105,19 @@ Array [
 
 exports[`Routine API /api/routines/:routineId PATCH should update a routine 2`] = `
 Object {
-  "createdAt": Any<Date>,
+  "createdAt": Any<Number>,
   "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
   "enabled": true,
   "failReason": null,
   "interval": "* * * * * *",
-  "lastFailedAt": "0000-00-00 00:00:00",
-  "lastRunAt": "0000-00-00 00:00:00",
+  "lastFailedAt": 0,
+  "lastRunAt": 0,
   "name": "routine_updated",
-  "nextRunAt": "0000-00-00 00:00:00",
+  "nextRunAt": 0,
   "routineId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
   "runAtBankHoliday": true,
   "sceneId": "faaed78e-fd1c-4717-b610-65d2fa3d01b2",
-  "updatedAt": Any<Date>,
+  "updatedAt": Any<Number>,
 }
 `;
 
@@ -125,19 +125,19 @@ exports[`Routine API /api/routines/:routineId/action should run the routine 1`] 
 Array [
   Array [
     RowDataPacket {
-      "createdAt": 2018-01-01T00:00:00.000Z,
+      "createdAt": 1514764800000,
       "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
       "enabled": true,
       "failReason": null,
       "interval": "0 5 * * *",
-      "lastFailedAt": "0000-00-00 00:00:00",
-      "lastRunAt": "0000-00-00 00:00:00",
+      "lastFailedAt": 0,
+      "lastRunAt": 0,
       "name": "test at 5am",
-      "nextRunAt": "0000-00-00 00:00:00",
+      "nextRunAt": 0,
       "routineId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
       "runAtBankHoliday": true,
       "sceneId": "00c1d78e-fd1c-4717-b610-65d2fa3d01b2",
-      "updatedAt": 2018-01-02T00:00:00.000Z,
+      "updatedAt": 1514851200000,
     },
   ],
 ]

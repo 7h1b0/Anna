@@ -153,8 +153,8 @@ describe('Scene API', () => {
 
         expect(sceneFromDatabase).toMatchSnapshot({
           sceneId: expect.stringMatching(/[a-fA-F0-9-]{36}/),
-          createdAt: expect.any(Date),
-          updatedAt: expect.any(Date),
+          createdAt: expect.any(Number),
+          updatedAt: expect.any(Number),
         });
 
         const actions = await knex(Action.TABLE)
@@ -337,8 +337,8 @@ describe('Scene API', () => {
 
         expect(sceneFromDatabase).toMatchSnapshot({
           sceneId: expect.stringMatching(/[a-fA-F0-9-]{36}/),
-          createdAt: expect.any(Date),
-          updatedAt: expect.any(Date),
+          createdAt: expect.any(Number),
+          updatedAt: expect.any(Number),
         });
       });
     });

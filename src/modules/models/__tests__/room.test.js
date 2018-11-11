@@ -47,14 +47,14 @@ describe('Room', () => {
   describe('findAll', () => {
     it('should return all room', async () => {
       const result = await Room.findAll();
-      expect(result).toEqual(initRooms);
+      expect(result).toMatchSnapshot();
     });
   });
 
   describe('findById', () => {
     it('should return only one room', async () => {
       const result = await Room.findById(initRooms[0].roomId);
-      expect(result).toEqual(initRooms[0]);
+      expect(result).toMatchSnapshot();
     });
 
     it('should return undefined', async () => {
@@ -78,8 +78,8 @@ describe('Room', () => {
 
       expect(rooms).toMatchSnapshot({
         roomId: expect.stringMatching(/[a-fA-F0-9-]{36}/),
-        createdAt: expect.any(Date),
-        updatedAt: expect.any(Date),
+        createdAt: expect.any(Number),
+        updatedAt: expect.any(Number),
       });
     });
   });
@@ -88,20 +88,22 @@ describe('Room', () => {
     it('should delete a room', async () => {
       await Room.remove(initRooms[0].roomId);
       const rooms = await knex(Room.TABLE).select();
-      expect(rooms).toEqual([initRooms[1]]);
+      expect(rooms).toHaveLength(1);
+      expect(rooms[0]).toHaveProperty('roomId', initRooms[1].roomId);
     });
 
     it('should not delete a room', async () => {
-      await Room.remove(-1);
+      const res = await Room.remove(-1);
+      expect(res).toBe(0);
       const rooms = await knex(Room.TABLE).select();
-      expect(rooms).toEqual(initRooms);
+      expect(rooms).toHaveLength(initRooms.length);
     });
 
     it('should not delete a room if devices are still in it', async () => {
       const res = await Room.remove(initRooms[1].roomId);
       expect(res).toBe(0);
       const rooms = await knex(Room.TABLE).select();
-      expect(rooms).toEqual(initRooms);
+      expect(rooms).toHaveLength(initRooms.length);
     });
   });
 
@@ -117,8 +119,8 @@ describe('Room', () => {
         .first()
         .where('roomId', initRooms[0].roomId);
       expect(room).toMatchSnapshot({
-        createdAt: expect.any(Date),
-        updatedAt: expect.any(Date),
+        createdAt: expect.any(Number),
+        updatedAt: expect.any(Number),
       });
     });
 
@@ -128,7 +130,7 @@ describe('Room', () => {
       });
       expect(rowsAffected).toBe(0);
       const rooms = await knex(Room.TABLE).select();
-      expect(rooms).toEqual(initRooms);
+      expect(rooms).toMatchSnapshot();
     });
   });
 

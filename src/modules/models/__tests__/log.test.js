@@ -40,14 +40,14 @@ describe('Logs', () => {
           path: '/test/second',
           ip: '127.0.0.1',
           username: 'test',
-          createdAt: new Date(2018, 1, 1),
+          createdAt: new Date(2018, 1, 1).getTime(),
         },
         {
           httpMethod: 'GET',
           path: '/test',
           ip: '127.0.0.1',
           username: 'test',
-          createdAt: new Date(2017, 1, 1),
+          createdAt: new Date(2017, 1, 1).getTime(),
         },
       ];
 
@@ -62,7 +62,7 @@ describe('Logs', () => {
           path: '/test/second',
           ip: '127.0.0.1',
           username: 'test',
-          createdAt: new Date(2018, 1, 1),
+          createdAt: new Date(2018, 1, 1).getTime(),
         },
       ];
 
@@ -87,7 +87,7 @@ describe('Logs', () => {
           path: '/test/third',
           ip: '127.0.0.1',
           username: 'test',
-          createdAt: expect.any(Date),
+          createdAt: expect.any(Number),
         },
       ];
 

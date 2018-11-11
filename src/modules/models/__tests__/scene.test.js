@@ -72,19 +72,21 @@ describe('Scene', () => {
   describe('findAll', () => {
     it('should return all scene', async () => {
       const result = await Scene.findAll();
-      expect(result).toEqual(initScenes);
+      expect(result).toMatchSnapshot();
     });
   });
 
   describe('delete', () => {
     it('should delete a scene', async () => {
       await Scene.remove(initScenes[0].sceneId);
+
       const scenes = await knex(Scene.TABLE)
         .select()
         .where('sceneId', initScenes[0].sceneId);
       const actions = await knex(Action.TABLE)
         .select()
         .where('sceneId', initScenes[0].sceneId);
+
       expect(scenes).toHaveLength(0);
       expect(actions).toHaveLength(0);
     });
@@ -93,8 +95,8 @@ describe('Scene', () => {
       await Scene.remove(-1);
       const scenes = await knex(Scene.TABLE).select();
       const actions = await knex(Action.TABLE).select();
-      expect(scenes).toEqual(initScenes);
-      expect(actions).toEqual(initActions);
+      expect(scenes).toHaveLength(initScenes.length);
+      expect(actions).toHaveLength(initActions.length);
     });
   });
 
@@ -136,10 +138,10 @@ describe('Scene', () => {
         .where('sceneId', id);
       expect(scenes).toMatchSnapshot({
         sceneId: expect.stringMatching(/[a-fA-F0-9-]{36}/),
-        createdAt: expect.any(Date),
-        updatedAt: expect.any(Date),
+        createdAt: expect.any(Number),
+        updatedAt: expect.any(Number),
       });
-      expect(actions).toHaveLength(2);
+      expect(actions).toHaveLength(scene.actions.length);
     });
   });
 
@@ -176,8 +178,8 @@ describe('Scene', () => {
         .orderBy('targetId');
 
       expect(scenes).toMatchSnapshot({
-        createdAt: expect.any(Date),
-        updatedAt: expect.any(Date),
+        createdAt: expect.any(Number),
+        updatedAt: expect.any(Number),
       });
 
       expect(actions).toHaveLength(2);

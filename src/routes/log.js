@@ -8,9 +8,8 @@ function getQuery(limit = 20) {
 
 function toTimestamp(logs) {
   return logs.map(({ createdAt, ip, httpMethod, path, username }) => {
-    const timestamp = createdAt.getTime();
     return {
-      createdAt: timestamp,
+      createdAt,
       ip,
       httpMethod,
       path,

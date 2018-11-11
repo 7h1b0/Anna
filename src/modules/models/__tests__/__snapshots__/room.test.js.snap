@@ -1,23 +1,76 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Room findAll should return all room 1`] = `
+Array [
+  RowDataPacket {
+    "createdAt": 1514764800000,
+    "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
+    "description": "this is a test",
+    "name": "room_1",
+    "roomId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
+    "updatedAt": 1514851200000,
+  },
+  RowDataPacket {
+    "createdAt": 1514764800000,
+    "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
+    "description": "this is a second test",
+    "name": "room_2",
+    "roomId": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
+    "updatedAt": 1514851200000,
+  },
+]
+`;
+
+exports[`Room findById should return only one room 1`] = `
+RowDataPacket {
+  "createdAt": 1514764800000,
+  "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
+  "description": "this is a test",
+  "name": "room_1",
+  "roomId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
+  "updatedAt": 1514851200000,
+}
+`;
+
+exports[`Room findByIdAndUpdate should not update a room 1`] = `
+Array [
+  RowDataPacket {
+    "createdAt": 1514764800000,
+    "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
+    "description": "this is a test",
+    "name": "room_1",
+    "roomId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
+    "updatedAt": 1514851200000,
+  },
+  RowDataPacket {
+    "createdAt": 1514764800000,
+    "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
+    "description": "this is a second test",
+    "name": "room_2",
+    "roomId": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
+    "updatedAt": 1514851200000,
+  },
+]
+`;
+
 exports[`Room findByIdAndUpdate should update a room safely 1`] = `
 Object {
-  "createdAt": Any<Date>,
+  "createdAt": Any<Number>,
   "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
   "description": "this is a test",
   "name": "updated",
   "roomId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
-  "updatedAt": Any<Date>,
+  "updatedAt": Any<Number>,
 }
 `;
 
 exports[`Room save should save a new room 1`] = `
 Object {
-  "createdAt": Any<Date>,
+  "createdAt": Any<Number>,
   "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
   "description": "test",
   "name": "test-save",
   "roomId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,
-  "updatedAt": Any<Date>,
+  "updatedAt": Any<Number>,
 }
 `;

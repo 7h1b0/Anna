@@ -61,7 +61,7 @@ exports.up = function(knex, Promise) {
     table.uuid('sceneId').notNullable();
     table.string('name');
     table.integer('targetId');
-    table.enum('type', ['HUE_LIGHT', 'DIO', 'SCENE', 'ALIAS']);
+    table.enum('type', ['HUE_LIGHT', 'DIO']);
     table.string('body');
   });
 

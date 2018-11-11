@@ -91,8 +91,8 @@ describe('Alias API', () => {
           .where('aliasId', response.body);
         expect(alias).toMatchSnapshot({
           aliasId: expect.stringMatching(/[a-fA-F0-9-]{36}/),
-          createdAt: expect.any(Date),
-          updatedAt: expect.any(Date),
+          createdAt: expect.any(Number),
+          updatedAt: expect.any(Number),
         });
       });
 
@@ -172,8 +172,8 @@ describe('Alias API', () => {
           .where('aliasId', 1);
 
         expect(alias).toMatchSnapshot({
-          createdAt: expect.any(Date),
-          updatedAt: expect.any(Date),
+          createdAt: expect.any(Number),
+          updatedAt: expect.any(Number),
         });
       });
 
@@ -268,8 +268,8 @@ describe('Alias API', () => {
 
       expect(alias).toMatchSnapshot({
         aliasId: expect.stringMatching(/[a-fA-F0-9-]{36}/),
-        createdAt: expect.any(Date),
-        updatedAt: expect.any(Date),
+        createdAt: expect.any(Number),
+        updatedAt: expect.any(Number),
       });
     });
 
@@ -287,8 +287,8 @@ describe('Alias API', () => {
 
       expect(alias).toMatchSnapshot({
         aliasId: expect.stringMatching(/[a-fA-F0-9-]{36}/),
-        createdAt: expect.any(Date),
-        updatedAt: expect.any(Date),
+        createdAt: expect.any(Number),
+        updatedAt: expect.any(Number),
       });
     });
 

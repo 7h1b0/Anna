@@ -3,53 +3,53 @@
 exports[`Rooms API /api/rooms GET should return all rooms 1`] = `
 Array [
   Object {
-    "createdAt": "2018-01-01T00:00:00.000Z",
+    "createdAt": 1514764800000,
     "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
     "description": "this is a test",
     "name": "room_1",
     "roomId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
-    "updatedAt": "2018-01-02T00:00:00.000Z",
+    "updatedAt": 1514851200000,
   },
   Object {
-    "createdAt": "2018-01-01T00:00:00.000Z",
+    "createdAt": 1514764800000,
     "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
     "description": "this is a second test",
     "name": "room_2",
     "roomId": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
-    "updatedAt": "2018-01-02T00:00:00.000Z",
+    "updatedAt": 1514851200000,
   },
 ]
 `;
 
 exports[`Rooms API /api/rooms POST should create a new room 1`] = `
 Object {
-  "createdAt": Any<Date>,
+  "createdAt": Any<Number>,
   "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
   "description": "a description",
   "name": "Living Room",
   "roomId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,
-  "updatedAt": Any<Date>,
+  "updatedAt": Any<Number>,
 }
 `;
 
 exports[`Rooms API /api/rooms/:id GET should return an room 1`] = `
 Object {
-  "createdAt": "2018-01-01T00:00:00.000Z",
+  "createdAt": 1514764800000,
   "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
   "description": "this is a test",
   "name": "room_1",
   "roomId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
-  "updatedAt": "2018-01-02T00:00:00.000Z",
+  "updatedAt": 1514851200000,
 }
 `;
 
 exports[`Rooms API /api/rooms/:id PATCH should update an room 1`] = `
 Object {
-  "createdAt": Any<Date>,
+  "createdAt": Any<Number>,
   "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
   "description": "this is a second test",
   "name": "room_updated",
   "roomId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,
-  "updatedAt": Any<Date>,
+  "updatedAt": Any<Number>,
 }
 `;

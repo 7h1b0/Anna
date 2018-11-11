@@ -7,6 +7,14 @@ function typeCast(field, next) {
   if (field.type === 'TINY' && field.length === 1) {
     return field.string() === '1';
   }
+  if (field.type === 'TIMESTAMP') {
+    const dateString = field.string();
+    const dt = new Date(dateString).getTime();
+    if (isNaN(dt)) {
+      return 0;
+    }
+    return dt;
+  }
   return next();
 }
 

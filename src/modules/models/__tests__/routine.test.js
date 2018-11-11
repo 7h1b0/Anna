@@ -80,8 +80,8 @@ describe('Routines', () => {
       expect(routine).toMatchSnapshot({
         routineId: expect.stringMatching(/[a-fA-F0-9-]{36}/),
         sceneId: expect.stringMatching(/[a-fA-F0-9-]{36}/),
-        createdAt: expect.any(Date),
-        updatedAt: expect.any(Date),
+        createdAt: expect.any(Number),
+        updatedAt: expect.any(Number),
       });
     });
   });

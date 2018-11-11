@@ -29,14 +29,14 @@ describe('Dio', () => {
   describe('findAll', () => {
     it('should return all dios', async () => {
       const result = await Dio.findAll();
-      expect(result).toEqual(initDios);
+      expect(result).toMatchSnapshot();
     });
   });
 
   describe('findById', () => {
     it('should return only one dio', async () => {
       const result = await Dio.findById(initDios[0].dioId);
-      expect(result).toEqual(initDios[0]);
+      expect(result).toMatchSnapshot();
     });
 
     it('should return undefined', async () => {
@@ -76,13 +76,14 @@ describe('Dio', () => {
     it('should delete a dio', async () => {
       await Dio.remove(1);
       const dios = await knex(Dio.TABLE).select();
-      expect(dios).toEqual([initDios[1]]);
+      expect(dios).toHaveLength(1);
+      expect(dios[0]).toHaveProperty('dioId', 2);
     });
 
     it('should not delete a dio', async () => {
       await Dio.remove(-1);
       const dios = await knex(Dio.TABLE).select();
-      expect(dios).toEqual(initDios);
+      expect(dios).toHaveLength(initDios.length);
     });
   });
 

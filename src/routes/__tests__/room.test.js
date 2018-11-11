@@ -83,8 +83,8 @@ describe('Rooms API', () => {
 
         expect(rooms).toMatchSnapshot({
           roomId: expect.stringMatching(/[a-fA-F0-9-]{36}/),
-          createdAt: expect.any(Date),
-          updatedAt: expect.any(Date),
+          createdAt: expect.any(Number),
+          updatedAt: expect.any(Number),
         });
       });
 
@@ -160,8 +160,8 @@ describe('Rooms API', () => {
 
         expect(room).toMatchSnapshot({
           roomId: expect.stringMatching(/[a-fA-F0-9-]{36}/),
-          createdAt: expect.any(Date),
-          updatedAt: expect.any(Date),
+          createdAt: expect.any(Number),
+          updatedAt: expect.any(Number),
         });
       });
 

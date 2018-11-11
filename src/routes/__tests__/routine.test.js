@@ -117,9 +117,9 @@ describe('Routine API', () => {
 
         expect(routines).toMatchSnapshot({
           routineId: expect.stringMatching(/[a-fA-F0-9-]{36}/),
-          createdAt: expect.any(Date),
-          updatedAt: expect.any(Date),
-          nextRunAt: expect.any(Date),
+          createdAt: expect.any(Number),
+          updatedAt: expect.any(Number),
+          nextRunAt: expect.any(Number),
         });
 
         spy.mockRestore();
@@ -224,8 +224,8 @@ describe('Routine API', () => {
           .where('routineId', initRoutines[0].routineId);
 
         expect(routine).toMatchSnapshot({
-          createdAt: expect.any(Date),
-          updatedAt: expect.any(Date),
+          createdAt: expect.any(Number),
+          updatedAt: expect.any(Number),
         });
 
         spy.mockRestore();

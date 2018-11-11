@@ -106,7 +106,7 @@ describe('Users', () => {
     it('should delete an user', async () => {
       await User.remove(initUsers[0].userId);
       const users = await knex(User.TABLE).select();
-      expect(users).toMatchSnapshot();
+      expect(users).toEqual([initUsers[1]]);
     });
 
     it('should not delete an user', async () => {

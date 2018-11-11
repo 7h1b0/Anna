@@ -29,14 +29,14 @@ describe('Dio', () => {
   describe('findAll', () => {
     it('should return all dios', async () => {
       const result = await Dio.findAll();
-      expect(result).toMatchSnapshot();
+      expect(result).toEqual(initDios);
     });
   });
 
   describe('findById', () => {
     it('should return only one dio', async () => {
       const result = await Dio.findById(initDios[0].dioId);
-      expect(result).toMatchSnapshot();
+      expect(result).toEqual(initDios[0]);
     });
 
     it('should return undefined', async () => {
@@ -88,9 +88,9 @@ describe('Dio', () => {
   });
 
   describe('findByIdAndUpdate', () => {
-    it('should update a dio', async () => {
+    it('should update correctly a dio', async () => {
       const rowsAffected = await Dio.findByIdAndUpdate(1, {
-        roomId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
+        roomId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b3',
         name: 'updated',
         dioId: 2,
       });

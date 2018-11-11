@@ -36,24 +36,12 @@ Array [
 `;
 
 exports[`Routine API /api/routines POST should save and start a new routine 1`] = `
-Array [
-  Array [
-    Object {
-      "interval": "0 0 12 1 10 *",
-      "name": "new_routine",
-      "sceneId": "faaed78e-fd1c-4717-b610-65d2fa3d01b2",
-    },
-  ],
-]
-`;
-
-exports[`Routine API /api/routines POST should save and start a new routine 2`] = `
 Object {
   "createdAt": Any<Number>,
   "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
   "enabled": true,
   "failReason": null,
-  "interval": "0 0 12 1 10 *",
+  "interval": "* * * * * *",
   "lastFailedAt": 0,
   "lastRunAt": 0,
   "name": "new_routine",

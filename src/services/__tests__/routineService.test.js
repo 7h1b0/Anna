@@ -1,87 +1,90 @@
 import * as routineService from '../routineService';
-import { CronJob } from 'cron';
 import * as Routine from '../../modules/models/routine';
-import knex from '../../knexClient';
+import sinon from 'sinon';
 
-const routines = [
-  {
-    routineId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
-    sceneId: '00c1d78e-fd1c-4717-b610-65d2fa3d01b2',
-    name: 'test at 5am',
-    interval: '0 5 * * *',
-    enabled: true,
-    runAtBankHoliday: true,
-    createdBy: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f',
-    createdAt: new Date('2018-01-01'),
-    updatedAt: new Date('2018-01-02'),
-  },
-  {
-    routineId: '1fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
-    sceneId: '10c1d78e-fd1c-4717-b610-65d2fa3d01b2',
-    name: 'test at 9am',
-    interval: '0 9 * * *',
-    enabled: true,
-    runAtBankHoliday: true,
-    createdBy: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f',
-    createdAt: new Date('2018-01-01'),
-    updatedAt: new Date('2018-01-02'),
-  },
-];
-
-jest.mock('cron');
+jest.unmock('cron').mock('../../modules/models/routine', () => ({
+  run: jest.fn(),
+  findAll: () => [
+    {
+      routineId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
+      sceneId: '00c1d78e-fd1c-4717-b610-65d2fa3d01b2',
+      name: 'every second',
+      interval: '* * * * * *',
+      enabled: true,
+      runAtBankHoliday: true,
+      createdBy: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f',
+      createdAt: new Date('2018-01-01'),
+      updatedAt: new Date('2018-01-02'),
+    },
+    {
+      routineId: '1fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
+      sceneId: '10c1d78e-fd1c-4717-b610-65d2fa3d01b2',
+      name: 'every second too',
+      interval: '* * * * * *',
+      enabled: true,
+      runAtBankHoliday: true,
+      createdBy: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f',
+      createdAt: new Date('2018-01-01'),
+      updatedAt: new Date('2018-01-02'),
+    },
+  ],
+}));
 
 describe('routineService', () => {
+  const clock = sinon.useFakeTimers();
+
   afterEach(() => {
     routineService.processes.clear();
+    Routine.run.mockClear();
   });
 
   afterAll(() => {
-    CronJob.mockRestore();
+    clock.restore();
   });
 
   describe('start', () => {
-    it('should start a new process', () => {
+    it('should start a new process and call it every second', () => {
       const process = routineService.start({
         routineId: 'test',
-        enabled: true,
-        interval: 'custom interval',
+        interval: '* * * * * *',
       });
 
-      expect(routineService.processes.size).toBe(1);
-      expect(CronJob).toHaveBeenCalledWith(
-        'custom interval',
-        expect.any(Function),
-        null,
-        true,
-      );
-      expect(routineService.processes.get('test')).toEqual(process);
+      clock.tick(1000);
+
+      expect(Routine.run).toHaveBeenCalledTimes(1);
+      process.stop();
     });
 
     it('should stop an older process if exist', () => {
       const processOne = routineService.start({
         routineId: 'test',
         enabled: true,
+        interval: '* * * * * *',
       });
 
       const processTwo = routineService.start({
         routineId: 'test',
-        enabled: true,
+        interval: '* * * * * *',
       });
 
-      expect(processOne.stop).toHaveBeenCalledTimes(1);
-      expect(CronJob).toHaveBeenCalled();
-      expect(routineService.processes.size).toBe(1);
-      expect(routineService.processes.get('test')).toEqual(processTwo);
+      clock.tick(1000);
+
+      expect(Routine.run).toHaveBeenCalledTimes(1);
+
+      processOne.stop();
+      processTwo.stop();
     });
 
     it('should not start a new process if not enabled', () => {
       routineService.start({
         routineId: 'test',
         enabled: false,
+        interval: '* * * * * *',
       });
 
-      expect(CronJob).not.toHaveBeenCalled();
-      expect(routineService.processes.size).toBe(0);
+      clock.tick(1000);
+
+      expect(Routine.run).not.toHaveBeenCalled();
     });
   });
 
@@ -90,46 +93,38 @@ describe('routineService', () => {
       const process = routineService.start({
         routineId: 'test',
         enabled: true,
+        interval: '* * * * * *',
       });
 
       routineService.stop('test');
-      expect(process.stop).toHaveBeenCalledTimes(1);
+
+      clock.tick(1000);
+      expect(Routine.run).not.toHaveBeenCalled();
+      process.stop();
     });
 
     it('should do nothing if routineId is unknow', () => {
       const process = routineService.start({
         routineId: 'test',
         enabled: true,
+        interval: '* * * * * *',
       });
 
       routineService.stop('unknow');
-      expect(process.stop).not.toHaveBeenCalled();
+      clock.tick(1000);
+
+      expect(Routine.run).toHaveBeenCalledTimes(1);
+      process.stop();
     });
   });
 
   describe('load', () => {
-    beforeAll(async () => {
-      await knex(Routine.TABLE).truncate();
-    });
-
-    beforeEach(async () => {
-      await knex(Routine.TABLE).insert(routines);
-    });
-
-    afterEach(async () => {
-      await knex(Routine.TABLE).truncate();
-    });
-
     it('should load and start every routine', async () => {
       await routineService.load();
-      expect(routineService.processes.size).toBe(2);
-      expect(
-        routineService.processes.has('0fc1d78e-fd1c-4717-b610-65d2fa3d01b2'),
-      ).toBeTruthy();
-      expect(
-        routineService.processes.has('1fc1d78e-fd1c-4717-b610-65d2fa3d01b2'),
-      ).toBeTruthy();
-      expect(CronJob).toHaveBeenCalledTimes(2);
+
+      clock.tick(1000);
+
+      expect(Routine.run).toHaveBeenCalledTimes(2);
     });
   });
 });

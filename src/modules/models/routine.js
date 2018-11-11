@@ -108,7 +108,9 @@ export function computeNextRunAt(routine) {
 }
 
 export async function run(routine) {
-  if (!routine.runAtBankHoliday && isBankHoliday(Date.now())) return;
+  if (!routine.runAtBankHoliday && isBankHoliday(Date.now())) {
+    return;
+  }
 
   const nextRunAt = Routine.computeNextRunAt();
 

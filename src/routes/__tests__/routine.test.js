@@ -5,6 +5,7 @@ import * as Routine from '../../modules/models/routine';
 import * as User from '../../modules/models/user';
 import app from '../../index.js';
 import * as RoutineService from '../../services/routineService';
+import sinon from 'sinon';
 
 jest.unmock('cron');
 
@@ -97,7 +98,8 @@ describe('Routine API', () => {
       });
 
       it('should save and start a new routine', async () => {
-        const spy = jest.spyOn(RoutineService, 'start');
+        const clock = sinon.useFakeTimers();
+        const spy = jest.spyOn(Routine, 'run');
         const response = await request(app)
           .post('/api/routines')
           .set('Accept', 'application/json')
@@ -105,11 +107,12 @@ describe('Routine API', () => {
           .send({
             sceneId: 'faaed78e-fd1c-4717-b610-65d2fa3d01b2',
             name: 'new_routine',
-            interval: '0 0 12 1 10 *',
+            interval: '* * * * * *',
           });
 
         expect(response.status).toHaveStatusOk();
-        expect(RoutineService.start.mock.calls).toMatchSnapshot();
+        clock.tick(1000);
+        expect(spy).toHaveBeenCalledTimes(1);
 
         const routines = await knex(Routine.TABLE)
           .first()
@@ -123,6 +126,7 @@ describe('Routine API', () => {
         });
 
         spy.mockRestore();
+        clock.restore();
       });
     });
   });

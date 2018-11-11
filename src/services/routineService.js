@@ -6,7 +6,7 @@ export const processes = new Map();
 export function start(routine) {
   stop(routine.routineId); // Insure to stop process if already exists
 
-  if (routine.enabled) {
+  if (routine.enabled !== false) {
     const process = new CronJob(
       routine.interval,
       () => run(routine),

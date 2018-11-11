@@ -18,11 +18,24 @@ routes
     }
 
     const userId = res.locals.user.userId;
-    const { name, sceneId, interval, enabled, runAtBankHoliday } = req.body;
+    const {
+      name,
+      sceneId,
+      interval,
+      enabled = true,
+      runAtBankHoliday = true,
+    } = req.body;
 
     Routine.save(userId, name, sceneId, interval, enabled, runAtBankHoliday)
       .then(routineId => {
-        RoutineService.start(req.body);
+        RoutineService.start({
+          routineId,
+          name,
+          sceneId,
+          interval,
+          enabled,
+          runAtBankHoliday,
+        });
         res.status(201).json({ routineId });
       })
       .catch(err => res.status(500).send({ err }));

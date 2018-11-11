@@ -8,6 +8,8 @@ function getTime() {
 }
 
 function print(text, level, display) {
+  if (process.env.NODE_ENV === 'test') return;
+
   if (process.env.NODE_ENV === 'production') {
     if (display || level === 'ERROR') {
       console.log(`${getTime()} [${level}] ${text}`);

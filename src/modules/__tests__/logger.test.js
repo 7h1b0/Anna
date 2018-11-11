@@ -12,7 +12,15 @@ describe('Logger', () => {
     global.console.log.mockReset();
   });
 
-  describe('in test', () => {
+  describe('in development', () => {
+    beforeAll(() => {
+      process.env.NODE_ENV = 'development';
+    });
+
+    afterAll(() => {
+      process.env.NODE_ENV = 'test';
+    });
+
     describe('info', () => {
       it('should return a valid text', () => {
         logger.info('test', true);

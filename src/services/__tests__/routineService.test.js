@@ -33,44 +33,39 @@ jest.mock('../../modules/models/routine', () => ({
 describe('routineService', () => {
   afterEach(() => {
     routineService.processes.clear();
-    Routine.run.mockClear();
   });
 
   describe('start', () => {
     it('should start a new process and call it every second', () => {
       const clock = lolex.install();
-      const process = routineService.start({
+      routineService.start({
         routineId: 'test',
         interval: '* * * * * *',
       });
 
       clock.next();
+      clock.uninstall();
 
       expect(Routine.run).toHaveBeenCalledTimes(1);
-      process.stop();
-      clock.uninstall();
     });
 
     it('should stop an older process if exist', () => {
       const clock = lolex.install();
-      const processOne = routineService.start({
+      routineService.start({
         routineId: 'test',
         enabled: true,
         interval: '* * * * * *',
       });
 
-      const processTwo = routineService.start({
+      routineService.start({
         routineId: 'test',
         interval: '* * * * * *',
       });
 
-      clock.next();
+      clock.tick(1000);
+      clock.uninstall();
 
       expect(Routine.run).toHaveBeenCalledTimes(1);
-
-      processOne.stop();
-      processTwo.stop();
-      clock.uninstall();
     });
 
     it('should not start a new process if not enabled', () => {
@@ -82,16 +77,16 @@ describe('routineService', () => {
       });
 
       clock.next();
+      clock.uninstall();
 
       expect(Routine.run).not.toHaveBeenCalled();
-      clock.uninstall();
     });
   });
 
   describe('stop', () => {
     it('should stop a process', () => {
       const clock = lolex.install();
-      const process = routineService.start({
+      routineService.start({
         routineId: 'test',
         enabled: true,
         interval: '0 12 * * * *',
@@ -100,14 +95,14 @@ describe('routineService', () => {
       routineService.stop('test');
 
       clock.next();
-      expect(Routine.run).not.toHaveBeenCalled();
-      process.stop();
       clock.uninstall();
+
+      expect(Routine.run).not.toHaveBeenCalled();
     });
 
     it('should do nothing if routineId is unknow', () => {
       const clock = lolex.install();
-      const process = routineService.start({
+      routineService.start({
         routineId: 'test',
         enabled: true,
         interval: '* * * * * *',
@@ -115,10 +110,9 @@ describe('routineService', () => {
 
       routineService.stop('unknow');
       clock.next();
+      clock.uninstall();
 
       expect(Routine.run).toHaveBeenCalledTimes(1);
-      process.stop();
-      clock.uninstall();
     });
   });
 
@@ -126,9 +120,9 @@ describe('routineService', () => {
     it('should load and start every routine', async () => {
       const clock = lolex.install();
       await routineService.load();
+      clock.uninstall();
 
       expect(clock.countTimers()).toBe(2);
-      clock.uninstall();
     });
   });
 });

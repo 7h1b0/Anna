@@ -53,20 +53,74 @@ RowDataPacket {
 }
 `;
 
+exports[`Routines run should dispatch a sceneId and compute nextRunAt 1`] = `
+Object {
+  "createdAt": 1514764800000,
+  "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
+  "enabled": true,
+  "failReason": null,
+  "interval": "0 5 * * *",
+  "lastFailedAt": 0,
+  "lastRunAt": 1502719200000,
+  "name": "test at 5am",
+  "nextRunAt": 1502766000000,
+  "routineId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
+  "runAtBankHoliday": true,
+  "sceneId": "00c1d78e-fd1c-4717-b610-65d2fa3d01b2",
+  "updatedAt": Any<Number>,
+}
+`;
+
+exports[`Routines run should return is routine don't run on bank holiday 1`] = `
+Object {
+  "createdAt": 1514764800000,
+  "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
+  "enabled": true,
+  "failReason": null,
+  "interval": "0 9 * * *",
+  "lastFailedAt": 0,
+  "lastRunAt": 0,
+  "name": "test at 9am",
+  "nextRunAt": 0,
+  "routineId": "1fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
+  "runAtBankHoliday": false,
+  "sceneId": "10c1d78e-fd1c-4717-b610-65d2fa3d01b2",
+  "updatedAt": Any<Number>,
+}
+`;
+
 exports[`Routines save should save a new routine 1`] = `
 Object {
   "createdAt": Any<Number>,
   "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
   "enabled": true,
   "failReason": null,
-  "interval": "schedule",
+  "interval": "0 12 * * *",
   "lastFailedAt": 0,
   "lastRunAt": 0,
   "name": "test_3",
-  "nextRunAt": 0,
+  "nextRunAt": 1502877600000,
+  "routineId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,
+  "runAtBankHoliday": false,
+  "sceneId": "20c1d78e-fd1c-4717-b610-65d2fa3d01b2",
+  "updatedAt": Any<Number>,
+}
+`;
+
+exports[`Routines save should save a new routine and use default params 1`] = `
+Object {
+  "createdAt": Any<Number>,
+  "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
+  "enabled": true,
+  "failReason": null,
+  "interval": "0 12 * * *",
+  "lastFailedAt": 0,
+  "lastRunAt": 0,
+  "name": "test_3",
+  "nextRunAt": 1502791200000,
   "routineId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,
   "runAtBankHoliday": true,
-  "sceneId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,
+  "sceneId": "20c1d78e-fd1c-4717-b610-65d2fa3d01b2",
   "updatedAt": Any<Number>,
 }
 `;

@@ -4,7 +4,7 @@ import { CronTime } from 'cron';
 import knex from '../../knexClient';
 import routineSchema from '../schemas/routine';
 import dispatch from '../dispatch';
-import { omit, isBankHoliday } from '../utils';
+import { isBankHoliday } from '../utils';
 import * as logger from '../logger';
 import { callScene } from '../actions';
 
@@ -72,17 +72,8 @@ export function remove(routineId) {
 }
 
 export function findByIdAndUpdate(routineId, payload) {
-  const safePayload = omit(payload, [
-    'routineId',
-    'createdAt',
-    'updatedAt',
-    'failedAt',
-    'lastRunAt',
-    'nextRunAt',
-    'createdBy',
-  ]);
   return knex(TABLE)
-    .update(safePayload)
+    .update(payload)
     .where('routineId', routineId);
 }
 
@@ -95,7 +86,7 @@ export function computeNextRunAt(routine) {
     const cronTime = new CronTime(routine.interval);
     let nextDate = cronTime._getNextDateFrom(currentDateOffset);
 
-    if (!routine.runAtPublicHoliday && isBankHoliday(nextDate)) {
+    if (routine.runAtBankHoliday === false && isBankHoliday(nextDate)) {
       const nextDateOffset = getDateWithOffset(nextDate);
       nextDate = cronTime._getNextDateFrom(nextDateOffset);
     }
@@ -108,16 +99,16 @@ export function computeNextRunAt(routine) {
 }
 
 export async function run(routine) {
-  if (!routine.runAtBankHoliday && isBankHoliday(Date.now())) {
+  if (routine.runAtBankHoliday === false && isBankHoliday(Date.now())) {
     return;
   }
 
-  const nextRunAt = Routine.computeNextRunAt();
-
   const done = (error = null) => {
     const failReason = error ? JSON.stringify(error) : null;
-    const lastRunAt = new Date();
     const lastFailedAt = error ? new Date() : routine.lastFailedAt;
+    const lastRunAt = new Date();
+    const nextRunAt = computeNextRunAt(routine);
+
     const updatedRoutine = {
       ...routine,
       lastRunAt,
@@ -126,28 +117,13 @@ export async function run(routine) {
       lastFailedAt,
     };
 
-    return Routine.findByIdAndUpdate(routine.routineId, updatedRoutine);
+    return findByIdAndUpdate(routine.routineId, updatedRoutine);
   };
 
   try {
     await dispatch(callScene(routine.sceneId));
-    return await done();
+    return done();
   } catch (error) {
-    return await done(error);
+    return done(error);
   }
 }
-
-const Routine = {
-  COLUMNS,
-  TABLE,
-  validate,
-  run,
-  computeNextRunAt,
-  findByIdAndUpdate,
-  remove,
-  save,
-  findById,
-  findAll,
-};
-
-export default Routine;

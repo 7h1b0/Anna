@@ -62,12 +62,11 @@ routes
       return res.sendStatus(400);
     }
     const routineId = req.params.routineId;
-    Routine.findByIdAndUpdate(routineId, req.body)
+    const nextRunAt = Routine.computeNextRunAt(req.body);
+    Routine.findByIdAndUpdate(routineId, { ...req.body, nextRunAt })
       .then(async rowsAffected => {
         if (!!rowsAffected) {
-          const { updatedAt, createdAt, ...routine } = await Routine.findById(
-            routineId,
-          );
+          const routine = await Routine.findById(routineId);
           RoutineService.start(routine);
           res.sendStatus(204);
         } else {

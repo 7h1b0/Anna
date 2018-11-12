@@ -1,13 +1,10 @@
 import request from 'supertest';
+import lolex from 'lolex';
 import createUser from 'createUser';
 import knex from '../../knexClient';
 import * as Routine from '../../modules/models/routine';
 import * as User from '../../modules/models/user';
 import app from '../../index.js';
-import * as RoutineService from '../../services/routineService';
-import sinon from 'sinon';
-
-jest.unmock('cron');
 
 const user = createUser({ userId: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f' });
 const initRoutines = [
@@ -28,6 +25,17 @@ const initRoutines = [
     name: 'test at 9am',
     interval: '0 9 * * *',
     enabled: true,
+    runAtBankHoliday: false,
+    createdBy: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f',
+    createdAt: new Date('2018-01-01'),
+    updatedAt: new Date('2018-01-02'),
+  },
+  {
+    routineId: '2fc1d78e-fd1c-4717-b610-65d2fa3d01b3',
+    sceneId: '10c1d78e-fd1c-4717-b610-65d2fa3d01b2',
+    name: 'test at 12am',
+    interval: '0 0 * * *',
+    enabled: false,
     runAtBankHoliday: false,
     createdBy: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f',
     createdAt: new Date('2018-01-01'),
@@ -98,7 +106,7 @@ describe('Routine API', () => {
       });
 
       it('should save and start a new routine', async () => {
-        const clock = sinon.useFakeTimers();
+        const clock = lolex.install({ now: new Date('2017-08-12T16:00:15') });
         const spy = jest.spyOn(Routine, 'run');
         const response = await request(app)
           .post('/api/routines')
@@ -107,12 +115,14 @@ describe('Routine API', () => {
           .send({
             sceneId: 'faaed78e-fd1c-4717-b610-65d2fa3d01b2',
             name: 'new_routine',
-            interval: '* * * * * *',
+            interval: '30 * * * * *',
           });
 
-        expect(response.status).toHaveStatusOk();
-        clock.tick(1000);
+        clock.next();
+        clock.uninstall();
+
         expect(spy).toHaveBeenCalledTimes(1);
+        expect(response.status).toHaveStatusOk();
 
         const routines = await knex(Routine.TABLE)
           .first()
@@ -122,11 +132,9 @@ describe('Routine API', () => {
           routineId: expect.stringMatching(/[a-fA-F0-9-]{36}/),
           createdAt: expect.any(Number),
           updatedAt: expect.any(Number),
-          nextRunAt: expect.any(Number),
         });
 
         spy.mockRestore();
-        clock.restore();
       });
     });
   });
@@ -207,8 +215,8 @@ describe('Routine API', () => {
         expect(response.status).toBeBadRequest();
       });
 
-      it('should update a routine', async () => {
-        const spy = jest.spyOn(RoutineService, 'start');
+      it('should disable routine', async () => {
+        const clock = lolex.install({ now: new Date('2017-08-12T16:00:00') });
 
         const response = await request(app)
           .patch(`/api/routines/${initRoutines[0].routineId}`)
@@ -217,11 +225,13 @@ describe('Routine API', () => {
           .send({
             sceneId: 'faaed78e-fd1c-4717-b610-65d2fa3d01b2',
             name: 'routine_updated',
-            interval: '* * * * * *',
+            interval: '0 5 * * *',
+            enabled: false,
           });
 
         expect(response.status).toHaveStatusOk();
-        expect(RoutineService.start.mock.calls).toMatchSnapshot();
+        expect(clock.countTimers()).toBe(0);
+        clock.uninstall();
 
         const routine = await knex(Routine.TABLE)
           .first()
@@ -231,8 +241,35 @@ describe('Routine API', () => {
           createdAt: expect.any(Number),
           updatedAt: expect.any(Number),
         });
+      });
 
-        spy.mockRestore();
+      it('should enable routine and compute nextRunAt', async () => {
+        const clock = lolex.install({ now: new Date('2017-08-12T16:00:00') });
+
+        const response = await request(app)
+          .patch(`/api/routines/${initRoutines[2].routineId}`)
+          .set('Accept', 'application/json')
+          .set('x-access-token', user.token)
+          .send({
+            sceneId: 'faaed78e-fd1c-4717-b610-65d2fa3d01b2',
+            name: 'routine_updated',
+            interval: '0 12 * * *',
+            enabled: true,
+          });
+
+        expect(response.status).toHaveStatusOk();
+        expect(clock.countTimers()).toBe(1);
+
+        const routine = await knex(Routine.TABLE)
+          .first()
+          .where('routineId', initRoutines[2].routineId);
+
+        expect(routine).toMatchSnapshot({
+          createdAt: expect.any(Number),
+          updatedAt: expect.any(Number),
+        });
+
+        clock.uninstall();
       });
     });
 
@@ -258,7 +295,7 @@ describe('Routine API', () => {
       });
 
       it('should delete and stop a routine', async () => {
-        const spy = jest.spyOn(RoutineService, 'stop');
+        const clock = lolex.install();
 
         const response = await request(app)
           .delete(`/api/routines/${initRoutines[0].routineId}`)
@@ -266,17 +303,11 @@ describe('Routine API', () => {
           .set('x-access-token', user.token);
 
         expect(response.status).toHaveStatusOk();
-        expect(RoutineService.stop).toHaveBeenCalledWith(
-          initRoutines[0].routineId,
-        );
+        expect(clock.countTimers()).toBe(0);
+        clock.uninstall();
 
-        const routines = await knex(Routine.TABLE)
-          .select()
-          .where('routineId', initRoutines[0].routineId);
-
-        expect(routines).toHaveLength(0);
-
-        spy.mockRestore();
+        const routines = await knex(Routine.TABLE).select('routineId');
+        expect(routines).toHaveLength(2);
       });
     });
   });

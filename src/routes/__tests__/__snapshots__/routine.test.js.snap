@@ -32,6 +32,21 @@ Array [
     "sceneId": "10c1d78e-fd1c-4717-b610-65d2fa3d01b2",
     "updatedAt": 1514851200000,
   },
+  Object {
+    "createdAt": 1514764800000,
+    "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
+    "enabled": false,
+    "failReason": null,
+    "interval": "0 0 * * *",
+    "lastFailedAt": 0,
+    "lastRunAt": 0,
+    "name": "test at 12am",
+    "nextRunAt": 0,
+    "routineId": "2fc1d78e-fd1c-4717-b610-65d2fa3d01b3",
+    "runAtBankHoliday": false,
+    "sceneId": "10c1d78e-fd1c-4717-b610-65d2fa3d01b2",
+    "updatedAt": 1514851200000,
+  },
 ]
 `;
 
@@ -41,11 +56,11 @@ Object {
   "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
   "enabled": true,
   "failReason": null,
-  "interval": "* * * * * *",
+  "interval": "30 * * * * *",
   "lastFailedAt": 0,
   "lastRunAt": 0,
   "name": "new_routine",
-  "nextRunAt": Any<Number>,
+  "nextRunAt": 1502546430000,
   "routineId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,
   "runAtBankHoliday": true,
   "sceneId": "faaed78e-fd1c-4717-b610-65d2fa3d01b2",
@@ -71,39 +86,37 @@ Object {
 }
 `;
 
-exports[`Routine API /api/routines/:routineId PATCH should update a routine 1`] = `
-Array [
-  Array [
-    Object {
-      "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
-      "enabled": true,
-      "failReason": null,
-      "interval": "* * * * * *",
-      "lastFailedAt": 0,
-      "lastRunAt": 0,
-      "name": "routine_updated",
-      "nextRunAt": 0,
-      "routineId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
-      "runAtBankHoliday": true,
-      "sceneId": "faaed78e-fd1c-4717-b610-65d2fa3d01b2",
-    },
-  ],
-]
+exports[`Routine API /api/routines/:routineId PATCH should disable routine 1`] = `
+Object {
+  "createdAt": Any<Number>,
+  "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
+  "enabled": false,
+  "failReason": null,
+  "interval": "0 5 * * *",
+  "lastFailedAt": 0,
+  "lastRunAt": 0,
+  "name": "routine_updated",
+  "nextRunAt": 1502593200000,
+  "routineId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
+  "runAtBankHoliday": true,
+  "sceneId": "faaed78e-fd1c-4717-b610-65d2fa3d01b2",
+  "updatedAt": Any<Number>,
+}
 `;
 
-exports[`Routine API /api/routines/:routineId PATCH should update a routine 2`] = `
+exports[`Routine API /api/routines/:routineId PATCH should enable routine and compute nextRunAt 1`] = `
 Object {
   "createdAt": Any<Number>,
   "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
   "enabled": true,
   "failReason": null,
-  "interval": "* * * * * *",
+  "interval": "0 12 * * *",
   "lastFailedAt": 0,
   "lastRunAt": 0,
   "name": "routine_updated",
-  "nextRunAt": 0,
-  "routineId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
-  "runAtBankHoliday": true,
+  "nextRunAt": 1502618400000,
+  "routineId": "2fc1d78e-fd1c-4717-b610-65d2fa3d01b3",
+  "runAtBankHoliday": false,
   "sceneId": "faaed78e-fd1c-4717-b610-65d2fa3d01b2",
   "updatedAt": Any<Number>,
 }

@@ -77,10 +77,12 @@ describe('Routines', () => {
         .first()
         .where('routineId', id);
 
+      expect(routine.nextRunAt).toEqual(new Date('2017-08-15T12:00').getTime());
       expect(routine).toMatchSnapshot({
         routineId: expect.stringMatching(/[a-fA-F0-9-]{36}/),
         createdAt: expect.any(Number),
         updatedAt: expect.any(Number),
+        nextRunAt: expect.any(Number),
       });
     });
 
@@ -100,10 +102,12 @@ describe('Routines', () => {
         .first()
         .where('routineId', id);
 
+      expect(routine.nextRunAt).toEqual(new Date('2017-08-16T12:00').getTime());
       expect(routine).toMatchSnapshot({
         routineId: expect.stringMatching(/[a-fA-F0-9-]{36}/),
         createdAt: expect.any(Number),
         updatedAt: expect.any(Number),
+        nextRunAt: expect.any(Number),
       });
     });
   });
@@ -203,7 +207,12 @@ describe('Routines', () => {
         .first()
         .where('routineId', initRoutines[0].routineId);
 
-      expect(routine).toMatchSnapshot({ updatedAt: expect.any(Number) });
+      expect(routine).toEqual(
+        expect.objectContaining({
+          nextRunAt: new Date('2017-08-15T05:00').getTime(),
+          lastRunAt: new Date('2017-08-14T16:00').getTime(),
+        }),
+      );
       expect(dispatch).toHaveBeenCalledWith({
         type: 'SCENE',
         id: initRoutines[0].sceneId,
@@ -220,7 +229,7 @@ describe('Routines', () => {
         .where('routineId', initRoutines[1].routineId);
 
       expect(dispatch).not.toHaveBeenCalled();
-      expect(routine).toMatchSnapshot({ updatedAt: expect.any(Number) });
+      expect(routine).toMatchSnapshot();
     });
   });
 

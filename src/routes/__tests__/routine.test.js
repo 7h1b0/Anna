@@ -124,14 +124,18 @@ describe('Routine API', () => {
         expect(spy).toHaveBeenCalledTimes(1);
         expect(response.status).toHaveStatusOk();
 
-        const routines = await knex(Routine.TABLE)
+        const routine = await knex(Routine.TABLE)
           .first()
           .where('routineId', response.body.routineId);
 
-        expect(routines).toMatchSnapshot({
+        expect(routine.nextRunAt).toEqual(
+          new Date('2017-08-12T16:00:30').getTime(),
+        );
+        expect(routine).toMatchSnapshot({
           routineId: expect.stringMatching(/[a-fA-F0-9-]{36}/),
           createdAt: expect.any(Number),
           updatedAt: expect.any(Number),
+          nextRunAt: expect.any(Number),
         });
 
         spy.mockRestore();
@@ -237,9 +241,13 @@ describe('Routine API', () => {
           .first()
           .where('routineId', initRoutines[0].routineId);
 
+        expect(routine.nextRunAt).toEqual(
+          new Date('2017-08-13T05:00:00').getTime(),
+        );
         expect(routine).toMatchSnapshot({
           createdAt: expect.any(Number),
           updatedAt: expect.any(Number),
+          nextRunAt: expect.any(Number),
         });
       });
 
@@ -264,9 +272,13 @@ describe('Routine API', () => {
           .first()
           .where('routineId', initRoutines[2].routineId);
 
+        expect(routine.nextRunAt).toEqual(
+          new Date('2017-08-13T12:00:00').getTime(),
+        );
         expect(routine).toMatchSnapshot({
           createdAt: expect.any(Number),
           updatedAt: expect.any(Number),
+          nextRunAt: expect.any(Number),
         });
 
         clock.uninstall();

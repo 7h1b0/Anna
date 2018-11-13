@@ -36,7 +36,23 @@ module.exports = {
     },
     pool: { min: 0, max: 4 },
   },
-
+  test: {
+    seeds: {
+      directory: '../seeds/',
+    },
+    migrations: {
+      directory: '../migrations',
+    },
+    client: 'mysql',
+    connection: {
+      host: '127.0.0.1',
+      user: 'root',
+      password: '',
+      database: 'anna-test',
+      typeCast,
+    },
+    pool: { min: 0, max: 4 },
+  },
   production: {
     client: 'mysql',
     migrations: {

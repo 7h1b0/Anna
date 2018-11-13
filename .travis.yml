@@ -4,8 +4,8 @@ node_js:
 services:
   - mysql
 
-git:
-  depth: 1
+env:
+  - NODE_ENV=test
 
 cache:
   directories:
@@ -15,7 +15,7 @@ install:
   - npm ci
 
 before_script:
-  - mysql -e 'CREATE DATABASE anna;'
+  - mysql -e 'CREATE DATABASE `anna-test`;'
   - npm run db:migrate
 
 script:

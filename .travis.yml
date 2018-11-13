@@ -23,6 +23,14 @@ script:
   - npm run eslint
   - npm run build:package
 
+deploy:
+  provider: releases
+  api_key:
+    secure: pgqu3Xj0pwSgqQV2hSIPgjW6kU+aCJbztias3on6R9aBoQeWMphyDff764pv6ATXyoUG7PM08vc33GYGmgcRVdbsikskCXpQNMFnJyGGwKU83Vg7Y4zqvNqOnSYzwhNf4FlvVwPYfCuJ/tfs5cVT/o3E1X7L0ohTodo+lo45WTFpPQFtyzEsc6G3GIizRKKMScfnStPs4CjclUYs4PjQVDcoqgEGtLevtTWaBmodMk5QSkllmHhkky+j5Oy9KEjASujSDJPvZE3S1RLuwXGVwHY+A4r1F+fBmPDSRX7E/lgNRFMP6zxlQXAYuHnB9zRzELrNnsS/1huf304PU8duwPJ/z3CfqSVgzYKsC0l8tuxLOHuuNEJWFSMhPG5BjWiUKtpg1XkrXVmTRULCSXnKI7knl0RzxytmGTNjqBDr4/z+TnqFuLWObL7x/GjyQveIf6I4kMO5a326Ud7XTlhdM4Aon/X0qeOJ8+7e4AMI+grXd8WRj35Q2SperFsmR5uK9oZzh+b0xU9xjxT4MfqI3QJe2JBovowwLy7JuDHYoea+voLBvppcv/CaFveDLWmZhZ0iWyXSa7eEXyy2uUXFhIKsay7f28kwy1aImorX9MeDc8C44qxa3GdDipmbY9EbHW2rM8m264sX2QM+nEwKQYrOaI0m7Ma9qVhmPStGqow=
+  file: anna-armv7
+  on:
+    tags: true
+
 notifications:
   email:
     on_success: never

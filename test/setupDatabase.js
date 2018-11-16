@@ -1,7 +1,8 @@
 const path = require('path');
 const knex = require('../src/knexClient');
 
-module.exports = function() {
+module.exports = async function() {
   const migrationPath = path.join(__dirname, '../migrations');
-  return knex.migrate.latest({ directory: migrationPath });
+  await knex.migrate.latest({ directory: migrationPath });
+  return knex.destroy();
 };

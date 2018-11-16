@@ -20,9 +20,6 @@ function typeCast(field, next) {
 
 module.exports = {
   development: {
-    seeds: {
-      directory: '../seeds/',
-    },
     migrations: {
       directory: '../migrations',
     },
@@ -37,9 +34,6 @@ module.exports = {
     pool: { min: 0, max: 4 },
   },
   test: {
-    seeds: {
-      directory: '../seeds/',
-    },
     migrations: {
       directory: '../migrations',
     },

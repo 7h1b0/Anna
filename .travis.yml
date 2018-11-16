@@ -16,7 +16,6 @@ install:
 
 before_script:
   - mysql -e 'CREATE DATABASE `anna-test`;'
-  - npm run db:migrate
 
 script:
   - npm run coverage

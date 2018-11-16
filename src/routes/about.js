@@ -9,20 +9,13 @@ import * as hueService from '../services/hueService';
 const routes = Router();
 
 routes.get('/api', (req, res) => {
-  const getScenes = Scene.findAll();
-  const getDios = Dio.findAll();
-  const getAlias = Alias.findAll();
-  const getRooms = Room.findAll();
-  const getRoutines = Routine.findAll();
-  const getHueLights = hueService.getLights();
-
   Promise.all([
-    getScenes,
-    getDios,
-    getAlias,
-    getRooms,
-    getRoutines,
-    getHueLights,
+    Scene.findAll(),
+    Dio.findAll(),
+    Alias.findAll(),
+    Room.findAll(),
+    Routine.findAll(),
+    hueService.getLights(),
   ])
     .then(([scenes, dios, alias, rooms, routines, hueLights]) =>
       res.json({

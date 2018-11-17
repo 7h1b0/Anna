@@ -41,7 +41,7 @@ node_modules/*
 log.txt
 assets/*
 bdd.json
-.env.local
+*.local
 *.sqlite3
 *.sqlite3-journal
 coverage/*

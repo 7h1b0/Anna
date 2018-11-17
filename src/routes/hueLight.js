@@ -51,23 +51,30 @@ routes
       return res.sendStatus(400);
     }
 
-    try {
-      const renameLight = req.body.name
-        ? hueService.renameLight(req.params.id_light, req.body.name)
-        : Promise.resolve();
+    const renameLight = req.body.name
+      ? hueService.renameLight(req.params.id_light, req.body.name)
+      : Promise.resolve();
 
-      const changeRoomId = req.body.roomId
-        ? HueLight.findByIdAndUpdate(req.params.id_light, req.body.roomId)
-        : Promise.resolve();
+    const changeRoomId = req.body.roomId
+      ? HueLight.findByIdAndUpdate(req.params.id_light, req.body.roomId)
+      : Promise.resolve();
 
-      Promise.all([renameLight, changeRoomId])
-        .then(() => res.end())
-        .catch(err => {
-          res.status(500).send({ err });
-        });
-    } catch (err) {
-      console.log(err);
+    Promise.all([renameLight, changeRoomId])
+      .then(() => res.sendStatus(204))
+      .catch(err => {
+        res.status(500).send({ err });
+      });
+  })
+  .post((req, res) => {
+    if (req.body.roomId === undefined) {
+      return res.sendStatus(400);
     }
+
+    HueLight.save(req.params.id_light, req.body.roomId)
+      .then(() => res.sendStatus(204))
+      .catch(err => {
+        res.status(500).send({ err });
+      });
   });
 
 routes.patch('/api/hue/lights/:id_light([0-9]+)/state', (req, res) => {

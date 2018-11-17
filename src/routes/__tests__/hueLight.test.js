@@ -135,6 +135,42 @@ describe('Hue Light API', () => {
         expect(response.status).toBeBadRequest();
       });
     });
+
+    describe('POST', () => {
+      it('should add light to a room', async () => {
+        const response = await request(app)
+          .post('/api/hue/lights/3')
+          .set('Accept', 'application/json')
+          .set('x-access-token', user.token)
+          .send({ roomId: '0a80e3de-245a-4983-9b8f-67f37ceff94b' });
+
+        expect(response.status).toHaveStatusOk();
+        const res = await knex(hueLight.TABLE)
+          .first('roomId')
+          .where('lightId', 3);
+
+        expect(res).toEqual({ roomId: '0a80e3de-245a-4983-9b8f-67f37ceff94b' });
+      });
+
+      it('should retun 401 when user is not authenticated', async () => {
+        const response = await request(app)
+          .post('/api/hue/lights/3')
+          .set('Accept', 'application/json')
+          .set('x-access-token', 'fake');
+
+        expect(response.status).toBeUnauthorized();
+      });
+
+      it('should retun 400 if name is missing', async () => {
+        const response = await request(app)
+          .post('/api/hue/lights/3')
+          .set('Accept', 'application/json')
+          .set('x-access-token', user.token)
+          .send({ empty: '' });
+
+        expect(response.status).toBeBadRequest();
+      });
+    });
   });
 
   describe('api/hue/lights/:id_light/:status', () => {

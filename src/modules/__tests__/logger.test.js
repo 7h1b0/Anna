@@ -1,14 +1,15 @@
+import lolex from 'lolex';
 import * as logger from '../logger';
 
 describe('Logger', () => {
+  let clock;
   beforeAll(() => {
-    const DATE_MOCK = new Date(2018, 1, 1, 10, 0, 0);
-    global.Date = jest.fn(() => DATE_MOCK);
+    clock = lolex.install({ now: new Date('2018-01-01T10:00') });
     global.console.log = jest.fn();
   });
 
   afterAll(() => {
-    global.Date.mockReset();
+    clock.uninstall();
     global.console.log.mockReset();
   });
 

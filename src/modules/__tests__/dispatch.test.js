@@ -4,7 +4,7 @@ import dioAdd from '../../services/dioService';
 import * as Scene from '../models/scene';
 import { HUE_LIGHT, DIO, SCENE } from '../type';
 
-jest.mock('../../services/dioService', () => jest.fn(() => Promise.resolve()));
+jest.mock('../../services/dioService', () => jest.fn(async () => {}));
 
 describe('Dispatch', () => {
   beforeAll(() => {
@@ -13,7 +13,7 @@ describe('Dispatch', () => {
         actions: [{ type: HUE_LIGHT, targetId: 5, body: { on: true } }],
       }),
     );
-    hueService.setLightState = jest.fn(() => Promise.resolve());
+    hueService.setLightState = jest.fn(async () => {});
   });
 
   it('should call hueService when type is HUE_LIGHT', async () => {

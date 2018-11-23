@@ -1,2 +1,2 @@
-const dispatch = jest.fn(() => Promise.resolve());
+const dispatch = jest.fn(async () => {});
 export default dispatch;

@@ -14,23 +14,29 @@ describe('cryptoUtil', () => {
   });
 
   describe('verify', () => {
-    it('should return true when a hash and password are equal', async () => {
-      const password = 'test_compare';
-      const hash = await crypto.hash(password);
+    it.concurrent(
+      'should return true when a hash and password are equal',
+      async () => {
+        const password = 'test_compare';
+        const hash = await crypto.hash(password);
 
-      expect(await crypto.verify(password, hash)).toBeTruthy();
-    });
+        expect(await crypto.verify(password, hash)).toBeTruthy();
+      },
+    );
 
-    it('should return false when a hash and password are not equal', async () => {
-      const password = 'test_compare';
-      const hash = await crypto.hash('test_fake');
+    it.concurrent(
+      'should return false when a hash and password are not equal',
+      async () => {
+        const password = 'test_compare';
+        const hash = await crypto.hash('test_fake');
 
-      expect(await crypto.verify(password, hash)).toBeFalsy();
-    });
+        expect(await crypto.verify(password, hash)).toBeFalsy();
+      },
+    );
   });
 
   describe('random', () => {
-    it('should return a random string of 24 caracters', async () => {
+    it.concurrent('should return a random string of 24 caracters', async () => {
       const first = await crypto.random();
       const second = await crypto.random();
 
@@ -39,7 +45,7 @@ describe('cryptoUtil', () => {
       expect(`${second}`).toHaveLength(24);
     });
 
-    it('should return a random string of 12 caracters', async () => {
+    it.concurrent('should return a random string of 12 caracters', async () => {
       const random = await crypto.random(12);
       expect(random + '').toHaveLength(12);
     });

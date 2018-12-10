@@ -3,6 +3,7 @@ import lolex from 'lolex';
 import createUser from 'createUser';
 import knex from '../../knexClient';
 import * as Routine from '../../modules/models/routine';
+import * as RoutineService from '../../services/routineService';
 import * as User from '../../modules/models/user';
 import app from '../../index.js';
 
@@ -221,6 +222,10 @@ describe('Routine API', () => {
 
       it('should disable routine', async () => {
         const clock = lolex.install({ now: new Date('2017-08-12T16:00:00') });
+        const mock = jest.fn();
+
+        await RoutineService.load(mock);
+        expect(clock.countTimers()).toBe(2);
 
         const response = await request(app)
           .patch(`/api/routines/${initRoutines[0].routineId}`)
@@ -234,7 +239,11 @@ describe('Routine API', () => {
           });
 
         expect(response.status).toHaveStatusOk();
-        expect(clock.countTimers()).toBe(0);
+        expect(clock.countTimers()).toBe(1);
+
+        clock.next();
+        expect(Date.now()).toBe(1502607600000); // 13rd at 9am
+        expect(mock).toHaveBeenCalledTimes(1);
         clock.uninstall();
 
         const routine = await knex(Routine.TABLE)

@@ -3,13 +3,13 @@ import { CronJob } from 'cron';
 
 export const processes = new Map();
 
-export function start(routine) {
+export function start(routine, callback = run) {
   stop(routine.routineId); // Insure to stop process if already exists
 
   if (routine.enabled !== false) {
     const process = new CronJob(
       routine.interval,
-      () => run(routine),
+      () => callback(routine),
       null,
       true,
     );
@@ -26,7 +26,7 @@ export function stop(routineId) {
   }
 }
 
-export async function load() {
+export async function load(callback) {
   const routines = await findAll();
-  return routines.map(routine => start(routine));
+  return routines.map(routine => start(routine, callback));
 }

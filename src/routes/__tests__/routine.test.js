@@ -242,7 +242,7 @@ describe('Routine API', () => {
         expect(clock.countTimers()).toBe(1);
 
         clock.next();
-        expect(Date.now()).toBe(1502607600000); // 13rd at 9am
+        expect(Date.now()).toBe(new Date('2017-08-13T09:00:00').getTime());
         expect(mock).toHaveBeenCalledTimes(1);
         clock.uninstall();
 

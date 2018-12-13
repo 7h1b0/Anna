@@ -43,9 +43,9 @@
     "test": "jest src --watch --notify --runInBand",
     "coverage": "jest src --coverage --ci --runInBand --silent",
     "start": "env-cmd --no-override .env.local nodemon --watch src --exec babel-node index.js",
-    "db:migrate": "knex migrate:latest --knexfile src/knexfile.js",
-    "db:rollback": "knex migrate:rollback --knexfile src/knexfile.js",
-    "db:seed": "knex seed:run --knexfile src/knexfile.js",
+    "db:migrate": "knex migrate:latest",
+    "db:rollback": "knex migrate:rollback",
+    "db:seed": "knex seed:run",
     "build": "webpack",
     "build:package": "npm run build && pkg -t node10-linux-armv7 ./dist/index.js --public --no-bytecode -o anna-armv7"
   }

@@ -21,7 +21,7 @@ function typeCast(field, next) {
 module.exports = {
   development: {
     migrations: {
-      directory: '../migrations',
+      directory: './migrations',
     },
     client: 'mysql',
     connection: {
@@ -35,7 +35,7 @@ module.exports = {
   },
   test: {
     migrations: {
-      directory: '../migrations',
+      directory: './migrations',
     },
     client: 'mysql',
     connection: {
@@ -50,7 +50,7 @@ module.exports = {
   production: {
     client: 'mysql',
     migrations: {
-      directory: '../migrations',
+      directory: './migrations',
     },
     connection: {
       host: process.env.DATABASE_HOST,

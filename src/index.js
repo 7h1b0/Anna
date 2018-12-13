@@ -1,4 +1,3 @@
-// Dependencies
 import express from 'express';
 import bodyParser from 'body-parser';
 
@@ -7,22 +6,19 @@ import alias from './routes/alias';
 import dio from './routes/dio';
 import room from './routes/room';
 import hueLight from './routes/hueLight';
-import log from './routes/log';
 import scene from './routes/scene';
 import routine from './routes/routine';
 import user from './routes/user';
 
 import authenticationMiddleware from './middlewares/authenticationMiddleware';
-import logMiddleware from './middlewares/logMiddleware';
 
 import { load as loadRoutine } from './services/routineService';
 
-// Setup Server
 const app = express();
 app.use(bodyParser.json());
-app.all('/api*', [authenticationMiddleware, logMiddleware]);
+app.all('/api*', [authenticationMiddleware]);
 
-app.use([about, alias, dio, hueLight, log, room, scene, routine, user]);
+app.use([about, alias, dio, hueLight, room, scene, routine, user]);
 
 loadRoutine();
 

@@ -217,12 +217,7 @@ describe('Routines', () => {
       await Routine.run(initRoutines[1]);
       clock.uninstall();
 
-      const routine = await knex(Routine.TABLE)
-        .first()
-        .where('routineId', initRoutines[1].routineId);
-
       expect(dispatch).toHaveBeenCalled();
-      expect(routine).toMatchSnapshot();
     });
   });
 

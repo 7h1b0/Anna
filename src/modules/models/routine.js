@@ -25,6 +25,26 @@ export const COLUMNS = [
   'createdBy',
 ];
 
+export function updateAllNextRunAt(routines) {
+  return knex.transaction(function(trx) {
+    const reqs = routines.map(routine => {
+      const nextRunAt = computeNextRunAt(
+        routine.interval,
+        routine.runAtBankHoliday,
+      );
+
+      return knex(TABLE)
+        .transacting(trx)
+        .update({ nextRunAt })
+        .where('routineId', routine.routineId);
+    });
+
+    Promise.all(reqs)
+      .then(trx.commit)
+      .catch(trx.rollback);
+  });
+}
+
 export function validate(data) {
   const ajv = new Ajv();
   return ajv.validate(routineSchema, data);

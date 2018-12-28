@@ -1,4 +1,9 @@
-import { run, findAll, computeNextRunAt } from '../modules/models/routine';
+import {
+  run,
+  findAll,
+  computeNextRunAt,
+  updateAllNextRunAt,
+} from '../modules/models/routine';
 
 export const processes = new Map();
 
@@ -22,5 +27,6 @@ export function stop(routineId) {
 
 export async function load(execute) {
   const routines = await findAll();
-  return routines.map(routine => start(routine, execute));
+  routines.map(routine => start(routine, execute));
+  await updateAllNextRunAt(routines);
 }

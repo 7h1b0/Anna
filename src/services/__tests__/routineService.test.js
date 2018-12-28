@@ -149,5 +149,20 @@ describe('routineService', () => {
 
       expect(clock.countTimers()).toBe(2);
     });
+
+    it('should update all computeNextRunAt', async () => {
+      const clock = lolex.install({ now: new Date('2019-01-01T00:00') });
+      await routineService.load();
+      clock.uninstall();
+
+      const routines = await knex(Routine.TABLE).orderBy('routineId');
+
+      expect(routines[0].nextRunAt).toEqual(
+        new Date('2019-01-01T05:00').getTime(),
+      );
+      expect(routines[1].nextRunAt).toEqual(
+        new Date('2019-01-02T09:00').getTime(),
+      );
+    });
   });
 });

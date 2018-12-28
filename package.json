@@ -8,7 +8,7 @@
     "ajv": "^6.6.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
-    "cron": "^1.6.0",
+    "cron-parser": "^2.7.3",
     "express": "^4.16.4",
     "knex": "^0.16.2",
     "mysql": "^2.16.0",

@@ -1,6 +1,6 @@
 import Ajv from 'ajv';
+import parser from 'cron-parser';
 import uuidv4 from 'uuid/v4';
-import { CronTime } from 'cron';
 import knex from '../../knexClient';
 import routineSchema from '../schemas/routine';
 import dispatch from '../dispatch';
@@ -49,9 +49,9 @@ export async function save(
   runAtBankHoliday = true,
 ) {
   const routineId = uuidv4();
-  const nextRunAt = computeNextRunAt({ interval, runAtBankHoliday });
+  const nextRunAt = computeNextRunAt(interval, runAtBankHoliday);
 
-  await knex(TABLE).insert({
+  const routine = {
     routineId,
     sceneId,
     name,
@@ -60,9 +60,10 @@ export async function save(
     runAtBankHoliday,
     createdBy: userId,
     nextRunAt,
-  });
+  };
 
-  return routineId;
+  await knex(TABLE).insert(routine);
+  return routine;
 }
 
 export function remove(routineId) {
@@ -77,37 +78,34 @@ export function findByIdAndUpdate(routineId, payload) {
     .where('routineId', routineId);
 }
 
-export function computeNextRunAt(routine) {
-  const getDateWithOffset = timestamp => new Date(timestamp + 10000);
-
-  const currentDateOffset = getDateWithOffset(Date.now());
-
+export function computeNextRunAt(cron, runAtBankHoliday = true) {
   try {
-    const cronTime = new CronTime(routine.interval);
-    let nextDate = cronTime._getNextDateFrom(currentDateOffset);
+    const interval = parser.parseExpression(cron, {
+      currentDate: new Date(),
+    });
 
-    if (routine.runAtBankHoliday === false && isBankHoliday(nextDate)) {
-      const nextDateOffset = getDateWithOffset(nextDate);
-      nextDate = cronTime._getNextDateFrom(nextDateOffset);
+    let nextDate = interval.next();
+    if (runAtBankHoliday === false) {
+      while (isBankHoliday(nextDate.toDate())) {
+        nextDate = interval.next();
+      }
     }
-
     return nextDate.toDate();
-  } catch (e) {
-    logger.error(e);
-    return undefined;
+  } catch (_) {
+    logger.error('Impossible to compute nextRunAt');
+    return new Date();
   }
 }
 
 export async function run(routine) {
-  if (routine.runAtBankHoliday === false && isBankHoliday(Date.now())) {
-    return;
-  }
-
   const done = (error = null) => {
     const failReason = error ? JSON.stringify(error) : null;
     const lastFailedAt = error ? new Date() : routine.lastFailedAt;
     const lastRunAt = new Date();
-    const nextRunAt = computeNextRunAt(routine);
+    const nextRunAt = computeNextRunAt(
+      routine.interval,
+      routine.runAtBankHoliday,
+    );
 
     const updatedRoutine = {
       ...routine,

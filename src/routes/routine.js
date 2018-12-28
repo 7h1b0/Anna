@@ -27,16 +27,9 @@ routes
     } = req.body;
 
     Routine.save(userId, name, sceneId, interval, enabled, runAtBankHoliday)
-      .then(routineId => {
-        RoutineService.start({
-          routineId,
-          name,
-          sceneId,
-          interval,
-          enabled,
-          runAtBankHoliday,
-        });
-        res.status(201).json({ routineId });
+      .then(routine => {
+        RoutineService.start(routine);
+        res.status(201).json({ routineId: routine.routineId });
       })
       .catch(err => res.status(500).send({ err }));
   });
@@ -62,7 +55,10 @@ routes
       return res.sendStatus(400);
     }
     const routineId = req.params.routineId;
-    const nextRunAt = Routine.computeNextRunAt(req.body);
+    const nextRunAt = Routine.computeNextRunAt(
+      req.body.interval,
+      req.body.runAtBankHoliday,
+    );
     Routine.findByIdAndUpdate(routineId, { ...req.body, nextRunAt })
       .then(async rowsAffected => {
         if (!!rowsAffected) {

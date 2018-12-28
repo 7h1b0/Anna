@@ -222,9 +222,9 @@ describe('Routines', () => {
         .where('routineId', initRoutines[1].routineId);
 
       expect(dispatch).toHaveBeenCalled();
-      // expect(routine).toMatchSnapshot();
+      expect(routine).toMatchSnapshot();
     });
   });
 
-  // TODO: Add test on findByIdNadUpdate
+  // TODO: Add test on findByIdAndUpdate
 });

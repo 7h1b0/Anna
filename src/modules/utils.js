@@ -11,7 +11,7 @@ export function omit(object, props = []) {
  * Source
  * http://techneilogy.blogspot.fr/2012/02/couple-of-years-ago-i-posted-source.html
  */
-export function isBankHoliday(timestamp) {
+export function isBankHoliday(date) {
   function getPublicHolidays(year) {
     const a = year % 19;
     const b = Math.floor(year / 100);
@@ -56,7 +56,6 @@ export function isBankHoliday(timestamp) {
     ];
   }
 
-  const date = timestamp ? new Date(timestamp) : new Date();
   date.setHours(0, 0, 0, 0);
   return getPublicHolidays(date.getFullYear()).some(
     holiday => date.getTime() === holiday.getTime(),

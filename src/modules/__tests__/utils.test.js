@@ -32,25 +32,19 @@ describe('Utils', () => {
 
   describe('isBankHoliday', () => {
     it('should return true on christmas', () => {
-      expect(
-        utils.isBankHoliday(new Date('2017-12-25').getTime()),
-      ).toBeTruthy();
+      expect(utils.isBankHoliday(new Date('2017-12-25'))).toBeTruthy();
     });
 
     it('should return true on august 15', () => {
-      expect(
-        utils.isBankHoliday(new Date('2017-08-15').getTime()),
-      ).toBeTruthy();
+      expect(utils.isBankHoliday(new Date('2017-08-15'))).toBeTruthy();
     });
 
     it('should return true on easter Monday', () => {
-      expect(
-        utils.isBankHoliday(new Date('2017-04-17').getTime()),
-      ).toBeTruthy();
+      expect(utils.isBankHoliday(new Date('2017-04-17'))).toBeTruthy();
     });
 
     it('should return false on january 12', () => {
-      expect(utils.isBankHoliday(new Date('2017-01-12').getTime())).toBeFalsy();
+      expect(utils.isBankHoliday(new Date('2017-01-12'))).toBeFalsy();
     });
   });
 });

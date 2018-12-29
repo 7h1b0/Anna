@@ -8,7 +8,7 @@ import {
 export const processes = new Map();
 
 export function diffInMilliseconds(interval, runAtBankHoliday) {
-  return computeNextRunAt(interval, runAtBankHoliday) - Date.now();
+  return computeNextRunAt(interval, runAtBankHoliday).getTime() - Date.now();
 }
 
 export function start(routine, execute = run) {

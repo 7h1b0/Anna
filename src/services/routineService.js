@@ -7,6 +7,10 @@ import {
 
 export const processes = new Map();
 
+export function diffInMilliseconds(interval, runAtBankHoliday) {
+  return computeNextRunAt(interval, runAtBankHoliday) - Date.now();
+}
+
 export function start(routine, execute = run) {
   stop(routine.routineId); // Insure to stop process if already exists
 
@@ -14,7 +18,7 @@ export function start(routine, execute = run) {
     const process = setTimeout(() => {
       start(routine, execute);
       execute(routine);
-    }, computeNextRunAt(routine.interval, routine.runAtBankHoliday) - Date.now());
+    }, diffInMilliseconds(routine.interval, routine.runAtBankHoliday));
     processes.set(routine.routineId, process);
     return process;
   }

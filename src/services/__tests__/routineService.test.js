@@ -141,6 +141,30 @@ describe('routineService', () => {
     });
   });
 
+  describe('diffInMilliseconds', () => {
+    it('should return the diff between the next run at and now', () => {
+      const clock = lolex.install({ now: new Date('2019-01-01T08:00') });
+      const milliseconds = routineService.diffInMilliseconds(
+        '0 10 * * *',
+        true,
+      );
+      clock.uninstall();
+
+      expect(milliseconds).toBe(1000 * 60 * 60 * 2);
+    });
+
+    it('should return the diff between the next run at and now - bank holiday', () => {
+      const clock = lolex.install({ now: new Date('2019-01-01T08:00') });
+      const milliseconds = routineService.diffInMilliseconds(
+        '0 10 * * *',
+        false,
+      );
+      clock.uninstall();
+
+      expect(milliseconds).toBe(1000 * 60 * 60 * 26);
+    });
+  });
+
   describe('load', () => {
     it('should load and start every routine', async () => {
       const clock = lolex.install();

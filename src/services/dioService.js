@@ -3,13 +3,15 @@ import * as logger from '../modules/logger';
 
 let queue = Promise.resolve();
 function run(script, onSuccess, onError) {
-  queue = queue.then(() => execService(script)).then(
-    () => onSuccess(),
-    err => {
-      logger.error(err);
-      onError();
-    },
-  );
+  queue = queue
+    .then(() => execService(script))
+    .then(
+      () => onSuccess(),
+      err => {
+        logger.error(err);
+        onError();
+      },
+    );
 }
 
 export default function add(device, on = false) {

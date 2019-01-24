@@ -19,8 +19,9 @@ before_script:
   - mysql -e 'CREATE DATABASE `anna-test`;'
 
 script:
-  - npm run coverage
   - npm run eslint
+  - npm run prettier:check
+  - npm run coverage
   - npm run build:package
 
 notifications:

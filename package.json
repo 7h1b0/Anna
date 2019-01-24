@@ -40,6 +40,7 @@
   },
   "scripts": {
     "eslint": "eslint --max-warnings 0 src migrations seeds",
+    "prettier:check": "prettier --list-different \"src/**/*.js\"",
     "test": "jest src --watch --notify --runInBand",
     "coverage": "jest src --coverage --ci --runInBand --silent",
     "start": "env-cmd --no-override .env.local nodemon --watch src --exec babel-node index.js",

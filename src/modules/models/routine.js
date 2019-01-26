@@ -142,6 +142,7 @@ export async function run(routine) {
     await dispatch(callScene(routine.sceneId));
     return done();
   } catch (error) {
+    logger.error(JSON.stringify(error));
     return done(error);
   }
 }

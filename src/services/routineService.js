@@ -4,6 +4,7 @@ import {
   computeNextRunAt,
   updateAllNextRunAt,
 } from '../modules/models/routine';
+import * as logger from '../modules/logger';
 
 export const processes = new Map();
 
@@ -16,6 +17,7 @@ export function start(routine, execute = run) {
 
   if (routine.enabled !== false) {
     const process = setTimeout(() => {
+      logger.info(`Launch ${routine.name}`);
       start(routine, execute);
       execute(routine);
     }, diffInMilliseconds(routine.interval, routine.runAtBankHoliday));

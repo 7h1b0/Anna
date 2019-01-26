@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "*": ["*", "src/*", "test/factories/*"]
+    },
+    "types": ["node", "express", "jest", "jest-matcher-utils"],
+    "strictPropertyInitialization": true,
+    "outDir": "./dist",
+
+    "moduleResolution": "node",
+    "target": "es2017",
+
+    "strict": true,
+
+    "noImplicitAny": false,
+    "noImplicitReturns": false,
+    "noUnusedLocals": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "strictBindCallApply": true,
+    "removeComments": true,
+    "sourceMap": false,
+    "allowSyntheticDefaultImports": true
+  }
+}

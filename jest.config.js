@@ -1,8 +1,11 @@
 module.exports = {
   testEnvironment: 'jest-environment-node',
   moduleDirectories: ['node_modules', 'test/factories'],
-  globalSetup: '<rootDir>/test/setupDatabase.js',
-  setupTestFrameworkScriptFile: '<rootDir>/test/setup.js',
+  // globalSetup: '<rootDir>/test/setupDatabase.js',
+  setupFilesAfterEnv: ['<rootDir>/test/setup.ts'],
+  transform: {
+    '^.+\\.ts$': 'ts-jest',
+  },
   automock: false,
   clearMocks: true,
   errorOnDeprecated: true,

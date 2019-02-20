@@ -5,10 +5,6 @@ describe('Logger', () => {
     global.console.log = jest.fn();
   });
 
-  afterAll(() => {
-    // global.console.log.mockReset();
-  });
-
   beforeAll(() => {
     process.env.NODE_ENV = 'development';
   });

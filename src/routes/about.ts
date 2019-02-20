@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import * as Scene from '../modules/models/scene';
-import * as Dio from '../modules/models/dio';
-import * as Room from '../modules/models/room';
-import * as Alias from '../modules/models/alias';
-import * as Routine from '../modules/models/routine';
-import * as hueService from '../services/hueService';
+import * as Scene from 'modules/models/scene';
+import * as Dio from 'modules/models/dio';
+import * as Room from 'modules/models/room';
+import * as Alias from 'modules/models/alias';
+import * as Routine from 'modules/models/routine';
+import * as hueService from 'services/hueService';
 
 const routes = Router();
 

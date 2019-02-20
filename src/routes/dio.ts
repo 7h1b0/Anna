@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import * as Dio from '../modules/models/dio';
-import { toggleDio } from '../modules/actions';
-import dispatch from '../modules/dispatch';
+import * as Dio from 'modules/models/dio';
+import { toggleDio } from 'modules/actions';
+import dispatch from 'modules/dispatch';
 
 const routes = Router();
 routes

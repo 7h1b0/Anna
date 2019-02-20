@@ -58,7 +58,7 @@ describe('Room', () => {
     });
 
     it('should return undefined', async () => {
-      const result = await Room.findById(-1);
+      const result = await Room.findById('-1');
       expect(result).toBeUndefined();
     });
   });
@@ -93,7 +93,7 @@ describe('Room', () => {
     });
 
     it('should not delete a room', async () => {
-      const res = await Room.remove(-1);
+      const res = await Room.remove('-1');
       expect(res).toBe(0);
       const rooms = await knex(Room.TABLE).select();
       expect(rooms).toHaveLength(initRooms.length);
@@ -125,7 +125,7 @@ describe('Room', () => {
     });
 
     it('should not update a room', async () => {
-      const rowsAffected = await Room.findByIdAndUpdate(-1, {
+      const rowsAffected = await Room.findByIdAndUpdate('-1', {
         name: 'updated',
       });
       expect(rowsAffected).toBe(0);

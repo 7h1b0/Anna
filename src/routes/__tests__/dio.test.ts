@@ -1,10 +1,10 @@
 import request from 'supertest';
-import createUser from 'createUser';
-import knex from '../../knexClient';
-import * as Dio from '../../modules/models/dio';
-import * as User from '../../modules/models/user';
+import { createUser } from 'factories';
+import knex from 'knexClient';
+import * as Dio from 'modules/models/dio';
+import * as User from 'modules/models/user';
 import app from '../../index.js';
-import dispatch from '../../modules/dispatch';
+import dispatch from 'modules/dispatch';
 
 jest.mock('../../modules/dispatch');
 

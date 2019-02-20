@@ -74,7 +74,7 @@ describe('Users', () => {
     });
 
     it('should not update an user if userId is unknow', async () => {
-      const rowsAffected = await User.findByIdAndUpdate(-1, {
+      const rowsAffected = await User.findByIdAndUpdate('-1', {
         username: 'username',
       });
       expect(rowsAffected).toBe(0);
@@ -110,7 +110,7 @@ describe('Users', () => {
     });
 
     it('should not delete an user', async () => {
-      await User.remove(-1);
+      await User.remove('-1');
       const users = await knex(User.TABLE).select();
       expect(users).toEqual(initUsers);
     });

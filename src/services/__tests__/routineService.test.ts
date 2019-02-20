@@ -1,6 +1,7 @@
 import * as routineService from '../routineService';
-import knex from '../../knexClient';
-import * as Routine from '../../modules/models/routine';
+import knex from 'knexClient';
+import * as Routine from 'modules/models/routine';
+import { createRoutine } from 'factories';
 import lolex from 'lolex';
 
 jest.mock('../../modules/dispatch');
@@ -51,11 +52,11 @@ describe('routineService', () => {
     it('should start a new process and call it every second', () => {
       const spy = jest.spyOn(Routine, 'run');
       const clock = lolex.install();
-      routineService.start({
-        routineId: 'test',
-        interval: '* * * * * *',
-        nextRunAt: new Date('2018-01-01'),
-      });
+      routineService.start(
+        createRoutine({
+          interval: '* * * * * *',
+        }),
+      );
 
       clock.tick(1000);
       clock.tick(1000);
@@ -66,34 +67,38 @@ describe('routineService', () => {
 
     it('should stop an older process if exist', () => {
       const clock = lolex.install();
-      routineService.start({
-        routineId: 'test',
-        enabled: true,
-        interval: '* * * * * *',
-        nextRunAt: new Date('2018-01-01'),
-      });
+      routineService.start(
+        createRoutine({
+          routineId: 'test',
+          enabled: true,
+          interval: '* * * * * *',
+          nextRunAt: new Date('2018-01-01'),
+        }),
+      );
 
-      routineService.start({
-        routineId: 'test',
-        enabled: true,
-        interval: '* * * * * *',
-        nextRunAt: new Date('2018-01-01'),
-      });
+      routineService.start(
+        createRoutine({
+          routineId: 'test',
+          enabled: true,
+          interval: '* * * * * *',
+          nextRunAt: new Date('2018-01-01'),
+        }),
+      );
 
       clock.uninstall();
       expect(clock.countTimers()).toBe(1);
     });
 
     it('should not start a new process if not enabled', () => {
-      const spy = jest.spyOn(Routine, 'run');
+      const spy = jest.fn();
       const clock = lolex.install();
       routineService.start(
-        {
+        createRoutine({
           routineId: 'test',
           enabled: false,
           interval: '* * * * * *',
           nextRunAt: new Date('2018-01-01'),
-        },
+        }),
         spy,
       );
 
@@ -108,12 +113,14 @@ describe('routineService', () => {
     it('should stop a process', () => {
       const spy = jest.spyOn(Routine, 'run');
       const clock = lolex.install();
-      routineService.start({
-        routineId: 'test',
-        enabled: true,
-        interval: '0 12 * * * *',
-        nextRunAt: new Date('2018-01-01'),
-      });
+      routineService.start(
+        createRoutine({
+          routineId: 'test',
+          enabled: true,
+          interval: '0 12 * * * *',
+          nextRunAt: new Date('2018-01-01'),
+        }),
+      );
 
       routineService.stop('test');
 
@@ -126,12 +133,14 @@ describe('routineService', () => {
     it('should do nothing if routineId is unknow', () => {
       const spy = jest.spyOn(Routine, 'run');
       const clock = lolex.install();
-      routineService.start({
-        routineId: 'test',
-        enabled: true,
-        interval: '* * * * * *',
-        nextRunAt: new Date('2018-01-01'),
-      });
+      routineService.start(
+        createRoutine({
+          routineId: 'test',
+          enabled: true,
+          interval: '* * * * * *',
+          nextRunAt: new Date('2018-01-01'),
+        }),
+      );
 
       routineService.stop('unknow');
       clock.next();

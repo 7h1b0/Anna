@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import * as Room from '../modules/models/room';
+import * as Room from 'modules/models/room';
 
 const routes = Router();
 routes

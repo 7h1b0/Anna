@@ -1,4 +1,4 @@
-import * as Ajv from 'ajv';
+import Ajv from 'ajv';
 import * as uuidv4 from 'uuid/v4';
 import knex from '../../knexClient';
 import sceneSchema from '../schemas/scene';

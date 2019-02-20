@@ -1,4 +1,4 @@
-import { findByToken } from '../modules/models/user';
+import { findByToken } from 'modules/models/user';
 
 export default async function authenticationMiddleware(req, res, next) {
   const authFail = () => res.sendStatus(401);

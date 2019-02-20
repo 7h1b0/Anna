@@ -1,8 +1,8 @@
 import TYPES from './type';
 import { AnnaAction } from './actions';
 import { findById as findSceneById } from './models/scene';
-import { setLightState } from '../services/hueService';
-import dioAdd from '../services/dioService';
+import { setLightState } from 'services/hueService';
+import dioAdd from 'services/dioService';
 
 export default async function dispatch(action: AnnaAction): Promise<any> {
   switch (action.type) {

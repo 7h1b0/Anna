@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import dispatch from '../modules/dispatch';
-import { callScene } from '../modules/actions';
-import * as Alias from '../modules/models/alias';
+import dispatch from 'modules/dispatch';
+import { callScene } from 'modules/actions';
+import * as Alias from 'modules/models/alias';
 
 const routes = Router();
 

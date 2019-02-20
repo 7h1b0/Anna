@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import * as Routine from '../modules/models/routine';
-import * as RoutineService from '../services/routineService';
-import * as logger from '../modules/logger';
+import * as Routine from 'modules/models/routine';
+import * as RoutineService from 'services/routineService';
+import * as logger from 'modules/logger';
 
 const routes = Router();
 routes

@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import * as hueService from '../services/hueService';
-import dispatch from '../modules/dispatch';
-import * as HueLight from '../modules/models/hueLight';
-import { toggleHueLight } from '../modules/actions';
+import * as hueService from 'services/hueService';
+import dispatch from 'modules/dispatch';
+import * as HueLight from 'modules/models/hueLight';
+import { toggleHueLight } from 'modules/actions';
 
 const routes = Router();
 function getState({ on, sat, xy, bri }) {

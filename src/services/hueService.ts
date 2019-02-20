@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 import { HUE_IP, HUE_TOKEN } from '../constants';
-import { findAll, findRoomId } from '../modules/models/hueLight';
+import { findAll, findRoomId } from 'modules/models/hueLight';
 
 const api = `http://${HUE_IP}/api/${HUE_TOKEN}`;
 

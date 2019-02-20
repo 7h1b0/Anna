@@ -1,5 +1,5 @@
 import request from 'supertest';
-import createUser from 'createUser';
+import { createUser } from 'factories';
 import knex from '../../knexClient';
 import * as User from '../../modules/models/user';
 import app from '../../index.js';
@@ -25,12 +25,21 @@ describe('About API', () => {
 
   describe('/api', () => {
     it('should returns information about api', async () => {
-      Scene.findAll = jest.fn(() => Promise.resolve('scenes'));
-      Dio.findAll = jest.fn(() => Promise.resolve('dios'));
-      Alias.findAll = jest.fn(() => Promise.resolve('alias'));
-      Room.findAll = jest.fn(() => Promise.resolve('rooms'));
-      Routine.findAll = jest.fn(() => Promise.resolve('routines'));
-      hueService.getLights = jest.fn(() => Promise.resolve('hueLights'));
+      jest
+        .spyOn(Scene, 'findAll')
+        .mockImplementation(() => Promise.resolve([]));
+
+      jest.spyOn(Dio, 'findAll').mockImplementation(() => Promise.resolve([]));
+      jest
+        .spyOn(Alias, 'findAll')
+        .mockImplementation(() => Promise.resolve([]));
+      jest.spyOn(Room, 'findAll').mockImplementation(() => Promise.resolve([]));
+      jest
+        .spyOn(Routine, 'findAll')
+        .mockImplementation(() => Promise.resolve([]));
+      jest
+        .spyOn(hueService, 'getLights')
+        .mockImplementation(() => Promise.resolve([]));
 
       const response = await request(app)
         .get('/api')
@@ -40,12 +49,12 @@ describe('About API', () => {
 
       expect(response.status).toHaveStatusOk();
       expect(response.body).toEqual({
-        scenes: 'scenes',
-        dios: 'dios',
-        alias: 'alias',
-        rooms: 'rooms',
-        routines: 'routines',
-        hueLights: 'hueLights',
+        scenes: [],
+        dios: [],
+        alias: [],
+        rooms: [],
+        routines: [],
+        hueLights: [],
       });
     });
 

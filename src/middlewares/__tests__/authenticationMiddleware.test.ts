@@ -1,7 +1,7 @@
 import knex from '../../knexClient';
 import * as User from '../../modules/models/user';
 import authenticationMiddleware from '../authenticationMiddleware';
-import createUser from 'createUser';
+import { createUser } from 'factories';
 
 const userTest = createUser();
 

@@ -92,7 +92,7 @@ describe('Scene', () => {
     });
 
     it('should not delete a scene', async () => {
-      await Scene.remove(-1);
+      await Scene.remove('-1');
       const scenes = await knex(Scene.TABLE).select();
       const actions = await knex(Action.TABLE).select();
       expect(scenes).toHaveLength(initScenes.length);
@@ -201,19 +201,18 @@ describe('Scene', () => {
       const fakeSceneId = 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f';
       const updatedScene = {
         sceneId: fakeSceneId,
-        description: 'this is an updated second test',
         name: 'scene_2',
+        description: 'this is an updated second test',
+        createdBy: 'test',
         actions: [
           {
+            id: '2',
             type: 'DIO',
-            name: 'action turn off',
-            targetId: 2,
             body: { on: false },
           },
           {
+            id: '4',
             type: 'DIO',
-            name: 'action turn off',
-            targetId: 4,
             body: { on: true },
           },
         ],

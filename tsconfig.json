@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "*": ["*", "src/*", "test/factories/*"]
+      "*": ["*", "src/*", "test/*"]
     },
     "types": ["node", "express", "jest", "jest-matcher-utils"],
     "strictPropertyInitialization": true,

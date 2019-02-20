@@ -5,8 +5,8 @@ import {
   computeNextRunAt,
   updateAllNextRunAt,
   Routine,
-} from '../modules/models/routine';
-import * as logger from '../modules/logger';
+} from 'modules/models/routine';
+import * as logger from 'modules/logger';
 
 export const processes: Map<string, NodeJS.Timeout> = new Map();
 

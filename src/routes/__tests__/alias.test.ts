@@ -1,5 +1,5 @@
 import request from 'supertest';
-import createUser from 'createUser';
+import { createUser } from 'factories';
 import knex from '../../knexClient';
 import * as Alias from '../../modules/models/alias';
 import * as User from '../../modules/models/user';

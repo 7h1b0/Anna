@@ -1,6 +1,6 @@
 import request from 'supertest';
 import lolex from 'lolex';
-import createUser from 'createUser';
+import { createUser } from 'factories';
 import knex from '../../knexClient';
 import * as Routine from '../../modules/models/routine';
 import * as RoutineService from '../../services/routineService';

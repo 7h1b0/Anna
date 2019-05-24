@@ -5,7 +5,7 @@ import knex from '../../knexClient';
 import * as Routine from '../../modules/models/routine';
 import * as RoutineService from '../../services/routineService';
 import * as User from '../../modules/models/user';
-import app from '../../index.js';
+import app from '../../index';
 
 const user = createUser({ userId: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f' });
 const initRoutines = [
@@ -344,6 +344,8 @@ describe('Routine API', () => {
       expect(response.status).toHaveStatusOk();
       expect(response.body).toEqual({});
       expect(Routine.run).toHaveBeenCalled();
+
+      // @ts-ignore
       expect(Routine.run.mock.calls).toMatchSnapshot();
 
       spy.mockRestore();

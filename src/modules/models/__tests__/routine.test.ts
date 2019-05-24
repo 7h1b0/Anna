@@ -16,6 +16,7 @@ const initRoutines = [
     createdBy: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f',
     createdAt: new Date('2018-01-01'),
     updatedAt: new Date('2018-01-02'),
+    nextRunAt: new Date('2018-01-02'),
   },
   {
     routineId: '1fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
@@ -27,6 +28,7 @@ const initRoutines = [
     createdBy: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f',
     createdAt: new Date('2018-01-01'),
     updatedAt: new Date('2018-01-02'),
+    nextRunAt: new Date('2018-01-02'),
   },
 ];
 
@@ -57,7 +59,7 @@ describe('Routines', () => {
     });
 
     it('should return undefined', async () => {
-      const result = await Routine.findById(-1);
+      const result = await Routine.findById('-1');
       expect(result).toBeUndefined();
     });
   });

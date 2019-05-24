@@ -52,13 +52,13 @@ export async function save({
   sceneId,
   name,
   description,
-  userId,
+  createdBy,
   enabled = true,
 }: {
   sceneId: string;
   name: string;
   description: string;
-  userId: string;
+  createdBy: string;
   enabled?: boolean;
 }): Promise<string> {
   const aliasId = uuidv4();
@@ -68,7 +68,7 @@ export async function save({
     description,
     name,
     enabled,
-    createdBy: userId,
+    createdBy,
   });
   return aliasId;
 }

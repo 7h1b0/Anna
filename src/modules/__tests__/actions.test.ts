@@ -22,7 +22,7 @@ describe('Actions', () => {
     ],
   ])('toggleDio', (a, b, expected) => {
     it('should return a valid object', () => {
-      expect(actions.toggleDio(a, b)).toEqual(expected);
+      expect(actions.toggleDio(a as string, b as boolean)).toEqual(expected);
     });
   });
 
@@ -47,7 +47,9 @@ describe('Actions', () => {
     ],
   ])('toggleHueLight', (a, b, expected) => {
     it('should return a valid object', () => {
-      expect(actions.toggleHueLight(a, b)).toEqual(expected);
+      expect(actions.toggleHueLight(a as string, b as boolean)).toEqual(
+        expected,
+      );
     });
   });
 

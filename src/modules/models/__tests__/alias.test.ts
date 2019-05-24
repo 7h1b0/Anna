@@ -50,7 +50,7 @@ describe('Alias', () => {
     });
 
     it('should return undefined', async () => {
-      const result = await Alias.findById(-1);
+      const result = await Alias.findById('-1');
       expect(result).toBeUndefined();
     });
   });
@@ -62,7 +62,7 @@ describe('Alias', () => {
         name: 'test_3',
         description: 'test',
         enabled: false,
-        userId: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f',
+        createdBy: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f',
       };
 
       const aliasId = await Alias.save(save);
@@ -79,11 +79,11 @@ describe('Alias', () => {
 
     it('should accept when an alias as a name already taken', async () => {
       const save = {
-        aliasId: 3,
-        sceneId: 1,
+        sceneId: '1',
         name: 'test',
         description: 'test',
         enabled: false,
+        createdBy: '',
       };
 
       await expect(Alias.save(save)).resolves.toBeDefined();
@@ -102,7 +102,7 @@ describe('Alias', () => {
     });
 
     it('should not delete an alias', async () => {
-      await Alias.remove(-1);
+      await Alias.remove('-1');
       const alias = await knex(Alias.TABLE).select();
       expect(alias).toHaveLength(initAlias.length);
     });
@@ -127,7 +127,7 @@ describe('Alias', () => {
     });
 
     it('should not update an alias if id is unknow', async () => {
-      await Alias.findByIdAndUpdate(-1, { name: 'updated' });
+      await Alias.findByIdAndUpdate('-1', { name: 'updated' });
       const alias = await knex(Alias.TABLE).select();
       expect(alias).toMatchSnapshot();
     });

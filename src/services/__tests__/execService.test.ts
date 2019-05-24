@@ -7,7 +7,10 @@ describe('execService', () => {
   it('should return fake_test', () => {
     expect(execService('fake_script')).resolves.toBeDefined();
     expect(child_process.exec).toHaveBeenCalledTimes(1);
-    expect(child_process.exec.mock.calls[0][0]).toEqual('fake_script');
+    expect(child_process.exec).toHaveBeenCalledWith(
+      'fake_script',
+      expect.any(Function),
+    );
   });
 
   it('should return error', () => {

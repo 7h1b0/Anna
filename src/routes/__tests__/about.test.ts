@@ -2,7 +2,7 @@ import request from 'supertest';
 import { createUser } from 'factories';
 import knex from '../../knexClient';
 import * as User from '../../modules/models/user';
-import app from '../../index.js';
+import app from '../../index';
 
 import * as Scene from '../../modules/models/scene';
 import * as Dio from '../../modules/models/dio';

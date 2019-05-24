@@ -92,7 +92,7 @@ describe('Dio', () => {
       const rowsAffected = await Dio.findByIdAndUpdate(1, {
         roomId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b3',
         name: 'updated',
-        dioId: '2',
+        dioId: 2,
       });
       expect(rowsAffected).toBe(1);
       const dios = await knex(Dio.TABLE).select();

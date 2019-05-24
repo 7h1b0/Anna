@@ -20,7 +20,7 @@ before_script:
 
 script:
   - npm run prettier:check
-  - npm run tsc
+  - npm run type:check
   # - npm run coverage
   # - npm run build:package
 

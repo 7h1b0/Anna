@@ -3,7 +3,7 @@ import { createUser } from 'factories';
 import knex from '../../knexClient';
 import * as User from '../../modules/models/user';
 import * as hueLight from '../../modules/models/hueLight';
-import app from '../../index.js';
+import app from '../../index';
 import fetch from 'node-fetch';
 
 jest.mock('node-fetch');

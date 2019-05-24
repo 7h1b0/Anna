@@ -3,7 +3,7 @@ import { createUser } from 'factories';
 import knex from 'knexClient';
 import * as Dio from 'modules/models/dio';
 import * as User from 'modules/models/user';
-import app from '../../index.js';
+import app from '../../index';
 import dispatch from 'modules/dispatch';
 
 jest.mock('../../modules/dispatch');

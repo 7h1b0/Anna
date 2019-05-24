@@ -1,6 +1,6 @@
 module.exports = {
   testEnvironment: 'jest-environment-node',
-  moduleDirectories: ['node_modules', 'test/factories'],
+  moduleDirectories: ['node_modules', 'test', 'src'],
   // globalSetup: '<rootDir>/test/setupDatabase.js',
   setupFilesAfterEnv: ['<rootDir>/test/setup.ts'],
   transform: {

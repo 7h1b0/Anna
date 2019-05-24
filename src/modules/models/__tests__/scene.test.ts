@@ -127,6 +127,7 @@ describe('Scene', () => {
         ],
       };
 
+      // @ts-ignore
       const id = await Scene.save(scene);
       expect(id).toMatch(/[a-fA-F0-9-]{36}/);
 
@@ -151,6 +152,7 @@ describe('Scene', () => {
         sceneId: initScenes[1].sceneId,
         description: 'this is an updated second test',
         name: 'scene_2',
+        createdBy: '',
         actions: [
           {
             type: 'DIO',
@@ -167,6 +169,7 @@ describe('Scene', () => {
         ],
       };
 
+      // @ts-ignore
       await Scene.findByIdAndUpdate(updatedScene);
 
       const scenes = await knex(Scene.TABLE)
@@ -218,6 +221,7 @@ describe('Scene', () => {
         ],
       };
 
+      // @ts-ignore
       const res = await Scene.findByIdAndUpdate(updatedScene);
       expect(res).toBe(0);
 

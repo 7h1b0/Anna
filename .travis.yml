@@ -19,10 +19,11 @@ before_script:
   - mysql -e 'CREATE DATABASE `anna-test`;'
 
 script:
+  - npm run db:migrate
   - npm run prettier:check
   - npm run type:check
-  # - npm run coverage
-  # - npm run build:package
+  - npm run coverage
+  - npm run build:package
 
 notifications:
   email:

@@ -30,9 +30,7 @@ module.exports = {
       return callback();
     },
   ],
-  plugins: [
-    new CleanWebpackPlugin(path.join(__dirname, 'dist'), { verbose: false }),
-  ],
+  plugins: [new CleanWebpackPlugin({ verbose: false })],
   bail: true,
   node: false,
   stats: {

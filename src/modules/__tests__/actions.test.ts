@@ -8,7 +8,7 @@ describe('Actions', () => {
       {
         type: 'DIO',
         body: { on: true },
-        id: '2',
+        targetId: '2',
       },
     ],
     [
@@ -17,7 +17,7 @@ describe('Actions', () => {
       {
         type: 'DIO',
         body: { on: false },
-        id: '5',
+        targetId: '5',
       },
     ],
   ])('toggleDio', (a, b, expected) => {
@@ -33,7 +33,7 @@ describe('Actions', () => {
       {
         type: 'HUE_LIGHT',
         body: { on: true },
-        id: '1',
+        targetId: '1',
       },
     ],
     [
@@ -42,7 +42,7 @@ describe('Actions', () => {
       {
         type: 'HUE_LIGHT',
         body: { on: false },
-        id: '4',
+        targetId: '4',
       },
     ],
   ])('toggleHueLight', (a, b, expected) => {
@@ -57,7 +57,7 @@ describe('Actions', () => {
     it('should return a valid object', () => {
       const expected = {
         type: 'SCENE',
-        id: '1',
+        targetId: '1',
       };
 
       expect(actions.callScene('1')).toEqual(expected);

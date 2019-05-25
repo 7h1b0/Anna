@@ -1,4 +1,4 @@
-import request from 'supertest';
+import * as request from 'supertest';
 import { createUser } from 'factories';
 import knex from '../../knexClient';
 import * as Room from '../../modules/models/room';

@@ -25,12 +25,10 @@ export async function findById(dioId: number): Promise<Dio> {
     .where('dioId', dioId);
 }
 
-export function save(newDio: Dio) {
+export async function save(newDio: Dio): Promise<Dio> {
   return knex(TABLE)
     .insert(newDio)
-    .then(() => {
-      return newDio;
-    });
+    .then(() => newDio);
 }
 
 export function remove(dioId: number) {
@@ -40,7 +38,8 @@ export function remove(dioId: number) {
 }
 
 export function findByIdAndUpdate(dioId: number, payload: Partial<Dio>) {
+  const { dioId: ignore, ...dio } = payload;
   return knex(TABLE)
-    .update(payload)
+    .update(dio)
     .where('dioId', dioId);
 }

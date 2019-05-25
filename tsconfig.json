@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
+    "incremental": true,
+    "tsBuildInfoFile": "./build_cache/anna",
     "paths": {
       "*": ["*", "src/*", "test/*"]
     },

@@ -1,4 +1,4 @@
-import request from 'supertest';
+import * as request from 'supertest';
 import { createUser } from 'factories';
 import knex from '../../knexClient';
 import * as Alias from '../../modules/models/alias';
@@ -322,7 +322,7 @@ describe('Alias API', () => {
       expect(dispatch).toHaveBeenCalledTimes(1);
       expect(dispatch).toHaveBeenCalledWith({
         type: 'SCENE',
-        id: 'fa1834fe-40c8-4a6f-9b74-b79be7694644',
+        targetId: 'fa1834fe-40c8-4a6f-9b74-b79be7694644',
       });
     });
 

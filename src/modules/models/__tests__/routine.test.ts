@@ -1,4 +1,4 @@
-import lolex from 'lolex';
+import * as lolex from 'lolex';
 import knex from '../../../knexClient';
 import * as Routine from '../routine';
 import dispatch from '../../dispatch';
@@ -210,7 +210,7 @@ describe('Routines', () => {
       );
       expect(dispatch).toHaveBeenCalledWith({
         type: 'SCENE',
-        id: initRoutines[0].sceneId,
+        targetId: initRoutines[0].sceneId,
       });
     });
 

@@ -87,7 +87,7 @@ export async function save(
   runAtBankHoliday?: boolean,
 ) {
   const routineId = uuidv4();
-  const nextRunAt = computeNextRunAt(interval, runAtBankHoliday).getTime();
+  const nextRunAt = computeNextRunAt(interval, runAtBankHoliday);
 
   const routine = new Routine(
     routineId,

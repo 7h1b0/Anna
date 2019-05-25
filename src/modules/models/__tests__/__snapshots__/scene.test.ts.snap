@@ -36,7 +36,7 @@ exports[`Scene findByIdAndUpdate should update a scene: first action 1`] = `
 Object {
   "actionId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,
   "body": "{\\"on\\":false}",
-  "name": "action turn off",
+  "name": null,
   "sceneId": "110c80e8-49e4-4d6b-b966-4fc9fb98879f",
   "targetId": 2,
   "type": "DIO",
@@ -47,7 +47,7 @@ exports[`Scene findByIdAndUpdate should update a scene: second action 1`] = `
 Object {
   "actionId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,
   "body": "{\\"on\\":true}",
-  "name": "action turn off",
+  "name": null,
   "sceneId": "110c80e8-49e4-4d6b-b966-4fc9fb98879f",
   "targetId": 4,
   "type": "DIO",
@@ -57,7 +57,7 @@ Object {
 exports[`Scene save should save a new scene 1`] = `
 Object {
   "createdAt": Any<Number>,
-  "createdBy": "75442486-0878-440c-9db1-a7006c25a39f",
+  "createdBy": "",
   "description": "save test",
   "name": "scene_3",
   "sceneId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,

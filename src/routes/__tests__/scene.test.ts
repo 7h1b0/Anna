@@ -1,4 +1,4 @@
-import request from 'supertest';
+import * as request from 'supertest';
 import { createUser } from 'factories';
 import knex from '../../knexClient';
 import * as Scene from '../../modules/models/scene';
@@ -354,7 +354,7 @@ describe('Scene API', () => {
       expect(response.status).toHaveStatusOk();
       expect(dispatch).toHaveBeenCalledWith({
         type: 'SCENE',
-        id: initScenes[1].sceneId,
+        targetId: initScenes[1].sceneId,
       });
     });
 

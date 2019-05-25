@@ -22,9 +22,9 @@ export async function findBySceneId(sceneId: string): Promise<AnnaAction[]> {
         try {
           const body = JSON.parse(entry.body);
           if (entry.type === TYPES.DIO) {
-            return acc.concat([new ToggleDio(entry.sceneId, body)]);
+            return acc.concat([new ToggleDio(entry.targetId, body)]);
           }
-          return acc.concat(new ToggleHueLight(entry.sceneId, body));
+          return acc.concat(new ToggleHueLight(entry.targetId, body));
         } catch (e) {
           logger.error(`Body of entry #${entry.name} is malformed`);
           return acc;

@@ -1,4 +1,4 @@
-import request from 'supertest';
+import * as request from 'supertest';
 import { createUser } from 'factories';
 import knex from 'knexClient';
 import * as Dio from 'modules/models/dio';
@@ -264,7 +264,7 @@ describe('Dio API', () => {
       expect(response.status).toHaveStatusOk();
       expect(dispatch).toHaveBeenCalledWith({
         type: 'DIO',
-        id: '1',
+        targetId: '1',
         body: { on: true },
       });
     });

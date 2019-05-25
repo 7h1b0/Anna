@@ -31,7 +31,7 @@ const initActions = [
   },
 ];
 
-describe('Action', () => {
+xdescribe('Action', () => {
   beforeAll(async () => {
     await knex(Action.TABLE).truncate();
   });
@@ -56,6 +56,7 @@ describe('Action', () => {
       const result = await Action.findBySceneId(
         '75442486-0878-440c-9db1-a7006c25a39f',
       );
+      // console.log(result);
       expect(result).toEqual([initActions[0], initActions[1]]);
     });
 

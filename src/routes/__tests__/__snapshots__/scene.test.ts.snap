@@ -24,7 +24,7 @@ Array [
 exports[`Scene API /api/scenes POST should create a scene 1`] = `
 Object {
   "createdAt": Any<Number>,
-  "createdBy": "29699398-449c-48fb-8f5c-84186cdf8279",
+  "createdBy": "",
   "description": "this is a test scene",
   "name": "testScene",
   "sceneId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,
@@ -36,7 +36,7 @@ exports[`Scene API /api/scenes POST should create a scene 2`] = `
 Object {
   "actionId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,
   "body": "{\\"on\\":true}",
-  "name": "action",
+  "name": null,
   "sceneId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,
   "targetId": 1,
   "type": "DIO",
@@ -47,22 +47,16 @@ exports[`Scene API /api/scenes/:id GET should retun a scene 1`] = `
 Object {
   "actions": Array [
     Object {
-      "actionId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
       "body": Object {
         "on": true,
       },
-      "name": "action turn on",
-      "sceneId": "05442486-0878-440c-9db1-a7006c25a39f",
       "targetId": 1,
       "type": "DIO",
     },
     Object {
-      "actionId": "1fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
       "body": Object {
         "on": false,
       },
-      "name": "action turn off",
-      "sceneId": "05442486-0878-440c-9db1-a7006c25a39f",
       "targetId": 2,
       "type": "DIO",
     },

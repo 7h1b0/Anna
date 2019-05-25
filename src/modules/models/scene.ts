@@ -1,4 +1,4 @@
-import Ajv from 'ajv';
+import * as Ajv from 'ajv';
 import * as uuidv4 from 'uuid/v4';
 import knex from '../../knexClient';
 import sceneSchema from '../schemas/scene';
@@ -91,7 +91,7 @@ export async function findByIdAndUpdate({
               const actionId = uuidv4();
               const formatedAction = {
                 type: action.type,
-                targetId: action.id,
+                targetId: action.targetId,
                 sceneId,
                 actionId,
                 body: JSON.stringify(action.body),
@@ -129,7 +129,7 @@ export async function save({
     const insertIntoActions = actions.map(action => {
       const formatedAction = {
         type: action.type,
-        targetId: action.id,
+        targetId: action.targetId,
         sceneId,
         body: JSON.stringify(action.body),
         actionId: uuidv4(),

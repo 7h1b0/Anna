@@ -2,7 +2,7 @@ import * as routineService from '../routineService';
 import knex from 'knexClient';
 import * as Routine from 'modules/models/routine';
 import { createRoutine } from 'factories';
-import * as lolex from 'lolex';
+import lolex from 'lolex';
 
 jest.mock('../../modules/dispatch');
 
@@ -31,7 +31,7 @@ const initRoutines = [
   },
 ];
 
-xdescribe('routineService', () => {
+describe('routineService', () => {
   afterEach(() => {});
 
   beforeAll(async () => {

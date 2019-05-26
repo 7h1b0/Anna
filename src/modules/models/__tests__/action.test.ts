@@ -1,6 +1,7 @@
 import knex from '../../../knexClient';
 import * as Action from '../action';
 import * as logger from '../../logger';
+import { omit } from 'modules/utils';
 
 jest.mock('../../logger');
 
@@ -31,7 +32,7 @@ const initActions = [
   },
 ];
 
-xdescribe('Action', () => {
+describe('Action', () => {
   beforeAll(async () => {
     await knex(Action.TABLE).truncate();
   });
@@ -56,8 +57,11 @@ xdescribe('Action', () => {
       const result = await Action.findBySceneId(
         '75442486-0878-440c-9db1-a7006c25a39f',
       );
-      // console.log(result);
-      expect(result).toEqual([initActions[0], initActions[1]]);
+      const ignoredKeys = ['actionId', 'name', 'sceneId'];
+      expect(result).toEqual([
+        omit(initActions[0], ignoredKeys),
+        omit(initActions[1], ignoredKeys),
+      ]);
     });
 
     it('should handle when a body if malformed', async () => {

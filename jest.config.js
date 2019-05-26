@@ -1,7 +1,6 @@
 module.exports = {
   testEnvironment: 'jest-environment-node',
   moduleDirectories: ['node_modules', 'test', 'src'],
-  // globalSetup: '<rootDir>/test/setupDatabase.js',
   setupFilesAfterEnv: ['<rootDir>/test/setup.ts'],
   transform: {
     '^.+\\.ts$': 'ts-jest',
@@ -12,9 +11,9 @@ module.exports = {
   coveragePathIgnorePatterns: ['/node_modules/', '/test/'],
   coverageThreshold: {
     global: {
-      branches: 75,
-      functions: 75,
-      lines: 75,
+      branches: 80,
+      functions: 80,
+      lines: 80,
     },
   },
 };

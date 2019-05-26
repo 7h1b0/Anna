@@ -2,29 +2,17 @@ import uuidv4 from 'uuid/v4';
 import { User } from 'modules/models/user';
 import { Routine } from 'modules/models/routine';
 
-export function createUser(user = {}): User {
-  const defaultProps = {
+export function createUser(user: Partial<User> = {}): User {
+  return {
     username: 'test',
     password: '$2a$10$4ftuQxquI/5NR3POJy.2O.DmscxoSdCBzUvlnX2iXGMxtpqhd3w6O',
     token: 'token_test',
     userId: uuidv4(),
+    ...user,
   };
-
-  return { ...defaultProps, ...user };
 }
 
-export function createRoutine(options = {}): Routine {
-  const defaultProps = {
-    routineId: 'routineId',
-    sceneId: 'sceneId',
-    name: 'this_is_a_name',
-    interval: '* * * * * *',
-    nextRunAt: new Date(),
-    createdBy: 'test',
-    enabled: true,
-    runAtBankHoliday: true,
-  };
-
+export function createRoutine(options: Partial<Routine> = {}): Routine {
   const {
     routineId,
     sceneId,
@@ -35,7 +23,14 @@ export function createRoutine(options = {}): Routine {
     enabled,
     runAtBankHoliday,
   } = {
-    ...defaultProps,
+    routineId: 'routineId',
+    sceneId: 'sceneId',
+    name: 'this_is_a_name',
+    interval: '* * * * * *',
+    nextRunAt: new Date(),
+    createdBy: 'test',
+    enabled: true,
+    runAtBankHoliday: true,
     ...options,
   };
   return new Routine(

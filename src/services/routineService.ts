@@ -1,4 +1,3 @@
-import { clearTimeout, setTimeout } from 'timers';
 import {
   run,
   findAll,

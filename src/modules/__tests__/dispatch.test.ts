@@ -6,9 +6,7 @@ import { SceneAction } from 'modules/models/scene';
 import { toggleHueLight } from 'modules/actions';
 import TYPES from '../type';
 
-jest.mock('../../services/dioService', () => ({
-  default: jest.fn(async () => {}),
-}));
+jest.mock('../../services/dioService', () => jest.fn(async () => {}));
 
 describe('Dispatch', () => {
   beforeAll(() => {

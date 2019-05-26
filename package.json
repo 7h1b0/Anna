@@ -53,6 +53,6 @@
     "build": "webpack",
     "build:package": "npm run build && pkg -t node10-linux-armv7 ./dist/index.js --public --no-bytecode -o anna-armv7",
     "type:check": "tsc --noEmit",
-    "prettier:check": "prettier --list-different \"src/**/*.ts\""
+    "format:check": "prettier --list-different \"src/**/*.ts\""
   }
 }

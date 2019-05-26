@@ -79,7 +79,7 @@ export function remove(aliasId: string) {
     .del();
 }
 
-export function findByIdAndUpdate(aliasId: string, payload: object) {
+export function findByIdAndUpdate(aliasId: string, payload: Partial<Alias>) {
   const safePayload = omit(payload, [
     'aliasId',
     'createdAt',

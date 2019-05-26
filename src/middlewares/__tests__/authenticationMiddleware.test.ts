@@ -27,6 +27,7 @@ describe('authenticationMiddleware', () => {
     const res = { sendStatus: jest.fn(), locals: {} };
     const next = jest.fn();
 
+    // @ts-ignore
     await authenticationMiddleware(req, res, next);
     expect(next).toHaveBeenCalled();
   });
@@ -40,6 +41,7 @@ describe('authenticationMiddleware', () => {
     const res = { sendStatus: jest.fn(), locals: {} };
     const next = jest.fn();
 
+    // @ts-ignore
     await authenticationMiddleware(req, res, next);
     expect((res.locals as any).user).toEqual({
       userId: userTest.userId,
@@ -56,6 +58,7 @@ describe('authenticationMiddleware', () => {
     const res = { sendStatus: jest.fn() };
     const next = jest.fn();
 
+    // @ts-ignore
     await authenticationMiddleware(req, res, next);
     expect(res.sendStatus).toHaveBeenCalledWith(401);
     expect(next).toHaveBeenCalledTimes(0);
@@ -66,6 +69,7 @@ describe('authenticationMiddleware', () => {
     const res = { sendStatus: jest.fn() };
     const next = jest.fn();
 
+    // @ts-ignore
     await authenticationMiddleware(req, res, next);
     expect(res.sendStatus).toHaveBeenCalledWith(401);
     expect(next).toHaveBeenCalledTimes(0);

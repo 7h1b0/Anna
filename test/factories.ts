@@ -1,4 +1,4 @@
-import * as uuidv4 from 'uuid/v4';
+import uuidv4 from 'uuid/v4';
 import { User } from 'modules/models/user';
 import { Routine } from 'modules/models/routine';
 

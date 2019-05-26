@@ -1,5 +1,5 @@
-import * as Ajv from 'ajv';
-import * as uuidv4 from 'uuid/v4';
+import Ajv from 'ajv';
+import uuidv4 from 'uuid/v4';
 import userSchema from '../schemas/user';
 import knex from '../../knexClient';
 import { omit } from '../utils';

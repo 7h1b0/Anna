@@ -1,4 +1,4 @@
-import * as Ajv from 'ajv';
+import Ajv from 'ajv';
 import dioSchema from '../schemas/dio';
 import knex from '../../knexClient';
 
@@ -38,7 +38,7 @@ export function remove(dioId: number) {
 }
 
 export function findByIdAndUpdate(dioId: number, payload: Partial<Dio>) {
-  const { dioId: ignore, ...dio } = payload;
+  const { dioId: ignored, ...dio } = payload;
   return knex(TABLE)
     .update(dio)
     .where('dioId', dioId);

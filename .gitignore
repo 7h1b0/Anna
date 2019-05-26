@@ -45,7 +45,6 @@ bdd.json
 *.sqlite3
 *.sqlite3-journal
 coverage/*
-build_cache/
 dist/*
 anna-*
 

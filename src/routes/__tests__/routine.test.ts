@@ -1,4 +1,4 @@
-import * as request from 'supertest';
+import request from 'supertest';
 import * as lolex from 'lolex';
 import { createUser } from 'factories';
 import knex from '../../knexClient';

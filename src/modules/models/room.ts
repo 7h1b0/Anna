@@ -1,10 +1,9 @@
-import * as Ajv from 'ajv';
-import * as uuidv4 from 'uuid/v4';
+import Ajv from 'ajv';
+import uuidv4 from 'uuid/v4';
 import roomSchema from '../schemas/room';
 import knex from '../../knexClient';
 import * as Dio from './dio';
 import * as HueLight from './hueLight';
-import { omit } from '../utils';
 
 export const TABLE = 'rooms';
 export const COLUMNS = [
@@ -81,15 +80,10 @@ export async function remove(roomId: string): Promise<number> {
 
 export async function findByIdAndUpdate(
   roomId: string,
-  payload: object,
+  payload: Partial<Room>,
 ): Promise<number> {
-  const safePayload = omit(payload, [
-    'roomId',
-    'createdAt',
-    'updatedAt',
-    'createdBy',
-  ]);
+  const { roomId: ignored, ...room } = payload;
   return knex(TABLE)
-    .update(safePayload)
+    .update(room)
     .where('roomId', roomId);
 }

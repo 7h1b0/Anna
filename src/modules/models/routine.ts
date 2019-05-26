@@ -1,6 +1,6 @@
-import * as Ajv from 'ajv';
+import Ajv from 'ajv';
 import * as parser from 'cron-parser';
-import * as uuidv4 from 'uuid/v4';
+import uuidv4 from 'uuid/v4';
 import knex from '../../knexClient';
 import routineSchema from '../schemas/routine';
 import dispatch from '../dispatch';

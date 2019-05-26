@@ -1,17 +1,16 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "incremental": true,
-    "tsBuildInfoFile": "./build_cache/anna",
     "paths": {
       "*": ["*", "src/*", "test/*"]
     },
     "types": ["node", "express", "jest", "jest-matcher-utils"],
     "strictPropertyInitialization": true,
-    "outDir": "./dist",
+    "outDir": "dist",
 
-    "moduleResolution": "node",
-    "target": "es2017",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "es6",
 
     "strict": true,
 

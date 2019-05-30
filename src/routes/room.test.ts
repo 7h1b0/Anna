@@ -1,9 +1,9 @@
 import request from 'supertest';
 import { createUser } from 'factories';
-import knex from '../../knexClient';
-import * as Room from '../../modules/models/room';
-import * as User from '../../modules/models/user';
-import app from '../../index';
+import knex from '../knexClient';
+import * as Room from '../modules/models/room';
+import * as User from '../modules/models/user';
+import app from '../index';
 
 const user = createUser({ userId: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f' });
 const initRooms = [

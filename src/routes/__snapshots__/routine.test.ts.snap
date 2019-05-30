@@ -50,6 +50,24 @@ Array [
 ]
 `;
 
+exports[`Routine API /api/routines POST should save and start a new routine 1`] = `
+Object {
+  "createdAt": Any<Number>,
+  "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
+  "enabled": true,
+  "failReason": null,
+  "interval": "30 * * * * *",
+  "lastFailedAt": 0,
+  "lastRunAt": 0,
+  "name": "new_routine",
+  "nextRunAt": Any<Number>,
+  "routineId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,
+  "runAtBankHoliday": true,
+  "sceneId": "faaed78e-fd1c-4717-b610-65d2fa3d01b2",
+  "updatedAt": Any<Number>,
+}
+`;
+
 exports[`Routine API /api/routines/:routineId GET should return one routine 1`] = `
 Object {
   "createdAt": 1514764800000,
@@ -65,6 +83,42 @@ Object {
   "runAtBankHoliday": true,
   "sceneId": "00c1d78e-fd1c-4717-b610-65d2fa3d01b2",
   "updatedAt": 1514851200000,
+}
+`;
+
+exports[`Routine API /api/routines/:routineId PATCH should disable routine 1`] = `
+Object {
+  "createdAt": Any<Number>,
+  "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
+  "enabled": false,
+  "failReason": null,
+  "interval": "0 5 * * *",
+  "lastFailedAt": 0,
+  "lastRunAt": 0,
+  "name": "routine_updated",
+  "nextRunAt": Any<Number>,
+  "routineId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
+  "runAtBankHoliday": true,
+  "sceneId": "faaed78e-fd1c-4717-b610-65d2fa3d01b2",
+  "updatedAt": Any<Number>,
+}
+`;
+
+exports[`Routine API /api/routines/:routineId PATCH should enable routine and compute nextRunAt 1`] = `
+Object {
+  "createdAt": Any<Number>,
+  "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
+  "enabled": true,
+  "failReason": null,
+  "interval": "0 12 * * *",
+  "lastFailedAt": 0,
+  "lastRunAt": 0,
+  "name": "routine_updated",
+  "nextRunAt": Any<Number>,
+  "routineId": "2fc1d78e-fd1c-4717-b610-65d2fa3d01b3",
+  "runAtBankHoliday": false,
+  "sceneId": "faaed78e-fd1c-4717-b610-65d2fa3d01b2",
+  "updatedAt": Any<Number>,
 }
 `;
 

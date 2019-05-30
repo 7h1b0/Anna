@@ -1,6 +1,6 @@
-import knex from '../../../knexClient';
-import * as Room from '../room';
-import * as Dio from '../dio';
+import knex from '../../knexClient';
+import * as Room from './room';
+import * as Dio from './dio';
 const initRooms = [
   {
     roomId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',

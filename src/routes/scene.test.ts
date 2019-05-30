@@ -1,13 +1,13 @@
 import request from 'supertest';
 import { createUser } from 'factories';
-import knex from '../../knexClient';
-import * as Scene from '../../modules/models/scene';
-import * as Action from '../../modules/models/action';
-import * as User from '../../modules/models/user';
-import app from '../../index';
-import dispatch from '../../modules/dispatch';
+import knex from '../knexClient';
+import * as Scene from '../modules/models/scene';
+import * as Action from '../modules/models/action';
+import * as User from '../modules/models/user';
+import app from '../index';
+import dispatch from '../modules/dispatch';
 
-jest.mock('../../modules/dispatch');
+jest.mock('../modules/dispatch');
 
 const user = createUser({ userId: '29699398-449c-48fb-8f5c-84186cdf8279' });
 const initScenes = [

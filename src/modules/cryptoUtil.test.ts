@@ -1,4 +1,4 @@
-import * as crypto from '../cryptoUtil';
+import * as crypto from './cryptoUtil';
 
 describe('cryptoUtil', () => {
   describe('hash', () => {

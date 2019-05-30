@@ -1,5 +1,5 @@
-import knex from '../../../knexClient';
-import * as Dio from '../dio';
+import knex from '../../knexClient';
+import * as Dio from './dio';
 const initDios = [
   {
     dioId: 1,

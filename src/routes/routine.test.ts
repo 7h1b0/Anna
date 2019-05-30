@@ -1,11 +1,11 @@
 import request from 'supertest';
 import * as lolex from 'lolex';
 import { createUser } from 'factories';
-import knex from '../../knexClient';
-import * as Routine from '../../modules/models/routine';
-import * as RoutineService from '../../services/routineService';
-import * as User from '../../modules/models/user';
-import app from '../../index';
+import knex from '../knexClient';
+import * as Routine from '../modules/models/routine';
+import * as RoutineService from '../services/routineService';
+import * as User from '../modules/models/user';
+import app from '../index';
 
 const user = createUser({ userId: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f' });
 const initRoutines = [
@@ -107,7 +107,7 @@ describe('Routine API', () => {
         expect(response.status).toBeBadRequest();
       });
 
-      xit('should save and start a new routine', async () => {
+      it('should save and start a new routine', async () => {
         const clock = lolex.install({ now: new Date('2017-08-12T16:00:15') });
         const spy = jest.spyOn(Routine, 'run');
         const response = await request(app)
@@ -221,7 +221,7 @@ describe('Routine API', () => {
         expect(response.status).toBeBadRequest();
       });
 
-      xit('should disable routine', async () => {
+      it('should disable routine', async () => {
         const clock = lolex.install({ now: new Date('2017-08-12T16:00:00') });
         const mock = jest.fn();
 
@@ -261,7 +261,7 @@ describe('Routine API', () => {
         });
       });
 
-      xit('should enable routine and compute nextRunAt', async () => {
+      it('should enable routine and compute nextRunAt', async () => {
         const clock = lolex.install({ now: new Date('2017-08-12T16:00:00') });
 
         const response = await request(app)

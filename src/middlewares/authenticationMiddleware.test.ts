@@ -1,6 +1,6 @@
-import knex from '../../knexClient';
-import * as User from '../../modules/models/user';
-import authenticationMiddleware from '../authenticationMiddleware';
+import knex from '../knexClient';
+import * as User from '../modules/models/user';
+import authenticationMiddleware from './authenticationMiddleware';
 import { createUser } from 'factories';
 
 const userTest = createUser();

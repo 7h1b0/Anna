@@ -1,6 +1,6 @@
-import knex from '../../../knexClient';
-import * as Scene from '../scene';
-import * as Action from '../action';
+import knex from '../../knexClient';
+import * as Scene from './scene';
+import * as Action from './action';
 const initScenes = [
   {
     sceneId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',

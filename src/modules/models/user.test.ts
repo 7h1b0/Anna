@@ -1,5 +1,5 @@
-import knex from '../../../knexClient';
-import * as User from '../user';
+import knex from '../../knexClient';
+import * as User from './user';
 const initUsers = [
   {
     userId: '010c80e8-49e4-4d6b-b966-4fc9fb98879f',

@@ -1,5 +1,5 @@
-import knex from '../../../knexClient';
-import * as Alias from '../alias';
+import knex from '../../knexClient';
+import * as Alias from './alias';
 const initAlias = [
   {
     aliasId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',

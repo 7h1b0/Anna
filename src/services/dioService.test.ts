@@ -1,7 +1,7 @@
-import dioAdd from '../dioService';
-import execService from '../execService';
+import dioAdd from './dioService';
+import execService from './execService';
 
-jest.mock('../execService');
+jest.mock('./execService');
 
 describe('dioService', () => {
   it('should call radioEmission script with valid parameters', async () => {

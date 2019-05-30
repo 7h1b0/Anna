@@ -1,9 +1,9 @@
 import * as lolex from 'lolex';
-import knex from '../../../knexClient';
-import * as Routine from '../routine';
-import dispatch from '../../dispatch';
+import knex from '../../knexClient';
+import * as Routine from './routine';
+import dispatch from '../dispatch';
 
-jest.mock('../../dispatch');
+jest.mock('../dispatch');
 
 const initRoutines = [
   {

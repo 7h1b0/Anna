@@ -1,15 +1,15 @@
 import request from 'supertest';
 import { createUser } from 'factories';
-import knex from '../../knexClient';
-import * as User from '../../modules/models/user';
-import app from '../../index';
+import knex from '../knexClient';
+import * as User from '../modules/models/user';
+import app from '../index';
 
-import * as Scene from '../../modules/models/scene';
-import * as Dio from '../../modules/models/dio';
-import * as Room from '../../modules/models/room';
-import * as Alias from '../../modules/models/alias';
-import * as Routine from '../../modules/models/routine';
-import * as hueService from '../../services/hueService';
+import * as Scene from '../modules/models/scene';
+import * as Dio from '../modules/models/dio';
+import * as Room from '../modules/models/room';
+import * as Alias from '../modules/models/alias';
+import * as Routine from '../modules/models/routine';
+import * as hueService from '../services/hueService';
 
 const user = createUser();
 

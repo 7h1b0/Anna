@@ -16,14 +16,14 @@ export function save(lightId: number, roomId: string) {
   return knex(TABLE).insert({ lightId, roomId });
 }
 
-export function remove(lightId: number) {
+export function remove(lightId: number): Promise<number> {
   return knex(TABLE)
     .where('lightId', lightId)
     .del();
 }
 
-export function findByIdAndUpdate(lightId: number, roomId: string) {
-  return knex(TABLE)
+export async function findByIdAndUpdate(lightId: number, roomId: string) {
+  await knex(TABLE)
     .update({ roomId })
     .where('lightId', lightId);
 }

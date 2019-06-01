@@ -111,7 +111,6 @@ describe('Room', () => {
     it('should update a room safely', async () => {
       const rowsAffected = await Room.findByIdAndUpdate(initRooms[0].roomId, {
         name: 'updated',
-        roomId: 'pwned',
       });
       expect(rowsAffected).toBe(1);
       const room = await knex(Room.TABLE)

@@ -37,9 +37,11 @@ export function remove(dioId: number) {
     .del();
 }
 
-export function findByIdAndUpdate(dioId: number, payload: Partial<Dio>) {
-  const { dioId: ignored, ...dio } = payload;
+export function findByIdAndUpdate(
+  dioId: number,
+  payload: Partial<Omit<Dio, 'dioId'>>,
+) {
   return knex(TABLE)
-    .update(dio)
+    .update(payload)
     .where('dioId', dioId);
 }

@@ -36,7 +36,7 @@ export function findByIdAndUpdate(userId: string, payload) {
     .where('userId', userId);
 }
 
-export async function save(newUser: Pick<User, Exclude<keyof User, 'userId'>>) {
+export async function save(newUser: Omit<User, 'userId'>) {
   const userId = uuidv4();
   await knex(TABLE).insert({ ...newUser, userId });
   return userId;

@@ -80,10 +80,9 @@ export async function remove(roomId: string): Promise<number> {
 
 export async function findByIdAndUpdate(
   roomId: string,
-  payload: Partial<Room>,
+  payload: Partial<Omit<Room, 'roomId'>>,
 ): Promise<number> {
-  const { roomId: ignored, ...room } = payload;
   return knex(TABLE)
-    .update(room)
+    .update(payload)
     .where('roomId', roomId);
 }

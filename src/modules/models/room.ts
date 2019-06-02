@@ -24,7 +24,7 @@ export interface Room {
   createdBy: string;
 }
 
-export function validate(data: any) {
+export function validate(data: unknown) {
   const ajv = new Ajv();
   return ajv.validate(roomSchema, data);
 }

@@ -1,1 +1,1 @@
-export default (received: any) => received === 400;
+export default (received: unknown) => received === 400;

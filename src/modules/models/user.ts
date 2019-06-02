@@ -2,7 +2,6 @@ import Ajv from 'ajv';
 import uuidv4 from 'uuid/v4';
 import userSchema from '../schemas/user';
 import knex from '../../knexClient';
-import { omit } from '../utils';
 
 export const TABLE = 'users';
 
@@ -29,10 +28,12 @@ export async function findByUsername(username: string): Promise<User> {
     .where('username', username);
 }
 
-export function findByIdAndUpdate(userId: string, payload) {
-  const safePayload = omit(payload, ['userId']);
+export function findByIdAndUpdate(
+  userId: string,
+  payload: Partial<Omit<User, 'userId'>>,
+) {
   return knex(TABLE)
-    .update(safePayload)
+    .update(payload)
     .where('userId', userId);
 }
 

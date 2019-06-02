@@ -1,4 +1,4 @@
-export function omit(object: object, props: Array<string> = []): object {
+export function omit(object: object, props: string[] = []): object {
   return Object.keys(object).reduce((acc, key) => {
     if (!props.includes(key)) {
       acc[key] = object[key];
@@ -12,7 +12,7 @@ export function omit(object: object, props: Array<string> = []): object {
  * http://techneilogy.blogspot.fr/2012/02/couple-of-years-ago-i-posted-source.html
  */
 export function isBankHoliday(date: Date) {
-  function getPublicHolidays(year: number): Array<Date> {
+  function getPublicHolidays(year: number): Date[] {
     const a = year % 19;
     const b = Math.floor(year / 100);
     const c = year % 100;

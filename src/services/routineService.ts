@@ -16,6 +16,13 @@ export function diffInMilliseconds(
   return computeNextRunAt(interval, runAtBankHoliday).getTime() - Date.now();
 }
 
+export function stop(routineId: string) {
+  const timeout = processes.get(routineId);
+  if (timeout) {
+    clearTimeout(timeout);
+  }
+}
+
 export function start(routine: Routine, execute: Function = run): void {
   stop(routine.routineId); // Insure to stop process if already exists
 
@@ -26,13 +33,6 @@ export function start(routine: Routine, execute: Function = run): void {
       execute(routine);
     }, diffInMilliseconds(routine.interval, routine.runAtBankHoliday));
     processes.set(routine.routineId, process);
-  }
-}
-
-export function stop(routineId: string) {
-  const timeout = processes.get(routineId);
-  if (timeout) {
-    clearTimeout(timeout);
   }
 }
 

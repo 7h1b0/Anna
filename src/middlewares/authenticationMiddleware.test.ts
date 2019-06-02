@@ -43,7 +43,8 @@ describe('authenticationMiddleware', () => {
 
     // @ts-ignore
     await authenticationMiddleware(req, res, next);
-    expect((res.locals as any).user).toEqual({
+    // @ts-ignore
+    expect(res.locals.user).toEqual({
       userId: userTest.userId,
       username: userTest.username,
     });

@@ -66,7 +66,6 @@ describe('Users', () => {
     it('should update an user safely', async () => {
       const rowsAffected = await User.findByIdAndUpdate(initUsers[0].userId, {
         username: 'username',
-        userId: 'toto',
       });
       expect(rowsAffected).toBe(1);
       const user = await knex(User.TABLE).select();

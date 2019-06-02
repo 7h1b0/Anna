@@ -4,7 +4,7 @@ import { findById as findSceneById } from './models/scene';
 import { setLightState } from 'services/hueService';
 import dioAdd from 'services/dioService';
 
-export default async function dispatch(action: AnnaAction): Promise<any> {
+export default async function dispatch(action: AnnaAction): Promise<void> {
   switch (action.type) {
     case TYPES.HUE_LIGHT:
       return setLightState(action.targetId, action.body);
@@ -13,7 +13,7 @@ export default async function dispatch(action: AnnaAction): Promise<any> {
       return dioAdd(action.targetId, action.body.on);
 
     case TYPES.SCENE:
-      return findSceneById(action.targetId).then(scene => {
+      await findSceneById(action.targetId).then(scene => {
         if (scene) {
           return Promise.all(scene.actions.map(action => dispatch(action)));
         }

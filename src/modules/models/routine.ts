@@ -43,6 +43,25 @@ export class Routine {
   ) {}
 }
 
+export function computeNextRunAt(cron: string, runAtBankHoliday = true) {
+  try {
+    const interval = parser.parseExpression(cron, {
+      currentDate: new Date(),
+    });
+
+    let nextDate = interval.next();
+    if (runAtBankHoliday === false) {
+      while (isBankHoliday(nextDate.toDate())) {
+        nextDate = interval.next();
+      }
+    }
+    return nextDate.toDate();
+  } catch (_) {
+    logger.error('Impossible to compute nextRunAt');
+    return new Date();
+  }
+}
+
 export function updateAllNextRunAt(routines: Routine[]) {
   return knex.transaction(function(trx) {
     const reqs = routines.map(routine => {
@@ -117,25 +136,6 @@ export async function findByIdAndUpdate(
   return knex(TABLE)
     .update(payload)
     .where('routineId', routineId);
-}
-
-export function computeNextRunAt(cron: string, runAtBankHoliday = true) {
-  try {
-    const interval = parser.parseExpression(cron, {
-      currentDate: new Date(),
-    });
-
-    let nextDate = interval.next();
-    if (runAtBankHoliday === false) {
-      while (isBankHoliday(nextDate.toDate())) {
-        nextDate = interval.next();
-      }
-    }
-    return nextDate.toDate();
-  } catch (_) {
-    logger.error('Impossible to compute nextRunAt');
-    return new Date();
-  }
 }
 
 export async function run(routine: Routine) {

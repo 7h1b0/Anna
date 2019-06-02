@@ -36,7 +36,7 @@ export class SceneAction extends Scene {
     createdAt?: number,
     updatedAt?: number,
   ) {
-    super(sceneId, name, description, createdBy, createdAt);
+    super(sceneId, name, description, createdBy, createdAt, updatedAt);
   }
 }
 

@@ -4,9 +4,15 @@ import dispatch from 'modules/dispatch';
 import * as HueLight from 'modules/models/hueLight';
 import { toggleHueLight } from 'modules/actions';
 
+interface State {
+  on?: boolean;
+  bri?: number;
+  xy?: number[];
+  sat?: number;
+}
 const routes = Router();
 function getState({ on, sat, xy, bri }) {
-  const state: any = {};
+  const state: State = {};
 
   if (on !== undefined) {
     state.on = typeof on === 'string' ? on === 'true' : on;

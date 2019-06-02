@@ -1,30 +1,32 @@
 language: node_js
 node_js:
-  - 'lts/*'
+  - lts/*
 services:
   - mysql
-
 env:
   - NODE_ENV=test
-
 cache:
   directories:
     - '$HOME/.npm'
     - '$HOME/.pkg-cache'
-
 install:
   - npm ci
-
 before_script:
   - mysql -e 'CREATE DATABASE `anna-test`;'
-
 script:
   - npm run db:migrate
   - npm run format:check
   - npm run type:check
   - npm run coverage
   - npm run build:package
-
 notifications:
   email:
     on_success: never
+deploy:
+  provider: releases
+  api_key:
+    secure: YCFLuN1iD/3f956Yhbjgd9BDBpAVXM8n9PX7fgP/MVHP2xTJ8Fj9lh7doEl0WH89yIclq7fctmgsLP1PPuHIoqxHnj0gOZ6eFoPiGaUN/MNoypcQ2wPZ/mpQ7+2dnr5gAqWKJDugMtAhYAtZGFY/MCGRfl5MClQS7m9nLwyTxkfse2y2/p1m5IJ4Oyjhzgr+7MkI3TxQGdSaXvLvJrC+zenP36ib5yHzNP9e28b+ZMFFA+tfNc2CziHeIIj2raK8npN3LjRBAnMmhhF8F2N07pCxsaOADxY2WE3gqccMjwH5IuOKxONBFPBpcqyEhXAUu5HX8kzbTBXmbL9VbeO3imnYESUkoJ3bJDSxmXl8t0DpHkvTUe/3O0Rn+psrBubhNsG0JVjWSLOeLts0T6HRca+7AVpmH7Wf2VZ1sB5sM0DhilEN4D+jBmYUJxly57UoGXAM3nwNxt5Dj5ixS2HrSxHSMTfVTIUkr2eXqIzE2My3YLOILP/2HJUVoZ1QkxJhgwLEXJehTtHHtrgp/GKQmSkhZ82xBimf8UaK94ONI9UIscJy34TgMpFWl03sXp7SyeT7RiEwPrsHRRSYj2wK3rFrVqezM0b9/w9HOoIQcd2jRW+Va+0AFtxNdELvzbiGdiFKT2se1u+rouNFeXq+aZnzvQkiYir3vVnaifaUogE=
+  file: anna-armv7
+  skip_cleanup: true
+  on:
+    tags: true

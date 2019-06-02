@@ -1,7 +1,8 @@
 import fetch from 'node-fetch';
-import { HUE_IP, HUE_TOKEN } from '../constants';
 import { findAll, findRoomId } from 'modules/models/hueLight';
 
+const HUE_IP = process.env.HUE_IP;
+const HUE_TOKEN = process.env.HUE_TOKEN;
 const api = `http://${HUE_IP}/api/${HUE_TOKEN}`;
 
 const toArray = jsonObject =>

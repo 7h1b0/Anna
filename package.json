@@ -1,6 +1,6 @@
 {
   "name": "anna",
-  "version": "3.2.1",
+  "version": "3.3.0",
   "description": "REST api for home automation",
   "main": "src/index.js",
   "author": "7h1b0",

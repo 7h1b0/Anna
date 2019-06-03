@@ -4,6 +4,9 @@
   "description": "REST api for home automation",
   "main": "src/index.js",
   "author": "7h1b0",
+  "engines": {
+    "node": ">=10"
+  },
   "dependencies": {
     "ajv": "^6.10.0",
     "bcryptjs": "^2.4.3",

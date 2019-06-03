@@ -10,7 +10,7 @@
 
     "module": "commonjs",
     "esModuleInterop": true,
-    "target": "es6",
+    "target": "es2018",
 
     "strict": true,
 

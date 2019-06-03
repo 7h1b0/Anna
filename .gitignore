@@ -42,6 +42,7 @@ log.txt
 assets/*
 bdd.json
 *.local
+.vscode/*
 *.sqlite3
 *.sqlite3-journal
 coverage/*

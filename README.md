@@ -1,56 +1,92 @@
-# Anna-API [![NodeJS](https://img.shields.io/badge/node-%3E%3D%208-brightgreen.svg)](https://nodejs.org/en/) [![Build Status](https://travis-ci.org/7h1b0/Anna.svg?branch=master)](https://travis-ci.org/7h1b0/Anna)
+# Anna-API [![Build Status](https://travis-ci.org/7h1b0/Anna.svg?branch=master)](https://travis-ci.org/7h1b0/Anna)
 
-API for home automation
+Home automation API for the Raspberry Pi 2 or above
 
 ## Table of Contents
 
-- [Prerequisite](#prerequisite)
-- [Install procedure](#install-procedure)
-- [Available Scripts](#available-scripts)
-  - [npm start](#npm-start)
-  - [npm test](#npm-test)
-  - [npm run eslint](#npm-run-eslint)
-  - [npm run build](#npm-run-build)
-  - [npm run build:package](#npm-run-buildpackage)
-  - [npm run db:migrate](#npm-run-dbmigrate)
-  - [npm run db:rollback](#npm-run-dbrollback)
+- [Getting Started](#getting-started)
+  - [Installation](#installation)
+- [Developing](#Developing)
+  - [Prerequisites](#prerequisites)
+  - [Installing](#installing)
+  - [Running the tests](#running-the-tests)
+- [Deployment](#deployment)
+- [Versioning](#versioning)
 
-## Prerequisite
+## Getting Started
 
-- NodeJS >= 8
-- NPM >= 5
+Head on over to the releases page to download the most recent version.
 
-## Installation
+### Prerequisites
 
-1. Execute `docker-compose up -d`
-1. Execute `npm i`
-1. Execute `npm run db:migrate`
-1. Optionnal: run `npm run db:seed`
+```
+Raspberry Pi 2 or above
+MySQL/MariaDB
+```
 
-## Available Scripts
+### Installation
 
-In the project directory, you can run:
+Download the most recent version and make it executable
 
-### `npm start`
+```
+wget https://github.com/7h1b0/Anna/releases/download/v3.3.0/anna-armv7
+chmod +x anna-armv7
+```
 
-Runs the app in the development mode.
+Then run it:
 
-### `npm test`
+```
+./anna-armv7
+```
 
-Runs unit test using Jest.
+## Developing
 
-### `npm run build`
+### Prerequisites
 
-Builds the application for production.
+```
+NodeJS >= 10
+NPM >= 5
+Docker
+```
 
-### `npm run build:package`
+### Installing
 
-Builds the application for production and package it with Node 10 for armv7.
+```
+# Install dependencies
+npm i
 
-### `npm run db:migrate`
+# Start MySQL database
+docker-compose up -d
+```
 
-Applies migrations to your database.
+### Running the tests
 
-### `npm run db:rollback`
+```
+# Run the tests
+npm test
 
-Rolls back the latest migration group.
+# Run Typescript check
+npm run type:check
+
+# Run Eslint check
+npm run lint
+
+# Run prettier check
+npm run format:check"
+```
+
+## Deployment
+
+```
+# Create a new release
+npm version major/minor/patch
+
+# Push commit and tag
+git push --follow-tags
+```
+
+A new release will be automatically created in Github with assets
+
+## Versioning
+
+[SemVer](http://semver.org/) is used for versioning. For the versions available, see the [releases on this repository](https://github.com/7h1b0/Anna/releases).

@@ -35,7 +35,7 @@ describe('Dispatch', () => {
     expect(dioAdd).toHaveBeenCalledWith('1', false);
   });
 
-  it('should call hueService and dioService when type is SCENE', async () => {
+  it("should call services according scene's actions", async () => {
     await dispatch({ type: TYPES.SCENE, targetId: '1' });
 
     expect(hueService.setLightState).toHaveBeenCalledWith('5', { on: true });

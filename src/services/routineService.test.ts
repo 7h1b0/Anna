@@ -58,14 +58,14 @@ describe('routineService', () => {
         }),
       );
 
-      clock.tick(1000);
-      clock.tick(1000);
+      clock.tick(1000); // should call Routine.run
+      clock.tick(1000); // should call Routine.run for the second times
       clock.uninstall();
 
       expect(spy).toHaveBeenCalledTimes(2);
     });
 
-    it('should stop an older process if exist', () => {
+    it('should stop process with the same id', () => {
       const clock = lolex.install();
       routineService.start(
         createRoutine({
@@ -110,8 +110,7 @@ describe('routineService', () => {
   });
 
   describe('stop', () => {
-    it('should stop a process', () => {
-      const spy = jest.spyOn(Routine, 'run');
+    it('should stop an existing process', () => {
       const clock = lolex.install();
       routineService.start(
         createRoutine({
@@ -122,16 +121,14 @@ describe('routineService', () => {
         }),
       );
 
+      expect(clock.countTimers()).toBe(1);
       routineService.stop('test');
+      expect(clock.countTimers()).toBe(0);
 
-      clock.next();
       clock.uninstall();
-
-      expect(spy).not.toHaveBeenCalled();
     });
 
     it('should do nothing if routineId is unknow', () => {
-      const spy = jest.spyOn(Routine, 'run');
       const clock = lolex.install();
       routineService.start(
         createRoutine({
@@ -142,11 +139,11 @@ describe('routineService', () => {
         }),
       );
 
+      expect(clock.countTimers()).toBe(1);
       routineService.stop('unknow');
-      clock.next();
-      clock.uninstall();
+      expect(clock.countTimers()).toBe(1);
 
-      expect(spy).toHaveBeenCalledTimes(1);
+      clock.uninstall();
     });
   });
 
@@ -162,7 +159,7 @@ describe('routineService', () => {
       expect(milliseconds).toBe(1000 * 60 * 60 * 2);
     });
 
-    it('should return the diff between the next run at and now - bank holiday', () => {
+    it('should handle bank holiday', () => {
       const clock = lolex.install({ now: new Date('2019-01-01T08:00') });
       const milliseconds = routineService.diffInMilliseconds(
         '0 10 * * *',

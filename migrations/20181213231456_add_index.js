@@ -1,4 +1,4 @@
-exports.up = function(knex, Promise) {
+exports.up = function(knex) {
   const addIndexOnToken = knex.schema.table('users', function(table) {
     table.index('token', 'index_token');
   });
@@ -9,7 +9,7 @@ exports.up = function(knex, Promise) {
   return Promise.all([addIndexOnToken, addIndexOnNameAlias]);
 };
 
-exports.down = function(knex, Promise) {
+exports.down = function(knex) {
   const dropIndexOnToken = knex.schema.table('users', function(table) {
     table.dropIndex('token', 'index_token');
   });

@@ -1,4 +1,4 @@
-exports.up = function(knex, Promise) {
+exports.up = function(knex) {
   const createUsersTable = knex.schema.createTable('users', table => {
     table.uuid('userId').primary();
     table.string('username').notNullable();
@@ -102,7 +102,7 @@ exports.up = function(knex, Promise) {
   ]);
 };
 
-exports.down = function(knex, Promise) {
+exports.down = function(knex) {
   return Promise.all([
     knex.schema.dropTable('users'),
     knex.schema.dropTable('rooms'),

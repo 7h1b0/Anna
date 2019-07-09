@@ -5,13 +5,21 @@ import * as logger from '../logger';
 
 export const TABLE = 'actions';
 
-export interface Action {
+export type HueLigthBody = {
+  on: boolean;
+  bri?: number;
+  xy?: number[];
+};
+
+export type DioBody = { on: boolean };
+
+export type Action = {
   sceneId: string;
   name: string;
   targetId: string;
-  readonly type: TYPES.HUE_LIGHT | TYPES.DIO;
+  readonly type: TYPES.DIO;
   body: string;
-}
+};
 
 export async function findBySceneId(sceneId: string): Promise<AnnaAction[]> {
   return knex(TABLE)

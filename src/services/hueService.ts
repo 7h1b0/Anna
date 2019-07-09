@@ -1,5 +1,6 @@
 import fetch from 'node-fetch';
 import { findAll, findRoomId } from 'modules/models/hueLight';
+import { HueLigthBody } from 'modules/models/action';
 
 const HUE_IP = process.env.HUE_IP;
 const HUE_TOKEN = process.env.HUE_TOKEN;
@@ -46,7 +47,10 @@ export async function renameLight(id: number, name: string): Promise<void> {
   return res.json();
 }
 
-export async function setLightState(id: string, body: object): Promise<void> {
+export async function setLightState(
+  id: string,
+  body: Partial<HueLigthBody>,
+): Promise<void> {
   const res = await fetch(`${api}/lights/${id}/state`, {
     method: 'put',
     body: JSON.stringify(body),

@@ -3,16 +3,11 @@ import * as hueService from 'services/hueService';
 import dispatch from 'modules/dispatch';
 import * as HueLight from 'modules/models/hueLight';
 import { toggleHueLight } from 'modules/actions';
+import { HueLigthBody } from 'modules/models/action';
 
-interface State {
-  on?: boolean;
-  bri?: number;
-  xy?: number[];
-  sat?: number;
-}
 const routes = Router();
-function getState({ on, sat, xy, bri }) {
-  const state: State = {};
+function getState({ on, xy, bri }) {
+  const state: Partial<HueLigthBody> = {};
 
   if (on !== undefined) {
     state.on = typeof on === 'string' ? on === 'true' : on;
@@ -24,10 +19,6 @@ function getState({ on, sat, xy, bri }) {
 
   if (!isNaN(bri)) {
     state.bri = parseInt(bri, 10);
-  }
-
-  if (!isNaN(sat)) {
-    state.sat = parseInt(sat, 10);
   }
 
   if (Array.isArray(xy)) {

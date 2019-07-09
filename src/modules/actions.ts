@@ -1,4 +1,5 @@
 import TYPES from './type';
+import { DioBody, HueLigthBody } from 'modules/models/action';
 
 interface Action {
   type: string;
@@ -7,12 +8,12 @@ interface Action {
 
 export class ToggleDio implements Action {
   readonly type = TYPES.DIO;
-  constructor(public targetId: string, public body: { on: boolean }) {}
+  constructor(public targetId: string, public body: DioBody) {}
 }
 
 export class ToggleHueLight implements Action {
   readonly type = TYPES.HUE_LIGHT;
-  constructor(public targetId: string, public body: { on: boolean }) {}
+  constructor(public targetId: string, public body: HueLigthBody) {}
 }
 
 class CallScene implements Action {

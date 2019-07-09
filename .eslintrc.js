@@ -14,5 +14,6 @@ module.exports = {
     '@typescript-eslint/no-parameter-properties': 'off',
     '@typescript-eslint/explicit-member-accessibility': 'off',
     '@typescript-eslint/no-namespace': 'off',
+    '@typescript-eslint/prefer-interface': 'off',
   },
 };

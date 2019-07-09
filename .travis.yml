@@ -12,7 +12,7 @@ cache:
 install:
   - npm ci
 before_script:
-  - mysql -e 'CREATE DATABASE `anna-test`;'
+  - mysql -e 'CREATE DATABASE `anna_test`;'
 script:
   - npm run db:migrate
   - npm run format:check

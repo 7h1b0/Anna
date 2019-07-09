@@ -1,7 +1,7 @@
 version: '3'
 services:
   db:
-    image: mariadb:10.1.23
+    image: mariadb:10.3
     container_name: 'anna-databases'
     volumes:
       - ./seeds/:/docker-entrypoint-initdb.d

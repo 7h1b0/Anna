@@ -1,8 +1,8 @@
 language: node_js
 node_js:
   - lts/*
-services:
-  - mysql
+addons:
+  mariadb: '10.3'
 env:
   - NODE_ENV=test
 cache:

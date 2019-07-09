@@ -1,2 +1,2 @@
-CREATE DATABASE `anna-test`;
+CREATE DATABASE `anna_test`;
 CREATE DATABASE `anna`;

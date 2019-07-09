@@ -42,7 +42,7 @@ module.exports = {
       host: '127.0.0.1',
       user: 'root',
       password: '',
-      database: 'anna-test',
+      database: 'anna_test',
       typeCast,
     },
     pool: { min: 0, max: 4 },

@@ -241,7 +241,7 @@ describe('Hue Light API', () => {
     });
 
     it('should call fetch with body passed', async () => {
-      const body = { on: true, bri: 25, sat: 200, xy: [23, 45] };
+      const body = { on: true, bri: 25, xy: [23, 45] };
       const response = await request(app)
         .patch('/api/hue/lights/2/state')
         .set('Accept', 'application/json')

@@ -54,15 +54,13 @@ exports.up = function(knex) {
     table.uuid('createdBy').notNullable();
   });
 
-  // TODO
-  // Use json when mariadb 10.2 will be available on RPI
   const createActionsTable = knex.schema.createTable('actions', table => {
     table.uuid('actionId').primary();
     table.uuid('sceneId').notNullable();
     table.string('name');
     table.integer('targetId');
     table.enum('type', ['HUE_LIGHT', 'DIO']);
-    table.string('body');
+    table.json('body');
   });
 
   const createAliasTable = knex.schema.createTable('alias', table => {

@@ -29,7 +29,7 @@ exports[`Alias API /api/alias POST should create a new alias 1`] = `
 Object {
   "aliasId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,
   "createdAt": Any<Number>,
-  "createdBy": "",
+  "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
   "description": "test",
   "enabled": false,
   "name": "test_post",

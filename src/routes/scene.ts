@@ -17,8 +17,8 @@ routes
     if (!isValid) {
       res.sendStatus(400);
     } else {
-      const userId = res.locals.user.userId;
-      Scene.save({ ...req.body, userId })
+      const createdBy = res.locals.user.userId;
+      Scene.save({ ...req.body, createdBy })
         .then(sceneId => res.status(201).json({ sceneId }))
         .catch(err => res.status(500).send({ err }));
     }

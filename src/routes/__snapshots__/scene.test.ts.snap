@@ -24,7 +24,7 @@ Array [
 exports[`Scene API /api/scenes POST should create a scene 1`] = `
 Object {
   "createdAt": Any<Number>,
-  "createdBy": "",
+  "createdBy": "29699398-449c-48fb-8f5c-84186cdf8279",
   "description": "this is a test scene",
   "name": "testScene",
   "sceneId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,

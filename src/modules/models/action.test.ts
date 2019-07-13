@@ -59,8 +59,8 @@ describe('Action', () => {
       );
       const ignoredKeys = ['actionId', 'name', 'sceneId'];
       expect(result).toEqual([
-        omit(initActions[0], ignoredKeys),
-        omit(initActions[1], ignoredKeys),
+        omit(initActions[0], ...ignoredKeys),
+        omit(initActions[1], ...ignoredKeys),
       ]);
     });
 

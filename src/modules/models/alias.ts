@@ -80,12 +80,13 @@ export function remove(aliasId: string) {
 }
 
 export function findByIdAndUpdate(aliasId: string, payload: Partial<Alias>) {
-  const safePayload = omit(payload, [
+  const safePayload = omit(
+    payload,
     'aliasId',
     'createdAt',
     'updatedAt',
     'createdBy',
-  ]);
+  );
   return knex(TABLE)
     .update(safePayload)
     .where('aliasId', aliasId);

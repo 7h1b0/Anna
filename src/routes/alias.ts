@@ -17,8 +17,8 @@ routes
     if (!isValid) {
       res.sendStatus(400);
     } else {
-      const userId = res.locals.user.userId;
-      Alias.save({ ...req.body, userId })
+      const createdBy = res.locals.user.userId;
+      Alias.save({ ...req.body, createdBy })
         .then(aliasId => res.status(201).json(aliasId))
         .catch(err => res.status(500).send({ err }));
     }

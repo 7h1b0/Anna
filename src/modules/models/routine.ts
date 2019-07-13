@@ -4,7 +4,7 @@ import uuidv4 from 'uuid/v4';
 import knex from '../../knexClient';
 import routineSchema from '../schemas/routine';
 import dispatch from '../dispatch';
-import { isBankHoliday } from '../utils';
+import { isBankHoliday, omit } from '../utils';
 import * as logger from '../logger';
 import { callScene } from '../actions';
 
@@ -98,7 +98,7 @@ export async function findById(routineId: string): Promise<Routine> {
 }
 
 export async function save(
-  userId: string,
+  createdBy: string,
   name: string,
   sceneId: string,
   interval: string,
@@ -114,7 +114,7 @@ export async function save(
     name,
     interval,
     nextRunAt,
-    userId,
+    createdBy,
     enabled,
     runAtBankHoliday,
   );
@@ -149,7 +149,7 @@ export async function run(routine: Routine) {
     );
 
     const updatedRoutine = {
-      ...routine,
+      ...omit(routine, 'createdAt', 'updatedAt'),
       lastRunAt,
       nextRunAt,
       failReason,

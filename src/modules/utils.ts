@@ -1,10 +1,18 @@
-export function omit(object: object, props: string[] = []): object {
-  return Object.keys(object).reduce((acc, key) => {
-    if (!props.includes(key)) {
-      acc[key] = object[key];
-    }
-    return acc;
-  }, {});
+export function omit<T extends object, K extends string[]>(
+  object: T,
+  ...props: K
+): {
+  [K2 in Exclude<keyof T, K[number]>]: T[K2];
+} {
+  return Object.keys(object).reduce(
+    (acc, key) => {
+      if (!props.includes(key)) {
+        acc[key] = object[key];
+      }
+      return acc;
+    },
+    {} as { [K2 in Exclude<keyof T, K[number]>]: T[K2] },
+  );
 }
 
 /**

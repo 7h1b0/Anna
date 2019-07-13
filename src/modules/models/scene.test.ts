@@ -105,7 +105,7 @@ describe('Scene', () => {
       const scene = {
         description: 'save test',
         name: 'scene_3',
-        userId: '75442486-0878-440c-9db1-a7006c25a39f',
+        createdBy: '75442486-0878-440c-9db1-a7006c25a39f',
         actions: [
           {
             targetId: 1,

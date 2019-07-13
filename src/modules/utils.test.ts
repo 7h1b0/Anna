@@ -8,16 +8,7 @@ describe('Utils', () => {
         id: 2,
         updatedAt: 3,
       };
-      expect(utils.omit(a, ['id', 'updatedAt'])).toEqual({ anna: 1 });
-    });
-
-    it('should return a new object', () => {
-      const a = {
-        anna: 1,
-        id: 2,
-        updatedAt: 3,
-      };
-      expect(utils.omit(a)).toEqual(a);
+      expect(utils.omit(a, 'id', 'updatedAt')).toEqual({ anna: 1 });
     });
 
     it('should return a object without props', () => {
@@ -26,7 +17,7 @@ describe('Utils', () => {
         id: 2,
         updatedAt: 3,
       };
-      expect(utils.omit(a, ['anna', 'id', 'updatedAt'])).toEqual({});
+      expect(utils.omit(a, 'anna', 'id', 'updatedAt')).toEqual({});
     });
   });
 

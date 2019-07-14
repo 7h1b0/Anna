@@ -6,7 +6,9 @@ import * as hueLight from '../modules/models/hueLight';
 import app from '../index';
 import fetch from 'node-fetch';
 
-jest.mock('node-fetch');
+jest.mock('node-fetch', () =>
+  jest.fn(() => Promise.resolve({ json: () => ({}) })),
+);
 
 const user = createUser();
 const hueLightRooms = [

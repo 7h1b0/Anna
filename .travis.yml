@@ -4,7 +4,7 @@ node_js:
 addons:
   mariadb: '10.3'
 env:
-  - NODE_ENV=test
+  - NODE_ENV=test DATABASE_HOST=127.0.0.1 DATABASE_USER=root DATABASE_NAME=anna_test
 cache:
   directories:
     - '$HOME/.npm'
@@ -19,7 +19,9 @@ script:
   - npm run type:check
   - npm run lint:check
   - npm run coverage
-  - npm run build:package
+  - npm run build:test
+  - npm run test:e2e
+  - npm run build:release
 notifications:
   email:
     on_success: never

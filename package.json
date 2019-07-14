@@ -53,13 +53,15 @@
   },
   "scripts": {
     "test": "jest src --watch --notify --runInBand",
+    "test:e2e": "jest e2e",
     "coverage": "jest src --coverage --ci --runInBand --silent",
     "start": "nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.test.ts' --exec 'ts-node' -r tsconfig-paths/register index.ts",
     "db:migrate": "knex migrate:latest",
     "db:rollback": "knex migrate:rollback",
     "db:seed": "knex seed:run",
     "build": "webpack",
-    "build:package": "npm run build && pkg -t node10-linux-armv7 ./dist/index.js --public --no-bytecode -o anna-armv7",
+    "build:release": "npm run build && pkg -t node10-linux-armv7 ./dist/index.js --public --no-bytecode -o anna-armv7",
+    "build:test": "npm run build && pkg -t node10-linux-x64 ./dist/index.js --public --no-bytecode -o anna-x64",
     "lint:check": "eslint --max-warnings 0 '*/**/*.ts'",
     "type:check": "tsc --noEmit",
     "format:check": "prettier --list-different \"src/**/*.ts\""

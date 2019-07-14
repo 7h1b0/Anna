@@ -59,8 +59,8 @@
     "db:rollback": "knex migrate:rollback",
     "db:seed": "knex seed:run",
     "build": "webpack",
-    "lint": "eslint --max-warnings 0 '*/**/*.ts'",
     "build:package": "npm run build && pkg -t node10-linux-armv7 ./dist/index.js --public --no-bytecode -o anna-armv7",
+    "lint:check": "eslint --max-warnings 0 '*/**/*.ts'",
     "type:check": "tsc --noEmit",
     "format:check": "prettier --list-different \"src/**/*.ts\""
   }

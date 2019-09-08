@@ -16,5 +16,6 @@ module.exports = {
     '@typescript-eslint/no-namespace': 'off',
     '@typescript-eslint/prefer-interface': 'off',
     '@typescript-eslint/no-object-literal-type-assertion': 'off',
+    '@typescript-eslint/ban-ts-ignore': 'off',
   },
 };

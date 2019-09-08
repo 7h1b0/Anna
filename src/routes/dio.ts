@@ -25,7 +25,7 @@ routes
 routes
   .route('/api/dios/:id_dio([0-9]+)')
   .get((req, res) => {
-    Dio.findById(req.params.id_dio)
+    Dio.findById(Number(req.params.id_dio))
       .then(dio => {
         if (!dio) {
           res.sendStatus(404);
@@ -44,7 +44,7 @@ routes
         name: req.body.name,
         roomId: req.body.roomId,
       };
-      Dio.findByIdAndUpdate(req.params.id_dio, updatedDio)
+      Dio.findByIdAndUpdate(Number(req.params.id_dio), updatedDio)
         .then(rowsAffected => {
           if (rowsAffected < 1) {
             res.sendStatus(404);
@@ -58,7 +58,7 @@ routes
     }
   })
   .delete((req, res) => {
-    Dio.remove(req.params.id_dio)
+    Dio.remove(Number(req.params.id_dio))
       .then(rowsAffected => {
         if (rowsAffected < 1) {
           res.sendStatus(404);

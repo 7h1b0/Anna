@@ -39,7 +39,7 @@ routes
   .route('/api/hue/lights/:id_light([0-9]+)')
   .get((req, res) => {
     hueService
-      .getLight(req.params.id_light)
+      .getLight(Number(req.params.id_light))
       .then(light => res.json(light))
       .catch(err => res.status(500).send({ err }));
   })
@@ -49,11 +49,11 @@ routes
     }
 
     const renameLight = req.body.name
-      ? hueService.renameLight(req.params.id_light, req.body.name)
+      ? hueService.renameLight(Number(req.params.id_light), req.body.name)
       : Promise.resolve();
 
     const changeRoomId = req.body.roomId
-      ? HueLight.findByIdAndUpdate(req.params.id_light, req.body.roomId)
+      ? HueLight.findByIdAndUpdate(Number(req.params.id_light), req.body.roomId)
       : Promise.resolve();
 
     Promise.all([renameLight, changeRoomId])
@@ -67,7 +67,7 @@ routes
       return res.sendStatus(400);
     }
 
-    HueLight.save(req.params.id_light, req.body.roomId)
+    HueLight.save(Number(req.params.id_light), req.body.roomId)
       .then(() => res.sendStatus(204))
       .catch(err => {
         res.status(500).send({ err });

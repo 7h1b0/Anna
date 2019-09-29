@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "ajv": "^6.10.2",
+    "anna-web": "^3.4.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cron-parser": "^2.13.0",

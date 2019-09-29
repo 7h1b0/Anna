@@ -11,14 +11,16 @@ import routine from './routes/routine';
 import user from './routes/user';
 
 import authenticationMiddleware from './middlewares/authenticationMiddleware';
+import serveFront from './middlewares/serveFile';
 
 import { load as loadRoutine } from './services/routineService';
-
 const app = express();
+
 app.use(bodyParser.json());
 app.all('/api*', [authenticationMiddleware]);
 
 app.use([about, alias, dio, hueLight, room, scene, routine, user]);
+app.use(serveFront);
 
 loadRoutine();
 

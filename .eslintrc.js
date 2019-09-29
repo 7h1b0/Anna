@@ -11,11 +11,7 @@ module.exports = {
   },
   rules: {
     '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/no-parameter-properties': 'off',
-    '@typescript-eslint/explicit-member-accessibility': 'off',
     '@typescript-eslint/no-namespace': 'off',
-    '@typescript-eslint/prefer-interface': 'off',
-    '@typescript-eslint/no-object-literal-type-assertion': 'off',
     '@typescript-eslint/ban-ts-ignore': 'off',
   },
 };

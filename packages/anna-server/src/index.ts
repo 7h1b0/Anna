@@ -9,6 +9,7 @@ import hueLight from './routes/hueLight';
 import scene from './routes/scene';
 import routine from './routes/routine';
 import user from './routes/user';
+import authentication from './routes/authentication';
 
 import authenticationMiddleware from './middlewares/authenticationMiddleware';
 import serveFront from './middlewares/serveFile';
@@ -17,9 +18,18 @@ import { load as loadRoutine } from './services/routineService';
 const app = express();
 
 app.use(bodyParser.json());
-app.all('/api*', [authenticationMiddleware]);
 
-app.use([about, alias, dio, hueLight, room, scene, routine, user]);
+app.use(authentication);
+app.use(authenticationMiddleware, [
+  about,
+  alias,
+  dio,
+  hueLight,
+  room,
+  scene,
+  routine,
+  user,
+]);
 app.use(serveFront);
 
 loadRoutine();

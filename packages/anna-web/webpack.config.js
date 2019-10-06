@@ -54,6 +54,12 @@ module.exports = ({ prod } = {}) => {
       historyApiFallback: true,
       noInfo: true,
       port: 3000,
+      proxy: {
+        '/api': {
+          target: 'http://127.0.0.1:8181',
+          secure: false,
+        },
+      },
     },
     bail: true,
     node: false,

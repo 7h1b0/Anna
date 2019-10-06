@@ -10,7 +10,6 @@ const ContainerList: React.FC<{ column?: number }> = ({
   const templaceColumns = Array.from({ length: column })
     .map(() => '1fr')
     .join(' ');
-  console.log(templaceColumns);
   return (
     <div
       css={css`

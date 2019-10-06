@@ -14,7 +14,7 @@ export const useSetUser = () => React.useContext(UserDispatchContext);
 export const UserProvider: React.FC<{}> = ({ children }) => {
   const [user, setUser] = React.useState({
     username: 'Plop',
-    token: '510393e316e37f2eb1e2b37739bdce5a1b21',
+    token: '1db05c1c3b989a0bf492171f86b2d9a1d681',
   });
 
   return (

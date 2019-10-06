@@ -7,7 +7,7 @@ export default function useFetch<T>(path: string): T[] {
 
   React.useEffect(() => {
     async function fetchData() {
-      const res = await fetch(`http://192.168.1.17:8181${path}`, {
+      const res = await fetch(path, {
         headers: {
           'x-access-token': user ? user.token : '',
         },

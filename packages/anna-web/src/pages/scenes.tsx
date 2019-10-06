@@ -3,7 +3,7 @@ import { RouteComponentProps } from '@reach/router';
 
 import Header from 'components/header';
 import Scene from 'components/scene';
-import ContainerList from 'components/container-list';
+import Grid from 'src/components/grid';
 
 import useFetch from 'src/hooks/use-fetch';
 
@@ -15,7 +15,7 @@ const Scenes: React.FC<RouteComponentProps> = () => {
   return (
     <>
       <Header title="Scenes" subtitle="Welcome Plop" />
-      <ContainerList>
+      <Grid margin>
         {scenes.map(({ name, description, sceneId }) => (
           <Scene
             key={sceneId}
@@ -24,7 +24,7 @@ const Scenes: React.FC<RouteComponentProps> = () => {
             description={description}
           />
         ))}
-      </ContainerList>
+      </Grid>
     </>
   );
 };

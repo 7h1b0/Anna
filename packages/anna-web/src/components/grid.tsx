@@ -3,8 +3,9 @@ import { css } from '@emotion/core';
 
 import { spaceM } from 'modules/theme';
 
-const ContainerList: React.FC<{ column?: number }> = ({
+const Grid: React.FC<{ column?: number; margin?: boolean }> = ({
   column = 2,
+  margin = false,
   children,
 }) => {
   const templaceColumns = Array.from({ length: column })
@@ -14,7 +15,7 @@ const ContainerList: React.FC<{ column?: number }> = ({
     <div
       css={css`
         display: grid;
-        margin: ${spaceM};
+        margin: ${margin ? spaceM : 0};
         grid-template-columns: ${templaceColumns};
         grid-template-rows: auto;
         grid-column-gap: ${spaceM};
@@ -26,4 +27,4 @@ const ContainerList: React.FC<{ column?: number }> = ({
   );
 };
 
-export default ContainerList;
+export default Grid;

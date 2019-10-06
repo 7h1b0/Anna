@@ -13,4 +13,4 @@ export const spaceL = '32px';
 export const spaceM = '16px';
 export const spaceS = '8px';
 
-export const borderRadius = '3px';
+export const borderRadius = '4px';

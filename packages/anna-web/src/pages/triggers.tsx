@@ -2,28 +2,23 @@ import React from 'react';
 import { RouteComponentProps } from '@reach/router';
 
 import Header from 'components/header';
-import Routine from 'components/routine';
-import ContainerList from 'components/container-list';
+import Trigger from 'components/trigger';
+import Grid from 'components/grid';
 
 import useFetch from 'src/hooks/use-fetch';
-import { Routine as RoutineType } from 'types/routine';
+import { Trigger as TriggerType } from 'types/trigger';
 
 const Triggers: React.FC<RouteComponentProps> = () => {
-  const triggers = useFetch<RoutineType>('/api/triggers');
+  const triggers = useFetch<TriggerType>('/api/alias');
 
   return (
     <>
       <Header title="Triggers" />
-      <ContainerList column={1}>
-        {triggers.map(({ name, lastRunAt, routineId }) => (
-          <Routine
-            key={routineId}
-            routineId={routineId}
-            name={name}
-            lastRunAt={lastRunAt}
-          />
+      <Grid column={1}>
+        {triggers.map(el => (
+          <Trigger trigger={el} />
         ))}
-      </ContainerList>
+      </Grid>
     </>
   );
 };

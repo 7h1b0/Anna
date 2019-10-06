@@ -3,7 +3,7 @@ import { RouteComponentProps } from '@reach/router';
 
 import Header from 'components/header';
 import Routine from 'components/routine';
-import ContainerList from 'components/container-list';
+import Grid from 'src/components/grid';
 
 import useFetch from 'src/hooks/use-fetch';
 import { Routine as RoutineType } from 'types/routine';
@@ -14,16 +14,13 @@ const Routines: React.FC<RouteComponentProps> = () => {
   return (
     <>
       <Header title="Routines" />
-      <ContainerList column={1}>
-        {routines.map(({ name, lastRunAt, routineId }) => (
-          <Routine
-            key={routineId}
-            routineId={routineId}
-            name={name}
-            lastRunAt={lastRunAt}
-          />
-        ))}
-      </ContainerList>
+      <Grid column={1}>
+        {routines
+          .sort((a, b) => a.nextRunAt - b.nextRunAt)
+          .map(el => (
+            <Routine key={el.routineId} routine={el} />
+          ))}
+      </Grid>
     </>
   );
 };

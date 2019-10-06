@@ -1,4 +1,4 @@
-export type Alias = {
+export type Trigger = {
   aliasId: string;
   sceneId: string;
   name: string;

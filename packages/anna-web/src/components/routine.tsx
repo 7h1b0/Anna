@@ -1,52 +1,25 @@
 import React from 'react';
-import { css } from '@emotion/core';
+
+import Card from './card';
+import Typographie from './typographie';
 
 import { formatDate } from 'modules/format';
+import { Routine as RoutineType } from 'types/routine';
 
-import {
-  colorPrimary,
-  sizeText,
-  sizeLabel,
-  spaceM,
-  borderRadius,
-  colorTitle,
-  colorSubtitle,
-} from 'modules/theme';
-
-const Scene: React.FC<{
-  routineId: string;
-  name: string;
-  lastRunAt: number;
-}> = ({ routineId, name, lastRunAt }) => {
+const Routine: React.FC<{
+  routine: RoutineType;
+}> = ({ routine }) => {
   return (
-    <div
-      css={css`
-        padding: ${spaceM};
-        background: ${colorPrimary};
-        box-shadow: 0 1px 7px rgba(0, 0, 0, 0.05);
-        border-radius: ${borderRadius};
-      `}
-      role="button"
-      onClick={() => console.log(routineId)}
-    >
-      <p
-        css={css`
-          color: ${colorTitle};
-          font-size: ${sizeText};
-        `}
-      >
-        {name}
-      </p>
-      <p
-        css={css`
-          color: ${colorSubtitle};
-          font-size: ${sizeLabel};
-        `}
-      >
-        {formatDate(lastRunAt)}
-      </p>
-    </div>
+    <Card>
+      <Typographie>{routine.name}</Typographie>
+      <Typographie variant="caption">
+        {`Next run: ${formatDate(routine.nextRunAt)}`}
+      </Typographie>
+      <Typographie variant="caption">
+        {`Last run: ${formatDate(routine.lastRunAt)}`}
+      </Typographie>
+    </Card>
   );
 };
 
-export default Scene;
+export default Routine;

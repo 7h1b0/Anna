@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import Card from './card';
 import Typographie from './typographie';
@@ -9,9 +10,11 @@ const Room: React.FC<{
   room: RoomType;
 }> = ({ room }) => {
   return (
-    <Card>
-      <Typographie>{room.name}</Typographie>
-    </Card>
+    <Link to={`/rooms/${room.roomId}`}>
+      <Card>
+        <Typographie>{room.name}</Typographie>
+      </Card>
+    </Link>
   );
 };
 

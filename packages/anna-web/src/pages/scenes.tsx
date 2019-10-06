@@ -1,5 +1,4 @@
 import React from 'react';
-import { RouteComponentProps } from '@reach/router';
 
 import Header from 'components/header';
 import Scene from 'components/scene';
@@ -9,7 +8,7 @@ import useFetch from 'src/hooks/use-fetch';
 
 import { Scene as SceneType } from 'types/scene';
 
-const Scenes: React.FC<RouteComponentProps> = () => {
+const Scenes: React.FC<{}> = () => {
   const scenes = useFetch<SceneType>('/api/scenes');
 
   return (

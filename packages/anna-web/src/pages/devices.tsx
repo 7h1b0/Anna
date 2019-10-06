@@ -1,14 +1,14 @@
 import React from 'react';
-import { RouteComponentProps } from '@reach/router';
+import { useParams } from 'react-router';
 
 import Header from 'components/header';
-import Room from 'components/room';
-import Grid from 'src/components/grid';
 
-const Devices: React.FC<RouteComponentProps> = () => {
+const Devices: React.FC<{}> = () => {
+  const params = useParams<{ roomId: string }>();
   return (
     <>
       <Header title="Devices" />
+      <p>{params.roomId}</p>
     </>
   );
 };

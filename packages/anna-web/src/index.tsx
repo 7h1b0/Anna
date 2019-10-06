@@ -1,5 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import App from './app';
 
-ReactDOM.render(<App />, document.getElementById('app'));
+import { UserProvider } from 'src/context/user-context';
+
+ReactDOM.render(
+  <UserProvider>
+    <App />
+  </UserProvider>,
+  document.getElementById('app'),
+);

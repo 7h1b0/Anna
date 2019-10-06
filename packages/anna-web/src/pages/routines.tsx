@@ -1,5 +1,4 @@
 import React from 'react';
-import { RouteComponentProps } from '@reach/router';
 
 import Header from 'components/header';
 import Routine from 'components/routine';
@@ -8,7 +7,7 @@ import Grid from 'src/components/grid';
 import useFetch from 'src/hooks/use-fetch';
 import { Routine as RoutineType } from 'types/routine';
 
-const Routines: React.FC<RouteComponentProps> = () => {
+const Routines: React.FC<{}> = () => {
   const routines = useFetch<RoutineType>('/api/routines');
 
   return (

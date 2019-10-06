@@ -1,5 +1,4 @@
 import React from 'react';
-import { RouteComponentProps } from '@reach/router';
 
 import Header from 'components/header';
 import Trigger from 'components/trigger';
@@ -8,7 +7,7 @@ import Grid from 'components/grid';
 import useFetch from 'src/hooks/use-fetch';
 import { Trigger as TriggerType } from 'types/trigger';
 
-const Triggers: React.FC<RouteComponentProps> = () => {
+const Triggers: React.FC<{}> = () => {
   const triggers = useFetch<TriggerType>('/api/alias');
 
   return (
@@ -16,7 +15,7 @@ const Triggers: React.FC<RouteComponentProps> = () => {
       <Header title="Triggers" />
       <Grid column={1}>
         {triggers.map(el => (
-          <Trigger trigger={el} />
+          <Trigger key={el.aliasId} trigger={el} />
         ))}
       </Grid>
     </>

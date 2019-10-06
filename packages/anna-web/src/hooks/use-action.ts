@@ -7,7 +7,7 @@ export default function useAction(path: string): () => Promise<void> {
   const useAction = React.useCallback(async () => {
     await fetch(path, {
       headers: {
-        'x-access-token': user ? user.token : '',
+        'x-access-token': user && user.token ? user.token : '',
       },
     });
   }, [path, user]);

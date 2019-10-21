@@ -1,5 +1,5 @@
 import execService from './execService';
-import * as logger from 'modules/logger';
+import * as logger from 'utils/logger';
 
 let queue = Promise.resolve();
 function run(script: string, onSuccess: Function, onError: Function) {

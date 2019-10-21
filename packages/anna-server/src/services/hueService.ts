@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
-import { findAll, findRoomId } from 'modules/models/hueLight';
-import { HueLigthBody } from 'modules/models/action';
+import { findAll, findRoomId } from 'modules/hue-light/hueLight';
+import { HueLigthBody } from 'modules/scene/action';
 
 const HUE_IP = process.env.HUE_IP;
 const HUE_TOKEN = process.env.HUE_TOKEN;

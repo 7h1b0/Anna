@@ -1,18 +1,17 @@
 import express from 'express';
 import * as bodyParser from 'body-parser';
 
-import about from './routes/about';
-import alias from './routes/alias';
-import dio from './routes/dio';
-import room from './routes/room';
-import hueLight from './routes/hueLight';
-import scene from './routes/scene';
-import routine from './routes/routine';
-import user from './routes/user';
-import authentication from './routes/authentication';
+import about from './modules/about/route';
+import alias from './modules/alias/route';
+import dio from './modules/dio/route';
+import room from './modules/room/route';
+import hueLight from './modules/hue-light/route';
+import scene from './modules/scene/route';
+import routine from './modules/routine/route';
+import user from './modules/user/route';
+import authentication from './modules/authentication/route';
 
-import authenticationMiddleware from './middlewares/authenticationMiddleware';
-import serveFront from './middlewares/serveFile';
+import authenticationMiddleware from './modules/authentication/middleware';
 
 import { load as loadRoutine } from './services/routineService';
 const app = express();
@@ -30,7 +29,6 @@ app.use(authenticationMiddleware, [
   routine,
   user,
 ]);
-app.use(serveFront);
 
 loadRoutine();
 

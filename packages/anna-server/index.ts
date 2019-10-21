@@ -1,5 +1,5 @@
 import app from './src';
-import { info } from './src/modules/logger';
+import { info } from './src/utils/logger';
 
 const PORT = process.env.PORT || 8181;
 app.listen(PORT, () => {

@@ -22,7 +22,7 @@ describe('User tests on binary', () => {
 
   describe('when a user register', () => {
     it('should register a user', async () => {
-      const res = await fetch('http://127.0.0.1:8181/register', {
+      const res = await fetch('http://127.0.0.1:8181/api/register', {
         method: 'post',
         body: JSON.stringify({ username: 'test', password: 'test' }),
         headers: { 'Content-Type': 'application/json' },

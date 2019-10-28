@@ -1,22 +1,21 @@
 {
   "name": "anna",
   "devDependencies": {
-    "husky": "^3.0.7",
-    "lerna": "^3.16.4",
+    "husky": "^3.0.9",
+    "lerna": "^3.18.3",
     "prettier": "^1.18.2",
-    "pretty-quick": "^1.11.1"
+    "pretty-quick": "^2.0.0"
   },
   "scripts": {
-    "bootstrap": "lerna bootstrap",
     "postinstall": "lerna bootstrap",
     "lerna": "lerna",
-    "coverage": "lerna run coverage",
     "build": "lerna run build",
     "format:check": "lerna run format:check",
     "type:check": "lerna run type:check --stream",
     "lint:check": "lerna run lint:check --stream",
     "start": "lerna run start --stream --parallel",
     "start:server": "lerna run start --scope anna-server --stream",
+    "coverage": "lerna run coverage --stream",
     "db:migrate": "learn run db:migrate"
   }
 }

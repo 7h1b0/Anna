@@ -9,7 +9,7 @@ export default function useFetch<T>(path: string): T[] {
     async function fetchData() {
       const res = await fetch(path, {
         headers: {
-          'x-access-token': user ? user.token : '',
+          'x-access-token': user && user.token ? user.token : '',
         },
       });
       setData(await res.json());

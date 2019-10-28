@@ -5,11 +5,11 @@ import { css } from '@emotion/core';
 
 import { colorAccent, colorTitle } from 'modules/theme';
 
-const isActive = (match: match | null) => {
-  if (match === null) {
+const isActive = (matchURL: match | null) => {
+  if (matchURL === null) {
     return false;
   }
-  if (match.isExact === false && match.url === '/') {
+  if (matchURL.isExact === false && matchURL.url === '/') {
     return false;
   }
   return true;

@@ -4,7 +4,7 @@ import toHaveStatusOk from './toHaveStatusOk';
 
 declare global {
   namespace jest {
-    interface Matchers<R> {
+    interface Matchers<R, T> {
       toBeBadRequest: () => {};
       toBeUnauthorized: () => {};
       toHaveStatusOk: () => {};

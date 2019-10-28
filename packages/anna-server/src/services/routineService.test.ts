@@ -1,10 +1,10 @@
 import * as routineService from './routineService';
 import knex from 'knexClient';
-import * as Routine from 'modules/models/routine';
+import * as Routine from 'modules/routine/model';
 import { createRoutine } from 'factories';
 import lolex from 'lolex';
 
-jest.mock('../modules/dispatch');
+jest.mock('utils/dispatch');
 
 const initRoutines = [
   {

@@ -1,14 +1,4 @@
 import React from 'react';
-import { css } from '@emotion/core';
-import {
-  borderRadius,
-  colorPrimary,
-  colorTitle,
-  colorSubtitle,
-  spaceS,
-  sizeLabel,
-  sizeText,
-} from 'modules/theme';
 
 type Props = {
   autofocus?: boolean;
@@ -31,29 +21,9 @@ const Input: React.FC<Props> = ({
   placeholder = '',
 }) => {
   return (
-    <label
-      htmlFor={name}
-      css={css`
-        color: ${colorSubtitle};
-        font-size: ${sizeLabel};
-      `}
-    >
+    <label htmlFor={name} className="text-gray-400">
       {label}
       <input
-        css={css`
-          display: block;
-          width: 100%;
-          padding: ${spaceS};
-          margin-top: 5px;
-          border: 1px solid ${colorPrimary};
-          background-color: ${colorPrimary};
-          border-radius: ${borderRadius};
-          color: ${colorTitle};
-          font-size: ${sizeText};
-          &:focus {
-            outline: none;
-          }
-        `}
         id={name}
         name={name}
         type={type}
@@ -61,6 +31,7 @@ const Input: React.FC<Props> = ({
         onChange={onChange}
         required={required}
         placeholder={placeholder}
+        className="appearance-none block w-full bg-gray-800 text-gray-400 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-gray-700"
       />
     </label>
   );

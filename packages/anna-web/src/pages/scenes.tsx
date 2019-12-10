@@ -2,7 +2,6 @@ import React from 'react';
 
 import Header from 'components/header';
 import Scene from 'components/scene';
-import Grid from 'src/components/grid';
 
 import useFetch from 'src/hooks/use-fetch';
 
@@ -14,7 +13,7 @@ const Scenes: React.FC<{}> = () => {
   return (
     <>
       <Header title="Scenes" subtitle="Welcome Plop" />
-      <Grid margin>
+      <div className="flex flex-wrap -mx-2">
         {scenes.map(({ name, description, sceneId }) => (
           <Scene
             key={sceneId}
@@ -23,7 +22,7 @@ const Scenes: React.FC<{}> = () => {
             description={description}
           />
         ))}
-      </Grid>
+      </div>
     </>
   );
 };

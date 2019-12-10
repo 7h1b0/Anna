@@ -1,5 +1,4 @@
 import React from 'react';
-import { css } from '@emotion/core';
 
 import NavLink from 'components/nav-link';
 
@@ -12,16 +11,7 @@ import {
 
 const BottomActions: React.FC<{}> = () => {
   return (
-    <div
-      css={css`
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-        text-align: center;
-        position: fixed;
-        width: 100%;
-        bottom: 0;
-      `}
-    >
+    <div className="border-t-2 border-gray-700 flex xl:flex-col justify-around items-center ">
       <NavLink to="/">
         <ScenesIcon />
       </NavLink>

@@ -11,13 +11,10 @@ module.exports = api => {
           },
         },
       ],
-      [
-        '@emotion/babel-preset-css-prop',
-        {
-          autoLabel: false,
-        },
-      ],
     ],
-    plugins: ['@babel/plugin-proposal-class-properties'],
+    plugins: [
+      '@babel/plugin-transform-react-jsx',
+      '@babel/plugin-proposal-class-properties',
+    ],
   };
 };

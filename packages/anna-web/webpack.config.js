@@ -1,12 +1,13 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = ({ prod } = {}) => {
   return {
     mode: prod ? 'production' : 'development',
     entry: {
-      app: './src',
+      app: ['./src', './src/styles.css'],
     },
     output: {
       path: path.join(__dirname, 'dist'),
@@ -21,6 +22,16 @@ module.exports = ({ prod } = {}) => {
           test: /\.tsx?$/,
           loader: 'babel-loader',
           exclude: /node_modules/,
+        },
+        {
+          test: /\.css$/,
+          use: [
+            {
+              loader: MiniCssExtractPlugin.loader,
+            },
+            { loader: 'css-loader', options: { importLoaders: 1 } },
+            'postcss-loader',
+          ],
         },
       ],
     },
@@ -43,6 +54,11 @@ module.exports = ({ prod } = {}) => {
           : undefined,
       }),
       new CleanWebpackPlugin({ verbose: false }),
+      new MiniCssExtractPlugin({
+        filename: 'styles.[contenthash].css',
+        chunkFilename: '[id].css',
+        ignoreOrder: false,
+      }),
     ],
     resolve: {
       extensions: ['.js', '.ts', '.tsx'],

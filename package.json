@@ -16,6 +16,6 @@
     "start": "lerna run start --stream --parallel",
     "start:server": "lerna run start --scope anna-server --stream",
     "coverage": "lerna run coverage --stream",
-    "db:migrate": "learn run db:migrate"
+    "db:migrate": "lerna run db:migrate"
   }
 }

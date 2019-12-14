@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Card from './card';
 import Typographie from './typographie';
 
 import useAction from 'hooks/use-action';
@@ -14,9 +15,9 @@ const Scene: React.FC<{
     <div
       role="button"
       onClick={callScene}
-      className="text-gray-200 p-2 w-1/2 xl:w-1/6"
+      className="text-gray-200 px-1 w-1/2 xl:w-1/6"
     >
-      <div className=" flex justify-between items-center rounded bg-gray-800 p-2 xl:p-4">
+      <Card>
         <div>
           <Typographie>{name}</Typographie>
           <Typographie variant="caption">{description}</Typographie>
@@ -26,9 +27,9 @@ const Scene: React.FC<{
           viewBox="0 0 20 20"
           className="fill-current h-4 w-4"
         >
-          <path d="M12.95 10.707l.707-.707L8 4.343 6.586 5.757 10.828 10l-4.242 4.243L8 15.657l4.95-4.95z" />
+          <path d="M0 4c0-1.1.9-2 2-2h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm6 0v12h8V4H6zM2 5v2h2V5H2zm0 4v2h2V9H2zm0 4v2h2v-2H2zm14-8v2h2V5h-2zm0 4v2h2V9h-2zm0 4v2h2v-2h-2zM8 7l5 3-5 3V7z" />
         </svg>
-      </div>
+      </Card>
     </div>
   );
 };

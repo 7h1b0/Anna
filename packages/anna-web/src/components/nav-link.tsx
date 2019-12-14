@@ -20,7 +20,10 @@ const NavLink: React.FC<{ to: string }> = ({ to, children }) => {
     : 'fill-current text-white';
 
   return (
-    <Link to={to} className={`flex-1 fill-current px-4 py-4 ${activeClass}`}>
+    <Link
+      to={to}
+      className={`flex-1 xl:flex-initial fill-current px-4 py-6 ${activeClass}`}
+    >
       {children}
     </Link>
   );

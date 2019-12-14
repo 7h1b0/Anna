@@ -1,17 +1,21 @@
 import React from 'react';
 
-import Header from 'components/header';
+import Title from 'src/components/title';
 import Routine from 'components/routine';
 
-import useFetch from 'src/hooks/use-fetch';
+import { useDataStore } from 'context/db-context';
 import { Routine as RoutineType } from 'types/routine';
 
 const Routines: React.FC<{}> = () => {
-  const routines = useFetch<RoutineType>('/api/routines');
+  const routines = useDataStore<RoutineType>('routines');
+
+  if (routines === null) {
+    return <p>Loading</p>;
+  }
 
   return (
     <>
-      <Header title="Routines" />
+      <Title title="Routines" />
       {routines
         .sort((a, b) => a.nextRunAt - b.nextRunAt)
         .map(el => (

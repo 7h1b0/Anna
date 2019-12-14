@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import { ArrowIcon } from './icons';
 import Card from './card';
 import Typographie from './typographie';
 
@@ -13,6 +14,7 @@ const Room: React.FC<{
     <Link to={`/rooms/${room.roomId}`}>
       <Card>
         <Typographie>{room.name}</Typographie>
+        <ArrowIcon className="fill-current h-4 w-4" />
       </Card>
     </Link>
   );

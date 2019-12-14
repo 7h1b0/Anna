@@ -3,6 +3,23 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
+const purgecss = require('@fullhuman/postcss-purgecss')({
+  content: ['./src/**/*.tsx', './public/index.html'],
+
+  defaultExtractor: content => content.match(/[\w-/:]+(?<!:)/g) || [],
+});
+const cssnano = require('cssnano')({
+  preset: [
+    'default',
+    {
+      discardComments: {
+        removeAll: true,
+      },
+    },
+  ],
+});
+const tailwindcss = require('tailwindcss')('./tailwindcss-config.js');
+
 module.exports = ({ prod } = {}) => {
   return {
     mode: prod ? 'production' : 'development',
@@ -30,7 +47,12 @@ module.exports = ({ prod } = {}) => {
               loader: MiniCssExtractPlugin.loader,
             },
             { loader: 'css-loader', options: { importLoaders: 1 } },
-            'postcss-loader',
+            {
+              loader: 'postcss-loader',
+              options: {
+                plugins: [tailwindcss, ...(prod ? [purgecss, cssnano] : [])],
+              },
+            },
           ],
         },
       ],

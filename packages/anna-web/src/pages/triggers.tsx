@@ -1,15 +1,19 @@
 import React from 'react';
 
-import Header from 'components/header';
+import Title from 'src/components/title';
 import Trigger from 'components/trigger';
 import Typographie from 'components/typographie';
 
-import useFetch from 'src/hooks/use-fetch';
+import { useDataStore } from 'context/db-context';
 import { groupBy } from 'modules/array';
 import { Trigger as TriggerType } from 'types/trigger';
 
 const Triggers: React.FC<{}> = () => {
-  const triggers = useFetch<TriggerType>('/api/alias');
+  const triggers = useDataStore<TriggerType>('triggers');
+
+  if (triggers === null) {
+    return <p>Loading</p>;
+  }
 
   const [enabledTriggers, disabledTriggers] = groupBy(
     triggers,
@@ -17,7 +21,7 @@ const Triggers: React.FC<{}> = () => {
   );
   return (
     <>
-      <Header title="Triggers" />
+      <Title title="Triggers" />
       <Typographie>Enabled</Typographie>
       <div className="flex flex-wrap">
         {enabledTriggers.map(triggers => (

@@ -1,11 +1,12 @@
+/* purgecss start ignore */
 @tailwind base;
 
 html,
 body {
   @apply h-full;
-  @apply bg-gray-900;
 }
 
 @tailwind components;
+/* purgecss end ignore */
 
 @tailwind utilities;

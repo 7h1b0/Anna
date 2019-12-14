@@ -12,7 +12,7 @@ const Scenes: React.FC<{}> = () => {
 
   return (
     <>
-      <Header title="Scenes" subtitle="Welcome Plop" />
+      <Header title="Scenes" />
       <div className="flex flex-wrap -mx-2">
         {scenes.map(({ name, description, sceneId }) => (
           <Scene

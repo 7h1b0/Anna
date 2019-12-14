@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Header from 'components/header';
 import Input from 'components/input';
+import HomeIcon from 'components/icons';
 
 import { useSetUser } from 'context/user-context';
 
@@ -40,8 +40,9 @@ const Login: React.FC<{}> = () => {
   };
 
   return (
-    <div className="max-w-lg m-auto">
-      <Header title="Login" />
+    <div className="max-w-sm m-auto p-8">
+      <HomeIcon className="text-teal-500 fill-current w-12 mx-auto" />
+      <h1 className="text-white text-xl text-center">ANNA</h1>
       {error && (
         <div
           className="bg-red-500 rounded text-white px-4 py-3 mt-4"
@@ -50,7 +51,7 @@ const Login: React.FC<{}> = () => {
           Invalid credential
         </div>
       )}
-      <form onSubmit={handleSubmit} className="mt-4">
+      <form onSubmit={handleSubmit} className="mt-16">
         <Input
           name="username"
           label="Username"
@@ -66,7 +67,7 @@ const Login: React.FC<{}> = () => {
         />
         <button
           type="submit"
-          className="border-transparent border-4 bg-teal-500 hover:bg-teal-700 text-sm px-2 py-1 rounded"
+          className="mt-4 border-transparent w-full border-4 bg-teal-500 hover:bg-teal-700 text-sm px-2 py-1 rounded"
         >
           Submit
         </button>

@@ -7,6 +7,7 @@ import Scenes from 'src/pages/scenes';
 import Rooms from 'src/pages/rooms';
 import Routines from 'src/pages/routines';
 import Triggers from 'src/pages/triggers';
+import Logout from 'src/pages/logout';
 import Devices from 'src/pages/devices';
 
 const AuthenticateApp = () => {
@@ -26,6 +27,9 @@ const AuthenticateApp = () => {
             </Route>
             <Route path="/triggers">
               <Triggers />
+            </Route>
+            <Route path="/logout">
+              <Logout />
             </Route>
             <Route path="/">
               <Scenes />

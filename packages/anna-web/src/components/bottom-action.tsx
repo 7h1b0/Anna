@@ -4,25 +4,26 @@ import NavLink from 'components/nav-link';
 
 import {
   ScenesIcon,
-  RoomsIcon,
+  HomeIcon,
   RoutinesIcon,
   TriggersIcon,
 } from 'components/icons';
 
 const BottomActions: React.FC<{}> = () => {
+  const className = 'w-6 mx-auto';
   return (
-    <div className="border-t-2 border-gray-700 flex xl:flex-col justify-around items-center ">
+    <div className="shadow flex xl:flex-col justify-around items-center ">
       <NavLink to="/">
-        <ScenesIcon />
+        <ScenesIcon className={className} />
       </NavLink>
       <NavLink to="/rooms">
-        <RoomsIcon />
+        <HomeIcon className={className} />
       </NavLink>
       <NavLink to="/routines">
-        <RoutinesIcon />
+        <RoutinesIcon className={className} />
       </NavLink>
       <NavLink to="/triggers">
-        <TriggersIcon />
+        <TriggersIcon className={className} />
       </NavLink>
     </div>
   );

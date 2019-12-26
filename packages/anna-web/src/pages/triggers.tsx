@@ -23,13 +23,13 @@ const Triggers: React.FC<{}> = () => {
     <>
       <Title title="Triggers" />
       <Typographie>Enabled</Typographie>
-      <div className="flex flex-wrap">
+      <div>
         {enabledTriggers.map(triggers => (
           <Trigger key={triggers.aliasId} trigger={triggers} />
         ))}
       </div>
       <Typographie>Disabled</Typographie>
-      <div className="flex flex-wrap">
+      <div>
         {disabledTriggers.map(triggers => (
           <Trigger key={triggers.aliasId} trigger={triggers} />
         ))}

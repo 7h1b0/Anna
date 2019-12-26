@@ -11,6 +11,7 @@ import Triggers from 'src/pages/triggers';
 import Logout from 'src/pages/logout';
 import Settings from 'src/pages/settings';
 import Devices from 'src/pages/devices';
+import TriggerEdit from 'src/pages/trigger-edit';
 
 const AuthenticateApp = () => {
   return (
@@ -27,6 +28,9 @@ const AuthenticateApp = () => {
             </Route>
             <Route path="/routines">
               <Routines />
+            </Route>
+            <Route path="/triggers/:triggerId">
+              <TriggerEdit />
             </Route>
             <Route path="/triggers">
               <Triggers />

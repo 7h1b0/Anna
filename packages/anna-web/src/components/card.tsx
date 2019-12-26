@@ -1,14 +1,14 @@
 import React from 'react';
 
 const Card: React.FC<{
-  role?: 'button';
+  role?: string;
   onClick?: () => void;
 }> = ({ children, role, onClick }) => {
   return (
     <div
       role={role}
       onClick={onClick}
-      className="rounded bg-gray-800 p-2 xl:p-4"
+      className="text-gray-200 flex justify-between items-center rounded bg-gray-800 p-4 mb-2 hover:bg-gray-700"
     >
       {children}
     </div>

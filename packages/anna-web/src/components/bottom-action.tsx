@@ -10,9 +10,9 @@ import {
 } from 'components/icons';
 
 const BottomActions: React.FC<{}> = () => {
-  const className = 'w-6 mx-auto';
+  const className = 'w-5 mx-auto';
   return (
-    <div className="shadow flex xl:flex-col justify-around items-center ">
+    <div className="shadow flex xl:flex-col justify-around xl:justify-center items-center bg-black">
       <NavLink to="/">
         <ScenesIcon className={className} />
       </NavLink>

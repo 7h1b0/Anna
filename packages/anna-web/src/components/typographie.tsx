@@ -14,8 +14,9 @@ const getClassName = (variant: Variant): string => {
 
 const Typographie: React.FC<{
   variant?: Variant;
-}> = ({ variant = 'body', children }) => {
-  return <p className={getClassName(variant)}>{children}</p>;
+  className?: string;
+}> = ({ className = '', variant = 'body', children }) => {
+  return <p className={`${getClassName(variant)} ${className}`}>{children}</p>;
 };
 
 export default Typographie;

@@ -5,9 +5,6 @@ type User = {
   username: string | null;
 };
 
-//    username: 'Plop',
-// token: '1db05c1c3b989a0bf492171f86b2d9a1d681',
-
 const UserStateContext = React.createContext<User | null>(null);
 const UserDispatchContext = React.createContext<(user: User) => void>(() => {});
 

@@ -15,7 +15,7 @@ routes.get('/api', (req, res) => {
     Alias.findAll(),
     Room.findAll(),
     Routine.findAll(),
-    hueService.getLights(),
+    hueService.getLights().catch(() => []),
   ])
     .then(([scenes, dios, alias, rooms, routines, hueLights]) =>
       res.json({

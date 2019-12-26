@@ -1,7 +1,8 @@
 import React from 'react';
 
 import Input from 'components/input';
-import HomeIcon from 'components/icons';
+import Button from 'components/button';
+import { HomeIcon } from 'components/icons';
 
 import { useSetUser } from 'context/user-context';
 
@@ -40,38 +41,35 @@ const Login: React.FC<{}> = () => {
   };
 
   return (
-    <div className="max-w-sm m-auto p-8">
-      <HomeIcon className="text-teal-500 fill-current w-12 mx-auto" />
-      <h1 className="text-white text-xl text-center">ANNA</h1>
-      {error && (
-        <div
-          className="bg-red-500 rounded text-white px-4 py-3 mt-4"
-          role="alert"
-        >
-          Invalid credential
-        </div>
-      )}
-      <form onSubmit={handleSubmit} className="mt-16">
-        <Input
-          name="username"
-          label="Username"
-          value={identifier.username}
-          onChange={e => setIdentifer({ [e.target.name]: e.target.value })}
-        />
-        <Input
-          name="password"
-          label="Password"
-          type="password"
-          value={identifier.password}
-          onChange={e => setIdentifer({ [e.target.name]: e.target.value })}
-        />
-        <button
-          type="submit"
-          className="mt-4 border-transparent w-full border-4 bg-teal-500 hover:bg-teal-700 text-sm px-2 py-1 rounded"
-        >
-          Submit
-        </button>
-      </form>
+    <div className="w-full h-full bg-gray-900">
+      <div className="max-w-sm m-auto py-8">
+        <HomeIcon className="text-teal-500 fill-current w-12 mx-auto" />
+        <h1 className="text-white text-xl text-center">ANNA</h1>
+        <form onSubmit={handleSubmit} className="mt-16">
+          {error && (
+            <div
+              className="bg-red-500 rounded text-white px-4 py-3 my-4"
+              role="alert"
+            >
+              Invalid credential
+            </div>
+          )}
+          <Input
+            name="username"
+            label="Username"
+            value={identifier.username}
+            onChange={e => setIdentifer({ [e.target.name]: e.target.value })}
+          />
+          <Input
+            name="password"
+            label="Password"
+            type="password"
+            value={identifier.password}
+            onChange={e => setIdentifer({ [e.target.name]: e.target.value })}
+          />
+          <Button type="submit">Submit</Button>
+        </form>
+      </div>
     </div>
   );
 };

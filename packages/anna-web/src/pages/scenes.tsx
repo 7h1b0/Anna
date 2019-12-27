@@ -3,12 +3,12 @@ import React from 'react';
 import Title from 'src/components/title';
 import Scene from 'components/scene';
 
-import { useDataStore } from 'context/db-context';
+import { useDataStoreGetAll } from 'context/db-context';
 
 import { Scene as SceneType } from 'types/scene';
 
 const Scenes: React.FC<{}> = () => {
-  const scenes = useDataStore<SceneType>('scenes');
+  const scenes = useDataStoreGetAll<SceneType>('scenes');
 
   if (scenes === null) {
     return <p>Loading</p>;

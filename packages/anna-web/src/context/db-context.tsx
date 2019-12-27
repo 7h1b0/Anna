@@ -12,7 +12,7 @@ const DataStoreContext = React.createContext<IDBPDatabase<AnnaDatabase> | null>(
   null,
 );
 
-export function useDataStore<T extends AnnaThings>(
+export function useDataStoreGetAll<T extends AnnaThings>(
   storeName: Stores,
 ): T[] | null {
   const [data, setData] = React.useState<T[] | null>(null);
@@ -27,6 +27,25 @@ export function useDataStore<T extends AnnaThings>(
     }
     fetchData();
   }, [storeName, datastore]);
+  return data;
+}
+
+export function useDataStoreGet<T extends AnnaThings>(
+  storeName: Stores,
+  annaThingsId: string,
+): T | null {
+  const [data, setData] = React.useState<T | null>(null);
+  const datastore = React.useContext(DataStoreContext);
+  React.useEffect(() => {
+    async function fetchData() {
+      if (datastore !== null) {
+        const data = await datastore.get(storeName, annaThingsId);
+        // @ts-ignore
+        setData(data);
+      }
+    }
+    fetchData();
+  }, [storeName, datastore, annaThingsId]);
   return data;
 }
 

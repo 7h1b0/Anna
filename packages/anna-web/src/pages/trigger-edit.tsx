@@ -4,16 +4,15 @@ import { useParams } from 'react-router-dom';
 import Title from 'src/components/title';
 import TriggerForm from 'components/trigger-form';
 
-import useFetch from 'src/hooks/use-fetch';
-import { useDataStore } from 'context/db-context';
+import { useDataStoreGetAll, useDataStoreGet } from 'context/db-context';
 
 import { Trigger as TriggerType } from 'types/trigger';
 import { Scene as SceneType } from 'types/scene';
 
 const TriggerEdit: React.FC<{}> = () => {
-  const { triggerId } = useParams();
-  const trigger = useFetch<TriggerType>(`/api/alias/${triggerId}`);
-  const scenes = useDataStore<SceneType>('scenes');
+  const { triggerId = '' } = useParams();
+  const trigger = useDataStoreGet<TriggerType>('triggers', triggerId);
+  const scenes = useDataStoreGetAll<SceneType>('scenes');
 
   if (trigger && scenes) {
     return (

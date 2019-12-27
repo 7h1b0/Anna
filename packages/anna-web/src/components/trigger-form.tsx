@@ -2,11 +2,14 @@ import React from 'react';
 
 import Input from 'components/input';
 import Button from 'components/button';
+import SecondaryButton from 'components/secondary-button';
 import Alert from 'components/alert';
 import Select from 'components/select';
 import Checkbox from 'components/checkbox';
 
 import useRequest from 'hooks/use-request';
+import { useDatabase } from 'context/db-context';
+import { useHistory } from 'react-router-dom';
 import { Trigger as TriggerType } from 'types/trigger';
 import { Scene as SceneType } from 'types/scene';
 
@@ -26,6 +29,8 @@ const TriggerForm: React.FC<Props> = ({ trigger, scenes }) => {
   const [updatedTrigger, dispatch] = React.useReducer(reducer, trigger);
   const [hasError, setError] = React.useState(false);
   const request = useRequest();
+  const history = useHistory();
+  const datastore = useDatabase();
 
   const handleChange = (prop: keyof TriggerType) => (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -46,10 +51,15 @@ const TriggerForm: React.FC<Props> = ({ trigger, scenes }) => {
         sceneId,
         enabled,
       });
-      setError(false);
+      await datastore.put('triggers', updatedTrigger);
+      history.push('/triggers');
     } catch (error) {
       setError(true);
     }
+  };
+
+  const handleCancel = () => {
+    history.goBack();
   };
 
   return (
@@ -84,7 +94,10 @@ const TriggerForm: React.FC<Props> = ({ trigger, scenes }) => {
         onChange={handleChange('enabled')}
       />
 
-      <Button type="submit">Submit</Button>
+      <div className="flex justify-between max-w-xs m-auto">
+        <SecondaryButton onClick={handleCancel}>Cancel</SecondaryButton>
+        <Button type="submit">Save</Button>
+      </div>
     </form>
   );
 };

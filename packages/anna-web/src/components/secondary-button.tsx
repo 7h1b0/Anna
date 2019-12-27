@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Button: React.FC<{
+const SecondaryButton: React.FC<{
   type?: 'button' | 'reset' | 'submit';
   onClick?: () => void;
 }> = ({ children, onClick, type = 'button' }) => {
@@ -8,11 +8,11 @@ const Button: React.FC<{
     <button
       type={type}
       onClick={onClick}
-      className="text-white mt-4 border-transparent bg-teal-500 hover:bg-teal-700 text-sm px-8 py-2 rounded-full"
+      className="text-white mt-4 border-2 border-teal-800 px-8 bg-transparent hover:border-teal-700 text-sm py-2 rounded-full"
     >
       {children}
     </button>
   );
 };
 
-export default Button;
+export default SecondaryButton;

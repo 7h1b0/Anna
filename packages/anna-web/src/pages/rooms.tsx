@@ -3,11 +3,11 @@ import React from 'react';
 import Title from 'src/components/title';
 import Room from 'components/room';
 
-import { useDataStore } from 'context/db-context';
+import { useDataStoreGetAll } from 'context/db-context';
 import { Room as RoomType } from 'types/room';
 
 const Routines: React.FC<{}> = () => {
-  const rooms = useDataStore<RoomType>('rooms');
+  const rooms = useDataStoreGetAll<RoomType>('rooms');
 
   if (rooms === null) {
     return <p>Loading</p>;

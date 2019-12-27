@@ -67,9 +67,10 @@ const TriggerForm: React.FC<Props> = ({ trigger, scenes }) => {
       {hasError && <Alert>Invalid form</Alert>}
       <Input
         name="name"
-        label="name"
+        label="name - read only"
         value={updatedTrigger.name}
         onChange={handleChange('name')}
+        disabled
       />
       <Input
         name="description"

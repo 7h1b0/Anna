@@ -2,6 +2,7 @@ import React from 'react';
 
 import Input from 'components/input';
 import Button from 'components/button';
+import Alert from 'components/alert';
 import { HomeIcon } from 'components/icons';
 
 import { useSetUser } from 'context/user-context';
@@ -46,14 +47,7 @@ const Login: React.FC<{}> = () => {
         <HomeIcon className="text-teal-500 fill-current w-12 mx-auto" />
         <h1 className="text-white text-xl text-center">ANNA</h1>
         <form onSubmit={handleSubmit} className="mt-16">
-          {error && (
-            <div
-              className="bg-red-500 rounded text-white px-4 py-3 my-4"
-              role="alert"
-            >
-              Invalid credential
-            </div>
-          )}
+          {error && <Alert>Invalid credential</Alert>}
           <Input
             name="username"
             label="Username"

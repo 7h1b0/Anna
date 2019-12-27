@@ -1,13 +1,13 @@
 import { useUser } from 'context/user-context';
 
-export default function useRequest<T>(): (
+export default function useRequest(): (
   path: string,
   method: 'GET' | 'POST' | 'DELETE' | 'PATCH',
   body?: Object,
-) => Promise<T> {
+) => Promise<Response> {
   const user = useUser();
 
-  return async (path, method, body): Promise<T> => {
+  return async (path, method, body): Promise<Response> => {
     const headers: Record<string, string> = {
       'x-access-token': user && user.token ? user.token : '',
     };
@@ -25,6 +25,9 @@ export default function useRequest<T>(): (
           }
         : { method, headers },
     );
-    return res.json();
+    if (res.status >= 400 && res.status < 600) {
+      throw new Error('Bad response from server');
+    }
+    return res;
   };
 }

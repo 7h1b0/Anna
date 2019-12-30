@@ -223,9 +223,9 @@ describe('Routine API', () => {
 
       it('should disable routine', async () => {
         const clock = lolex.install({ now: new Date('2017-08-12T16:00:00') });
-        const mock = jest.fn();
+        const spy = jest.spyOn(Routine, 'run');
 
-        await RoutineService.load(mock);
+        await RoutineService.load();
         expect(clock.countTimers()).toBe(2);
 
         const response = await request(app)
@@ -244,7 +244,7 @@ describe('Routine API', () => {
 
         clock.next();
         expect(Date.now()).toBe(new Date('2017-08-13T09:00:00').getTime());
-        expect(mock).toHaveBeenCalledTimes(1);
+        expect(spy).toHaveBeenCalledTimes(1);
         clock.uninstall();
 
         const routine = await knex(Routine.TABLE)

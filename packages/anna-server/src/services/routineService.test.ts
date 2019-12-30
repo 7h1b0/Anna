@@ -90,7 +90,7 @@ describe('routineService', () => {
     });
 
     it('should not start a new process if not enabled', () => {
-      const spy = jest.fn();
+      const spy = jest.spyOn(Routine, 'run');
       const clock = lolex.install();
       routineService.start(
         createRoutine({
@@ -99,7 +99,6 @@ describe('routineService', () => {
           interval: '* * * * * *',
           nextRunAt: new Date('2018-01-01'),
         }),
-        spy,
       );
 
       clock.next();

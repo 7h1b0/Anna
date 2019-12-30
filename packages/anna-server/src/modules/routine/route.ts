@@ -21,7 +21,7 @@ routes
 
       Routine.save(userId, name, sceneId, interval, enabled, runAtBankHoliday)
         .then(routine => {
-          RoutineService.start(routine);
+          RoutineService.schedule(routine);
           res.status(201).json({ routineId: routine.routineId });
         })
         .catch(err => res.status(500).send({ err }));
@@ -57,7 +57,7 @@ routes
         .then(async rowsAffected => {
           if (!!rowsAffected) {
             const routine = await Routine.findById(routineId);
-            RoutineService.start(routine);
+            RoutineService.schedule(routine);
             res.sendStatus(204);
           } else {
             res.sendStatus(404);

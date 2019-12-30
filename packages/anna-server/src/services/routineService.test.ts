@@ -48,11 +48,11 @@ describe('routineService', () => {
     routineService.processes.clear();
   });
 
-  describe('start', () => {
-    it('should start a new process and call it every second', () => {
+  describe('schedule', () => {
+    it('should schedule a new process and call it every second', () => {
       const spy = jest.spyOn(Routine, 'run');
       const clock = lolex.install();
-      routineService.start(
+      routineService.schedule(
         createRoutine({
           interval: '* * * * * *',
         }),
@@ -67,7 +67,7 @@ describe('routineService', () => {
 
     it('should stop process with the same id', () => {
       const clock = lolex.install();
-      routineService.start(
+      routineService.schedule(
         createRoutine({
           routineId: 'test',
           enabled: true,
@@ -76,7 +76,7 @@ describe('routineService', () => {
         }),
       );
 
-      routineService.start(
+      routineService.schedule(
         createRoutine({
           routineId: 'test',
           enabled: true,
@@ -89,10 +89,10 @@ describe('routineService', () => {
       expect(clock.countTimers()).toBe(1);
     });
 
-    it('should not start a new process if not enabled', () => {
+    it('should not schedule a new process if not enabled', () => {
       const spy = jest.spyOn(Routine, 'run');
       const clock = lolex.install();
-      routineService.start(
+      routineService.schedule(
         createRoutine({
           routineId: 'test',
           enabled: false,
@@ -111,7 +111,7 @@ describe('routineService', () => {
   describe('stop', () => {
     it('should stop an existing process', () => {
       const clock = lolex.install();
-      routineService.start(
+      routineService.schedule(
         createRoutine({
           routineId: 'test',
           enabled: true,
@@ -129,7 +129,7 @@ describe('routineService', () => {
 
     it('should do nothing if routineId is unknow', () => {
       const clock = lolex.install();
-      routineService.start(
+      routineService.schedule(
         createRoutine({
           routineId: 'test',
           enabled: true,

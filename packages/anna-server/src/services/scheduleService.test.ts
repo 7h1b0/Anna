@@ -31,6 +31,13 @@ describe('scheduleService', () => {
 
       expect(nextRunAt).toEqual(new Date('2017-08-15T12:00'));
     });
+
+    it('should return a date corresponding to the timestamp given', () => {
+      const date = new Date(2019, 6, 6);
+      const timestamp = `${date.getTime()}`;
+      const nextRunAt = ScheduleService.computeNextRunAt(timestamp);
+      expect(nextRunAt).toEqual(date);
+    });
   });
 
   describe('isValidCron', () => {

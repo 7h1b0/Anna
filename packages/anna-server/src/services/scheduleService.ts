@@ -21,9 +21,13 @@ export function isValidCron(cron?: string): boolean {
   }
 }
 
-export function computeNextRunAt(cron: string, runAtBankHoliday = true) {
+export function computeNextRunAt(time: string, runAtBankHoliday = true) {
+  if (/^\d{13,}$/.test(time)) {
+    return new Date(parseInt(time, 10));
+  }
+
   try {
-    const interval = parser.parseExpression(cron, {
+    const interval = parser.parseExpression(time, {
       currentDate: new Date(),
     });
 

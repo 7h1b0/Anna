@@ -192,6 +192,7 @@ describe('Routines', () => {
         expect.objectContaining({
           nextRunAt: new Date('2017-08-15T05:00').getTime(),
           lastRunAt: new Date('2017-08-14T16:00').getTime(),
+          createdBy: initRoutines[0].createdBy,
         }),
       );
       expect(dispatch).toHaveBeenCalledWith({
@@ -206,6 +207,30 @@ describe('Routines', () => {
       clock.uninstall();
 
       expect(dispatch).toHaveBeenCalled();
+    });
+
+    it('should update failReason and lastFailedAt', async () => {
+      const clock = lolex.install({ now: new Date('2017-08-14T16:00') });
+      // @ts-ignore
+      dispatch.mockRejectedValue('Failed');
+
+      const res = await Routine.run(initRoutines[0]);
+      clock.uninstall();
+
+      expect(res).toEqual(1);
+      const routine = await knex(Routine.TABLE)
+        .first()
+        .where('routineId', initRoutines[0].routineId);
+
+      expect(routine).toEqual(
+        expect.objectContaining({
+          nextRunAt: new Date('2017-08-15T05:00').getTime(),
+          lastRunAt: new Date('2017-08-14T16:00').getTime(),
+          lastFailedAt: new Date('2017-08-14T16:00').getTime(),
+          failReason: JSON.stringify('Failed'),
+          createdBy: initRoutines[0].createdBy,
+        }),
+      );
     });
   });
 

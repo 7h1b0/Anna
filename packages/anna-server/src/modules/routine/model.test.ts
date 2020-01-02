@@ -154,11 +154,12 @@ describe('Routines', () => {
 
     it('should return false if a property is unknow', () => {
       const routine = {
-        routineId: '00c1d78e-fd1c-4717-b610-65d2fa3d01b2',
         name: 'My routine',
         sceneId: '00c1d78e-fd1c-4717-b610-65d2fa3d01b2',
         interval: '* * * * *',
-        createdBy: 'test_user',
+        runAtBankHoliday: true,
+        enabled: true,
+        hacked: 'fsociety',
       };
 
       expect(Routine.validate(routine)).toBeFalsy();
@@ -166,14 +167,42 @@ describe('Routines', () => {
 
     it('should return false if interval is invalid', () => {
       const routine = {
-        routineId: '00c1d78e-fd1c-4717-b610-65d2fa3d01b2',
         name: 'My routine',
         sceneId: '00c1d78e-fd1c-4717-b610-65d2fa3d01b2',
         interval: '',
-        createdBy: 'test_user',
+        runAtBankHoliday: true,
+        enabled: true,
       };
 
       expect(Routine.validate(routine)).toBeFalsy();
+    });
+
+    it('should return true if interval is a timestamp', () => {
+      const clock = lolex.install({ now: new Date('2017-08-14T16:00') });
+      const routine = {
+        name: 'My routine',
+        sceneId: '00c1d78e-fd1c-4717-b610-65d2fa3d01b2',
+        interval: `${Date.now() + 1}`,
+        runAtBankHoliday: true,
+        enabled: true,
+      };
+
+      expect(Routine.validate(routine)).toBeTruthy();
+      clock.uninstall();
+    });
+
+    it('should return false if interval is a timestamp in the past', () => {
+      const clock = lolex.install({ now: new Date('2017-08-14T16:00') });
+      const routine = {
+        name: 'My routine',
+        sceneId: '00c1d78e-fd1c-4717-b610-65d2fa3d01b2',
+        interval: `${Date.now() - 1}`,
+        runAtBankHoliday: true,
+        enabled: true,
+      };
+
+      expect(Routine.validate(routine)).toBeFalsy();
+      clock.uninstall();
     });
   });
 
@@ -209,7 +238,7 @@ describe('Routines', () => {
       expect(dispatch).toHaveBeenCalled();
     });
 
-    it('should update failReason and lastFailedAt', async () => {
+    it('should update failReason and lastFailedAt when run failed', async () => {
       const clock = lolex.install({ now: new Date('2017-08-14T16:00') });
       // @ts-ignore
       dispatch.mockRejectedValue('Failed');

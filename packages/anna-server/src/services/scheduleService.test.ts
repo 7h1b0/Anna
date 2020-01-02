@@ -67,6 +67,19 @@ describe('scheduleService', () => {
       expect(spy).toHaveBeenCalledTimes(2);
     });
 
+    it('should schedule a new process and call it every second', () => {
+      const spy = jest.fn();
+      const clock = lolex.install();
+      ScheduleService.schedule('test', `${Date.now() + 1000}`, spy);
+
+      clock.tick(1000); // should call spy
+      clock.tick(1000); // should do nothing
+      clock.uninstall();
+
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(ScheduleService.processes.size).toBe(0);
+    });
+
     it('should stop process with the same id', () => {
       const clock = lolex.install();
       ScheduleService.schedule('test', '* * * * * *', jest.fn());
@@ -85,6 +98,7 @@ describe('scheduleService', () => {
       expect(clock.countTimers()).toBe(1);
       ScheduleService.stop('test');
       expect(clock.countTimers()).toBe(0);
+      expect(ScheduleService.processes.size).toBe(0);
 
       clock.uninstall();
     });

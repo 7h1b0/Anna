@@ -4,6 +4,10 @@ import * as logger from 'utils/logger';
 
 export const processes: Map<string, NodeJS.Timeout> = new Map();
 
+export function isTimestamp(time?: string) {
+  return /^\d{13,}$/.test(time ?? '');
+}
+
 export function isValidCron(cron?: string): boolean {
   if (typeof cron !== 'string') {
     return false;
@@ -22,7 +26,7 @@ export function isValidCron(cron?: string): boolean {
 }
 
 export function computeNextRunAt(time: string, runAtBankHoliday = true) {
-  if (/^\d{13,}$/.test(time)) {
+  if (isTimestamp(time)) {
     return new Date(parseInt(time, 10));
   }
 
@@ -55,6 +59,7 @@ export function stop(id: string) {
   const timeout = processes.get(id);
   if (timeout) {
     clearTimeout(timeout);
+    processes.delete(id);
   }
 }
 
@@ -69,7 +74,12 @@ export function schedule(
   const process = setTimeout(() => {
     logger.info(`Launch ${id}`);
     run(id);
-    schedule(id, interval, run, options);
+
+    if (isValidCron(interval)) {
+      schedule(id, interval, run, options);
+    } else {
+      processes.delete(id);
+    }
   }, diffInMilliseconds(interval, options.runAtBankHoliday));
   processes.set(id, process);
 }

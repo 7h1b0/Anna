@@ -53,6 +53,8 @@ describe('Routine API', () => {
   });
 
   beforeEach(async () => {
+    // @ts-ignore
+    dispatch.mockClear();
     await knex(Routine.TABLE).truncate();
     await knex(Routine.TABLE).insert(initRoutines);
   });
@@ -152,6 +154,50 @@ describe('Routine API', () => {
           updatedAt: expect.any(Number),
           nextRunAt: expect.any(Number),
         });
+      });
+
+      it('should create a temporary routine', async () => {
+        const clock = lolex.install({ now: new Date('2017-08-12T16:00:00') });
+        const payload = {
+          sceneId: 'faaed78e-fd1c-4717-b610-65d2fa3d01dd',
+          name: 'new_routine',
+          interval: `${Date.now() + 2000}`,
+        };
+        const response = await request(app)
+          .post('/api/routines')
+          .set('Accept', 'application/json')
+          .set('x-access-token', user.token)
+          .send(payload);
+
+        expect(response.status).toHaveStatusOk();
+
+        await clock.nextAsync();
+        expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenCalledWith({
+          type: 'SCENE',
+          targetId: payload.sceneId,
+        });
+        expect(clock.countTimers()).toBeFalsy();
+
+        clock.uninstall();
+      });
+
+      it('should reject temporary routine in the past', async () => {
+        const clock = lolex.install({ now: new Date('2017-08-12T16:00:00') });
+        const response = await request(app)
+          .post('/api/routines')
+          .set('Accept', 'application/json')
+          .set('x-access-token', user.token)
+          .send({
+            sceneId: 'faaed78e-fd1c-4717-b610-65d2fa3d01b2',
+            name: 'new_routine',
+            interval: `${Date.now() - 10000}`,
+          });
+
+        expect(response.status).toBeBadRequest();
+        expect(clock.countTimers()).toBeFalsy();
+
+        clock.uninstall();
       });
     });
   });

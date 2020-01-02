@@ -1,6 +1,6 @@
 import TYPES from './type';
 import { AnnaAction } from './actions';
-import { findById as findSceneById } from 'modules/scene/model';
+import { findBySceneId } from 'modules/scene/action';
 import { setLightState } from 'services/hueService';
 import dioAdd from 'services/dioService';
 
@@ -13,9 +13,9 @@ export default async function dispatch(action: AnnaAction): Promise<void> {
       return dioAdd(action.targetId, action.body.on);
 
     case TYPES.SCENE:
-      await findSceneById(action.targetId).then(scene => {
-        if (scene) {
-          return Promise.all(scene.actions.map(action => dispatch(action)));
+      await findBySceneId(action.targetId).then(actions => {
+        if (actions) {
+          return Promise.all(actions.map(action => dispatch(action)));
         }
         throw new Error(`Cannot find scene ${action.targetId}`);
       });

@@ -1,8 +1,7 @@
 import dispatch from './dispatch';
 import * as hueService from '../services/hueService';
 import dioAdd from '../services/dioService';
-import * as Scene from 'modules/scene/model';
-import { SceneAction } from 'modules/scene/model';
+import * as Action from 'modules/scene/action';
 import { toggleHueLight } from './actions';
 import TYPES from './type';
 
@@ -10,11 +9,9 @@ jest.mock('../services/dioService', () => jest.fn(async () => {}));
 
 describe('Dispatch', () => {
   beforeAll(() => {
-    jest.spyOn(Scene, 'findById').mockImplementation(async () => {
-      return new SceneAction('test', 'test', 'test', 'test', [
-        toggleHueLight('5', true),
-      ]);
-    });
+    jest
+      .spyOn(Action, 'findBySceneId')
+      .mockResolvedValue([toggleHueLight('5', true)]);
 
     jest.spyOn(hueService, 'setLightState').mockImplementation(async () => {});
   });

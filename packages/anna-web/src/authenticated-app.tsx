@@ -12,6 +12,7 @@ import Logout from 'src/pages/logout';
 import Settings from 'src/pages/settings';
 import Devices from 'src/pages/devices';
 import TriggerEdit from 'src/pages/trigger-edit';
+import RoutineEdit from 'src/pages/routine-edit';
 
 const AuthenticateApp = () => {
   return (
@@ -25,6 +26,9 @@ const AuthenticateApp = () => {
             </Route>
             <Route path="/rooms">
               <Rooms />
+            </Route>
+            <Route path="/routines/:routineId">
+              <RoutineEdit />
             </Route>
             <Route path="/routines">
               <Routines />

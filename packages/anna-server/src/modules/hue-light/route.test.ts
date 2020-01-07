@@ -222,7 +222,7 @@ describe('Hue Light API', () => {
       expect(response.status).toBeUnauthorized();
     });
 
-    it('should return 400 when body is invalid', async () => {
+    it('should return 400 when body is empty', async () => {
       const response = await request(app)
         .patch('/api/hue/lights/2/state')
         .set('Accept', 'application/json')
@@ -242,8 +242,8 @@ describe('Hue Light API', () => {
       expect(response.status).toBeBadRequest();
     });
 
-    it('should call fetch with body passed', async () => {
-      const body = { on: true, bri: 25, xy: [23, 45] };
+    it('should convert hexColor to xy', async () => {
+      const body = { on: true, bri: 25, hex: '#FD7580' };
       const response = await request(app)
         .patch('/api/hue/lights/2/state')
         .set('Accept', 'application/json')
@@ -253,7 +253,10 @@ describe('Hue Light API', () => {
       expect(response.status).toHaveStatusOk();
       expect(fetch).toHaveBeenCalledWith(
         'http://testIP/api/abcdefghijklmnopqrstuvwxywz/lights/2/state',
-        { body: JSON.stringify(body), method: 'put' },
+        {
+          body: JSON.stringify({ on: true, bri: 25, xy: [0.5448, 0.3012] }),
+          method: 'put',
+        },
       );
     });
   });

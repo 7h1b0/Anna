@@ -25,6 +25,12 @@ export async function findById(dioId: number): Promise<Dio> {
     .where('dioId', dioId);
 }
 
+export async function findByRoomId(roomId: string): Promise<Dio[]> {
+  return knex(TABLE)
+    .select('dioId', 'roomId', 'name')
+    .where('roomId', roomId);
+}
+
 export async function save(newDio: Dio): Promise<Dio> {
   return knex(TABLE)
     .insert(newDio)

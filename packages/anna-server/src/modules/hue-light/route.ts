@@ -2,7 +2,7 @@ import { Router } from 'express';
 import * as hueService from 'services/hueService';
 import dispatch from 'utils/dispatch';
 import { toggleHueLight } from 'utils/actions';
-import * as HueLight from 'modules/hue-light/hueLight';
+import * as HueLight from 'modules/hue-light/model';
 import { HueLigthBody } from 'modules/scene/action';
 import { hexToXY, isHexColor } from 'services/hueColor';
 

@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import { findAll, findRoomId } from 'modules/hue-light/hueLight';
+import { findAll, findRoomId } from 'modules/hue-light/model';
 import { HueLigthBody } from 'modules/scene/action';
 import { XYToHex } from './hueColor';
 

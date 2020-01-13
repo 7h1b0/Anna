@@ -2,7 +2,7 @@ import knex from '../../knexClient';
 export const TABLE = 'lights';
 export const COLUMNS = ['roomId', 'lightId'];
 
-export function findRoomId(lightId: number) {
+export function findRoomId(lightId: number): Promise<string[]> {
   return knex(TABLE)
     .first('roomId')
     .where('lightId', lightId);
@@ -10,6 +10,13 @@ export function findRoomId(lightId: number) {
 
 export function findAll() {
   return knex(TABLE).select(...COLUMNS);
+}
+
+export function findByRoomId(roomId: string): Promise<number[]> {
+  return knex(TABLE)
+    .select('lightId')
+    .where('roomId', roomId)
+    .then(res => res.map(({ lightId }) => lightId));
 }
 
 export function save(lightId: number, roomId: string) {

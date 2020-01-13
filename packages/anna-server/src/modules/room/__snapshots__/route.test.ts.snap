@@ -18,6 +18,14 @@ Array [
     "roomId": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
     "updatedAt": 1514851200000,
   },
+  Object {
+    "createdAt": 1514764800000,
+    "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
+    "description": "this is a second test",
+    "name": "room_3",
+    "roomId": "d10c80e8-49e4-4d6b-b966-4fc9fb98879f",
+    "updatedAt": 1514851200000,
+  },
 ]
 `;
 
@@ -37,6 +45,30 @@ Object {
   "createdAt": 1514764800000,
   "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
   "description": "this is a test",
+  "devices": Object {
+    "dios": Array [
+      Object {
+        "dioId": 1,
+        "name": "test_1",
+        "roomId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
+      },
+      Object {
+        "dioId": 2,
+        "name": "test_2",
+        "roomId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
+      },
+    ],
+    "hueLights": Array [
+      Object {
+        "id": 1,
+        "roomId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
+      },
+      Object {
+        "id": 2,
+        "roomId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
+      },
+    ],
+  },
   "name": "room_1",
   "roomId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
   "updatedAt": 1514851200000,

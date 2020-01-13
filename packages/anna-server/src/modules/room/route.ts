@@ -1,5 +1,7 @@
 import { Router } from 'express';
 import * as Room from 'modules/room/model';
+import { findByRoomId as findDio } from 'modules/dio/model';
+import { getLights } from 'services/hueService';
 
 const routes = Router();
 routes
@@ -24,15 +26,30 @@ routes
 routes
   .route('/api/rooms/:room_id([a-fA-F0-9-]{36})')
   .get((req, res) => {
-    Room.findById(req.params.room_id)
-      .then(room => {
+    const roomId = req.params.room_id;
+    const fetchDio = findDio(roomId);
+    const fetchAllLights = getLights();
+    const fetchRoom = Room.findById(roomId);
+
+    Promise.all([fetchRoom, fetchDio, fetchAllLights])
+      .then(([room, dios, lights]) => {
         if (!room) {
-          res.sendStatus(404);
-        } else {
-          res.json(room);
+          return res.sendStatus(404);
         }
+        const filteredLights = lights.filter(light => light.roomId === roomId);
+
+        res.json(
+          Object.assign(room, {
+            devices: {
+              dios,
+              hueLights: filteredLights,
+            },
+          }),
+        );
       })
-      .catch(err => res.status(500).send({ err }));
+      .catch(err => {
+        res.status(500).send({ err });
+      });
   })
   .patch((req, res) => {
     const isValid = Room.validate(req.body);
@@ -54,7 +71,7 @@ routes
     Room.remove(req.params.room_id)
       .then(rowsAffected => {
         if (rowsAffected < 1) {
-          res.sendStatus(404);
+          res.sendStatus(403);
         } else {
           res.sendStatus(204);
         }

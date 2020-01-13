@@ -3,7 +3,7 @@ import uuidv4 from 'uuid/v4';
 import roomSchema from './schema';
 import knex from '../../knexClient';
 import * as Dio from 'modules/dio/model';
-import * as HueLight from 'modules/hue-light/hueLight';
+import * as HueLight from 'modules/hue-light/model';
 
 export const TABLE = 'rooms';
 export const COLUMNS = [

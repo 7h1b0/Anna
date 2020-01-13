@@ -9,8 +9,13 @@ Array [
   },
   RowDataPacket {
     "dioId": 2,
-    "name": "test",
+    "name": "test_2",
     "roomId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
+  },
+  RowDataPacket {
+    "dioId": 3,
+    "name": "test_3",
+    "roomId": "1fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
   },
 ]
 `;

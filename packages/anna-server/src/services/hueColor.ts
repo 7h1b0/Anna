@@ -4,6 +4,21 @@ type RGB = {
   b: number;
 };
 
+export function roundN(value: number, precision: number): number {
+  const tenToN = 10 ** precision;
+  return Math.round(value * tenToN) / tenToN;
+}
+
+export function RGBToHex(r: number, g: number, b: number): string {
+  return (
+    '#' +
+    [r, g, b]
+      .map(x => x.toString(16).padStart(2, '0'))
+      .join('')
+      .toUpperCase()
+  );
+}
+
 /**
  * Converts XY color to HEX color
  */
@@ -67,21 +82,6 @@ export function hexToRGB(hex: string): RGB | null {
         b: parseInt(match[3], 16),
       }
     : null;
-}
-
-export function RGBToHex(r: number, g: number, b: number): string {
-  return (
-    '#' +
-    [r, g, b]
-      .map(x => x.toString(16).padStart(2, '0'))
-      .join('')
-      .toUpperCase()
-  );
-}
-
-export function roundN(value: number, precision: number): number {
-  const tenToN = 10 ** precision;
-  return Math.round(value * tenToN) / tenToN;
 }
 
 /**

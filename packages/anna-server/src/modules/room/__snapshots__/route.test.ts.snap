@@ -60,12 +60,26 @@ Object {
     ],
     "hueLights": Array [
       Object {
-        "id": 1,
+        "id": "1",
+        "name": "light_1",
         "roomId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
+        "state": Object {
+          "bri": 1,
+          "on": true,
+          "reachable": true,
+        },
+        "type": "Dimmable light",
       },
       Object {
-        "id": 2,
+        "id": "2",
+        "name": "light_2",
         "roomId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
+        "state": Object {
+          "bri": 1,
+          "on": true,
+          "reachable": true,
+        },
+        "type": "Dimmable light",
       },
     ],
   },

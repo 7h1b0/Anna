@@ -142,7 +142,7 @@ describe('Rooms API', () => {
   });
 
   describe('/api/rooms/:id', () => {
-    let mock: jest.SpyInstance<Promise<any>, []>;
+    let mock: jest.SpyInstance<Promise<hueService.HueLight[]>, []>;
     beforeAll(() => {
       mock = jest.spyOn(hueService, 'getLights').mockResolvedValue([
         {

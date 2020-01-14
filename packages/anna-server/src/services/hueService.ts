@@ -37,7 +37,7 @@ type DimmableLight = {
   id?: string;
 };
 
-type HueLight = ColorLight | DimmableLight;
+export type HueLight = ColorLight | DimmableLight;
 
 const toArray = (jsonObject): HueLight[] =>
   Object.keys(jsonObject).map(id => ({ ...jsonObject[id], id }));

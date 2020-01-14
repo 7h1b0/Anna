@@ -4,9 +4,10 @@ import dispatch from 'utils/dispatch';
 import { toggleHueLight } from 'utils/actions';
 import * as HueLight from 'modules/hue-light/hueLight';
 import { HueLigthBody } from 'modules/scene/action';
+import { hexToXY, isHexColor } from 'services/hueColor';
 
 const routes = Router();
-function getState({ on, xy, bri }) {
+function getState({ on, hex, bri }) {
   const state: Partial<HueLigthBody> = {};
 
   if (on !== undefined) {
@@ -21,8 +22,8 @@ function getState({ on, xy, bri }) {
     state.bri = parseInt(bri, 10);
   }
 
-  if (Array.isArray(xy)) {
-    state.xy = xy.map(item => parseFloat(item));
+  if (isHexColor(hex)) {
+    state.xy = hexToXY(hex);
   }
 
   return state;

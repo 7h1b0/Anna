@@ -51,17 +51,12 @@ export async function saveConfig(
   database: IDBPDatabase<AnnaDatabase>,
   annaConfig: Config,
 ) {
-  console.log('YOLO, will save', annaConfig, database);
   return Promise.all([
     addAll(database, 'scenes', annaConfig.scenes),
     addAll(database, 'routines', annaConfig.routines),
     addAll(database, 'triggers', annaConfig.alias),
     addAll(database, 'rooms', annaConfig.rooms),
-  ])
-    .then(() => {
-      console.log('SUCCEED');
-    })
-    .catch(console.log);
+  ]).catch(console.log);
 }
 
 async function addAll(
@@ -71,7 +66,7 @@ async function addAll(
 ) {
   try {
     const tx = database.transaction(store, 'readwrite');
-    objects.forEach(object => {
+    objects.forEach((object) => {
       tx.store.put(object);
     });
     await tx.done;

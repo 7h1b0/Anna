@@ -63,9 +63,7 @@ describe('Dio', () => {
 
       const newDio = await Dio.save(save);
       expect(newDio).toEqual(save);
-      const dios = await knex(Dio.TABLE)
-        .first()
-        .where('dioId', save.dioId);
+      const dios = await knex(Dio.TABLE).first().where('dioId', save.dioId);
       expect(dios).toEqual(save);
     });
 

@@ -75,9 +75,7 @@ describe('Dio API', () => {
 
         expect(response.status).toHaveStatusOk();
 
-        const dio = await knex(Dio.TABLE)
-          .first()
-          .where('dioId', 3);
+        const dio = await knex(Dio.TABLE).first().where('dioId', 3);
         expect(dio).toEqual({
           dioId: 3,
           name: 'test_post',
@@ -218,9 +216,7 @@ describe('Dio API', () => {
 
         expect(response.status).toHaveStatusOk();
 
-        const dio = await knex(Dio.TABLE)
-          .select()
-          .where('roomId', 1);
+        const dio = await knex(Dio.TABLE).select().where('roomId', 1);
 
         expect(dio).toHaveLength(0);
       });

@@ -13,9 +13,7 @@ export interface User {
 }
 
 export function findByToken(token: string) {
-  return knex(TABLE)
-    .first('userId', 'username')
-    .where('token', token);
+  return knex(TABLE).first('userId', 'username').where('token', token);
 }
 
 export async function findAll(): Promise<{ userId: string; username: string }> {
@@ -32,9 +30,7 @@ export function findByIdAndUpdate(
   userId: string,
   payload: Partial<Omit<User, 'userId'>>,
 ) {
-  return knex(TABLE)
-    .update(payload)
-    .where('userId', userId);
+  return knex(TABLE).update(payload).where('userId', userId);
 }
 
 export async function save(newUser: Omit<User, 'userId'>) {
@@ -44,9 +40,7 @@ export async function save(newUser: Omit<User, 'userId'>) {
 }
 
 export function remove(userId: string) {
-  return knex(TABLE)
-    .where('userId', userId)
-    .del();
+  return knex(TABLE).where('userId', userId).del();
 }
 
 export function validate(data: object) {

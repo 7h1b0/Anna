@@ -8,7 +8,7 @@ const Button: React.FC<{
     <button
       type={type}
       onClick={onClick}
-      className="text-white mt-4 border-transparent bg-teal-500 hover:bg-teal-700 text-sm px-8 py-2 rounded-full"
+      className="text-white border-transparent bg-teal-500 hover:bg-teal-700 text-sm px-8 py-2 rounded"
     >
       {children}
     </button>

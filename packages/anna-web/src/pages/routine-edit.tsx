@@ -17,7 +17,7 @@ const RoutineEdit: React.FC<{}> = () => {
   if (routine && scenes) {
     return (
       <>
-        <Title title="Routine Form" />
+        <Title title="Routine Form" activateNavigation />
         <RoutineForm routine={routine} scenes={scenes} />
       </>
     );

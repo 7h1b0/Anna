@@ -63,8 +63,8 @@ export function computeNextRunAt(cron: string, runAtBankHoliday = true) {
 }
 
 export function updateAllNextRunAt(routines: Routine[]) {
-  return knex.transaction(function(trx) {
-    const reqs = routines.map(routine => {
+  return knex.transaction(function (trx) {
+    const reqs = routines.map((routine) => {
       const nextRunAt = computeNextRunAt(
         routine.interval,
         routine.runAtBankHoliday,
@@ -76,9 +76,7 @@ export function updateAllNextRunAt(routines: Routine[]) {
         .where('routineId', routine.routineId);
     });
 
-    Promise.all(reqs)
-      .then(trx.commit)
-      .catch(trx.rollback);
+    Promise.all(reqs).then(trx.commit).catch(trx.rollback);
   });
 }
 
@@ -92,9 +90,7 @@ export async function findAll(): Promise<Routine[]> {
 }
 
 export async function findById(routineId: string): Promise<Routine> {
-  return knex(TABLE)
-    .first(COLUMNS)
-    .where('routineId', routineId);
+  return knex(TABLE).first(COLUMNS).where('routineId', routineId);
 }
 
 export async function save(
@@ -124,18 +120,14 @@ export async function save(
 }
 
 export async function remove(routineId: string): Promise<number> {
-  return knex(TABLE)
-    .where('routineId', routineId)
-    .del();
+  return knex(TABLE).where('routineId', routineId).del();
 }
 
 export async function findByIdAndUpdate(
   routineId: string,
   payload: Routine,
 ): Promise<number> {
-  return knex(TABLE)
-    .update(payload)
-    .where('routineId', routineId);
+  return knex(TABLE).update(payload).where('routineId', routineId);
 }
 
 export async function run(routine: Routine) {

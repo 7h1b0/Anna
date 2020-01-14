@@ -91,9 +91,7 @@ describe('Users', () => {
       };
 
       const userId = await User.save(save);
-      const user = await knex(User.TABLE)
-        .first()
-        .where('userId', userId);
+      const user = await knex(User.TABLE).first().where('userId', userId);
 
       expect(user).toMatchSnapshot({
         userId: expect.stringMatching(/[a-fA-F0-9-]{36}/),

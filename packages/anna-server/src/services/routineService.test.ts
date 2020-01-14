@@ -2,7 +2,7 @@ import * as routineService from './routineService';
 import knex from 'knexClient';
 import * as Routine from 'modules/routine/model';
 import { createRoutine } from 'factories';
-import lolex from 'lolex';
+import lolex from '@sinonjs/fake-timers';
 
 jest.mock('utils/dispatch');
 
@@ -44,7 +44,7 @@ describe('routineService', () => {
 
   afterEach(async () => {
     await knex(Routine.TABLE).truncate();
-    routineService.processes.forEach(process => clearTimeout(process));
+    routineService.processes.forEach((process) => clearTimeout(process));
     routineService.processes.clear();
   });
 

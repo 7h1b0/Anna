@@ -20,15 +20,11 @@ export async function findAll(): Promise<Dio[]> {
 }
 
 export async function findById(dioId: number): Promise<Dio> {
-  return knex(TABLE)
-    .first('dioId', 'roomId', 'name')
-    .where('dioId', dioId);
+  return knex(TABLE).first('dioId', 'roomId', 'name').where('dioId', dioId);
 }
 
 export async function findByRoomId(roomId: string): Promise<Dio[]> {
-  return knex(TABLE)
-    .select('dioId', 'roomId', 'name')
-    .where('roomId', roomId);
+  return knex(TABLE).select('dioId', 'roomId', 'name').where('roomId', roomId);
 }
 
 export async function save(newDio: Dio): Promise<Dio> {
@@ -38,16 +34,12 @@ export async function save(newDio: Dio): Promise<Dio> {
 }
 
 export function remove(dioId: number) {
-  return knex(TABLE)
-    .where('dioId', dioId)
-    .del();
+  return knex(TABLE).where('dioId', dioId).del();
 }
 
 export function findByIdAndUpdate(
   dioId: number,
   payload: Partial<Omit<Dio, 'dioId'>>,
 ) {
-  return knex(TABLE)
-    .update(payload)
-    .where('dioId', dioId);
+  return knex(TABLE).update(payload).where('dioId', dioId);
 }

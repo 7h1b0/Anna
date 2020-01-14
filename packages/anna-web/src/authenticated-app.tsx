@@ -3,13 +3,13 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import BottomNavigation from 'components/bottom-action';
 
-import Header from 'src/components/header';
 import Scenes from 'src/pages/scenes';
 import Rooms from 'src/pages/rooms';
 import Routines from 'src/pages/routines';
 import Triggers from 'src/pages/triggers';
 import Logout from 'src/pages/logout';
 import Settings from 'src/pages/settings';
+import HueLight from 'src/pages/hue-light';
 import Devices from 'src/pages/devices';
 import TriggerEdit from 'src/pages/trigger-edit';
 import RoutineEdit from 'src/pages/routine-edit';
@@ -18,9 +18,11 @@ const AuthenticateApp = () => {
   return (
     <Router>
       <div className="h-full flex justify-end flex-col xl:flex-row-reverse bg-black xl:bg-gray-900">
-        <div className="flex-1 px-4 rounded-b-xl xl:rounded-none bg-gray-900 max-w-1440">
-          <Header />
+        <div className="flex-1 px-4 rounded-b-xl xl:rounded-none bg-gray-900 max-w-1440 overflow-y-auto">
           <Switch>
+            <Route path="/rooms/light/:lightId">
+              <HueLight />
+            </Route>
             <Route path="/rooms/:roomId">
               <Devices />
             </Route>

@@ -1,12 +1,12 @@
-exports.up = function(knex) {
-  const createUsersTable = knex.schema.createTable('users', table => {
+exports.up = function (knex) {
+  const createUsersTable = knex.schema.createTable('users', (table) => {
     table.uuid('userId').primary();
     table.string('username').notNullable();
     table.string('password').notNullable();
     table.string('token').notNullable();
   });
 
-  const createRoomsTable = knex.schema.createTable('rooms', table => {
+  const createRoomsTable = knex.schema.createTable('rooms', (table) => {
     table.uuid('roomId').primary();
     table.string('name').notNullable();
     table.string('description');
@@ -21,7 +21,7 @@ exports.up = function(knex) {
     table.uuid('createdBy').notNullable();
   });
 
-  const createLogsTable = knex.schema.createTable('logs', table => {
+  const createLogsTable = knex.schema.createTable('logs', (table) => {
     table.increments();
     table.string('ip');
     table.string('httpMethod');
@@ -30,16 +30,13 @@ exports.up = function(knex) {
     table.string('username');
   });
 
-  const createDioTable = knex.schema.createTable('dios', table => {
-    table
-      .integer('dioId')
-      .primary()
-      .notNullable();
+  const createDioTable = knex.schema.createTable('dios', (table) => {
+    table.integer('dioId').primary().notNullable();
     table.string('name');
     table.uuid('roomId');
   });
 
-  const createScenesTable = knex.schema.createTable('scenes', table => {
+  const createScenesTable = knex.schema.createTable('scenes', (table) => {
     table.uuid('sceneId').primary();
     table.string('name');
     table.string('description');
@@ -54,7 +51,7 @@ exports.up = function(knex) {
     table.uuid('createdBy').notNullable();
   });
 
-  const createActionsTable = knex.schema.createTable('actions', table => {
+  const createActionsTable = knex.schema.createTable('actions', (table) => {
     table.uuid('actionId').primary();
     table.uuid('sceneId').notNullable();
     table.string('name');
@@ -63,7 +60,7 @@ exports.up = function(knex) {
     table.json('body');
   });
 
-  const createAliasTable = knex.schema.createTable('alias', table => {
+  const createAliasTable = knex.schema.createTable('alias', (table) => {
     table.uuid('aliasId').primary();
     table.uuid('sceneId').notNullable();
     table.string('name').notNullable();
@@ -80,11 +77,8 @@ exports.up = function(knex) {
     table.uuid('createdBy').notNullable();
   });
 
-  const createHueLightTable = knex.schema.createTable('lights', table => {
-    table
-      .integer('lightId')
-      .primary()
-      .notNullable();
+  const createHueLightTable = knex.schema.createTable('lights', (table) => {
+    table.integer('lightId').primary().notNullable();
     table.uuid('roomId');
   });
 
@@ -100,7 +94,7 @@ exports.up = function(knex) {
   ]);
 };
 
-exports.down = function(knex) {
+exports.down = function (knex) {
   return Promise.all([
     knex.schema.dropTable('users'),
     knex.schema.dropTable('rooms'),

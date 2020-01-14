@@ -37,15 +37,11 @@ export async function findAll(): Promise<Alias[]> {
 }
 
 export async function findById(aliasId: string): Promise<Alias> {
-  return knex(TABLE)
-    .first(COLUMNS)
-    .where('aliasId', aliasId);
+  return knex(TABLE).first(COLUMNS).where('aliasId', aliasId);
 }
 
 export async function findByName(name: string): Promise<Alias> {
-  return knex(TABLE)
-    .first(COLUMNS)
-    .where('name', name);
+  return knex(TABLE).first(COLUMNS).where('name', name);
 }
 
 export async function save({
@@ -74,9 +70,7 @@ export async function save({
 }
 
 export function remove(aliasId: string) {
-  return knex(TABLE)
-    .where('aliasId', aliasId)
-    .del();
+  return knex(TABLE).where('aliasId', aliasId).del();
 }
 
 export function findByIdAndUpdate(aliasId: string, payload: Partial<Alias>) {
@@ -87,7 +81,5 @@ export function findByIdAndUpdate(aliasId: string, payload: Partial<Alias>) {
     'updatedAt',
     'createdBy',
   );
-  return knex(TABLE)
-    .update(safePayload)
-    .where('aliasId', aliasId);
+  return knex(TABLE).update(safePayload).where('aliasId', aliasId);
 }

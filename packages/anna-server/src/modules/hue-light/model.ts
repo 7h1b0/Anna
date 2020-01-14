@@ -3,9 +3,7 @@ export const TABLE = 'lights';
 export const COLUMNS = ['roomId', 'lightId'];
 
 export function findRoomId(lightId: number): Promise<string[]> {
-  return knex(TABLE)
-    .first('roomId')
-    .where('lightId', lightId);
+  return knex(TABLE).first('roomId').where('lightId', lightId);
 }
 
 export function findAll() {
@@ -16,21 +14,16 @@ export function findByRoomId(roomId: string): Promise<number[]> {
   return knex(TABLE)
     .select('lightId')
     .where('roomId', roomId)
-    .then(res => res.map(({ lightId }) => lightId));
-}
-
-export function save(lightId: number, roomId: string) {
-  return knex(TABLE).insert({ lightId, roomId });
+    .then((res) => res.map(({ lightId }) => lightId));
 }
 
 export function remove(lightId: number): Promise<number> {
-  return knex(TABLE)
-    .where('lightId', lightId)
-    .del();
+  return knex(TABLE).where('lightId', lightId).del();
 }
 
-export async function findByIdAndUpdate(lightId: number, roomId: string) {
-  await knex(TABLE)
-    .update({ roomId })
-    .where('lightId', lightId);
+export async function insertOrUpdate(lightId: number, roomId: string) {
+  await knex.raw(
+    'INSERT INTO lights (lightId, roomId) values (?, ?) ON DUPLICATE KEY UPDATE roomId=VALUES(roomId)',
+    [lightId, roomId],
+  );
 }

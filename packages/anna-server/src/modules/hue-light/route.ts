@@ -32,8 +32,8 @@ function getState({ on, hex, bri }) {
 routes.route('/api/hue/lights').get((req, res) => {
   hueService
     .getLights()
-    .then(lights => res.json(lights))
-    .catch(err => res.status(500).send({ err }));
+    .then((lights) => res.json(lights))
+    .catch((err) => res.status(500).send({ err }));
 });
 
 routes
@@ -41,8 +41,8 @@ routes
   .get((req, res) => {
     hueService
       .getLight(Number(req.params.id_light))
-      .then(light => res.json(light))
-      .catch(err => res.status(500).send({ err }));
+      .then((light) => res.json(light))
+      .catch((err) => res.status(500).send({ err }));
   })
   .patch((req, res) => {
     if (req.body.name === undefined && req.body.roomId === undefined) {
@@ -54,23 +54,12 @@ routes
       : Promise.resolve();
 
     const changeRoomId = req.body.roomId
-      ? HueLight.findByIdAndUpdate(Number(req.params.id_light), req.body.roomId)
+      ? HueLight.insertOrUpdate(Number(req.params.id_light), req.body.roomId)
       : Promise.resolve();
 
     Promise.all([renameLight, changeRoomId])
       .then(() => res.sendStatus(204))
-      .catch(err => {
-        res.status(500).send({ err });
-      });
-  })
-  .post((req, res) => {
-    if (req.body.roomId === undefined) {
-      return res.sendStatus(400);
-    }
-
-    HueLight.save(Number(req.params.id_light), req.body.roomId)
-      .then(() => res.sendStatus(204))
-      .catch(err => {
+      .catch((err) => {
         res.status(500).send({ err });
       });
   });
@@ -82,7 +71,7 @@ routes.patch('/api/hue/lights/:id_light([0-9]+)/state', (req, res) => {
     hueService
       .setLightState(req.params.id_light, state)
       .then(() => res.sendStatus(204))
-      .catch(err => res.status(500).send({ err }));
+      .catch((err) => res.status(500).send({ err }));
   } else {
     res.sendStatus(400);
   }
@@ -91,7 +80,7 @@ routes.patch('/api/hue/lights/:id_light([0-9]+)/state', (req, res) => {
 routes.get('/api/hue/lights/:id_light([0-9]+)/:status(on|off)', (req, res) => {
   dispatch(toggleHueLight(req.params.id_light, req.params.status === 'on'))
     .then(() => res.sendStatus(204))
-    .catch(err => res.status(500).send({ err }));
+    .catch((err) => res.status(500).send({ err }));
 });
 
 export default routes;

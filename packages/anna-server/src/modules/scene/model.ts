@@ -52,9 +52,7 @@ export async function findAll(): Promise<Scene[]> {
 export async function findById(
   sceneId: string,
 ): Promise<SceneAction | undefined> {
-  const fetchScene = knex(TABLE)
-    .first(COLUMNS)
-    .where('sceneId', sceneId);
+  const fetchScene = knex(TABLE).first(COLUMNS).where('sceneId', sceneId);
   const fetchActions = findBySceneId(sceneId);
 
   const [scene, actions] = await Promise.all([fetchScene, fetchActions]);
@@ -71,23 +69,20 @@ export async function findByIdAndUpdate({
   actions,
 }: SceneAction) {
   return knex
-    .transaction(async trx => {
+    .transaction(async (trx) => {
       return trx
         .update({ name, description })
         .where('sceneId', sceneId)
         .into(TABLE)
-        .then(row => {
+        .then((row) => {
           if (row < 1) {
             throw new Error('No scene found');
           }
-          return trx
-            .del()
-            .where('sceneId', sceneId)
-            .into(ACTION_TABLE);
+          return trx.del().where('sceneId', sceneId).into(ACTION_TABLE);
         })
         .then(() => {
           return Promise.all(
-            actions.map(action => {
+            actions.map((action) => {
               const actionId = uuidv4();
               const formatedAction = {
                 type: action.type,
@@ -116,7 +111,7 @@ export async function save({
   actions,
 }: SceneAction) {
   const sceneId = uuidv4();
-  await knex.transaction(trx => {
+  await knex.transaction((trx) => {
     const insertIntoScene = trx
       .insert({
         sceneId,
@@ -126,7 +121,7 @@ export async function save({
       })
       .into(TABLE);
 
-    const insertIntoActions = actions.map(action => {
+    const insertIntoActions = actions.map((action) => {
       const formatedAction = {
         type: action.type,
         targetId: action.targetId,
@@ -144,11 +139,8 @@ export async function save({
 }
 
 export async function remove(sceneId: string): Promise<number[]> {
-  return knex.transaction(trx => {
-    const removeScene = trx
-      .del()
-      .where('sceneId', sceneId)
-      .into(TABLE);
+  return knex.transaction((trx) => {
+    const removeScene = trx.del().where('sceneId', sceneId).into(TABLE);
 
     const removeActions = trx
       .del()

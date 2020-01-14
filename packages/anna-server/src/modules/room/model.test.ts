@@ -72,9 +72,7 @@ describe('Room', () => {
       };
 
       const newRoomId = await Room.save(save);
-      const rooms = await knex(Room.TABLE)
-        .first()
-        .where('roomId', newRoomId);
+      const rooms = await knex(Room.TABLE).first().where('roomId', newRoomId);
 
       expect(rooms).toMatchSnapshot({
         roomId: expect.stringMatching(/[a-fA-F0-9-]{36}/),

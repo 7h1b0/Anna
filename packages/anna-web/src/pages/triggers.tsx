@@ -17,22 +17,26 @@ const Triggers: React.FC<{}> = () => {
 
   const [enabledTriggers, disabledTriggers] = groupBy(
     triggers,
-    triggers => triggers.enabled,
+    (triggers) => triggers.enabled,
   );
   return (
     <>
       <Title title="Triggers" />
-      <Typographie>Enabled</Typographie>
-      <div>
-        {enabledTriggers.map(triggers => (
-          <Trigger key={triggers.aliasId} trigger={triggers} />
-        ))}
+      <div className="mt-4">
+        <Typographie>Enabled</Typographie>
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-2">
+          {enabledTriggers.map((triggers) => (
+            <Trigger key={triggers.aliasId} trigger={triggers} />
+          ))}
+        </div>
       </div>
-      <Typographie>Disabled</Typographie>
-      <div>
-        {disabledTriggers.map(triggers => (
-          <Trigger key={triggers.aliasId} trigger={triggers} />
-        ))}
+      <div className="mt-4">
+        <Typographie>Disabled</Typographie>
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-2">
+          {disabledTriggers.map((triggers) => (
+            <Trigger key={triggers.aliasId} trigger={triggers} />
+          ))}
+        </div>
       </div>
     </>
   );

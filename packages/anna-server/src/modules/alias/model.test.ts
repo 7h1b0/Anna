@@ -66,9 +66,7 @@ describe('Alias', () => {
       };
 
       const aliasId = await Alias.save(save);
-      const alias = await knex(Alias.TABLE)
-        .first()
-        .where('aliasId', aliasId);
+      const alias = await knex(Alias.TABLE).first().where('aliasId', aliasId);
 
       expect(alias).toMatchSnapshot({
         aliasId: expect.stringMatching(/[a-fA-F0-9-]{36}/),

@@ -1,4 +1,4 @@
-import * as lolex from 'lolex';
+import * as lolex from '@sinonjs/fake-timers';
 import knex from '../../knexClient';
 import * as Routine from './model';
 import dispatch from 'utils/dispatch';

@@ -5,6 +5,7 @@ export type HueLight = {
   state: {
     on: boolean;
     bri: number;
-    xy: number[];
+    xy?: number[];
+    hex?: string;
   };
 };

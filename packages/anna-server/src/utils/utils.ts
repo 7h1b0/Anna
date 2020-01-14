@@ -4,15 +4,12 @@ export function omit<T extends object, K extends string[]>(
 ): {
   [K2 in Exclude<keyof T, K[number]>]: T[K2];
 } {
-  return Object.keys(object).reduce(
-    (acc, key) => {
-      if (!props.includes(key)) {
-        acc[key] = object[key];
-      }
-      return acc;
-    },
-    {} as { [K2 in Exclude<keyof T, K[number]>]: T[K2] },
-  );
+  return Object.keys(object).reduce((acc, key) => {
+    if (!props.includes(key)) {
+      acc[key] = object[key];
+    }
+    return acc;
+  }, {} as { [K2 in Exclude<keyof T, K[number]>]: T[K2] });
 }
 
 /**
@@ -54,6 +51,6 @@ export function isBankHoliday(date: Date) {
 
   date.setHours(0, 0, 0, 0);
   return getPublicHolidays(date.getFullYear()).some(
-    holiday => date.getTime() === holiday.getTime(),
+    (holiday) => date.getTime() === holiday.getTime(),
   );
 }

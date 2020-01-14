@@ -146,16 +146,37 @@ describe('Rooms API', () => {
     beforeAll(() => {
       mock = jest.spyOn(hueService, 'getLights').mockResolvedValue([
         {
-          id: 1,
+          id: '1',
           roomId: initRooms[0].roomId,
+          name: 'light_1',
+          type: 'Dimmable light',
+          state: {
+            on: true,
+            bri: 1,
+            reachable: true,
+          },
         },
         {
-          id: 2,
+          id: '2',
           roomId: initRooms[0].roomId,
+          name: 'light_2',
+          type: 'Dimmable light',
+          state: {
+            on: true,
+            bri: 1,
+            reachable: true,
+          },
         },
         {
-          id: 3,
+          id: '3',
           roomId: initRooms[1].roomId,
+          name: 'light_3',
+          type: 'Dimmable light',
+          state: {
+            on: true,
+            bri: 1,
+            reachable: true,
+          },
         },
       ]);
     });

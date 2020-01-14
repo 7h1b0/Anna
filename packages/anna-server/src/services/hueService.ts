@@ -21,6 +21,7 @@ type ColorLight = {
   };
   type: 'Extended color light';
   name: string;
+  roomId?: string;
   id?: string;
 };
 
@@ -32,6 +33,7 @@ type DimmableLight = {
   };
   type: 'Dimmable light';
   name: string;
+  roomId?: string;
   id?: string;
 };
 

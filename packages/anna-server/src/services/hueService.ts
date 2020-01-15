@@ -79,7 +79,7 @@ export async function getLight(lightId: number): Promise<HueLight> {
     findRoomId(lightId),
   ]);
 
-  return addHexColor({ ...body, ...roomId });
+  return addHexColor({ ...body, ...roomId, id: lightId });
 }
 
 export async function renameLight(id: number, name: string): Promise<void> {

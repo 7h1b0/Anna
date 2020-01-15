@@ -1,4 +1,5 @@
 module.exports = {
+  displayName: 'server',
   testEnvironment: 'jest-environment-node',
   moduleDirectories: ['node_modules', 'test', 'src'],
   setupFilesAfterEnv: ['<rootDir>/test/setup.ts'],

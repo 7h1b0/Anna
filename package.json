@@ -14,7 +14,6 @@
     "type:check": "lerna run type:check --stream",
     "lint:check": "lerna run lint:check --stream",
     "start": "lerna run start --stream --parallel",
-    "start:server": "lerna run start --scope anna-server --stream",
     "test": "lerna run test --stream",
     "coverage": "lerna run coverage --stream",
     "db:migrate": "lerna run db:migrate"

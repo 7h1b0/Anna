@@ -168,9 +168,7 @@ describe('Alias API', () => {
 
         expect(response.status).toHaveStatusOk();
 
-        const alias = await knex(Alias.TABLE)
-          .first()
-          .where('aliasId', 1);
+        const alias = await knex(Alias.TABLE).first().where('aliasId', 1);
 
         expect(alias).toMatchSnapshot({
           createdAt: expect.any(Number),

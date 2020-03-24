@@ -38,6 +38,6 @@ export function schedule(routine: Routine): void {
 
 export async function load() {
   const routines = await findAll();
-  routines.map(routine => schedule(routine));
+  routines.map((routine) => schedule(routine));
   await updateAllNextRunAt(routines);
 }

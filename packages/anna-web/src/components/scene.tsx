@@ -12,11 +12,7 @@ const Scene: React.FC<{
 }> = ({ sceneId, name, description }) => {
   const callScene = useAction(`/api/scenes/${sceneId}/action`);
   return (
-    <div
-      role="button"
-      onClick={callScene}
-      className="text-gray-200 px-1 w-1/2 xl:w-1/6"
-    >
+    <div role="button" onClick={callScene}>
       <Card>
         <div>
           <Typographie>{name}</Typographie>

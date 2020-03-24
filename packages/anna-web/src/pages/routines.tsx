@@ -16,11 +16,13 @@ const Routines: React.FC<{}> = () => {
   return (
     <>
       <Title title="Routines" />
-      {routines
-        .sort((a, b) => a.nextRunAt - b.nextRunAt)
-        .map(el => (
-          <Routine key={el.routineId} routine={el} />
-        ))}
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-2">
+        {routines
+          .sort((a, b) => a.nextRunAt - b.nextRunAt)
+          .map((el) => (
+            <Routine key={el.routineId} routine={el} />
+          ))}
+      </div>
     </>
   );
 };

@@ -8,7 +8,7 @@ const Card: React.FC<{
     <div
       role={role}
       onClick={onClick}
-      className="text-gray-200 flex justify-between items-center rounded bg-gray-800 p-4 mb-2 hover:bg-gray-700"
+      className="text-gray-200 flex justify-between items-center rounded bg-gray-800 p-4 hover:bg-gray-700"
     >
       {children}
     </div>

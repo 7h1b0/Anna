@@ -26,7 +26,7 @@ describe('User tests on binary', () => {
         method: 'post',
         body: JSON.stringify({ username: 'test', password: 'test' }),
         headers: { 'Content-Type': 'application/json' },
-      }).then(res => res.json());
+      }).then((res) => res.json());
 
       expect(res).toHaveProperty('username', 'test');
       expect(res).toHaveProperty('token');

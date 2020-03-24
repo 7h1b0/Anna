@@ -6,8 +6,8 @@ const routes = Router();
 
 routes.get('/api/users', (req, res) => {
   User.findAll()
-    .then(users => res.json(users))
-    .catch(err => res.status(500).send({ err }));
+    .then((users) => res.json(users))
+    .catch((err) => res.status(500).send({ err }));
 });
 
 routes
@@ -21,13 +21,13 @@ routes
     const { password } = req.body;
     cryptoUtil
       .hash(password)
-      .then(hashedPassword =>
+      .then((hashedPassword) =>
         User.findByIdAndUpdate(req.params.id_user, {
           password: hashedPassword,
         }),
       )
       .then(() => res.sendStatus(204))
-      .catch(err => res.status(500).send({ err }));
+      .catch((err) => res.status(500).send({ err }));
   })
   .delete((req, res) => {
     User.remove(req.params.id_user)

@@ -3,8 +3,9 @@ import React from 'react';
 import Input from 'components/input';
 import Button from 'components/button';
 import Alert from 'components/alert';
-import { HomeIcon } from 'components/icons';
 
+import { saveConfig } from 'modules/database';
+import { useDatabase } from 'context/db-context';
 import { useSetUser } from 'context/user-context';
 
 type Identifier = {
@@ -18,6 +19,7 @@ function reducer(state: Identifier, action: Partial<Identifier>): Identifier {
 
 const Login: React.FC<{}> = () => {
   const setUser = useSetUser();
+  const database = useDatabase();
   const [identifier, setIdentifer] = React.useReducer(reducer, {
     username: '',
     password: '',
@@ -33,7 +35,15 @@ const Login: React.FC<{}> = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(identifier),
-      }).then(res => res.json());
+      }).then((res) => res.json());
+
+      const config = await fetch('/api', {
+        headers: {
+          'x-access-token': result.token,
+        },
+      }).then((res) => res.json());
+
+      saveConfig(database, config);
 
       setUser({ username: identifier.username, token: result.token });
     } catch (err) {
@@ -44,22 +54,20 @@ const Login: React.FC<{}> = () => {
   return (
     <div className="w-full h-full bg-gray-900">
       <div className="max-w-sm m-auto py-8">
-        <HomeIcon className="text-teal-500 fill-current w-12 mx-auto" />
-        <h1 className="text-white text-xl text-center">ANNA</h1>
         <form onSubmit={handleSubmit} className="mt-16">
           {error && <Alert>Invalid credential</Alert>}
           <Input
             name="username"
             label="Username"
             value={identifier.username}
-            onChange={e => setIdentifer({ [e.target.name]: e.target.value })}
+            onChange={(e) => setIdentifer({ [e.target.name]: e.target.value })}
           />
           <Input
             name="password"
             label="Password"
             type="password"
             value={identifier.password}
-            onChange={e => setIdentifer({ [e.target.name]: e.target.value })}
+            onChange={(e) => setIdentifer({ [e.target.name]: e.target.value })}
           />
           <Button type="submit">Submit</Button>
         </form>

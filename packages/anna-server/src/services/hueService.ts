@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import { findAll, findRoomId } from 'modules/hue-light/hueLight';
+import { findAll, findRoomId } from 'modules/hue-light/model';
 import { HueLigthBody } from 'modules/scene/action';
 import { XYToHex } from './hueColor';
 
@@ -21,6 +21,7 @@ type ColorLight = {
   };
   type: 'Extended color light';
   name: string;
+  roomId?: string;
   id?: string;
 };
 
@@ -32,13 +33,14 @@ type DimmableLight = {
   };
   type: 'Dimmable light';
   name: string;
+  roomId?: string;
   id?: string;
 };
 
-type HueLight = ColorLight | DimmableLight;
+export type HueLight = ColorLight | DimmableLight;
 
 const toArray = (jsonObject): HueLight[] =>
-  Object.keys(jsonObject).map(id => ({ ...jsonObject[id], id }));
+  Object.keys(jsonObject).map((id) => ({ ...jsonObject[id], id }));
 
 const addHexColor = (hueLight: HueLight): HueLight => {
   if (
@@ -53,29 +55,27 @@ const addHexColor = (hueLight: HueLight): HueLight => {
 };
 
 export async function getLights(): Promise<HueLight[]> {
-  const [body, rooms] = await Promise.all([
-    fetch(`${api}/lights`).then(res => res.json()),
+  const [lights, rooms] = await Promise.all([
+    fetch(`${api}/lights`).then((res) => res.json()),
     findAll(),
   ]);
 
-  let correctedBody = body;
-
-  if (body) {
+  if (lights) {
     rooms.forEach(({ roomId, lightId }) => {
-      if (body.hasOwnProperty(lightId)) {
-        body[lightId].roomId = roomId;
+      if (lights.hasOwnProperty(lightId)) {
+        lights[lightId].roomId = roomId;
       }
     });
 
-    correctedBody = toArray(body).map(addHexColor);
+    return toArray(lights).map(addHexColor);
   }
 
-  return correctedBody;
+  return lights;
 }
 
 export async function getLight(lightId: number): Promise<HueLight> {
   const [body, roomId] = await Promise.all([
-    fetch(`${api}/lights/${lightId}`).then(res => res.json()),
+    fetch(`${api}/lights/${lightId}`).then((res) => res.json()),
     findRoomId(lightId),
   ]);
 
@@ -98,5 +98,5 @@ export async function setLightState(
     method: 'put',
     body: JSON.stringify(body),
   });
-  return res.json();
+  return await res.json();
 }

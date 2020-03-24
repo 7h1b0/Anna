@@ -25,8 +25,8 @@ routes.post('/api/register', (req, res) => {
   };
 
   createUser()
-    .then(user => res.status(201).json(user))
-    .catch(err => res.status(500).send({ err }));
+    .then((user) => res.status(201).json(user))
+    .catch((err) => res.status(500).send({ err }));
 });
 
 routes.post('/api/login', (req, res) => {
@@ -36,13 +36,13 @@ routes.post('/api/login', (req, res) => {
   }
   const { username, password } = req.body;
   User.findByUsername(username)
-    .then(findUser => {
+    .then((findUser) => {
       if (!findUser) {
         res.sendStatus(403);
       } else {
         cryptoUtil
           .verify(password, findUser.password)
-          .then(isValid => {
+          .then((isValid) => {
             if (!isValid) {
               throw new Error('Wrong password');
             }
@@ -54,7 +54,7 @@ routes.post('/api/login', (req, res) => {
           .catch(() => res.sendStatus(403));
       }
     })
-    .catch(err => res.status(500).send({ err }));
+    .catch((err) => res.status(500).send({ err }));
 });
 
 export default routes;

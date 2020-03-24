@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Title from 'src/components/title';
 import Button from 'src/components/button';
 import Typographie from 'src/components/typographie';
+import Card from 'src/components/card';
 
 import { saveConfig } from 'modules/database';
 import { useDatabase } from 'context/db-context';
@@ -18,7 +19,7 @@ const Settings: React.FC<{}> = () => {
       headers: {
         'x-access-token': user && user.token ? user.token : '',
       },
-    }).then(res => res.json());
+    }).then((res) => res.json());
 
     saveConfig(database, config);
   };
@@ -34,7 +35,7 @@ const Settings: React.FC<{}> = () => {
         >
           <path d="M5 5a5 5 0 0 1 10 0v2A5 5 0 0 1 5 7V5zM0 16.68A19.9 19.9 0 0 1 10 14c3.64 0 7.06.97 10 2.68V20H0v-3.32z" />
         </svg>
-        <div className="text-white flex-1 ml-4">
+        <div className="text-white flex-1 ml-2">
           <Typographie variant="heading" className="capitalize">
             {user ? user.username : ''}
           </Typographie>
@@ -43,7 +44,12 @@ const Settings: React.FC<{}> = () => {
           </Link>
         </div>
       </div>
-      <Button onClick={handleRefresh}>Refresh</Button>
+      <Card>
+        <Typographie variant="body" className="capitalize">
+          Refresh data
+        </Typographie>
+        <Button onClick={handleRefresh}>Refresh</Button>
+      </Card>
     </>
   );
 };

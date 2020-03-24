@@ -9,8 +9,8 @@ routes
   .route('/api/scenes')
   .get((req, res) => {
     Scene.findAll()
-      .then(scenes => res.json(scenes))
-      .catch(err => res.status(500).send({ err }));
+      .then((scenes) => res.json(scenes))
+      .catch((err) => res.status(500).send({ err }));
   })
   .post((req, res) => {
     const isValid = Scene.validate(req.body);
@@ -19,8 +19,8 @@ routes
     } else {
       const createdBy = res.locals.user.userId;
       Scene.save({ ...req.body, createdBy })
-        .then(sceneId => res.status(201).json({ sceneId }))
-        .catch(err => res.status(500).send({ err }));
+        .then((sceneId) => res.status(201).json({ sceneId }))
+        .catch((err) => res.status(500).send({ err }));
     }
   });
 
@@ -28,14 +28,14 @@ routes
   .route('/api/scenes/:sceneId([a-fA-F0-9-]{36})')
   .get((req, res) => {
     Scene.findById(req.params.sceneId)
-      .then(scene => {
+      .then((scene) => {
         if (!scene) {
           res.sendStatus(404);
         } else {
           res.json(scene);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         res.status(500).send({ err });
       });
   })
@@ -45,14 +45,14 @@ routes
       res.sendStatus(400);
     } else {
       Scene.findByIdAndUpdate({ ...req.body, sceneId: req.params.sceneId })
-        .then(rowsAffected => {
+        .then((rowsAffected) => {
           if (!!rowsAffected) {
             res.sendStatus(204);
           } else {
             res.sendStatus(404);
           }
         })
-        .catch(err => res.status(500).send({ err }));
+        .catch((err) => res.status(500).send({ err }));
     }
   })
   .delete((req, res) => {
@@ -64,7 +64,7 @@ routes
           res.sendStatus(204);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         res.status(500).send({ err });
       });
   });
@@ -72,7 +72,7 @@ routes
 routes.get('/api/scenes/:sceneId([a-fA-F0-9-]{36})/action', (req, res) => {
   dispatch(callScene(req.params.sceneId))
     .then(() => res.end())
-    .catch(err => {
+    .catch((err) => {
       logger.error(err);
       res.status(500).send({ err });
     });

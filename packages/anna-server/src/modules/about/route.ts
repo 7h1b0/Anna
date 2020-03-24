@@ -27,7 +27,7 @@ routes.get('/api', (req, res) => {
         hueLights,
       }),
     )
-    .catch(err => res.status(500).send({ err }));
+    .catch((err) => res.status(500).send({ err }));
 });
 
 export default routes;

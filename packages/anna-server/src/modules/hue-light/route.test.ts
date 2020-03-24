@@ -2,7 +2,7 @@ import request from 'supertest';
 import { createUser } from 'factories';
 import knex from 'knexClient';
 import * as User from 'modules/user/model';
-import * as hueLight from 'modules/hue-light/hueLight';
+import * as hueLight from 'modules/hue-light/model';
 import app from '../../index';
 import fetch from 'node-fetch';
 
@@ -85,10 +85,27 @@ describe('Hue Light API', () => {
           .send({ name: 'test' });
 
         expect(response.status).toHaveStatusOk();
-        expect(fetch).toHaveBeenCalledWith(
+        expect(
+          fetch,
+        ).toHaveBeenCalledWith(
           'http://testIP/api/abcdefghijklmnopqrstuvwxywz/lights/2',
           { body: JSON.stringify({ name: 'test' }), method: 'put' },
         );
+      });
+
+      it('should add light to a room', async () => {
+        const response = await request(app)
+          .patch('/api/hue/lights/3')
+          .set('Accept', 'application/json')
+          .set('x-access-token', user.token)
+          .send({ roomId: '0a80e3de-245a-4983-9b8f-67f37ceff94b' });
+
+        expect(response.status).toHaveStatusOk();
+        const res = await knex(hueLight.TABLE)
+          .first('roomId')
+          .where('lightId', 3);
+
+        expect(res).toEqual({ roomId: '0a80e3de-245a-4983-9b8f-67f37ceff94b' });
       });
 
       it('should update the roomId and the name', async () => {
@@ -104,7 +121,9 @@ describe('Hue Light API', () => {
           .send(updatedName);
 
         expect(response.status).toHaveStatusOk();
-        expect(fetch).toHaveBeenCalledWith(
+        expect(
+          fetch,
+        ).toHaveBeenCalledWith(
           'http://testIP/api/abcdefghijklmnopqrstuvwxywz/lights/2',
           { body: JSON.stringify({ name: 'test_room' }), method: 'put' },
         );
@@ -137,42 +156,6 @@ describe('Hue Light API', () => {
         expect(response.status).toBeBadRequest();
       });
     });
-
-    describe('POST', () => {
-      it('should add light to a room', async () => {
-        const response = await request(app)
-          .post('/api/hue/lights/3')
-          .set('Accept', 'application/json')
-          .set('x-access-token', user.token)
-          .send({ roomId: '0a80e3de-245a-4983-9b8f-67f37ceff94b' });
-
-        expect(response.status).toHaveStatusOk();
-        const res = await knex(hueLight.TABLE)
-          .first('roomId')
-          .where('lightId', 3);
-
-        expect(res).toEqual({ roomId: '0a80e3de-245a-4983-9b8f-67f37ceff94b' });
-      });
-
-      it('should retun 401 when user is not authenticated', async () => {
-        const response = await request(app)
-          .post('/api/hue/lights/3')
-          .set('Accept', 'application/json')
-          .set('x-access-token', 'fake');
-
-        expect(response.status).toBeUnauthorized();
-      });
-
-      it('should retun 400 if name is missing', async () => {
-        const response = await request(app)
-          .post('/api/hue/lights/3')
-          .set('Accept', 'application/json')
-          .set('x-access-token', user.token)
-          .send({ empty: '' });
-
-        expect(response.status).toBeBadRequest();
-      });
-    });
   });
 
   describe('api/hue/lights/:id_light/:status', () => {
@@ -192,7 +175,9 @@ describe('Hue Light API', () => {
         .set('x-access-token', user.token);
 
       expect(response.status).toHaveStatusOk();
-      expect(fetch).toHaveBeenCalledWith(
+      expect(
+        fetch,
+      ).toHaveBeenCalledWith(
         'http://testIP/api/abcdefghijklmnopqrstuvwxywz/lights/2/state',
         { body: JSON.stringify({ on: true }), method: 'put' },
       );
@@ -205,7 +190,9 @@ describe('Hue Light API', () => {
         .set('x-access-token', user.token);
 
       expect(response.status).toHaveStatusOk();
-      expect(fetch).toHaveBeenCalledWith(
+      expect(
+        fetch,
+      ).toHaveBeenCalledWith(
         'http://testIP/api/abcdefghijklmnopqrstuvwxywz/lights/2/state',
         { body: JSON.stringify({ on: false }), method: 'put' },
       );

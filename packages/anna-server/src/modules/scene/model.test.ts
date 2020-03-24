@@ -131,12 +131,8 @@ describe('Scene', () => {
       const id = await Scene.save(scene);
       expect(id).toMatch(/[a-fA-F0-9-]{36}/);
 
-      const scenes = await knex(Scene.TABLE)
-        .first()
-        .where('sceneId', id);
-      const actions = await knex(Action.TABLE)
-        .select()
-        .where('sceneId', id);
+      const scenes = await knex(Scene.TABLE).first().where('sceneId', id);
+      const actions = await knex(Action.TABLE).select().where('sceneId', id);
       expect(scenes).toMatchSnapshot({
         sceneId: expect.stringMatching(/[a-fA-F0-9-]{36}/),
         createdAt: expect.any(Number),

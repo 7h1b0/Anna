@@ -1,5 +1,5 @@
 import request from 'supertest';
-import * as lolex from 'lolex';
+import * as lolex from '@sinonjs/fake-timers';
 import { createUser } from 'factories';
 import knex from 'knexClient';
 import * as Routine from 'modules/routine/model';

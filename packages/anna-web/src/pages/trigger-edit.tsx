@@ -17,7 +17,7 @@ const TriggerEdit: React.FC<{}> = () => {
   if (trigger && scenes) {
     return (
       <>
-        <Title title="Trigger Form" />
+        <Title title="Trigger Form" activateNavigation />
         <TriggerForm trigger={trigger} scenes={scenes} />
       </>
     );

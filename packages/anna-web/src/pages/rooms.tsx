@@ -16,9 +16,11 @@ const Routines: React.FC<{}> = () => {
   return (
     <>
       <Title title="Rooms" />
-      {rooms.map(el => (
-        <Room key={el.roomId} room={el} />
-      ))}
+      <div className="grid grid-cols-2 xl:grid-cols-4 gap-2">
+        {rooms.map((el) => (
+          <Room key={el.roomId} room={el} />
+        ))}
+      </div>
     </>
   );
 };

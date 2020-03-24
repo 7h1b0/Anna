@@ -16,7 +16,7 @@ const Scenes: React.FC<{}> = () => {
   return (
     <>
       <Title title="Scenes" />
-      <div className="flex flex-wrap -mx-1">
+      <div className="grid grid-cols-2 xl:grid-cols-4 gap-2">
         {scenes.map(({ name, description, sceneId }) => (
           <Scene
             key={sceneId}

@@ -3,7 +3,7 @@ import uuidv4 from 'uuid/v4';
 import roomSchema from './schema';
 import knex from '../../knexClient';
 import * as Dio from 'modules/dio/model';
-import * as HueLight from 'modules/hue-light/hueLight';
+import * as HueLight from 'modules/hue-light/model';
 
 export const TABLE = 'rooms';
 export const COLUMNS = [
@@ -34,9 +34,7 @@ export async function findAll(): Promise<Room[]> {
 }
 
 export async function findById(id: string): Promise<Room> {
-  return knex(TABLE)
-    .first(COLUMNS)
-    .where('roomId', id);
+  return knex(TABLE).first(COLUMNS).where('roomId', id);
 }
 
 export async function save({
@@ -64,16 +62,12 @@ export async function remove(roomId: string): Promise<number> {
     .select('roomId')
     .from(Dio.TABLE)
     .where('roomId', roomId)
-    .unionAll(function() {
-      this.select('roomId')
-        .from(HueLight.TABLE)
-        .where('roomId', roomId);
+    .unionAll(function () {
+      this.select('roomId').from(HueLight.TABLE).where('roomId', roomId);
     });
 
   if (res.length === 0) {
-    return knex(TABLE)
-      .where('roomId', roomId)
-      .del();
+    return knex(TABLE).where('roomId', roomId).del();
   }
   return 0;
 }
@@ -82,7 +76,5 @@ export async function findByIdAndUpdate(
   roomId: string,
   payload: Partial<Omit<Room, 'roomId'>>,
 ): Promise<number> {
-  return knex(TABLE)
-    .update(payload)
-    .where('roomId', roomId);
+  return knex(TABLE).update(payload).where('roomId', roomId);
 }

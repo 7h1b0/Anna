@@ -3,7 +3,9 @@ import { createUser } from 'factories';
 import knex from 'knexClient';
 import * as Room from 'modules/room/model';
 import * as User from 'modules/user/model';
+import * as Dio from 'modules/dio/model';
 import app from '../../index';
+import * as hueService from 'services/hueService';
 
 const user = createUser({ userId: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f' });
 const initRooms = [
@@ -23,12 +25,39 @@ const initRooms = [
     createdAt: new Date('2018-01-01'),
     updatedAt: new Date('2018-01-02'),
   },
+  {
+    roomId: 'd10c80e8-49e4-4d6b-b966-4fc9fb98879f',
+    description: 'this is a second test',
+    name: 'room_3',
+    createdBy: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f',
+    createdAt: new Date('2018-01-01'),
+    updatedAt: new Date('2018-01-02'),
+  },
+];
+const initDios = [
+  {
+    dioId: 1,
+    roomId: initRooms[0].roomId,
+    name: 'test_1',
+  },
+  {
+    dioId: 2,
+    roomId: initRooms[0].roomId,
+    name: 'test_2',
+  },
+  {
+    dioId: 3,
+    roomId: initRooms[1].roomId,
+    name: 'test_3',
+  },
 ];
 
 describe('Rooms API', () => {
   beforeAll(async () => {
     await knex(Room.TABLE).truncate();
+    await knex(Dio.TABLE).truncate();
     await knex(User.TABLE).insert(user);
+    await knex(Dio.TABLE).insert(initDios);
   });
 
   beforeEach(async () => {
@@ -41,6 +70,7 @@ describe('Rooms API', () => {
 
   afterAll(async () => {
     await knex(User.TABLE).truncate();
+    await knex(Dio.TABLE).truncate();
   });
 
   describe('/api/rooms', () => {
@@ -112,6 +142,49 @@ describe('Rooms API', () => {
   });
 
   describe('/api/rooms/:id', () => {
+    let mock: jest.SpyInstance<Promise<hueService.HueLight[]>, []>;
+    beforeAll(() => {
+      mock = jest.spyOn(hueService, 'getLights').mockResolvedValue([
+        {
+          id: '1',
+          roomId: initRooms[0].roomId,
+          name: 'light_1',
+          type: 'Dimmable light',
+          state: {
+            on: true,
+            bri: 1,
+            reachable: true,
+          },
+        },
+        {
+          id: '2',
+          roomId: initRooms[0].roomId,
+          name: 'light_2',
+          type: 'Dimmable light',
+          state: {
+            on: true,
+            bri: 1,
+            reachable: true,
+          },
+        },
+        {
+          id: '3',
+          roomId: initRooms[1].roomId,
+          name: 'light_3',
+          type: 'Dimmable light',
+          state: {
+            on: true,
+            bri: 1,
+            reachable: true,
+          },
+        },
+      ]);
+    });
+
+    afterEach(() => {
+      mock.mockClear();
+    });
+
     describe('GET', () => {
       it('should return an room', async () => {
         const response = await request(app)
@@ -204,7 +277,7 @@ describe('Rooms API', () => {
     describe('DELETE', () => {
       it('should delete an room', async () => {
         const response = await request(app)
-          .delete(`/api/rooms/${initRooms[0].roomId}`)
+          .delete(`/api/rooms/${initRooms[2].roomId}`)
           .set('Accept', 'application/json')
           .set('x-access-token', user.token);
 
@@ -212,9 +285,18 @@ describe('Rooms API', () => {
 
         const room = await knex(Room.TABLE)
           .select()
-          .where('roomId', initRooms[0].roomId);
+          .where('roomId', initRooms[2].roomId);
 
         expect(room).toHaveLength(0);
+      });
+
+      it('should return 403 when room is used', async () => {
+        const response = await request(app)
+          .delete(`/api/rooms/${initRooms[0].roomId}`)
+          .set('Accept', 'application/json')
+          .set('x-access-token', user.token);
+
+        expect(response.status).toBe(403);
       });
 
       it('should return 401 when user is not authenticated', async () => {
@@ -226,13 +308,13 @@ describe('Rooms API', () => {
         expect(response.status).toBeUnauthorized();
       });
 
-      it("should retun 404 when a room don't exist", async () => {
+      it("should retun 403 when a room don't exist", async () => {
         const response = await request(app)
           .delete('/api/rooms/c10c80e8-49e4-4d6b-b966-4fc9fb9887aa')
           .set('Accept', 'application/json')
           .set('x-access-token', user.token);
 
-        expect(response.status).toBe(404);
+        expect(response.status).toBe(403);
       });
     });
   });

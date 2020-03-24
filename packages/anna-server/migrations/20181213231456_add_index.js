@@ -1,19 +1,19 @@
-exports.up = function(knex) {
-  const addIndexOnToken = knex.schema.table('users', function(table) {
+exports.up = function (knex) {
+  const addIndexOnToken = knex.schema.table('users', function (table) {
     table.index('token', 'index_token');
   });
-  const addIndexOnNameAlias = knex.schema.table('alias', function(table) {
+  const addIndexOnNameAlias = knex.schema.table('alias', function (table) {
     table.index('name', 'index_name');
   });
 
   return Promise.all([addIndexOnToken, addIndexOnNameAlias]);
 };
 
-exports.down = function(knex) {
-  const dropIndexOnToken = knex.schema.table('users', function(table) {
+exports.down = function (knex) {
+  const dropIndexOnToken = knex.schema.table('users', function (table) {
     table.dropIndex('token', 'index_token');
   });
-  const dropIndexOnNameAlias = knex.schema.table('alias', function(table) {
+  const dropIndexOnNameAlias = knex.schema.table('alias', function (table) {
     table.dropIndex('name', 'index_name');
   });
   return Promise.all([dropIndexOnToken, dropIndexOnNameAlias]);

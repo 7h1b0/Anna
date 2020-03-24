@@ -33,12 +33,13 @@ describe('HueColor', () => {
   });
 
   describe('roundN', () => {
-    it.each([[1.05, 1, 1.1], [2.56011, 4, 2.5601], [2, 10, 2]])(
-      'should round %f after %i decimals',
-      (number, precission, expected) => {
-        expect(roundN(number, precission)).toBe(expected);
-      },
-    );
+    it.each([
+      [1.05, 1, 1.1],
+      [2.56011, 4, 2.5601],
+      [2, 10, 2],
+    ])('should round %f after %i decimals', (number, precission, expected) => {
+      expect(roundN(number, precission)).toBe(expected);
+    });
   });
 
   describe('hexToXY', () => {

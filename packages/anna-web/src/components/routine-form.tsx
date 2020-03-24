@@ -2,7 +2,6 @@ import React from 'react';
 
 import Input from 'components/input';
 import Button from 'components/button';
-import SecondaryButton from 'components/secondary-button';
 import Alert from 'components/alert';
 import Select from 'components/select';
 import Checkbox from 'components/checkbox';
@@ -58,10 +57,6 @@ const RoutineForm: React.FC<Props> = ({ routine, scenes }) => {
     }
   };
 
-  const handleCancel = () => {
-    history.goBack();
-  };
-
   return (
     <form onSubmit={handleSubmit}>
       {hasError && <Alert>Invalid form</Alert>}
@@ -82,7 +77,7 @@ const RoutineForm: React.FC<Props> = ({ routine, scenes }) => {
         label="Scene"
         value={updatedRoutine.sceneId}
         onChange={handleChange('sceneId')}
-        options={scenes.map(scene => ({
+        options={scenes.map((scene) => ({
           label: scene.name,
           value: scene.sceneId,
         }))}
@@ -94,8 +89,7 @@ const RoutineForm: React.FC<Props> = ({ routine, scenes }) => {
         onChange={handleChange('enabled')}
       />
 
-      <div className="flex justify-between max-w-xs m-auto">
-        <SecondaryButton onClick={handleCancel}>Cancel</SecondaryButton>
+      <div className="flex justify-center">
         <Button type="submit">Save</Button>
       </div>
     </form>

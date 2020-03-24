@@ -7,7 +7,7 @@ function run(script: string, onSuccess: Function, onError: Function) {
     .then(() => execService(script))
     .then(
       () => onSuccess(),
-      err => {
+      (err) => {
         logger.error(err);
         onError();
       },

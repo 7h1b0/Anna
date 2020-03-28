@@ -19,10 +19,6 @@ describe('About API', () => {
     await knex(User.TABLE).insert(user);
   });
 
-  afterAll(async () => {
-    await knex(User.TABLE).truncate();
-  });
-
   describe('/api', () => {
     it('should returns information about api', async () => {
       jest

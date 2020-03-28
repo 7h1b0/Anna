@@ -33,11 +33,8 @@ const initActions = [
 ];
 
 describe('Action', () => {
-  beforeAll(async () => {
-    await knex(Action.TABLE).truncate();
-  });
-
   beforeEach(async () => {
+    await knex(Action.TABLE).truncate();
     await knex(Action.TABLE).insert(
       initActions.map((action, index) => {
         if (index !== 2) {
@@ -46,10 +43,6 @@ describe('Action', () => {
         return action;
       }),
     );
-  });
-
-  afterEach(async () => {
-    await knex(Action.TABLE).truncate();
   });
 
   describe('findBySceneId', () => {

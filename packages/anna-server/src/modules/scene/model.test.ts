@@ -48,24 +48,15 @@ const initActions = [
 ];
 
 describe('Scene', () => {
-  beforeAll(async () => {
+  beforeEach(async () => {
     await Promise.all([
       knex(Scene.TABLE).truncate(),
       knex(Action.TABLE).truncate(),
     ]);
-  });
 
-  beforeEach(async () => {
     await Promise.all([
       knex(Scene.TABLE).insert(initScenes),
       knex(Action.TABLE).insert(initActions),
-    ]);
-  });
-
-  afterEach(async () => {
-    await Promise.all([
-      knex(Scene.TABLE).truncate(),
-      knex(Action.TABLE).truncate(),
     ]);
   });
 

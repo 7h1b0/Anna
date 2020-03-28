@@ -33,16 +33,9 @@ const initRoutines = [
 ];
 
 describe('Routines', () => {
-  beforeAll(async () => {
-    await knex(Routine.TABLE).truncate();
-  });
-
   beforeEach(async () => {
-    await knex(Routine.TABLE).insert(initRoutines);
-  });
-
-  afterEach(async () => {
     await knex(Routine.TABLE).truncate();
+    await knex(Routine.TABLE).insert(initRoutines);
   });
 
   describe('findAll', () => {

@@ -24,20 +24,13 @@ const initDios = [
 
 describe('Dio API', () => {
   beforeAll(async () => {
-    await knex(Dio.TABLE).truncate();
+    await knex(User.TABLE).truncate();
     await knex(User.TABLE).insert(user);
   });
 
   beforeEach(async () => {
-    await knex(Dio.TABLE).insert(initDios);
-  });
-
-  afterEach(async () => {
     await knex(Dio.TABLE).truncate();
-  });
-
-  afterAll(async () => {
-    await knex(User.TABLE).truncate();
+    await knex(Dio.TABLE).insert(initDios);
   });
 
   describe('/api/dios', () => {

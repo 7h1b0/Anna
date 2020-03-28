@@ -35,20 +35,13 @@ const initAlias = [
 
 describe('Alias API', () => {
   beforeAll(async () => {
-    await knex(Alias.TABLE).truncate();
+    await knex(User.TABLE).truncate();
     await knex(User.TABLE).insert(user);
   });
 
   beforeEach(async () => {
-    await knex(Alias.TABLE).insert(initAlias);
-  });
-
-  afterEach(async () => {
     await knex(Alias.TABLE).truncate();
-  });
-
-  afterAll(async () => {
-    await knex(User.TABLE).truncate();
+    await knex(Alias.TABLE).insert(initAlias);
   });
 
   describe('/api/alias', () => {

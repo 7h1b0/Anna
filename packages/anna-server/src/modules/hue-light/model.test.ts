@@ -19,16 +19,9 @@ const hueLightRooms = [
 ];
 
 describe('HueLight', () => {
-  beforeAll(async () => {
-    await knex(HueLight.TABLE).truncate();
-  });
-
   beforeEach(async () => {
-    await knex(HueLight.TABLE).insert(hueLightRooms);
-  });
-
-  afterEach(async () => {
     await knex(HueLight.TABLE).truncate();
+    await knex(HueLight.TABLE).insert(hueLightRooms);
   });
 
   describe('findAll', () => {

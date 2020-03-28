@@ -6,16 +6,9 @@ import { createUser } from 'factories';
 const userTest = createUser();
 
 describe('authenticationMiddleware', () => {
-  beforeAll(async () => {
-    await knex(User.TABLE).truncate();
-  });
-
   beforeEach(async () => {
-    await knex(User.TABLE).insert(userTest);
-  });
-
-  afterEach(async () => {
     await knex(User.TABLE).truncate();
+    await knex(User.TABLE).insert(userTest);
   });
 
   it('should call next when user exist', async () => {

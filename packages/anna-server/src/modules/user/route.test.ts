@@ -7,16 +7,9 @@ import app from '../..';
 const user = createUser();
 
 describe('User API', () => {
-  beforeAll(async () => {
-    await knex(User.TABLE).truncate();
-  });
-
   beforeEach(async () => {
-    await knex(User.TABLE).insert(user);
-  });
-
-  afterEach(async () => {
     await knex(User.TABLE).truncate();
+    await knex(User.TABLE).insert(user);
   });
 
   describe('api/users', () => {

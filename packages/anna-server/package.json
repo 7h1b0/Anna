@@ -50,7 +50,7 @@
   "scripts": {
     "test": "jest src --watch --notify --runInBand",
     "test:e2e": "jest e2e",
-    "coverage": "jest src --coverage --ci --runInBand --silent",
+    "coverage": "jest src --coverage --ci --runInBand --silent --forceExit",
     "start": "nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.test.ts' --exec 'ts-node' -r tsconfig-paths/register index.ts",
     "db:migrate": "knex migrate:latest",
     "db:rollback": "knex migrate:rollback",

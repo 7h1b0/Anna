@@ -32,18 +32,12 @@ const initRoutines = [
 ];
 
 describe('routineService', () => {
-  afterEach(() => {});
-
-  beforeAll(async () => {
-    await knex(Routine.TABLE).truncate();
-  });
-
   beforeEach(async () => {
+    await knex(Routine.TABLE).truncate();
     await knex(Routine.TABLE).insert(initRoutines);
   });
 
   afterEach(async () => {
-    await knex(Routine.TABLE).truncate();
     routineService.processes.forEach((process) => clearTimeout(process));
     routineService.processes.clear();
   });

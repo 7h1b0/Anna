@@ -54,23 +54,16 @@ const initDios = [
 
 describe('Rooms API', () => {
   beforeAll(async () => {
-    await knex(Room.TABLE).truncate();
-    await knex(Dio.TABLE).truncate();
+    await knex(User.TABLE).truncate();
     await knex(User.TABLE).insert(user);
+
+    await knex(Dio.TABLE).truncate();
     await knex(Dio.TABLE).insert(initDios);
   });
 
   beforeEach(async () => {
-    await knex(Room.TABLE).insert(initRooms);
-  });
-
-  afterEach(async () => {
     await knex(Room.TABLE).truncate();
-  });
-
-  afterAll(async () => {
-    await knex(User.TABLE).truncate();
-    await knex(Dio.TABLE).truncate();
+    await knex(Room.TABLE).insert(initRooms);
   });
 
   describe('/api/rooms', () => {

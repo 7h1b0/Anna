@@ -16,16 +16,9 @@ const initUsers = [
 ];
 
 describe('Users', () => {
-  beforeAll(async () => {
-    await knex(User.TABLE).truncate();
-  });
-
   beforeEach(async () => {
-    await knex(User.TABLE).insert(initUsers);
-  });
-
-  afterEach(async () => {
     await knex(User.TABLE).truncate();
+    await knex(User.TABLE).insert(initUsers);
   });
 
   describe('findAll', () => {

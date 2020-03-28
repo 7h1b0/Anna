@@ -1,6 +1,7 @@
 import knex from '../../knexClient';
 import * as Room from 'modules/room/model';
 import * as Dio from 'modules/dio/model';
+import * as HueLight from 'modules/hue-light/model';
 const initRooms = [
   {
     roomId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
@@ -28,20 +29,14 @@ const dios = {
 
 describe('Room', () => {
   beforeAll(async () => {
-    await knex(Room.TABLE).truncate();
+    await knex(HueLight.TABLE).truncate();
+    await knex(Dio.TABLE).truncate();
     await knex(Dio.TABLE).insert(dios);
   });
 
   beforeEach(async () => {
-    await knex(Room.TABLE).insert(initRooms);
-  });
-
-  afterEach(async () => {
     await knex(Room.TABLE).truncate();
-  });
-
-  afterAll(async () => {
-    await knex(Dio.TABLE).truncate();
+    await knex(Room.TABLE).insert(initRooms);
   });
 
   describe('findAll', () => {
@@ -91,15 +86,13 @@ describe('Room', () => {
     });
 
     it('should not delete a room', async () => {
-      const res = await Room.remove('-1');
-      expect(res).toBe(0);
+      await Room.remove('-1');
       const rooms = await knex(Room.TABLE).select();
       expect(rooms).toHaveLength(initRooms.length);
     });
 
     it('should not delete a room if devices are still in it', async () => {
-      const res = await Room.remove(initRooms[1].roomId);
-      expect(res).toBe(0);
+      await Room.remove(initRooms[1].roomId);
       const rooms = await knex(Room.TABLE).select();
       expect(rooms).toHaveLength(initRooms.length);
     });

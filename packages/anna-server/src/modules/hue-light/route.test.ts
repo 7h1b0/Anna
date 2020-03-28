@@ -24,13 +24,11 @@ const hueLightRooms = [
 
 describe('Hue Light API', () => {
   beforeAll(async () => {
-    await knex(User.TABLE).insert(user);
-    await knex(hueLight.TABLE).insert(hueLightRooms);
-  });
-
-  afterAll(async () => {
     await knex(User.TABLE).truncate();
+    await knex(User.TABLE).insert(user);
+
     await knex(hueLight.TABLE).truncate();
+    await knex(hueLight.TABLE).insert(hueLightRooms);
   });
 
   describe('/api/hue/lights', () => {

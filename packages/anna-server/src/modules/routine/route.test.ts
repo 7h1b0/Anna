@@ -46,20 +46,13 @@ const initRoutines = [
 
 describe('Routine API', () => {
   beforeAll(async () => {
-    await knex(Routine.TABLE).truncate();
+    await knex(User.TABLE).truncate();
     await knex(User.TABLE).insert(user);
   });
 
   beforeEach(async () => {
-    await knex(Routine.TABLE).insert(initRoutines);
-  });
-
-  afterEach(async () => {
     await knex(Routine.TABLE).truncate();
-  });
-
-  afterAll(async () => {
-    await knex(User.TABLE).truncate();
+    await knex(Routine.TABLE).insert(initRoutines);
   });
 
   describe('/api/routines', () => {

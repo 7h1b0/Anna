@@ -58,23 +58,16 @@ const initActions = [
 
 describe('Scene API', () => {
   beforeAll(async () => {
-    await knex(Scene.TABLE).truncate();
-    await knex(Action.TABLE).truncate();
+    await knex(User.TABLE).truncate();
     await knex(User.TABLE).insert(user);
   });
 
   beforeEach(async () => {
-    await knex(Action.TABLE).insert(initActions);
-    await knex(Scene.TABLE).insert(initScenes);
-  });
-
-  afterEach(async () => {
-    await knex(Scene.TABLE).truncate();
     await knex(Action.TABLE).truncate();
-  });
+    await knex(Action.TABLE).insert(initActions);
 
-  afterAll(async () => {
-    await knex(User.TABLE).truncate();
+    await knex(Scene.TABLE).truncate();
+    await knex(Scene.TABLE).insert(initScenes);
   });
 
   describe('/api/scenes', () => {

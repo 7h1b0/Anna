@@ -22,16 +22,9 @@ const initDios = [
 ];
 
 describe('Dio', () => {
-  beforeAll(async () => {
-    await knex(Dio.TABLE).truncate();
-  });
-
   beforeEach(async () => {
-    await knex(Dio.TABLE).insert(initDios);
-  });
-
-  afterEach(async () => {
     await knex(Dio.TABLE).truncate();
+    await knex(Dio.TABLE).insert(initDios);
   });
 
   describe('findAll', () => {

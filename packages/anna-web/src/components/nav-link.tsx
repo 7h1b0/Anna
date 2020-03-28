@@ -12,7 +12,11 @@ const isActive = (matchURL: match | null) => {
   return true;
 };
 
-const NavLink: React.FC<{ to: string }> = ({ to, children }) => {
+const NavLink: React.FC<{ to: string; ariaLabel?: string }> = ({
+  to,
+  children,
+  ariaLabel,
+}) => {
   const match = useRouteMatch(to);
 
   const activeClass = isActive(match)
@@ -23,6 +27,7 @@ const NavLink: React.FC<{ to: string }> = ({ to, children }) => {
     <Link
       to={to}
       className={`flex-1 xl:flex-initial fill-current px-4 py-5 ${activeClass}`}
+      aria-label={ariaLabel}
     >
       {children}
     </Link>

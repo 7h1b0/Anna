@@ -4,8 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --open",
-    "build": "NODE_ENV=production webpack --env.prod",
-    "type:check": "tsc --noEmit"
+    "build": "NODE_ENV=production webpack --env.prod"
   },
   "dependencies": {
     "prop-types": "^15.7.2",

@@ -12,21 +12,23 @@ cache:
   npm: true
   directories:
     - ~/.pkg-cache
+    - ~/.cache
 
 install:
   - npm ci --prefer-offline --no-audit
 
 before_script:
   - mysql -e 'CREATE DATABASE `anna_test`;'
+  - npm run lerna run db:migrate
+  - npm start &
 
 script:
-  - npm run lerna run db:migrate
   - npm run format:check
   - npm run type:check
   - npm run lint:check
   - npm run coverage
-  - npm run lerna run build:test
   - npm run lerna run build:release
+  - npm run test:e2e
 
 notifications:
   email:

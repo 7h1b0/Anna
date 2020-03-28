@@ -1,11 +1,14 @@
 {
   "name": "anna",
   "devDependencies": {
+    "@types/testing-library__cypress": "^5.0.5",
     "@types/jest": "^26.0.0",
     "@typescript-eslint/eslint-plugin": "^3.2.0",
     "@typescript-eslint/parser": "^3.2.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.2.0",
+    "cypress": "^4.6.0",
+    "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.20.0",
     "eslint-plugin-react-hooks": "^4.0.4",
@@ -26,7 +29,10 @@
     "start": "lerna run start --stream --parallel",
     "test": "jest --watch --notify --runInBand",
     "coverage": "jest --coverage --ci --runInBand --silent",
+    "test:e2e": "cypress run",
     "db:migrate": "lerna run db:migrate",
-    "db:rollback": "lerna run db:rollback"
+    "db:rollback": "lerna run db:rollback",
+    "db:seed": "lerna run db:seed",
+    "cypress": "cypress"
   }
 }

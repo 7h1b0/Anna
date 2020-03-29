@@ -1,92 +1,50 @@
-# Anna-API [![Build Status](https://travis-ci.org/7h1b0/Anna.svg?branch=master)](https://travis-ci.org/7h1b0/Anna)
+# Anna [![Build Status](https://travis-ci.com/7h1b0/Anna.svg?branch=master)](https://travis-ci.com/7h1b0/Anna)
 
-Home automation API for the Raspberry Pi 2 or above
+Home automation for Raspberry Pi 2 or above
 
-## Table of Contents
+---
 
-- [Getting Started](#getting-started)
-  - [Installation](#installation)
-- [Developing](#Developing)
-  - [Prerequisites](#prerequisites)
-  - [Installing](#installing)
-  - [Running the tests](#running-the-tests)
-- [Deployment](#deployment)
-- [Versioning](#versioning)
+## Requirements
 
-## Getting Started
+- [Node.js 10.x](https://nodejs.org/)
+- Docker
 
-Head on over to the releases page to download the most recent version.
+---
 
-### Prerequisites
+## Development
 
-```
-Raspberry Pi 2 or above
-MySQL/MariaDB
-```
+To start an ephemeral development server run:
 
-### Installation
-
-Download the most recent version and make it executable
-
-```
-wget https://github.com/7h1b0/Anna/releases/download/v3.3.0/anna-armv7
-chmod +x anna-armv7
-```
-
-Then run it:
-
-```
-./anna-armv7
-```
-
-## Developing
-
-### Prerequisites
-
-```
-NodeJS >= 10
-NPM >= 5
-Docker
-```
-
-### Installing
-
-```
-# Install dependencies
-npm i
-
-# Start MySQL database
+```sh
+npm install
 docker-compose up -d
+npm start
 ```
 
-### Running the tests
+Then browse to http://localhost:3000
 
-```
-# Run the tests
-npm test
+---
 
-# Run Typescript check
-npm run type:check
+## Commands
 
-# Run Eslint check
-npm run lint
+| Command                | Description                      |
+| ---------------------- | -------------------------------- |
+| `npm run format:check` | Formats the code using prettier. |
+| `npm run type:check`   | Checks types using Typescript    |
+| `npm run lint:check`   | Lints the JavaScript code.       |
+| `npm test`             | Runs tests.                      |
+| `npm start`            | Runs the website in development. |
+| `npm run build`        | Builds the production assets.    |
 
-# Run prettier check
-npm run format:check"
-```
+---
 
 ## Deployment
 
 ```
 # Create a new release
-npm version major/minor/patch
-
-# Push commit and tag
-git push --follow-tags
+npm run lerna version major/minor/patch
 ```
 
 A new release will be automatically created in Github with assets
 
-## Versioning
-
-[SemVer](http://semver.org/) is used for versioning. For the versions available, see the [releases on this repository](https://github.com/7h1b0/Anna/releases).
+---

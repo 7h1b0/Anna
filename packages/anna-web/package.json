@@ -10,7 +10,6 @@
     "type:check": "tsc --noEmit"
   },
   "dependencies": {
-    "debounce": "^1.2.0",
     "idb": "^5.0.1",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
@@ -26,7 +25,6 @@
     "@babel/preset-env": "^7.9.0",
     "@babel/preset-typescript": "^7.9.0",
     "@fullhuman/postcss-purgecss": "^2.1.0",
-    "@types/debounce": "^1.2.0",
     "@types/react": "^16.9.25",
     "@types/react-dom": "^16.9.5",
     "@types/react-router": "^5.1.4",

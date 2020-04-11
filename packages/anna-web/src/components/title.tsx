@@ -11,9 +11,13 @@ const Title: React.FC<{ title: string; activateNavigation?: boolean }> = ({
     history.goBack();
   };
   return (
-    <div className="flex items-center my-8">
+    <div className="relative my-5 text-center">
       {activateNavigation && (
-        <button onClick={handleCancel} aria-label="back" className="pr-4">
+        <button
+          onClick={handleCancel}
+          aria-label="back"
+          className="left-0 absolute"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"

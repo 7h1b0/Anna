@@ -2,7 +2,7 @@ import React from 'react';
 
 import Title from 'src/components/title';
 import Trigger from 'components/trigger';
-import Typographie from 'components/typographie';
+import Typography from 'components/typography';
 
 import { useDataStoreGetAll } from 'context/db-context';
 import { groupBy } from 'modules/array';
@@ -23,7 +23,7 @@ const Triggers: React.FC<{}> = () => {
     <>
       <Title title="Triggers" />
       <div className="mt-4">
-        <Typographie>Enabled</Typographie>
+        <Typography variant="heading">Enabled</Typography>
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-2">
           {enabledTriggers.map((triggers) => (
             <Trigger key={triggers.aliasId} trigger={triggers} />
@@ -31,7 +31,7 @@ const Triggers: React.FC<{}> = () => {
         </div>
       </div>
       <div className="mt-4">
-        <Typographie>Disabled</Typographie>
+        <Typography variant="heading">Disabled</Typography>
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-2">
           {disabledTriggers.map((triggers) => (
             <Trigger key={triggers.aliasId} trigger={triggers} />

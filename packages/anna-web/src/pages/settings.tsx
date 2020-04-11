@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import Title from 'src/components/title';
 import Button from 'src/components/button';
-import Typographie from 'src/components/typographie';
+import Typography from 'src/components/typography';
 import Card from 'src/components/card';
 
 import { saveConfig } from 'modules/database';
@@ -36,18 +36,18 @@ const Settings: React.FC<{}> = () => {
           <path d="M5 5a5 5 0 0 1 10 0v2A5 5 0 0 1 5 7V5zM0 16.68A19.9 19.9 0 0 1 10 14c3.64 0 7.06.97 10 2.68V20H0v-3.32z" />
         </svg>
         <div className="text-white flex-1 ml-2">
-          <Typographie variant="heading" className="capitalize">
+          <Typography variant="heading" className="capitalize">
             {user ? user.username : ''}
-          </Typographie>
+          </Typography>
           <Link to="/logout">
-            <Typographie>Logout</Typographie>
+            <Typography>Logout</Typography>
           </Link>
         </div>
       </div>
       <Card>
-        <Typographie variant="body" className="capitalize">
+        <Typography variant="body" className="capitalize">
           Refresh data
-        </Typographie>
+        </Typography>
         <Button onClick={handleRefresh}>Refresh</Button>
       </Card>
     </>

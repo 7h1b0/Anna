@@ -4,6 +4,7 @@
 html,
 body {
   @apply h-full;
+  overscroll-behavior-y: contain;
 }
 
 @tailwind components;

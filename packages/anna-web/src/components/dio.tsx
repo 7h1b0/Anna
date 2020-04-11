@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Typographie from './typographie';
+import Typography from './typography';
 import useAction from 'hooks/use-action';
 
 const Dio: React.FC<{
@@ -14,7 +14,7 @@ const Dio: React.FC<{
     <div className="text-gray-200 px-1 w-1/2 xl:w-1/6">
       <div className="text-gray-200 rounded bg-gray-800 p-4 mb-2">
         <div className="flex justify-between items-center">
-          <Typographie>{name}</Typographie>
+          <Typography>{name}</Typography>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"

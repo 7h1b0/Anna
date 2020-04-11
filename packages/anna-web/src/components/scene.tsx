@@ -1,31 +1,28 @@
 import React from 'react';
 
-import Card from './card';
-import Typographie from './typographie';
+import Typography from './typography';
 
 import useAction from 'hooks/use-action';
 
 const Scene: React.FC<{
   sceneId: string;
   name: string;
-  description: string;
-}> = ({ sceneId, name, description }) => {
+}> = ({ sceneId, name }) => {
   const callScene = useAction(`/api/scenes/${sceneId}/action`);
   return (
-    <div role="button" onClick={callScene}>
-      <Card>
-        <div>
-          <Typographie>{name}</Typographie>
-          <Typographie variant="caption">{description}</Typographie>
-        </div>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          className="fill-current h-4 w-4"
-        >
-          <path d="M0 4c0-1.1.9-2 2-2h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm6 0v12h8V4H6zM2 5v2h2V5H2zm0 4v2h2V9H2zm0 4v2h2v-2H2zm14-8v2h2V5h-2zm0 4v2h2V9h-2zm0 4v2h2v-2h-2zM8 7l5 3-5 3V7z" />
-        </svg>
-      </Card>
+    <div
+      role="button"
+      onClick={callScene}
+      className={`text-gray-200 rounded bg-gray-800 p-4 hover:bg-gray-700`}
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 20 20"
+        className="fill-current h-6 w-6"
+      >
+        <path d="M4 4l12 6-12 6z" />
+      </svg>
+      <Typography className="mt-2">{name}</Typography>
     </div>
   );
 };

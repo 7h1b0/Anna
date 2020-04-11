@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { ArrowIcon } from './icons';
 import Card from './card';
 import { Trigger as TriggerType } from 'types/trigger';
-import Typographie from './typographie';
+import Typography from './typography';
 
 const Triggers: React.FC<{
   trigger: TriggerType;
@@ -13,8 +13,8 @@ const Triggers: React.FC<{
     <Link to={`/triggers/${trigger.aliasId}`}>
       <Card>
         <div>
-          <Typographie>{trigger.description}</Typographie>
-          <Typographie variant="caption">{trigger.name}</Typographie>
+          <Typography>{trigger.description}</Typography>
+          <Typography variant="caption">{trigger.name}</Typography>
         </div>
         <ArrowIcon className="fill-current h-4 w-4" />
       </Card>

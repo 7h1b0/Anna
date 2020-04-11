@@ -3,7 +3,6 @@ import React from 'react';
 import NavLink from 'components/nav-link';
 
 import {
-  ScenesIcon,
   HomeIcon,
   RoutinesIcon,
   TriggersIcon,
@@ -13,11 +12,8 @@ import {
 const BottomActions: React.FC<{}> = () => {
   const className = 'w-5 mx-auto';
   return (
-    <div className="shadow flex xl:flex-col justify-around xl:justify-center items-center bg-black">
+    <div className="shadow flex xl:flex-col justify-around xl:justify-center items-center xl:bg-black border-t-2 xl:border-t-0 border-gray-700">
       <NavLink to="/">
-        <ScenesIcon className={className} />
-      </NavLink>
-      <NavLink to="/rooms">
         <HomeIcon className={className} />
       </NavLink>
       <NavLink to="/routines">

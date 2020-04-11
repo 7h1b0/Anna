@@ -22,7 +22,7 @@ const NavLink: React.FC<{ to: string }> = ({ to, children }) => {
   return (
     <Link
       to={to}
-      className={`flex-1 xl:flex-initial fill-current px-4 py-6 ${activeClass}`}
+      className={`flex-1 xl:flex-initial fill-current px-4 py-5 ${activeClass}`}
     >
       {children}
     </Link>

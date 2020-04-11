@@ -1,11 +1,12 @@
 import React from 'react';
 
-import Button from 'components/button';
-import Preset from 'components/preset';
-import Typographie from 'components/typographie';
-import debounce from 'debounce';
+import CardVertical from 'components/card-vertical';
+import RangeVertical from 'components/range-vertical';
+import Typography from 'components/typography';
+import Switch from 'components/switch';
 
 import useRequest from 'hooks/use-request';
+import useDebounce from 'hooks/use-debounce';
 import { HueLight } from 'src/types/hue-light';
 
 type TOGGLE_STATE = {
@@ -32,22 +33,6 @@ type Payload = {
   hex?: string;
   on?: boolean;
 };
-
-type Preset = {
-  title: string;
-  bri: number;
-  hex: string;
-  on: boolean;
-};
-
-const presets: Preset[] = [
-  { title: 'Bisque', bri: 254, hex: '#FFE5AD', on: true },
-  { title: 'Alice Blue', bri: 253, hex: '#f0f7ff', on: true },
-  { title: 'Dark Blue', bri: 200, hex: '#483d8c', on: true },
-  { title: 'Rebeca Purple', bri: 200, hex: '#66339a', on: true },
-  { title: 'Indian Red', bri: 100, hex: '#d05a5a', on: true },
-  { title: 'Dark Red', bri: 100, hex: '#8c0000', on: true },
-];
 
 function reducer(
   state: HueLight,
@@ -78,8 +63,6 @@ const HueLightRoom: React.FC<Props> = (props) => {
   const [hueLight, dispatch] = React.useReducer(reducer, props.hueLight);
   const request = useRequest();
 
-  const { on, bri, hex } = hueLight.state;
-
   const updateState = async (payload: Payload) => {
     try {
       await request(`/api/hue/lights/${hueLight.id}/state`, 'PATCH', payload);
@@ -87,7 +70,9 @@ const HueLightRoom: React.FC<Props> = (props) => {
       console.log(error);
     }
   };
-  const debounceState = debounce(updateState, 1000);
+  const debounce = useDebounce(updateState, 1000);
+
+  const { on, bri, hex } = hueLight.state;
 
   const handleToggleState = () => {
     updateState({ on: !on });
@@ -97,63 +82,44 @@ const HueLightRoom: React.FC<Props> = (props) => {
   const handleColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const hexColor = e.target.value;
     dispatch({ type: 'UPDATE_COLOR', data: hexColor });
-    debounceState({ hex: hexColor });
+    debounce({ hex: hexColor });
   };
 
-  const handleBrightnessChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const bri = Number(e.target.value);
+  const handleBrightnessChange = (bri: number) => {
     dispatch({ type: 'UPDATE_BRIGHTNESS', data: bri });
-    debounceState({ bri });
-  };
-
-  const handlePreset = ({ bri, hex, on }: Preset) => () => {
-    const newState = { bri, hex, on };
-    dispatch({ type: 'UPDATE_STATE', data: newState });
-    updateState(newState);
+    debounce({ bri });
   };
 
   return (
     <div>
-      <div className="grid grid-cols-3 xl:grid-cols-6 gap-2">
-        {presets.map((preset) => (
-          <Preset
-            key="preset.title"
-            title={preset.title}
-            hexColor={preset.hex}
-            onClick={handlePreset(preset)}
-          />
-        ))}
-      </div>
-      <div className="flex flex-col items-center text-center">
-        <label className="my-8">
-          <div
-            className="rounded-full h-20 w-20 bg-black cursor-pointer my-2"
-            style={{ backgroundColor: hex }}
-          />
-          <Typographie>Color</Typographie>
-          <input
-            type="color"
-            className="hidden"
-            value={hex}
-            onChange={handleColorChange}
-          />
-        </label>
+      <RangeVertical
+        min={0}
+        max={254}
+        value={bri}
+        onChange={handleBrightnessChange}
+      />
 
-        <label className="block w-full my-8">
-          <input
-            type="range"
-            min="0"
-            max="254"
-            value={bri}
-            onChange={handleBrightnessChange}
-            className="block w-full"
-          />
-          <Typographie>Brightness: {bri}</Typographie>
-        </label>
-      </div>
+      <div className="grid grid-cols-2 gap-2">
+        <CardVertical>
+          <label className="h-full w-full cursor-pointer ">
+            <div
+              className="rounded-full h-10 w-10 bg-black m-auto"
+              style={{ backgroundColor: hex }}
+            />
+            <Typography className="mt-2">Color</Typography>
+            <input
+              type="color"
+              className="hidden"
+              value={hex}
+              onChange={handleColorChange}
+            />
+          </label>
+        </CardVertical>
 
-      <div className="flex justify-center">
-        <Button onClick={handleToggleState}>Toggle state</Button>
+        <CardVertical role="button" onClick={handleToggleState}>
+          <Switch on={on} />
+          <Typography className="mt-2">Toggle On/Off</Typography>
+        </CardVertical>
       </div>
     </div>
   );

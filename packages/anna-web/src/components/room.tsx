@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { ArrowIcon } from './icons';
 import Card from './card';
-import Typographie from './typographie';
+import Typography from './typography';
 
 import { Room as RoomType } from 'types/room';
 
@@ -13,7 +13,7 @@ const Room: React.FC<{
   return (
     <Link to={`/rooms/${room.roomId}`}>
       <Card>
-        <Typographie>{room.name}</Typographie>
+        <Typography>{room.name}</Typography>
         <ArrowIcon className="fill-current h-4 w-4" />
       </Card>
     </Link>

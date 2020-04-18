@@ -18,7 +18,7 @@ function usePosition(ref: React.RefObject<HTMLDivElement>) {
     if (domRect) {
       setPosition({ top: domRect.top, bottom: domRect.bottom });
     }
-  }, [ref.current]);
+  }, [ref]);
 
   return position;
 }

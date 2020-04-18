@@ -14,7 +14,7 @@ function useDebounce(func: Function, wait: number) {
     };
 
     return debounced;
-  }, [func]);
+  }, [func, wait]);
 }
 
 export default useDebounce;

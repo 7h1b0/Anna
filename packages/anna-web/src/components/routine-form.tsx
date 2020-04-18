@@ -83,6 +83,12 @@ const RoutineForm: React.FC<Props> = ({ routine, scenes }) => {
         }))}
       />
       <Checkbox
+        name="runAtBankHoliday"
+        label="Run on bank holiday"
+        checked={updatedRoutine.runAtBankHoliday}
+        onChange={handleChange('runAtBankHoliday')}
+      />
+      <Checkbox
         name="enabled"
         label="enabled"
         checked={updatedRoutine.enabled}

@@ -1,21 +1,32 @@
 {
   "name": "anna",
   "devDependencies": {
-    "husky": "^4.2.3",
+    "@typescript-eslint/eslint-plugin": "^2.31.0",
+    "@typescript-eslint/parser": "^2.31.0",
+    "babel-eslint": "^10.1.0",
+    "confusing-browser-globals": "^1.0.9",
+    "eslint": "^7.0.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react-hooks": "^4.0.0",
+    "husky": "^4.2.5",
+    "jest": "^26.0.1",
     "lerna": "^3.20.2",
-    "prettier": "^2.0.2",
-    "pretty-quick": "^2.0.1"
+    "prettier": "^2.0.5",
+    "pretty-quick": "^2.0.1",
+    "typescript": "^3.8.3"
   },
   "scripts": {
     "postinstall": "lerna bootstrap",
     "lerna": "lerna",
-    "build": "lerna run build",
-    "format:check": "lerna run format:check",
+    "build": "NODE_ENV=production lerna run build",
+    "format:check": "prettier --list-different \"packages/**/*.{ts,tsx}\"",
     "type:check": "lerna run type:check --stream",
-    "lint:check": "lerna run lint:check --stream",
+    "lint:check": "eslint --max-warnings 0 '*/**/*.ts'",
     "start": "lerna run start --stream --parallel",
-    "test": "lerna run test --stream",
-    "coverage": "lerna run coverage --stream",
+    "test": "jest --watch --notify --runInBand",
+    "coverage": "jest --coverage --ci --runInBand --silent --forceExit",
     "db:migrate": "lerna run db:migrate"
   }
 }

@@ -20,7 +20,6 @@ script:
   - npm run lint:check
   - npm run coverage
   - npm run lerna run build:test
-  - npm run lerna run test:e2e
   - npm run lerna run build:release
 notifications:
   email:

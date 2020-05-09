@@ -7,7 +7,7 @@ body {
   overscroll-behavior-y: contain;
 }
 
-@tailwind components;
 /* purgecss end ignore */
+@tailwind components;
 
 @tailwind utilities;

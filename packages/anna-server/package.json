@@ -30,27 +30,18 @@
     "@types/sinonjs__fake-timers": "^6.0.0",
     "@types/supertest": "^2.0.8",
     "@types/uuid": "^3.4.5",
-    "@typescript-eslint/eslint-plugin": "^2.3.1",
-    "@typescript-eslint/parser": "^2.3.1",
     "clean-webpack-plugin": "^3.0.0",
-    "eslint": "^6.5.0",
-    "eslint-config-prettier": "^6.3.0",
-    "jest": "^25.1.0",
     "nodemon": "^2.0.2",
     "pkg": "^4.4.0",
     "supertest": "^4.0.2",
-    "ts-jest": "^25.2.1",
+    "ts-jest": "^25.5.1",
     "ts-loader": "^6.2.2",
     "ts-node": "^8.8.1",
     "tsconfig-paths": "^3.9.0",
-    "typescript": "^3.8.3",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11"
   },
   "scripts": {
-    "test": "jest src --watch --notify --runInBand",
-    "test:e2e": "jest e2e",
-    "coverage": "jest src --coverage --ci --runInBand --silent --forceExit",
     "start": "nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.test.ts' --exec 'ts-node' -r tsconfig-paths/register index.ts",
     "db:migrate": "knex migrate:latest",
     "db:rollback": "knex migrate:rollback",
@@ -58,8 +49,6 @@
     "build": "webpack",
     "build:release": "npm run build && pkg -t node10-linux-armv7 ./dist/index.js --public --no-bytecode -o anna-armv7",
     "build:test": "npm run build && pkg -t node10-linux-x64 ./dist/index.js --public --no-bytecode -o anna-x64",
-    "lint:check": "eslint --max-warnings 0 '*/**/*.ts'",
-    "type:check": "tsc --noEmit",
-    "format:check": "prettier --list-different \"src/**/*.ts\""
+    "type:check": "tsc --noEmit"
   }
 }

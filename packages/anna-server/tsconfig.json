@@ -1,27 +1,13 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
       "*": ["*", "src/*", "test/*"]
     },
     "types": ["node", "express", "jest"],
-    "strictPropertyInitialization": true,
-    "outDir": "dist",
-
-    "module": "commonjs",
-    "esModuleInterop": true,
     "target": "es2018",
 
-    "strict": true,
-
-    "noImplicitAny": false,
-    "noImplicitReturns": false,
-    "noUnusedLocals": true,
-    "noImplicitThis": true,
-    "alwaysStrict": true,
-    "strictBindCallApply": true,
-    "removeComments": true,
-    "sourceMap": false,
-    "allowSyntheticDefaultImports": true
+    "noImplicitReturns": false
   }
 }

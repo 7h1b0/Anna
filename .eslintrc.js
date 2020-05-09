@@ -48,7 +48,7 @@ module.exports = {
 
   settings: {
     react: {
-      version: 'detect',
+      version: '16',
     },
   },
 
@@ -102,6 +102,9 @@ module.exports = {
         ],
         'no-useless-constructor': 'off',
         '@typescript-eslint/no-useless-constructor': 'warn',
+        '@typescript-eslint/explicit-function-return-type': 'off',
+        '@typescript-eslint/no-namespace': 'off',
+        '@typescript-eslint/ban-ts-ignore': 'off',
       },
     },
   ],

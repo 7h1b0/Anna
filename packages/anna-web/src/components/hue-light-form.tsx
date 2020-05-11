@@ -4,6 +4,7 @@ import CardVertical from 'components/card-vertical';
 import RangeVertical from 'components/range-vertical';
 import Typography from 'components/typography';
 import Switch from 'components/switch';
+import Grid from 'components/grid';
 
 import useRequest from 'hooks/use-request';
 import useDebounce from 'hooks/use-debounce';
@@ -99,7 +100,7 @@ const HueLightRoom: React.FC<Props> = (props) => {
         onChange={handleBrightnessChange}
       />
 
-      <div className="grid grid-cols-2 gap-2">
+      <Grid>
         <CardVertical>
           <label className="h-full w-full cursor-pointer ">
             <div
@@ -120,7 +121,7 @@ const HueLightRoom: React.FC<Props> = (props) => {
           <Switch on={on} />
           <Typography className="mt-2">Toggle On/Off</Typography>
         </CardVertical>
-      </div>
+      </Grid>
     </div>
   );
 };

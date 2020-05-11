@@ -3,16 +3,17 @@ import React from 'react';
 import Title from 'src/components/title';
 import Trigger from 'components/trigger';
 import Typography from 'components/typography';
+import Loader from 'components/loader';
 
 import { useDataStoreGetAll } from 'context/db-context';
 import { groupBy } from 'modules/array';
-import { Trigger as TriggerType } from 'types/trigger';
+import type { Trigger as TriggerType } from 'types/trigger';
 
 const Triggers: React.FC<{}> = () => {
   const triggers = useDataStoreGetAll<TriggerType>('triggers');
 
   if (triggers === null) {
-    return <p>Loading</p>;
+    return <Loader />;
   }
 
   const [enabledTriggers, disabledTriggers] = groupBy(

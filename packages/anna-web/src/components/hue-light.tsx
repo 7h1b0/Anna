@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { ArrowIcon } from './icons';
 import Typography from './typography';
-import { HueLight as HueLightType } from 'types/hue-light';
+import type { HueLight as HueLightType } from 'types/hue-light';
 
 const HueLight: React.FC<{
   hueLight: HueLightType;

@@ -6,7 +6,7 @@ import Typography from './typography';
 import { ArrowIcon } from './icons';
 
 import { formatDate } from 'modules/format';
-import { Routine as RoutineType } from 'types/routine';
+import type { Routine as RoutineType } from 'types/routine';
 
 const Routine: React.FC<{
   routine: RoutineType;

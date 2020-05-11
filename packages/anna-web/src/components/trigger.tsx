@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { ArrowIcon } from './icons';
 import Card from './card';
-import { Trigger as TriggerType } from 'types/trigger';
+import type { Trigger as TriggerType } from 'types/trigger';
 import Typography from './typography';
 
 const Triggers: React.FC<{

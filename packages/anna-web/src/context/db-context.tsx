@@ -1,6 +1,8 @@
 import React from 'react';
 import { IDBPDatabase } from 'idb';
 
+import Loader from 'components/loader';
+
 import {
   AnnaDatabase,
   getDatabase,
@@ -71,7 +73,7 @@ export const DatabaseProvider: React.FC<{}> = ({ children }) => {
   }, []);
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <Loader />;
   }
   return (
     <DataStoreContext.Provider value={db}>{children}</DataStoreContext.Provider>

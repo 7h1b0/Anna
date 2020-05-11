@@ -6,8 +6,8 @@ import TriggerForm from 'components/trigger-form';
 
 import { useDataStoreGetAll, useDataStoreGet } from 'context/db-context';
 
-import { Trigger as TriggerType } from 'types/trigger';
-import { Scene as SceneType } from 'types/scene';
+import type { Trigger as TriggerType } from 'types/trigger';
+import type { Scene as SceneType } from 'types/scene';
 
 const TriggerEdit: React.FC<{}> = () => {
   const { triggerId = '' } = useParams();

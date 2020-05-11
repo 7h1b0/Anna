@@ -12,7 +12,7 @@ import {
 const BottomActions: React.FC<{}> = () => {
   const className = 'w-5 mx-auto';
   return (
-    <div className="shadow flex xl:flex-col justify-around xl:justify-center items-center xl:bg-black border-t-2 xl:border-t-0 border-gray-700">
+    <div className="shadow flex xl:flex-col justify-around xl:justify-center items-center bg-black">
       <NavLink to="/">
         <HomeIcon className={className} />
       </NavLink>

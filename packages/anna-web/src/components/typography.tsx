@@ -1,8 +1,10 @@
 import React from 'react';
 
-type Variant = 'heading' | 'body' | 'caption';
+type Variant = 'heading' | 'body' | 'caption' | 'head';
 const getClassName = (variant: Variant): string => {
   switch (variant) {
+    case 'head':
+      return 'text-base text-3xl';
     case 'heading':
       return 'text-base text-white';
     case 'body':

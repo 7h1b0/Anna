@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { createUser } from 'factories';
+import { createUser, uuid } from 'factories';
 import knex from 'knexClient';
 import * as User from 'modules/user/model';
 import * as hueLight from 'modules/hue-light/model';
@@ -11,14 +11,16 @@ jest.mock('node-fetch', () =>
 );
 
 const user = createUser();
+const room1 = uuid();
+const room2 = uuid();
 const hueLightRooms = [
   {
     lightId: 1,
-    roomId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
+    roomId: room1,
   },
   {
     lightId: 2,
-    roomId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b3',
+    roomId: room2,
   },
 ];
 
@@ -108,7 +110,7 @@ describe('Hue Light API', () => {
 
       it('should update the roomId and the name', async () => {
         const updatedName = {
-          roomId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b3',
+          roomId: room2,
           name: 'test_room',
         };
 
@@ -130,7 +132,7 @@ describe('Hue Light API', () => {
           .first('roomId')
           .where('lightId', 2);
 
-        expect(res).toEqual({ roomId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b3' });
+        expect(res).toEqual({ roomId: room2 });
       });
 
       it('should retun 401 when user is not authenticated', async () => {

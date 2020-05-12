@@ -12,6 +12,10 @@ export function createUser(user: Partial<User> = {}): User {
   };
 }
 
+export function uuid() {
+  return uuidv4();
+}
+
 export function createRoutine(options: Partial<Routine> = {}): Routine {
   const {
     routineId,

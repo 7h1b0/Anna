@@ -1,8 +1,9 @@
 import knex from '../../knexClient';
 import * as HueLight from './model';
+import { uuid } from 'factories';
 
-const room1 = '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2';
-const room2 = '1fc1d78e-fd1c-4717-b610-65d2fa3d01b2';
+const room1 = uuid();
+const room2 = uuid();
 const hueLightRooms = [
   {
     lightId: 1,

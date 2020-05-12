@@ -20,9 +20,9 @@ describe('Actions', () => {
         targetId: '5',
       },
     ],
-  ])('toggleDio', (a, b, expected) => {
+  ])('toggleDio', (targetId, state, expected) => {
     it('should return a valid object', () => {
-      expect(actions.toggleDio(a as string, b as boolean)).toEqual(expected);
+      expect(actions.toggleDio(targetId, state)).toEqual(expected);
     });
   });
 
@@ -45,11 +45,9 @@ describe('Actions', () => {
         targetId: '4',
       },
     ],
-  ])('toggleHueLight', (a, b, expected) => {
+  ])('toggleHueLight', (targetId, state, expected) => {
     it('should return a valid object', () => {
-      expect(actions.toggleHueLight(a as string, b as boolean)).toEqual(
-        expected,
-      );
+      expect(actions.toggleHueLight(targetId, state)).toEqual(expected);
     });
   });
 

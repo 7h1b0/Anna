@@ -22,7 +22,8 @@ describe('authenticationMiddleware', () => {
 
     // @ts-ignore
     await authenticationMiddleware(req, res, next);
-    expect(next).toHaveBeenCalled();
+    expect(next).toHaveBeenCalledTimes(1);
+    expect(res.sendStatus).toHaveBeenCalledTimes(0);
   });
 
   it('should save the current user into res.locals', async () => {
@@ -31,12 +32,11 @@ describe('authenticationMiddleware', () => {
         'x-access-token': userTest.token,
       },
     };
-    const res = { sendStatus: jest.fn(), locals: {} };
+    const res = { sendStatus: jest.fn(), locals: { user: null } };
     const next = jest.fn();
 
     // @ts-ignore
     await authenticationMiddleware(req, res, next);
-    // @ts-ignore
     expect(res.locals.user).toEqual({
       userId: userTest.userId,
       username: userTest.username,

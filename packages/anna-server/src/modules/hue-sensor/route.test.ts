@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { createUser } from 'factories';
+import { createUser, uuid } from 'factories';
 import knex from 'knexClient';
 import * as User from 'modules/user/model';
 import * as hueSensor from 'modules/hue-sensor/model';
@@ -9,8 +9,8 @@ jest.mock('node-fetch', () =>
   jest.fn(() => Promise.resolve({ json: () => ({}) })),
 );
 
-const roomId1 = '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2';
-const roomId2 = '0fc1d78e-fd1c-4717-b610-65d2fa3d01b3';
+const roomId1 = uuid();
+const roomId2 = uuid();
 const user = createUser();
 const hueSensorRooms = [
   {

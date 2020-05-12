@@ -9,7 +9,7 @@ import Triggers from 'src/pages/triggers';
 import Logout from 'src/pages/logout';
 import Settings from 'src/pages/settings';
 import HueLight from 'src/pages/hue-light';
-import Devices from 'src/pages/devices';
+import Room from 'src/pages/room';
 import TriggerEdit from 'src/pages/trigger-edit';
 import RoutineEdit from 'src/pages/routine-edit';
 
@@ -23,7 +23,7 @@ const AuthenticateApp = () => {
               <HueLight />
             </Route>
             <Route path="/rooms/:roomId">
-              <Devices />
+              <Room />
             </Route>
             <Route path="/routines/:routineId">
               <RoutineEdit />

@@ -2,7 +2,7 @@ module.exports = {
   displayName: 'server',
   testEnvironment: 'jest-environment-node',
   moduleDirectories: ['node_modules', 'test', 'src'],
-  setupFilesAfterEnv: ['<rootDir>/test/setup.ts'],
+  setupFilesAfterEnv: ['<rootDir>/test/jest.setup.ts'],
   transform: {
     '^.+\\.ts$': 'ts-jest',
   },

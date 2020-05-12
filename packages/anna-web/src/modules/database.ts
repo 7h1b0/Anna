@@ -1,9 +1,9 @@
 import { openDB, IDBPDatabase, DBSchema } from 'idb';
-import { Config } from 'types/config';
-import { Room } from 'types/room';
-import { Scene } from 'types/scene';
-import { Routine } from 'types/routine';
-import { Trigger } from 'types/trigger';
+import type { Config } from 'types/config';
+import type { Room } from 'types/room';
+import type { Scene } from 'types/scene';
+import type { Routine } from 'types/routine';
+import type { Trigger } from 'types/trigger';
 
 export interface AnnaDatabase extends DBSchema {
   scenes: {

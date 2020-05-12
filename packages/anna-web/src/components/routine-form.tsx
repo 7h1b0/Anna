@@ -9,8 +9,8 @@ import Checkbox from 'components/checkbox';
 import useRequest from 'hooks/use-request';
 import { useDatabase } from 'context/db-context';
 import { useHistory } from 'react-router-dom';
-import { Routine as RoutineType } from 'types/routine';
-import { Scene as SceneType } from 'types/scene';
+import type { Routine as RoutineType } from 'types/routine';
+import type { Scene as SceneType } from 'types/scene';
 
 function reducer(
   state: RoutineType,

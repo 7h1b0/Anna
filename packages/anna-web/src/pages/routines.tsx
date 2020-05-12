@@ -2,15 +2,16 @@ import React from 'react';
 
 import Title from 'src/components/title';
 import Routine from 'components/routine';
+import Loader from 'components/loader';
 
 import { useDataStoreGetAll } from 'context/db-context';
-import { Routine as RoutineType } from 'types/routine';
+import type { Routine as RoutineType } from 'types/routine';
 
 const Routines: React.FC<{}> = () => {
   const routines = useDataStoreGetAll<RoutineType>('routines');
 
   if (routines === null) {
-    return <p>Loading</p>;
+    return <Loader />;
   }
 
   return (

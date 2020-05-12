@@ -85,6 +85,15 @@ Object {
   },
   "name": "room_1",
   "roomId": "0fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
+  "sensors": Array [
+    Object {
+      "state": Object {
+        "lastupdated": "2020-05-09T19:10:00",
+        "temperature": 20,
+      },
+      "type": "ZLLTemperature",
+    },
+  ],
   "updatedAt": 1514851200000,
 }
 `;

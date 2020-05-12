@@ -1,5 +1,6 @@
 import fetch from 'node-fetch';
-import { findAll, findRoomId } from 'modules/hue-light/model';
+import * as HueLightModel from 'modules/hue-light/model';
+import * as HueSensorModel from 'modules/hue-sensor/model';
 import { HueLigthBody } from 'modules/scene/action';
 import { XYToHex } from './hueColor';
 
@@ -37,12 +38,22 @@ type DimmableLight = {
   id?: string;
 };
 
+export type TemperatureSensor = {
+  id?: string;
+  state: {
+    temperature: number;
+    lastupdated: string;
+  };
+  type: 'ZLLTemperature';
+};
+
 export type HueLight = ColorLight | DimmableLight;
 
-const toArray = (jsonObject): HueLight[] =>
-  Object.keys(jsonObject).map((id) => ({ ...jsonObject[id], id }));
+function toArray<T>(jsonObject): T[] {
+  return Object.keys(jsonObject).map((id) => ({ ...jsonObject[id], id }));
+}
 
-const addHexColor = (hueLight: HueLight): HueLight => {
+function addHexColor(hueLight: HueLight): HueLight {
   if (
     hueLight.type === 'Extended color light' &&
     hueLight.state.colormode === 'xy'
@@ -52,12 +63,12 @@ const addHexColor = (hueLight: HueLight): HueLight => {
   }
 
   return hueLight;
-};
+}
 
 export async function getLights(): Promise<HueLight[]> {
   const [lights, rooms] = await Promise.all([
     fetch(`${api}/lights`).then((res) => res.json()),
-    findAll(),
+    HueLightModel.findAll(),
   ]);
 
   if (lights) {
@@ -67,7 +78,7 @@ export async function getLights(): Promise<HueLight[]> {
       }
     });
 
-    return toArray(lights).map(addHexColor);
+    return toArray<HueLight>(lights).map(addHexColor);
   }
 
   return lights;
@@ -76,7 +87,7 @@ export async function getLights(): Promise<HueLight[]> {
 export async function getLight(lightId: number): Promise<HueLight> {
   const [body, roomId] = await Promise.all([
     fetch(`${api}/lights/${lightId}`).then((res) => res.json()),
-    findRoomId(lightId),
+    HueLightModel.findRoomId(lightId),
   ]);
 
   return addHexColor({ ...body, ...roomId, id: lightId });
@@ -99,4 +110,47 @@ export async function setLightState(
     body: JSON.stringify(body),
   });
   return await res.json();
+}
+
+export async function getSensorsByRoomId(
+  roomId: string,
+): Promise<TemperatureSensor[]> {
+  const [sensors, sensorsId] = await Promise.all([
+    fetch(`${api}/sensors`).then((res) => res.json()),
+    HueSensorModel.findByRoomId(roomId),
+  ]);
+
+  if (sensors) {
+    // @ts-ignore
+    return toArray<TemperatureSensor>(sensors).filter((sensor) =>
+      sensorsId.includes(sensor.id),
+    );
+  }
+
+  return sensors;
+}
+
+export async function getSensor(idSensor: string): Promise<TemperatureSensor> {
+  const sensor = fetch(`${api}/sensors/${idSensor}`).then((res) => res.json());
+
+  return Object.assign(sensor, { id: idSensor });
+}
+
+export async function getSensors(): Promise<TemperatureSensor[]> {
+  const [sensors, rooms] = await Promise.all([
+    fetch(`${api}/sensors/`).then((res) => res.json()),
+    HueSensorModel.findAll(),
+  ]);
+
+  if (sensors) {
+    rooms.forEach(({ roomId, sensorId }) => {
+      if (sensors.hasOwnProperty(sensorId)) {
+        sensors[sensorId].roomId = roomId;
+      }
+    });
+
+    return toArray<TemperatureSensor>(sensors);
+  }
+
+  return sensors;
 }

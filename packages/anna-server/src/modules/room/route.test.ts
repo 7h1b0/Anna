@@ -135,9 +135,13 @@ describe('Rooms API', () => {
   });
 
   describe('/api/rooms/:id', () => {
-    let mock: jest.SpyInstance<Promise<hueService.HueLight[]>, []>;
+    let mockGetLights: jest.SpyInstance<Promise<hueService.HueLight[]>, []>;
+    let mockGetSensors: jest.SpyInstance<
+      Promise<hueService.TemperatureSensor[]>,
+      [string]
+    >;
     beforeAll(() => {
-      mock = jest.spyOn(hueService, 'getLights').mockResolvedValue([
+      mockGetLights = jest.spyOn(hueService, 'getLights').mockResolvedValue([
         {
           id: '1',
           roomId: initRooms[0].roomId,
@@ -172,10 +176,22 @@ describe('Rooms API', () => {
           },
         },
       ]);
+      mockGetSensors = jest
+        .spyOn(hueService, 'getSensorsByRoomId')
+        .mockResolvedValue([
+          {
+            state: {
+              temperature: 20,
+              lastupdated: '2020-05-09T19:10:00',
+            },
+            type: 'ZLLTemperature',
+          },
+        ]);
     });
 
     afterEach(() => {
-      mock.mockClear();
+      mockGetLights.mockClear();
+      mockGetSensors.mockClear();
     });
 
     describe('GET', () => {

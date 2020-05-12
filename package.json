@@ -26,7 +26,7 @@
     "lint:check": "eslint --max-warnings 0 '*/**/*.ts'",
     "start": "lerna run start --stream --parallel",
     "test": "jest --watch --notify --runInBand",
-    "coverage": "jest --coverage --ci --runInBand --silent --forceExit",
+    "coverage": "jest --coverage --ci --runInBand --silent",
     "db:migrate": "lerna run db:migrate"
   }
 }

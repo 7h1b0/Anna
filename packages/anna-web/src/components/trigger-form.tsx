@@ -9,8 +9,8 @@ import Checkbox from 'components/checkbox';
 import useRequest from 'hooks/use-request';
 import { useDatabase } from 'context/db-context';
 import { useHistory } from 'react-router-dom';
-import { Trigger as TriggerType } from 'types/trigger';
-import { Scene as SceneType } from 'types/scene';
+import type { Trigger as TriggerType } from 'types/trigger';
+import type { Scene as SceneType } from 'types/scene';
 
 function reducer(
   state: TriggerType,

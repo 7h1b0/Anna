@@ -1,6 +1,8 @@
 import React from 'react';
 import { IDBPDatabase } from 'idb';
 
+import Loader from 'components/loader';
+
 import {
   AnnaDatabase,
   getDatabase,
@@ -58,20 +60,18 @@ export function useDatabase() {
 }
 
 export const DatabaseProvider: React.FC<{}> = ({ children }) => {
-  const [isLoading, loading] = React.useState(true);
   const [db, setDb] = React.useState<IDBPDatabase<AnnaDatabase> | null>(null);
 
   React.useEffect(() => {
     async function fetchDatabase() {
       const db = await getDatabase();
       setDb(db);
-      loading(false);
     }
     fetchDatabase();
   }, []);
 
-  if (isLoading) {
-    return <p>Loading...</p>;
+  if (db === null) {
+    return <Loader />;
   }
   return (
     <DataStoreContext.Provider value={db}>{children}</DataStoreContext.Provider>

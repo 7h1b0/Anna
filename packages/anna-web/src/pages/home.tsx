@@ -4,18 +4,20 @@ import Title from 'components/title';
 import Typography from 'components/typography';
 import Scene from 'components/scene';
 import Room from 'components/room';
+import Grid from 'components/grid';
+import Loader from 'components/loader';
 
 import { useDataStoreGetAll } from 'context/db-context';
 
-import { Scene as SceneType } from 'types/scene';
-import { Room as RoomType } from 'types/room';
+import type { Scene as SceneType } from 'types/scene';
+import type { Room as RoomType } from 'types/room';
 
 const Scenes: React.FC<{}> = () => {
   const scenes = useDataStoreGetAll<SceneType>('scenes');
   const rooms = useDataStoreGetAll<RoomType>('rooms');
 
   if (scenes === null || rooms === null) {
-    return <p>Loading</p>;
+    return <Loader />;
   }
   return (
     <>
@@ -23,13 +25,13 @@ const Scenes: React.FC<{}> = () => {
       <Typography className="mt-4 mb-2" variant="heading">
         Rooms
       </Typography>
-      <div className="grid grid-cols-2 xl:grid-cols-4 gap-2">
+      <Grid>
         {rooms
           .sort((a, b) => a.name.localeCompare(b.name))
           .map((el) => (
             <Room key={el.roomId} room={el} />
           ))}
-      </div>
+      </Grid>
       <Typography className="mt-4 mb-2" variant="heading">
         Scenes
       </Typography>

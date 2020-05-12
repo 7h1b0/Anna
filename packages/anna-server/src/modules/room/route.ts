@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import * as Room from 'modules/room/model';
 import { findByRoomId as findDio } from 'modules/dio/model';
-import { getLights } from 'services/hueService';
+import { getLights, getSensorsByRoomId } from 'services/hueService';
 
 const routes = Router();
 routes
@@ -29,10 +29,11 @@ routes
     const roomId = req.params.room_id;
     const fetchDio = findDio(roomId);
     const fetchAllLights = getLights();
+    const fetchSensors = getSensorsByRoomId(roomId);
     const fetchRoom = Room.findById(roomId);
 
-    Promise.all([fetchRoom, fetchDio, fetchAllLights])
-      .then(([room, dios, lights]) => {
+    Promise.all([fetchRoom, fetchDio, fetchAllLights, fetchSensors])
+      .then(([room, dios, lights, sensors]) => {
         if (!room) {
           return res.sendStatus(404);
         }
@@ -46,6 +47,7 @@ routes
               dios,
               hueLights: filteredLights,
             },
+            sensors,
           }),
         );
       })

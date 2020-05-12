@@ -5,7 +5,7 @@ import { ArrowIcon } from './icons';
 import Card from './card';
 import Typography from './typography';
 
-import { Room as RoomType } from 'types/room';
+import type { Room as RoomType } from 'types/room';
 
 const Room: React.FC<{
   room: RoomType;

@@ -60,19 +60,17 @@ export function useDatabase() {
 }
 
 export const DatabaseProvider: React.FC<{}> = ({ children }) => {
-  const [isLoading, loading] = React.useState(true);
   const [db, setDb] = React.useState<IDBPDatabase<AnnaDatabase> | null>(null);
 
   React.useEffect(() => {
     async function fetchDatabase() {
       const db = await getDatabase();
       setDb(db);
-      loading(false);
     }
     fetchDatabase();
   }, []);
 
-  if (isLoading) {
+  if (db === null) {
     return <Loader />;
   }
   return (

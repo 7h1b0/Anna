@@ -32,6 +32,8 @@ app.use(authenticationMiddleware, [
   user,
 ]);
 
-loadRoutine();
+if (process.env.NODE_ENV !== 'test') {
+  loadRoutine();
+}
 
 export default app;

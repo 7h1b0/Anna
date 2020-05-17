@@ -15,14 +15,14 @@ export const COLUMNS = [
   'createdBy',
 ];
 
-export interface Room {
+export type Room = {
   roomId: string;
   name: string;
   description: string;
   createdAt: number;
   updatedAt: number;
   createdBy: string;
-}
+};
 
 export function validate(data: unknown) {
   const ajv = new Ajv();

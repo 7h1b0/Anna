@@ -4,11 +4,11 @@ import dioSchema from './schema';
 
 export const TABLE = 'dios';
 
-export interface Dio {
+export type Dio = {
   dioId: number;
   roomId: string;
   name: string;
-}
+};
 
 export function validate(data: object) {
   const ajv = new Ajv();

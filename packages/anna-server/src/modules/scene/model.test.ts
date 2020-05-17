@@ -1,6 +1,7 @@
 import knex from '../../knexClient';
 import * as Scene from './model';
 import * as Action from './action';
+import { ToggleHueLight, ToggleDio } from 'utils/actions';
 const initScenes = [
   {
     sceneId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
@@ -98,27 +99,16 @@ describe('Scene', () => {
         name: 'scene_3',
         createdBy: '75442486-0878-440c-9db1-a7006c25a39f',
         actions: [
-          {
-            targetId: 1,
-            name: 'action one',
-            type: 'DIO',
-            body: {
-              on: true,
-            },
-          },
-          {
-            targetId: 1,
-            name: 'action two',
-            type: 'HUE_LIGHT',
-            body: {
-              on: true,
-              bri: 255,
-            },
-          },
+          new ToggleDio('1', {
+            on: true,
+          }),
+          new ToggleHueLight('1', {
+            on: true,
+            bri: 255,
+          }),
         ],
       };
 
-      // @ts-ignore
       const id = await Scene.save(scene);
       expect(id).toMatch(/[a-fA-F0-9-]{36}/);
 
@@ -141,22 +131,11 @@ describe('Scene', () => {
         name: 'scene_2',
         createdBy: '',
         actions: [
-          {
-            type: 'DIO',
-            name: 'action turn off',
-            targetId: 2,
-            body: { on: false },
-          },
-          {
-            type: 'DIO',
-            name: 'action turn off',
-            targetId: 4,
-            body: { on: true },
-          },
+          new ToggleDio('2', { on: false }),
+          new ToggleDio('4', { on: true }),
         ],
       };
 
-      // @ts-ignore
       await Scene.findByIdAndUpdate(updatedScene);
 
       const scenes = await knex(Scene.TABLE)
@@ -195,20 +174,11 @@ describe('Scene', () => {
         description: 'this is an updated second test',
         createdBy: 'test',
         actions: [
-          {
-            id: '2',
-            type: 'DIO',
-            body: { on: false },
-          },
-          {
-            id: '4',
-            type: 'DIO',
-            body: { on: true },
-          },
+          new ToggleDio('2', { on: false }),
+          new ToggleDio('2', { on: true }),
         ],
       };
 
-      // @ts-ignore
       const res = await Scene.findByIdAndUpdate(updatedScene);
       expect(res).toBe(0);
 

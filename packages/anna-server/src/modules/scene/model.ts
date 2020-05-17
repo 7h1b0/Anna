@@ -15,30 +15,18 @@ export const COLUMNS = [
   'createdBy',
 ];
 
-export class Scene {
-  constructor(
-    public sceneId: string,
-    public name: string,
-    public description: string,
-    public createdBy: string,
-    public createdAt?: number,
-    public updatedAt?: number,
-  ) {}
-}
+export type Scene = {
+  sceneId: string;
+  name: string;
+  description: string;
+  createdBy: string;
+  createdAt?: number;
+  updatedAt?: number;
+};
 
-export class SceneAction extends Scene {
-  constructor(
-    sceneId: string,
-    name: string,
-    description: string,
-    createdBy: string,
-    public actions: (ToggleDio | ToggleHueLight)[],
-    createdAt?: number,
-    updatedAt?: number,
-  ) {
-    super(sceneId, name, description, createdBy, createdAt, updatedAt);
-  }
-}
+export type SceneAction = {
+  actions: (ToggleDio | ToggleHueLight)[];
+} & Scene;
 
 export function validate(data: object) {
   const ajv = new Ajv();
@@ -109,7 +97,7 @@ export async function save({
   description,
   createdBy,
   actions,
-}: SceneAction) {
+}: Omit<SceneAction, 'sceneId'>) {
   const sceneId = uuidv4();
   await knex.transaction((trx) => {
     const insertIntoScene = trx

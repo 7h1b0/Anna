@@ -16,7 +16,7 @@ export const COLUMNS = [
   'createdBy',
 ];
 
-interface Alias {
+type Alias = {
   aliasId: string;
   sceneId: string;
   name: string;
@@ -25,7 +25,7 @@ interface Alias {
   createdAt: number;
   updateAt: number;
   createdBy: string;
-}
+};
 
 export function validate(data: object) {
   const ajv = new Ajv();

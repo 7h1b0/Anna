@@ -1,10 +1,10 @@
 import TYPES from './type';
 import { DioBody, HueLigthBody } from 'modules/scene/action';
 
-interface Action {
+type Action = {
   type: string;
   targetId: string;
-}
+};
 
 export class ToggleDio implements Action {
   readonly type = TYPES.DIO;

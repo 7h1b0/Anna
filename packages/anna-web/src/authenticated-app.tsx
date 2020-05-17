@@ -6,6 +6,7 @@ import BottomNavigation from 'components/bottom-action';
 import Home from 'src/pages/home';
 import Routines from 'src/pages/routines';
 import Triggers from 'src/pages/triggers';
+import Consumption from 'src/pages/consumption';
 import Logout from 'src/pages/logout';
 import Settings from 'src/pages/settings';
 import HueLight from 'src/pages/hue-light';
@@ -36,6 +37,9 @@ const AuthenticateApp = () => {
             </Route>
             <Route path="/triggers">
               <Triggers />
+            </Route>
+            <Route path="/consumption">
+              <Consumption />
             </Route>
             <Route path="/logout">
               <Logout />

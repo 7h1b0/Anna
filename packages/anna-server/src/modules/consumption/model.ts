@@ -1,25 +1,34 @@
+import addDays from 'date-fns/addDays';
 import knex from '../../knexClient';
 
 export const TABLE = 'consumption';
-export const COLUMNS = ['date', 'power'];
+export const COLUMNS = ['date', 'value'];
 
-export interface Consumption {
+export type Consumption = {
   date: number;
-  power: number;
-}
+  value: number;
+};
 
 export async function findLastWeek(): Promise<Consumption[]> {
-  const today = new Date();
-  const lastWeek = new Date();
-  lastWeek.setDate(today.getDate() - 7);
+  const yesterday = addDays(new Date(), -1);
+  const lastWeek = addDays(yesterday, -8);
 
   return knex(TABLE)
     .select(COLUMNS)
-    .whereBetween('date', [lastWeek, today])
+    .whereNotNull('value')
+    .whereBetween('date', [lastWeek, yesterday])
     .orderBy('date', 'asc');
 }
 
-export async function save(consumptions: Consumption[]) {
+export async function findLastEntry(): Promise<Consumption> {
+  return knex(TABLE)
+    .first(COLUMNS)
+    .whereNotNull('value')
+    .orderBy('date', 'desc')
+    .limit(1);
+}
+
+export async function save(consumptions: { date: Date; value: number }[]) {
   return knex.transaction((trx) => {
     return Promise.all(
       consumptions.map((consumption) => trx.insert(consumption).into(TABLE)),

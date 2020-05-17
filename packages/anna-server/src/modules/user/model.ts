@@ -5,12 +5,12 @@ import knex from '../../knexClient';
 
 export const TABLE = 'users';
 
-export interface User {
+export type User = {
   userId: string;
   username: string;
   password: string;
   token: string;
-}
+};
 
 export function findByToken(token: string) {
   return knex(TABLE).first('userId', 'username').where('token', token);

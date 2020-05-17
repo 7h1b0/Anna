@@ -6,7 +6,7 @@ import {
   HomeIcon,
   RoutinesIcon,
   TriggersIcon,
-  SettingsIcon,
+  PowerIcon,
 } from 'components/icons';
 
 const BottomActions: React.FC<{}> = () => {
@@ -22,8 +22,8 @@ const BottomActions: React.FC<{}> = () => {
       <NavLink to="/triggers">
         <TriggersIcon className={className} />
       </NavLink>
-      <NavLink to="/settings">
-        <SettingsIcon className={className} />
+      <NavLink to="/consumption">
+        <PowerIcon className={className} />
       </NavLink>
     </div>
   );

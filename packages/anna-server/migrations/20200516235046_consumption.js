@@ -3,7 +3,7 @@ exports.up = function (knex) {
     'consumption',
     (table) => {
       table.timestamp('date');
-      table.decimal('power');
+      table.decimal('value');
     },
   );
 

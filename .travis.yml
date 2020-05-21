@@ -1,18 +1,24 @@
 language: node_js
 node_js:
   - lts/*
+
 addons:
   mariadb: '10.3'
+
 env:
   - NODE_ENV=test DATABASE_HOST=127.0.0.1 DATABASE_USER=root DATABASE_NAME=anna_test
+
 cache:
+  npm: true
   directories:
-    - '$HOME/.npm'
-    - '$HOME/.pkg-cache'
+    - ~/.pkg-cache
+
 install:
-  - npm ci
+  - npm ci --prefer-offline --no-audit
+
 before_script:
   - mysql -e 'CREATE DATABASE `anna_test`;'
+
 script:
   - npm run lerna run db:migrate
   - npm run format:check
@@ -21,9 +27,11 @@ script:
   - npm run coverage
   - npm run lerna run build:test
   - npm run lerna run build:release
+
 notifications:
   email:
     on_success: never
+
 deploy:
   provider: releases
   api_key:

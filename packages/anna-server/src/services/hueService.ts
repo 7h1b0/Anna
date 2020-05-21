@@ -39,7 +39,7 @@ type DimmableLight = {
 };
 
 export type TemperatureSensor = {
-  id?: string;
+  id: string;
   state: {
     temperature: number;
     lastupdated: string;
@@ -121,7 +121,6 @@ export async function getSensorsByRoomId(
   ]);
 
   if (sensors) {
-    // @ts-ignore
     return toArray<TemperatureSensor>(sensors).filter((sensor) =>
       sensorsId.includes(sensor.id),
     );

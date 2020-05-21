@@ -180,6 +180,7 @@ describe('Rooms API', () => {
         .spyOn(hueService, 'getSensorsByRoomId')
         .mockResolvedValue([
           {
+            id: '10',
             state: {
               temperature: 20,
               lastupdated: '2020-05-09T19:10:00',

@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 import * as child from 'child_process';
 import path from 'path';
 
-describe('User tests on binary', () => {
+xdescribe('User tests on binary', () => {
   let anna: child.ChildProcess;
 
   beforeAll(async () => {

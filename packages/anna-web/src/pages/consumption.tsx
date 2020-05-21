@@ -27,7 +27,6 @@ const ConsumptionPage: React.FC<{}> = () => {
       (acc, consumption) => acc + consumption.value,
       0,
     );
-    console.log(consumptions);
     return (
       <>
         <Title title="Consumption" />

@@ -1,7 +1,9 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const cssnano = require('cssnano')({
   preset: [
@@ -16,6 +18,35 @@ const cssnano = require('cssnano')({
 const tailwindcss = require('tailwindcss')('./tailwindcss-config.js');
 
 module.exports = ({ prod } = {}) => {
+  const plugins = prod
+    ? [
+        new ManifestPlugin({
+          seed: {
+            short_name: 'Anna',
+            name: 'Anna',
+            background_color: '#1A202C',
+            description: 'Home automation',
+            orientation: 'portrait',
+            display: 'standalone',
+            theme_color: '#38B2AC',
+            start_url: '.',
+            icons: [
+              {
+                src: 'icon-192.png',
+                type: 'image/png',
+                sizes: '192x192',
+              },
+              {
+                src: 'icon-512.png',
+                type: 'image/png',
+                sizes: '512x512',
+              },
+            ],
+          },
+        }),
+      ]
+    : [];
+
   return {
     mode: prod ? 'production' : 'development',
     entry: {
@@ -62,6 +93,10 @@ module.exports = ({ prod } = {}) => {
         chunkFilename: '[id].css',
         ignoreOrder: false,
       }),
+      new CopyPlugin({
+        patterns: [{ from: 'src/assets' }],
+      }),
+      ...plugins,
     ],
     resolve: {
       extensions: ['.js', '.ts', '.tsx'],

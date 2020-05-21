@@ -102,6 +102,9 @@ module.exports = ({ prod } = {}) => {
       extensions: ['.js', '.ts', '.tsx'],
       modules: ['node_modules', '.'],
     },
+    performance: {
+      hints: false,
+    },
     devServer: {
       contentBase: path.join(__dirname, 'src'),
       compress: true,

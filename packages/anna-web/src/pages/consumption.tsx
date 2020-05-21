@@ -35,7 +35,7 @@ const ConsumptionPage: React.FC<{}> = () => {
           <Typography variant="head">
             {Math.round(totalConsumptions * 100) / 100}kWh
           </Typography>
-          <ResponsiveContainer width="100%" aspect={3}>
+          <ResponsiveContainer width="100%" aspect={2}>
             <BarChart barSize={15} data={formatDate(consumptions)}>
               <XAxis dataKey="date" style={{ fill: '#718096' }} />
               <Bar

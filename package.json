@@ -27,6 +27,7 @@
     "start": "lerna run start --stream --parallel",
     "test": "jest --watch --notify --runInBand",
     "coverage": "jest --coverage --ci --runInBand --silent",
-    "db:migrate": "lerna run db:migrate"
+    "db:migrate": "lerna run db:migrate",
+    "db:rollback": "lerna run db:rollback"
   }
 }

@@ -19,5 +19,4 @@ const Room: React.FC<{
     </Link>
   );
 };
-
 export default Room;

@@ -2,8 +2,9 @@ import knex from '../knexClient';
 import * as lolex from '@sinonjs/fake-timers';
 import linky from '@bokub/linky';
 
+import * as scheduleService from 'services/scheduleService';
 import * as Consumption from 'modules/consumption/model';
-import { getRange, fetchLinkyData } from './linkyService';
+import { getRange, fetchLinkyData, run } from './linkyService';
 
 const twentieth = {
   date: new Date(Date.UTC(2020, 7, 20)),
@@ -21,6 +22,11 @@ jest.mock('@bokub/linky', () => {
         },
       ]),
     }),
+  };
+});
+jest.mock('services/scheduleService', () => {
+  return {
+    schedule: jest.fn(),
   };
 });
 
@@ -82,6 +88,17 @@ describe('LinkyService', () => {
 
       expect(spy).not.toHaveBeenCalled();
       expect(linky.login).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('run', () => {
+    it('should call getDailyData() and save', async () => {
+      run();
+      expect(scheduleService.schedule).toHaveBeenCalledWith(
+        'linky',
+        '0 0 10 * * *',
+        expect.anything(),
+      );
     });
   });
 });

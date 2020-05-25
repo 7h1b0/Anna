@@ -15,7 +15,7 @@ import authentication from './modules/authentication/route';
 
 import authenticationMiddleware from './modules/authentication/middleware';
 
-import { load as loadRoutine } from './services/routineService';
+import { load as loadRoutine } from './modules/routine/model';
 import { run as runLinky } from './services/linkyService';
 const app = express();
 

@@ -1,10 +1,11 @@
 import Ajv from 'ajv';
-import * as parser from 'cron-parser';
 import uuidv4 from 'uuid/v4';
 import knex from '../../knexClient';
 import routineSchema from './schema';
+import { computeNextRunAt } from 'services/scheduleService';
+import * as ScheduleService from 'services/scheduleService';
 import dispatch from 'utils/dispatch';
-import { isBankHoliday, omit } from 'utils/utils';
+import { omit } from 'utils/utils';
 import * as logger from 'utils/logger';
 import { callScene } from 'utils/actions';
 
@@ -41,25 +42,6 @@ export class Routine {
     public lastRunAt?: number | Date,
     public failReason?: string | null,
   ) {}
-}
-
-export function computeNextRunAt(cron: string, runAtBankHoliday = true) {
-  try {
-    const interval = parser.parseExpression(cron, {
-      currentDate: new Date(),
-    });
-
-    let nextDate = interval.next();
-    if (runAtBankHoliday === false) {
-      while (isBankHoliday(nextDate.toDate())) {
-        nextDate = interval.next();
-      }
-    }
-    return nextDate.toDate();
-  } catch (_) {
-    logger.error('Impossible to compute nextRunAt');
-    return new Date();
-  }
 }
 
 export function updateAllNextRunAt(routines: Routine[]) {
@@ -127,7 +109,13 @@ export async function findByIdAndUpdate(
   routineId: string,
   payload: Routine,
 ): Promise<number> {
-  return knex(TABLE).update(payload).where('routineId', routineId);
+  const nextRunAt = computeNextRunAt(
+    payload.interval,
+    payload.runAtBankHoliday,
+  );
+
+  const updatedPayload = Object.assign({}, payload, { nextRunAt });
+  return knex(TABLE).update(updatedPayload).where('routineId', routineId);
 }
 
 export async function run(routine: Routine) {
@@ -158,4 +146,23 @@ export async function run(routine: Routine) {
     logger.error(JSON.stringify(error));
     return done(error);
   }
+}
+
+export function schedule(routine: Routine): void {
+  ScheduleService.stop(routine.routineId); // Insure to stop process if already exists
+
+  if (routine.enabled !== false) {
+    ScheduleService.schedule(
+      routine.routineId,
+      routine.interval,
+      () => run(routine),
+      { runAtBankHoliday: routine.runAtBankHoliday },
+    );
+  }
+}
+
+export async function load() {
+  const routines = await findAll();
+  routines.map((routine) => schedule(routine));
+  await updateAllNextRunAt(routines);
 }

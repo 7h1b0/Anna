@@ -1,7 +1,9 @@
 import * as lolex from '@sinonjs/fake-timers';
 import knex from '../../knexClient';
 import * as Routine from './model';
+import * as scheduleService from 'services/scheduleService';
 import dispatch from 'utils/dispatch';
+import { createRoutine } from 'factories';
 
 jest.mock('utils/dispatch');
 
@@ -36,6 +38,11 @@ describe('Routines', () => {
   beforeEach(async () => {
     await knex(Routine.TABLE).truncate();
     await knex(Routine.TABLE).insert(initRoutines);
+  });
+
+  afterEach(async () => {
+    scheduleService.processes.forEach((process) => clearTimeout(process));
+    scheduleService.processes.clear();
   });
 
   describe('findAll', () => {
@@ -158,32 +165,6 @@ describe('Routines', () => {
     });
   });
 
-  describe('computeNextRunAt', () => {
-    it('should compute the next date', () => {
-      const clock = lolex.install({ now: new Date('2017-08-12T16:00') });
-      const nextRunAt = Routine.computeNextRunAt('0 12 * * *');
-      clock.uninstall();
-
-      expect(nextRunAt).toEqual(new Date('2017-08-13T12:00'));
-    });
-
-    it('should handle bank holiday to compute the next date', () => {
-      const clock = lolex.install({ now: new Date('2017-08-14T16:00') });
-      const nextRunAt = Routine.computeNextRunAt('0 12 * * *', false);
-      clock.uninstall();
-
-      expect(nextRunAt).toEqual(new Date('2017-08-16T12:00'));
-    });
-
-    it('should ignore bank holiday to compute the next date', () => {
-      const clock = lolex.install({ now: new Date('2017-08-14T16:00') });
-      const nextRunAt = Routine.computeNextRunAt('0 12 * * *', true);
-      clock.uninstall();
-
-      expect(nextRunAt).toEqual(new Date('2017-08-15T12:00'));
-    });
-  });
-
   describe('run', () => {
     it('should dispatch a sceneId and compute nextRunAt', async () => {
       const clock = lolex.install({ now: new Date('2017-08-14T16:00') });
@@ -213,6 +194,90 @@ describe('Routines', () => {
       clock.uninstall();
 
       expect(dispatch).toHaveBeenCalled();
+    });
+  });
+
+  describe('schedule', () => {
+    it('should schedule a new process and call it every second', () => {
+      const clock = lolex.install();
+      Routine.schedule(
+        createRoutine({
+          interval: '* * * * * *',
+        }),
+      );
+
+      clock.tick(1000); // should call Routine.run
+      clock.tick(1000); // should call Routine.run for the second times
+      clock.uninstall();
+
+      expect(dispatch).toHaveBeenCalledTimes(2);
+    });
+
+    it('should stop process with the same id', () => {
+      const clock = lolex.install();
+      Routine.schedule(
+        createRoutine({
+          routineId: 'test',
+          enabled: true,
+          interval: '* * * * * *',
+          nextRunAt: new Date('2018-01-01'),
+        }),
+      );
+
+      Routine.schedule(
+        createRoutine({
+          routineId: 'test',
+          enabled: true,
+          interval: '* * * * * *',
+          nextRunAt: new Date('2018-01-01'),
+        }),
+      );
+
+      clock.uninstall();
+      expect(clock.countTimers()).toBe(1);
+    });
+
+    it('should not schedule a new process if not enabled', () => {
+      const spy = jest.spyOn(Routine, 'run');
+      const clock = lolex.install();
+      Routine.schedule(
+        createRoutine({
+          routineId: 'test',
+          enabled: false,
+          interval: '* * * * * *',
+          nextRunAt: new Date('2018-01-01'),
+        }),
+      );
+
+      clock.next();
+      clock.uninstall();
+
+      expect(spy).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('load', () => {
+    it('should load and start every routine', async () => {
+      const clock = lolex.install();
+      await Routine.load();
+      clock.uninstall();
+
+      expect(clock.countTimers()).toBe(2);
+    });
+
+    it('should update all computeNextRunAt', async () => {
+      const clock = lolex.install({ now: new Date('2019-01-01T00:00') });
+      await Routine.load();
+      clock.uninstall();
+
+      const routines = await knex(Routine.TABLE).orderBy('routineId');
+
+      expect(routines[0].nextRunAt).toEqual(
+        new Date('2019-01-01T05:00').getTime(),
+      );
+      expect(routines[1].nextRunAt).toEqual(
+        new Date('2019-01-02T09:00').getTime(),
+      );
     });
   });
 

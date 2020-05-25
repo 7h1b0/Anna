@@ -3,7 +3,8 @@ import isBefore from 'date-fns/isBefore';
 import addDays from 'date-fns/addDays';
 import format from 'date-fns/format';
 
-import { findLastEntry, save, Consumption } from 'modules/consumption/model';
+import { schedule } from 'services/scheduleService';
+import { findLastEntry, save } from 'modules/consumption/model';
 import * as logger from 'utils/logger';
 
 const LINKY_USER = process.env.LINKY_USER;
@@ -13,14 +14,10 @@ function formatDate(date: Date): string {
   return format(date, 'dd/MM/yyyy');
 }
 
-async function getLastEntryInDatabase(): Promise<Consumption | undefined> {
-  return findLastEntry();
-}
-
 export async function getRange() {
   const yesterday = addDays(new Date(), -1);
 
-  const lastEntry = await getLastEntryInDatabase();
+  const lastEntry = await findLastEntry();
   if (!lastEntry) {
     const lastWeek = addDays(yesterday, -7);
 
@@ -68,9 +65,7 @@ export async function fetchLinkyData() {
   }
 }
 
-const ONE_DAY = 24 * 60 * 60 * 1000;
 export function run() {
   logger.info('Linky service launched');
-  fetchLinkyData();
-  setInterval(() => fetchLinkyData(), ONE_DAY);
+  schedule('linky', '0 0 10 * * *', fetchLinkyData);
 }

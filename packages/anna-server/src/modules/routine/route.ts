@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import * as Routine from 'modules/routine/model';
-import * as RoutineService from 'services/routineService';
+import * as ScheduleService from 'services/scheduleService';
 import * as logger from 'utils/logger';
 
 const routes = Router();
@@ -21,7 +21,7 @@ routes
 
       Routine.save(userId, name, sceneId, interval, enabled, runAtBankHoliday)
         .then((routine) => {
-          RoutineService.schedule(routine);
+          Routine.schedule(routine);
           res.status(201).json({ routineId: routine.routineId });
         })
         .catch((err) => res.status(500).send({ err }));
@@ -49,15 +49,11 @@ routes
       res.sendStatus(400);
     } else {
       const routineId = req.params.routineId;
-      const nextRunAt = Routine.computeNextRunAt(
-        req.body.interval,
-        req.body.runAtBankHoliday,
-      );
-      Routine.findByIdAndUpdate(routineId, { ...req.body, nextRunAt })
+      Routine.findByIdAndUpdate(routineId, req.body)
         .then(async (rowsAffected) => {
           if (!!rowsAffected) {
             const routine = await Routine.findById(routineId);
-            RoutineService.schedule(routine);
+            Routine.schedule(routine);
             res.sendStatus(204);
           } else {
             res.sendStatus(404);
@@ -72,7 +68,7 @@ routes
         if (removedScene < 1) {
           res.sendStatus(404);
         } else {
-          RoutineService.stop(req.params.routineId);
+          ScheduleService.stop(req.params.routineId);
           res.sendStatus(204);
         }
       })

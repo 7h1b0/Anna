@@ -1,4 +1,4 @@
-import knex from '../knexClient';
+import knex from '../../knexClient';
 import * as lolex from '@sinonjs/fake-timers';
 import linky from '@bokub/linky';
 

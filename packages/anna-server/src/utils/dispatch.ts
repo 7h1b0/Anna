@@ -1,8 +1,8 @@
 import TYPES from './type';
 import { AnnaAction } from './actions';
 import { findBySceneId } from 'modules/scene/action';
+import dioAdd from 'modules/dio/service';
 import { setLightState } from 'services/hueService';
-import dioAdd from 'services/dioService';
 
 export default async function dispatch(action: AnnaAction): Promise<void> {
   switch (action.type) {

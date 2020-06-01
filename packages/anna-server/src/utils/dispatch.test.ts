@@ -1,11 +1,11 @@
 import dispatch from './dispatch';
 import * as hueService from '../services/hueService';
-import dioAdd from '../services/dioService';
+import dioAdd from 'modules/dio/service';
 import * as Action from 'modules/scene/action';
 import { toggleHueLight } from './actions';
 import TYPES from './type';
 
-jest.mock('../services/dioService', () => jest.fn(async () => {}));
+jest.mock('modules/dio/service', () => jest.fn(async () => {}));
 
 describe('Dispatch', () => {
   beforeAll(() => {

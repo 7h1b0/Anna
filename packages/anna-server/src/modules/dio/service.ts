@@ -1,10 +1,15 @@
-import execService from './execService';
+import { exec } from 'child_process';
+import { promisify } from 'util';
 import * as logger from 'utils/logger';
+
+function execPromisify(script: string) {
+  return promisify(exec)(script);
+}
 
 let queue = Promise.resolve();
 function run(script: string, onSuccess: Function, onError: Function) {
   queue = queue
-    .then(() => execService(script))
+    .then(() => execPromisify(script))
     .then(
       () => onSuccess(),
       (err) => {

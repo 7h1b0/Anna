@@ -2,27 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import Title from 'src/components/title';
-import Button from 'src/components/button';
 import Typography from 'src/components/typography';
-import Card from 'src/components/card';
 
-import { saveConfig } from 'modules/database';
-import { useDatabase } from 'context/db-context';
 import { useUser } from 'context/user-context';
 
 const Settings: React.FC<{}> = () => {
-  const database = useDatabase();
   const user = useUser();
-
-  const handleRefresh = async () => {
-    const config = await fetch('/api', {
-      headers: {
-        'x-access-token': user && user.token ? user.token : '',
-      },
-    }).then((res) => res.json());
-
-    saveConfig(database, config);
-  };
 
   return (
     <>
@@ -44,12 +29,6 @@ const Settings: React.FC<{}> = () => {
           </Link>
         </div>
       </div>
-      <Card>
-        <Typography variant="body" className="capitalize">
-          Refresh data
-        </Typography>
-        <Button onClick={handleRefresh}>Refresh</Button>
-      </Card>
     </>
   );
 };

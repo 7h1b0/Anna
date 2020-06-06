@@ -4,8 +4,6 @@ import Input from 'components/input';
 import Button from 'components/button';
 import Alert from 'components/alert';
 
-import { saveConfig } from 'modules/database';
-import { useDatabase } from 'context/db-context';
 import { useSetUser } from 'context/user-context';
 
 type Identifier = {
@@ -19,7 +17,6 @@ function reducer(state: Identifier, action: Partial<Identifier>): Identifier {
 
 const Login: React.FC<{}> = () => {
   const setUser = useSetUser();
-  const database = useDatabase();
   const [identifier, setIdentifer] = React.useReducer(reducer, {
     username: '',
     password: '',
@@ -36,14 +33,6 @@ const Login: React.FC<{}> = () => {
         },
         body: JSON.stringify(identifier),
       }).then((res) => res.json());
-
-      const config = await fetch('/api', {
-        headers: {
-          'x-access-token': result.token,
-        },
-      }).then((res) => res.json());
-
-      saveConfig(database, config);
 
       setUser({ username: identifier.username, token: result.token });
     } catch (err) {

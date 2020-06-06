@@ -7,7 +7,6 @@ import Select from 'components/select';
 import Checkbox from 'components/checkbox';
 
 import useRequest from 'hooks/use-request';
-import { useDatabase } from 'context/db-context';
 import { useHistory } from 'react-router-dom';
 import type { Trigger as TriggerType } from 'types/trigger';
 import type { Scene as SceneType } from 'types/scene';
@@ -29,7 +28,6 @@ const TriggerForm: React.FC<Props> = ({ trigger, scenes }) => {
   const [hasError, setError] = React.useState(false);
   const request = useRequest();
   const history = useHistory();
-  const datastore = useDatabase();
 
   const handleChange = (prop: keyof TriggerType) => (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -50,7 +48,6 @@ const TriggerForm: React.FC<Props> = ({ trigger, scenes }) => {
         sceneId,
         enabled,
       });
-      await datastore.put('triggers', updatedTrigger);
       history.push('/triggers');
     } catch (error) {
       setError(true);

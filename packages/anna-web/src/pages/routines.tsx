@@ -4,11 +4,11 @@ import Title from 'src/components/title';
 import Routine from 'components/routine';
 import Loader from 'components/loader';
 
-import { useDataStoreGetAll } from 'context/db-context';
+import useFetch from 'hooks/use-fetch';
 import type { Routine as RoutineType } from 'types/routine';
 
 const Routines: React.FC<{}> = () => {
-  const routines = useDataStoreGetAll<RoutineType>('routines');
+  const routines = useFetch<RoutineType[]>('/api/routines');
 
   if (routines === null) {
     return <Loader />;

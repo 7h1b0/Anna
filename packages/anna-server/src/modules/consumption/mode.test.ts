@@ -1,10 +1,9 @@
 import knex from '../../knexClient';
-import * as lolex from '@sinonjs/fake-timers';
 import * as Consumption from './model';
 import type { Consumption as ConsumptionType } from './model';
 
 const seventeenth = {
-  date: new Date('2020-08-17T16:00'),
+  date: new Date('2020-08-17T18:00'),
   value: 7.0,
 };
 const twentieth = {
@@ -41,29 +40,13 @@ describe('Consumption', () => {
     await knex(Consumption.TABLE).insert(initConsumptions);
   });
 
-  describe('findLastWeek', () => {
-    it('should return all consumptions for the last 7 days', async () => {
-      const clock = lolex.install({ now: new Date('2020-08-29T16:00') });
-      const result = await Consumption.findLastWeek();
-      clock.uninstall();
+  describe('findLastEntries', () => {
+    it('should return the last 7 entries not null', async () => {
+      const result = await Consumption.findLastEntries(7);
 
-      expect(result).toEqual(formatTimestamp([twentieth, twentyFirst]));
-    });
-
-    it('should return an empty list if there is no consumption during last 7 days', async () => {
-      const clock = lolex.install({ now: new Date('2020-09-10T16:00') });
-      const result = await Consumption.findLastWeek();
-      clock.uninstall();
-
-      expect(result).toHaveLength(0);
-    });
-
-    it('should return only consumption in the past', async () => {
-      const clock = lolex.install({ now: new Date('2020-08-18T16:00') });
-      const result = await Consumption.findLastWeek();
-      clock.uninstall();
-
-      expect(result).toEqual(formatTimestamp([seventeenth]));
+      expect(result).toEqual(
+        formatTimestamp([twentyFirst, twentieth, seventeenth]),
+      );
     });
   });
 

@@ -28,7 +28,9 @@ const Scenes: React.FC<{}> = () => {
     <>
       <header className="flex justify-between items-center py-4">
         <div>
-          <Typography variant="head">Welcome Home</Typography>
+          <p className="text-base text-xl uppercase text-teal-500">
+            Welcome Home
+          </p>
         </div>
         <Link to="/settings" className="fill-current text-white">
           <SettingsIcon className="w-5" />

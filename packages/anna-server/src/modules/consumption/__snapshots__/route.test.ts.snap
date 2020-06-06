@@ -3,16 +3,16 @@
 exports[`Consumption API /api/consumption GET should return all consumptions for the last 7 days 1`] = `
 Array [
   Object {
-    "date": 1597622400000,
-    "value": 7,
+    "date": 1597968000000,
+    "value": 5.01,
   },
   Object {
     "date": 1597881600000,
     "value": 5.01,
   },
   Object {
-    "date": 1597968000000,
-    "value": 5.01,
+    "date": 1597622400000,
+    "value": 7,
   },
 ]
 `;

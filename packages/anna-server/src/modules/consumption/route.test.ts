@@ -1,5 +1,4 @@
 import request from 'supertest';
-import * as lolex from '@sinonjs/fake-timers';
 import { createUser } from 'factories';
 import knex from 'knexClient';
 import * as Consumption from 'modules/consumption/model';
@@ -35,12 +34,10 @@ describe('Consumption API', () => {
   describe('/api/consumption', () => {
     describe('GET', () => {
       it('should return all consumptions for the last 7 days', async () => {
-        const clock = lolex.install({ now: new Date('2020-08-25T16:00') });
         const response = await request(app)
           .get('/api/consumption')
           .set('Accept', 'application/json')
           .set('x-access-token', user.token);
-        clock.uninstall();
 
         expect(response.body).toMatchSnapshot();
       });

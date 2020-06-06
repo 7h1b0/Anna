@@ -9,15 +9,18 @@ import { Consumption } from 'src/types/consumption';
 import Loader from 'src/components/loader';
 import Typography from 'src/components/typography';
 
+const WEEK = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 function format(timestamp) {
-  const date = new Date(timestamp);
-  return `${date.getDate()}`.padStart(2, '0');
+  const day = new Date(timestamp).getDay();
+  return WEEK[day];
 }
 function formatDate(data) {
-  return data.map((d) => ({
-    date: format(d.date),
-    value: d.value,
-  }));
+  return data
+    .map((d) => ({
+      date: format(d.date),
+      value: d.value,
+    }))
+    .reverse();
 }
 const ConsumptionPage: React.FC<{}> = () => {
   const consumptions = useFetch<Consumption[]>(`/api/consumption`);

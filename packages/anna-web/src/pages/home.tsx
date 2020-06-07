@@ -8,7 +8,7 @@ import Loader from 'components/loader';
 import { Link } from 'react-router-dom';
 import { SettingsIcon } from 'components/icons';
 
-import { useDataStoreGetAll } from 'context/db-context';
+import useFetch from 'hooks/use-fetch';
 
 import type { Scene as SceneType } from 'types/scene';
 import type { Room as RoomType } from 'types/room';
@@ -18,8 +18,8 @@ function sortByName(a, b) {
 }
 
 const Scenes: React.FC<{}> = () => {
-  const scenes = useDataStoreGetAll<SceneType>('scenes');
-  const rooms = useDataStoreGetAll<RoomType>('rooms');
+  const scenes = useFetch<SceneType[]>(`/api/scenes`);
+  const rooms = useFetch<RoomType[]>(`/api/rooms`);
 
   if (scenes === null || rooms === null) {
     return <Loader />;

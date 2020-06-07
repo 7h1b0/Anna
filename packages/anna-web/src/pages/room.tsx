@@ -12,10 +12,7 @@ import HueLight from 'src/components/hue-light';
 
 const Devices: React.FC<{}> = () => {
   const params = useParams<{ roomId: string }>();
-
   const room = useFetch<RoomType>(`/api/rooms/${params.roomId}`);
-
-  console.log(room);
 
   if (room) {
     const hasACPower = room.devices?.dios?.length > 0;

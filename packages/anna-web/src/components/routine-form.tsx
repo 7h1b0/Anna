@@ -7,7 +7,6 @@ import Select from 'components/select';
 import Checkbox from 'components/checkbox';
 
 import useRequest from 'hooks/use-request';
-import { useDatabase } from 'context/db-context';
 import { useHistory } from 'react-router-dom';
 import type { Routine as RoutineType } from 'types/routine';
 import type { Scene as SceneType } from 'types/scene';
@@ -29,7 +28,6 @@ const RoutineForm: React.FC<Props> = ({ routine, scenes }) => {
   const [hasError, setError] = React.useState(false);
   const request = useRequest();
   const history = useHistory();
-  const datastore = useDatabase();
 
   const handleChange = (prop: keyof RoutineType) => (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -50,7 +48,6 @@ const RoutineForm: React.FC<Props> = ({ routine, scenes }) => {
         sceneId,
         enabled,
       });
-      await datastore.put('routines', updatedRoutine);
       history.goBack();
     } catch (error) {
       setError(true);

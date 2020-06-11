@@ -51,7 +51,7 @@ routes
       const routineId = req.params.routineId;
       Routine.findByIdAndUpdate(routineId, req.body)
         .then(async (rowsAffected) => {
-          if (!!rowsAffected) {
+          if (rowsAffected) {
             const routine = await Routine.findById(routineId);
             Routine.schedule(routine);
             res.sendStatus(204);

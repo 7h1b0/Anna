@@ -1,10 +1,10 @@
 import React from 'react';
 
-let timeout: number = -1;
+let timeout = -1;
 
 function useDebounce(func: Function, wait: number) {
   return React.useMemo(() => {
-    const debounced = (...args: any[]) => {
+    const debounced = (...args: unknown[]) => {
       window.clearTimeout(timeout);
       timeout = window.setTimeout(() => func(...args), wait);
     };

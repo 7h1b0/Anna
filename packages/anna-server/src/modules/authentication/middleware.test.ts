@@ -20,7 +20,7 @@ describe('authenticationMiddleware', () => {
     const res = { sendStatus: jest.fn(), locals: {} };
     const next = jest.fn();
 
-    // @ts-ignore
+    // @ts-expect-error
     await authenticationMiddleware(req, res, next);
     expect(next).toHaveBeenCalledTimes(1);
     expect(res.sendStatus).toHaveBeenCalledTimes(0);
@@ -35,7 +35,7 @@ describe('authenticationMiddleware', () => {
     const res = { sendStatus: jest.fn(), locals: { user: null } };
     const next = jest.fn();
 
-    // @ts-ignore
+    // @ts-expect-error
     await authenticationMiddleware(req, res, next);
     expect(res.locals.user).toEqual({
       userId: userTest.userId,
@@ -52,18 +52,22 @@ describe('authenticationMiddleware', () => {
     const res = { sendStatus: jest.fn() };
     const next = jest.fn();
 
-    // @ts-ignore
+    // @ts-expect-error
     await authenticationMiddleware(req, res, next);
     expect(res.sendStatus).toHaveBeenCalledWith(401);
     expect(next).toHaveBeenCalledTimes(0);
   });
 
   it('should send 401 if token is missing', async () => {
-    const req = { headers: {} };
-    const res = { sendStatus: jest.fn() };
+    const req = {
+      headers: {},
+    };
+    const res = {
+      sendStatus: jest.fn(),
+    };
     const next = jest.fn();
 
-    // @ts-ignore
+    // @ts-expect-error
     await authenticationMiddleware(req, res, next);
     expect(res.sendStatus).toHaveBeenCalledWith(401);
     expect(next).toHaveBeenCalledTimes(0);

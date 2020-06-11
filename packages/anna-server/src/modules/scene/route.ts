@@ -46,7 +46,7 @@ routes
     } else {
       Scene.findByIdAndUpdate({ ...req.body, sceneId: req.params.sceneId })
         .then((rowsAffected) => {
-          if (!!rowsAffected) {
+          if (rowsAffected) {
             res.sendStatus(204);
           } else {
             res.sendStatus(404);

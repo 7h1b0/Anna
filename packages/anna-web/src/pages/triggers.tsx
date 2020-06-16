@@ -9,7 +9,7 @@ import useFetch from 'hooks/use-fetch';
 import { groupBy } from 'modules/array';
 import type { Trigger as TriggerType } from 'types/trigger';
 
-const Triggers: React.FC<{}> = () => {
+function Triggers() {
   const triggers = useFetch<TriggerType[]>('api/alias');
 
   if (triggers === null) {
@@ -41,6 +41,6 @@ const Triggers: React.FC<{}> = () => {
       </div>
     </>
   );
-};
+}
 
 export default Triggers;

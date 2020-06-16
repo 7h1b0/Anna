@@ -9,7 +9,7 @@ import useFetch from 'hooks/use-fetch';
 import type { Trigger as TriggerType } from 'types/trigger';
 import type { Scene as SceneType } from 'types/scene';
 
-const TriggerEdit: React.FC<{}> = () => {
+function TriggerEdit() {
   const { triggerId = '' } = useParams();
   const trigger = useFetch<TriggerType>(`/api/alias/${triggerId}`);
   const scenes = useFetch<SceneType[]>('/api/scenes');
@@ -23,6 +23,6 @@ const TriggerEdit: React.FC<{}> = () => {
     );
   }
   return null;
-};
+}
 
 export default TriggerEdit;

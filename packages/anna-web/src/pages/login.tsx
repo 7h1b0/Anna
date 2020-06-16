@@ -15,7 +15,7 @@ function reducer(state: Identifier, action: Partial<Identifier>): Identifier {
   return Object.assign({}, state, action);
 }
 
-const Login: React.FC<{}> = () => {
+function Login() {
   const setUser = useSetUser();
   const [identifier, setIdentifer] = React.useReducer(reducer, {
     username: '',
@@ -63,6 +63,6 @@ const Login: React.FC<{}> = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Login;

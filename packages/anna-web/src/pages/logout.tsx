@@ -3,11 +3,11 @@ import { Redirect } from 'react-router-dom';
 
 import { useSetUser } from 'context/user-context';
 
-const Logout: React.FC<{}> = () => {
+function Logout() {
   const setUser = useSetUser();
   setUser({ username: null, token: null });
 
   return <Redirect to="/" />;
-};
+}
 
 export default Logout;

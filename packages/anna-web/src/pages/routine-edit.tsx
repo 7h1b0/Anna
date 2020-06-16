@@ -8,7 +8,7 @@ import useFetch from 'hooks/use-fetch';
 import type { Routine as RoutineType } from 'types/routine';
 import type { Scene as SceneType } from 'types/scene';
 
-const RoutineEdit: React.FC<{}> = () => {
+function RoutineEdit() {
   const { routineId = '' } = useParams();
   const routine = useFetch<RoutineType>(`/api/routines/${routineId}`);
   const scenes = useFetch<SceneType[]>('/api/scenes');
@@ -22,6 +22,6 @@ const RoutineEdit: React.FC<{}> = () => {
     );
   }
   return null;
-};
+}
 
 export default RoutineEdit;

@@ -7,7 +7,7 @@ import Title from 'src/components/title';
 import { HueLight } from 'src/types/hue-light';
 import HueLightForm from 'components/hue-light-form';
 
-const HueLightPage: React.FC<{}> = () => {
+function HueLightPage() {
   const { lightId = '' } = useParams();
   const hueLight = useFetch<HueLight>(`/api/hue/lights/${lightId}`);
 
@@ -21,6 +21,6 @@ const HueLightPage: React.FC<{}> = () => {
     );
   }
   return null;
-};
+}
 
 export default HueLightPage;

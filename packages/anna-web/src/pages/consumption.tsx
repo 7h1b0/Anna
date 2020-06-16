@@ -22,7 +22,8 @@ function formatDate(data) {
     }))
     .reverse();
 }
-const ConsumptionPage: React.FC<{}> = () => {
+
+function ConsumptionPage() {
   const consumptions = useFetch<Consumption[]>(`/api/consumption`);
 
   if (consumptions) {
@@ -60,6 +61,6 @@ const ConsumptionPage: React.FC<{}> = () => {
     );
   }
   return <Loader />;
-};
+}
 
 export default ConsumptionPage;

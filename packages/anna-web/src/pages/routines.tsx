@@ -7,7 +7,7 @@ import Loader from 'components/loader';
 import useFetch from 'hooks/use-fetch';
 import type { Routine as RoutineType } from 'types/routine';
 
-const Routines: React.FC<{}> = () => {
+function Routines() {
   const routines = useFetch<RoutineType[]>('/api/routines');
 
   if (routines === null) {
@@ -26,6 +26,6 @@ const Routines: React.FC<{}> = () => {
       </div>
     </>
   );
-};
+}
 
 export default Routines;

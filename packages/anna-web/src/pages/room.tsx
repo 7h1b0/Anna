@@ -10,7 +10,7 @@ import Dio from 'src/components/dio';
 import Grid from 'src/components/grid';
 import HueLight from 'src/components/hue-light';
 
-const Devices: React.FC<{}> = () => {
+function Devices() {
   const params = useParams<{ roomId: string }>();
   const room = useFetch<RoomType>(`/api/rooms/${params.roomId}`);
 
@@ -62,6 +62,6 @@ const Devices: React.FC<{}> = () => {
     );
   }
   return null;
-};
+}
 
 export default Devices;

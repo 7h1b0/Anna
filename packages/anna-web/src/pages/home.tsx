@@ -17,7 +17,7 @@ function sortByName(a, b) {
   return a.name.localeCompare(b.name);
 }
 
-const Scenes: React.FC<{}> = () => {
+function Scenes() {
   const scenes = useFetch<SceneType[]>(`/api/scenes`);
   const rooms = useFetch<RoomType[]>(`/api/rooms`);
 
@@ -54,6 +54,6 @@ const Scenes: React.FC<{}> = () => {
       </div>
     </>
   );
-};
+}
 
 export default Scenes;

@@ -6,7 +6,7 @@ import Typography from 'src/components/typography';
 
 import { useUser } from 'context/user-context';
 
-const Settings: React.FC<{}> = () => {
+function Settings() {
   const user = useUser();
 
   return (
@@ -31,6 +31,6 @@ const Settings: React.FC<{}> = () => {
       </div>
     </>
   );
-};
+}
 
 export default Settings;

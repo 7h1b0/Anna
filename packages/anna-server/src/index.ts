@@ -1,7 +1,6 @@
 import express from 'express';
 import * as bodyParser from 'body-parser';
 
-import about from './modules/about/route';
 import alias from './modules/alias/route';
 import dio from './modules/dio/route';
 import room from './modules/room/route';
@@ -23,7 +22,6 @@ app.use(bodyParser.json());
 
 app.use(authentication);
 app.use(authenticationMiddleware, [
-  about,
   alias,
   dio,
   hueLight,

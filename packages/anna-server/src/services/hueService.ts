@@ -115,18 +115,16 @@ export async function setLightState(
 export async function getSensorsByRoomId(
   roomId: string,
 ): Promise<TemperatureSensor[]> {
-  const [sensors, sensorsId] = await Promise.all([
-    fetch(`${api}/sensors`).then((res) => res.json()),
-    HueSensorModel.findByRoomId(roomId),
-  ]);
+  const sensorsId = await HueSensorModel.findByRoomId(roomId);
 
-  if (sensors) {
+  if (sensorsId.length) {
+    const sensors = await fetch(`${api}/sensors`).then((res) => res.json());
     return toArray<TemperatureSensor>(sensors).filter((sensor) =>
       sensorsId.includes(sensor.id),
     );
   }
 
-  return sensors;
+  return [];
 }
 
 export async function getSensor(idSensor: string): Promise<TemperatureSensor> {

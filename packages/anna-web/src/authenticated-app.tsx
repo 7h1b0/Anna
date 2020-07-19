@@ -11,6 +11,7 @@ import Settings from 'src/pages/settings';
 import HueLight from 'src/pages/hue-light';
 import Room from 'src/pages/room';
 import TriggerEdit from 'src/pages/trigger-edit';
+import TriggerAdd from 'src/pages/trigger-add';
 import RoutineEdit from 'src/pages/routine-edit';
 import RoutineAdd from 'src/pages/routine-add';
 
@@ -34,6 +35,9 @@ const AuthenticateApp = () => {
             </Route>
             <Route path="/routines">
               <Routines />
+            </Route>
+            <Route path="/triggers/add">
+              <TriggerAdd />
             </Route>
             <Route path="/triggers/:triggerId">
               <TriggerEdit />

@@ -28,6 +28,7 @@ const TriggerForm: React.FC<Props> = ({ trigger, scenes }) => {
   const [hasError, setError] = React.useState(false);
   const request = useRequest();
   const history = useHistory();
+  const isEditMode = trigger.aliasId !== '';
 
   const handleChange = (prop: keyof TriggerType) => (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -42,12 +43,21 @@ const TriggerForm: React.FC<Props> = ({ trigger, scenes }) => {
     e.preventDefault();
     const { name, description = '', sceneId, enabled } = updatedTrigger;
     try {
-      await request(`/api/alias/${trigger.aliasId}`, 'PATCH', {
-        name,
-        description,
-        sceneId,
-        enabled,
-      });
+      if (isEditMode) {
+        await request(`/api/alias/${trigger.aliasId}`, 'PATCH', {
+          name,
+          description,
+          sceneId,
+          enabled,
+        });
+      } else {
+        await request('/api/alias/', 'POST', {
+          name,
+          description,
+          sceneId,
+          enabled,
+        });
+      }
       history.push('/triggers');
     } catch (error) {
       setError(true);
@@ -59,10 +69,10 @@ const TriggerForm: React.FC<Props> = ({ trigger, scenes }) => {
       {hasError && <Alert>Invalid form</Alert>}
       <Input
         name="name"
-        label="name - read only"
+        label="name"
         value={updatedTrigger.name}
         onChange={handleChange('name')}
-        disabled
+        disabled={isEditMode}
       />
       <Input
         name="description"

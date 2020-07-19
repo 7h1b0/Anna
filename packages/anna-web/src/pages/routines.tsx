@@ -18,7 +18,7 @@ function Routines() {
   return (
     <>
       <Title title="Routines" />
-      <FloatingButton to="/routines/add">Add</FloatingButton>
+      <FloatingButton to="/routines/add" />
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-2">
         {routines
           .sort((a, b) => a.nextRunAt - b.nextRunAt)

@@ -73,7 +73,7 @@ export async function getLights(): Promise<HueLight[]> {
 
   if (lights) {
     rooms.forEach(({ roomId, lightId }) => {
-      if (Object.prototype.hasOwnProperty.call(lights, 'lightId')) {
+      if (Object.prototype.hasOwnProperty.call(lights, lightId)) {
         lights[lightId].roomId = roomId;
       }
     });

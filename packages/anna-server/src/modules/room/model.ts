@@ -1,5 +1,5 @@
 import Ajv from 'ajv';
-import uuidv4 from 'uuid/v4';
+import { v4 as uuidv4 } from 'uuid';
 import roomSchema from './schema';
 import knex from '../../knexClient';
 import * as Dio from 'modules/dio/model';

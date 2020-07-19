@@ -12,18 +12,22 @@ import HueLight from 'src/pages/hue-light';
 import Room from 'src/pages/room';
 import TriggerEdit from 'src/pages/trigger-edit';
 import RoutineEdit from 'src/pages/routine-edit';
+import RoutineAdd from 'src/pages/routine-add';
 
 const AuthenticateApp = () => {
   return (
     <Router>
       <div className="h-full flex justify-end flex-col xl:flex-row-reverse bg-gray-900">
-        <div className="flex-1 px-2 max-w-1440 overflow-y-auto">
+        <div className="relative flex-1 px-2 max-w-1440 overflow-y-auto">
           <Switch>
             <Route path="/rooms/light/:lightId">
               <HueLight />
             </Route>
             <Route path="/rooms/:roomId">
               <Room />
+            </Route>
+            <Route path="/routines/add">
+              <RoutineAdd />
             </Route>
             <Route path="/routines/:routineId">
               <RoutineEdit />

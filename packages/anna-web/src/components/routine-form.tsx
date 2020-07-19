@@ -40,14 +40,31 @@ const RoutineForm: React.FC<Props> = ({ routine, scenes }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const { name, interval, sceneId, enabled } = updatedRoutine;
+    const {
+      name,
+      interval,
+      sceneId,
+      enabled,
+      runAtBankHoliday,
+    } = updatedRoutine;
     try {
-      await request(`/api/routines/${routine.routineId}`, 'PATCH', {
-        name,
-        interval,
-        sceneId,
-        enabled,
-      });
+      if (routine.routineId) {
+        await request(`/api/routines/${routine.routineId}`, 'PATCH', {
+          name,
+          interval,
+          sceneId,
+          enabled,
+          runAtBankHoliday,
+        });
+      } else {
+        await request(`/api/routines`, 'POST', {
+          name,
+          interval,
+          sceneId,
+          enabled,
+          runAtBankHoliday,
+        });
+      }
       history.goBack();
     } catch (error) {
       setError(true);

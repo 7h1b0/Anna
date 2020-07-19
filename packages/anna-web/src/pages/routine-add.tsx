@@ -1,22 +1,27 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
 
 import Title from 'src/components/title';
 import RoutineForm from 'components/routine-form';
 
 import useFetch from 'hooks/use-fetch';
-import type { Routine as RoutineType } from 'types/routine';
 import type { Scene as SceneType } from 'types/scene';
 
-function RoutineEdit() {
-  const { routineId = '' } = useParams();
-  const routine = useFetch<RoutineType>(`/api/routines/${routineId}`);
+function RoutineAdd() {
   const scenes = useFetch<SceneType[]>('/api/scenes');
+  const routine = {
+    routineId: '',
+    name: '',
+    interval: '0 5 * * *',
+    sceneId: '',
+    runAtBankHoliday: false,
+    enabled: true,
+    nextRunAt: -1,
+  };
 
-  if (routine && scenes) {
+  if (scenes) {
     return (
       <>
-        <Title title="Edit Routine" activateNavigation />
+        <Title title="Add Routine" activateNavigation />
         <RoutineForm routine={routine} scenes={scenes} />
       </>
     );
@@ -24,4 +29,4 @@ function RoutineEdit() {
   return null;
 }
 
-export default RoutineEdit;
+export default RoutineAdd;

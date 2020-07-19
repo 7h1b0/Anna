@@ -7,8 +7,8 @@ export type Routine = {
   enabled: boolean;
   createdAt?: number;
   updatedAt?: number;
-  lastFailedAt: number;
-  lastRunAt: number;
+  lastFailedAt?: number;
+  lastRunAt?: number;
   nextRunAt: number;
   failReason?: null;
   createdBy?: string;

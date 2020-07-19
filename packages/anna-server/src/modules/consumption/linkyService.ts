@@ -3,7 +3,7 @@ import isBefore from 'date-fns/isBefore';
 import addDays from 'date-fns/addDays';
 import format from 'date-fns/format';
 
-import { schedule } from 'services/scheduleService';
+// import { schedule } from 'services/scheduleService';
 import { findLastEntry, save } from 'modules/consumption/model';
 import * as logger from 'utils/logger';
 
@@ -66,6 +66,6 @@ export async function fetchLinkyData() {
 }
 
 export function run() {
-  logger.info('Linky service launched');
-  schedule('linky', '0 0 10 * * *', fetchLinkyData);
+  logger.info('Linky service disabled');
+  // schedule('linky', '0 0 10 * * *', fetchLinkyData);
 }

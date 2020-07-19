@@ -2,12 +2,7 @@ import React from 'react';
 
 import NavLink from 'components/nav-link';
 
-import {
-  HomeIcon,
-  RoutinesIcon,
-  TriggersIcon,
-  PowerIcon,
-} from 'components/icons';
+import { HomeIcon, RoutinesIcon, TriggersIcon } from 'components/icons';
 
 const BottomActions: React.FC<{}> = () => {
   const className = 'w-5 mx-auto';
@@ -21,9 +16,6 @@ const BottomActions: React.FC<{}> = () => {
       </NavLink>
       <NavLink to="/triggers">
         <TriggersIcon className={className} />
-      </NavLink>
-      <NavLink to="/consumption">
-        <PowerIcon className={className} />
       </NavLink>
     </div>
   );

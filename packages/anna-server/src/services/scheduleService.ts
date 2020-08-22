@@ -4,6 +4,23 @@ import * as logger from 'utils/logger';
 
 export const processes: Map<string, NodeJS.Timeout> = new Map();
 
+export function isValidCron(cron?: string): boolean {
+  if (typeof cron !== 'string') {
+    return false;
+  }
+  if (cron.length < 1) {
+    return false;
+  }
+  try {
+    parser.parseExpression(cron, {
+      currentDate: new Date(),
+    });
+    return true;
+  } catch (err) {
+    return false;
+  }
+}
+
 export function computeNextRunAt(cron: string, runAtBankHoliday = true) {
   try {
     const interval = parser.parseExpression(cron, {

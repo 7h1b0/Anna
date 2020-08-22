@@ -163,6 +163,18 @@ describe('Routines', () => {
 
       expect(Routine.validate(routine)).toBeFalsy();
     });
+
+    it('should return false if interval is invalid', () => {
+      const routine = {
+        routineId: '00c1d78e-fd1c-4717-b610-65d2fa3d01b2',
+        name: 'My routine',
+        sceneId: '00c1d78e-fd1c-4717-b610-65d2fa3d01b2',
+        interval: '',
+        createdBy: 'test_user',
+      };
+
+      expect(Routine.validate(routine)).toBeFalsy();
+    });
   });
 
   describe('run', () => {

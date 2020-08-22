@@ -33,6 +33,20 @@ describe('scheduleService', () => {
     });
   });
 
+  describe('isValidCron', () => {
+    it.each`
+      cron            | expected
+      ${'0 12 * * *'} | ${true}
+      ${'0 12* * *'}  | ${false}
+      ${'0 * *'}      | ${false}
+      ${''}           | ${false}
+      ${1}            | ${false}
+      ${null}         | ${false}
+    `('should return $expected for $cron', ({ cron, expected }) => {
+      expect(ScheduleService.isValidCron(cron)).toBe(expected);
+    });
+  });
+
   describe('schedule', () => {
     it('should schedule a new process and call it every second', () => {
       const spy = jest.fn();

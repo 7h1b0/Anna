@@ -102,6 +102,20 @@ describe('Routine API', () => {
         expect(response.status).toBeBadRequest();
       });
 
+      it('should retun 400 when interval is invalid', async () => {
+        const response = await request(app)
+          .post('/api/routines')
+          .set('Accept', 'application/json')
+          .set('x-access-token', user.token)
+          .send({
+            sceneId: 'faaed78e-fd1c-4717-b610-65d2fa3d01b2',
+            name: 'room_updated',
+            interval: '30* * * * *',
+          });
+
+        expect(response.status).toBeBadRequest();
+      });
+
       it('should save and start a new routine', async () => {
         const clock = lolex.install({ now: new Date('2017-08-12T16:00:15') });
         const payload = {
@@ -213,6 +227,20 @@ describe('Routine API', () => {
           .send({
             sceneId: 'faaed78e-fd1c-4717-b610-65d2fa3d01b2',
             name: 'room_updated',
+          });
+
+        expect(response.status).toBeBadRequest();
+      });
+
+      it('should return 400 when interval is invalid', async () => {
+        const response = await request(app)
+          .patch(`/api/routines/${initRoutines[0].routineId}`)
+          .set('Accept', 'application/json')
+          .set('x-access-token', user.token)
+          .send({
+            sceneId: 'faaed78e-fd1c-4717-b610-65d2fa3d01b2',
+            name: 'room_updated',
+            interval: '05* * *',
           });
 
         expect(response.status).toBeBadRequest();

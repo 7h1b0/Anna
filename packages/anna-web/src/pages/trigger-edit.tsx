@@ -10,7 +10,7 @@ import type { Trigger as TriggerType } from 'types/trigger';
 import type { Scene as SceneType } from 'types/scene';
 
 function TriggerEdit() {
-  const { triggerId = '' } = useParams();
+  const { triggerId = '' } = useParams<{ triggerId: string }>();
   const trigger = useFetch<TriggerType>(`/api/alias/${triggerId}`);
   const scenes = useFetch<SceneType[]>('/api/scenes');
 

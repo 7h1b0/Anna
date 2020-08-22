@@ -8,7 +8,7 @@ import { HueLight } from 'src/types/hue-light';
 import HueLightForm from 'components/hue-light-form';
 
 function HueLightPage() {
-  const { lightId = '' } = useParams();
+  const { lightId = '' } = useParams<{ lightId: string }>();
   const hueLight = useFetch<HueLight>(`/api/hue/lights/${lightId}`);
 
   if (hueLight) {

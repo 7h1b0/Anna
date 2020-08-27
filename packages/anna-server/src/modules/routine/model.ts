@@ -2,7 +2,11 @@ import Ajv from 'ajv';
 import { v4 as uuidv4 } from 'uuid';
 import knex from '../../knexClient';
 import routineSchema from './schema';
-import { computeNextRunAt, isValidCron } from 'services/scheduleService';
+import {
+  computeNextRunAt,
+  isValidCron,
+  isTimestamp,
+} from 'services/scheduleService';
 import * as ScheduleService from 'services/scheduleService';
 import dispatch from 'utils/dispatch';
 import { omit } from 'utils/utils';
@@ -65,9 +69,12 @@ export function updateAllNextRunAt(routines: Routine[]) {
 export function validate(data: Partial<Routine>) {
   const ajv = new Ajv();
   const isValid = ajv.validate(routineSchema, data);
-  const isCronValid = isValidCron(data.interval);
-
-  return isValid && isCronValid;
+  if (isValidCron(data.interval)) {
+    return isValid;
+  } else if (isTimestamp(data.interval)) {
+    return isValid && parseInt(data.interval ?? '', 10) > Date.now();
+  }
+  return false;
 }
 
 export async function findAll(): Promise<Routine[]> {
@@ -126,15 +133,10 @@ export async function run(routine: Routine) {
     const failReason = error ? JSON.stringify(error) : null;
     const lastFailedAt = error ? new Date() : routine.lastFailedAt;
     const lastRunAt = new Date();
-    const nextRunAt = computeNextRunAt(
-      routine.interval,
-      routine.runAtBankHoliday,
-    );
 
     const updatedRoutine = {
       ...omit(routine, 'createdAt', 'updatedAt'),
       lastRunAt,
-      nextRunAt,
       failReason,
       lastFailedAt,
     };

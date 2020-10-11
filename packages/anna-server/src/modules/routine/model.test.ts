@@ -240,7 +240,8 @@ describe('Routines', () => {
 
     it('should update failReason and lastFailedAt when run failed', async () => {
       const clock = lolex.install({ now: new Date('2017-08-14T16:00') });
-      // @ts-ignore
+
+      // @ts-expect-error dispatch is a mock
       dispatch.mockRejectedValue('Failed');
 
       const res = await Routine.run(initRoutines[0]);

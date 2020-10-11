@@ -53,7 +53,7 @@ describe('Routine API', () => {
   });
 
   beforeEach(async () => {
-    // @ts-ignore
+    // @ts-expect-error dispatch is a mock
     dispatch.mockClear();
     await knex(Routine.TABLE).truncate();
     await knex(Routine.TABLE).insert(initRoutines);

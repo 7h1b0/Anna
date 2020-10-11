@@ -76,7 +76,9 @@ module.exports = ({ prod } = {}) => {
             {
               loader: 'postcss-loader',
               options: {
-                plugins: [tailwindcss, ...(prod ? [cssnano] : [])],
+                postcssOptions: {
+                  plugins: [tailwindcss, ...(prod ? [cssnano] : [])],
+                },
               },
             },
           ],

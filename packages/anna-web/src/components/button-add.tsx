@@ -7,14 +7,19 @@ const FloatingButton: React.FC<{
   return (
     <Link
       to={to}
-      className="text-teal-500 w-10 h-10 absolute bottom-0 right-0 m-10"
+      className="bg-teal-500 rounded-full text-white absolute bottom-0 right-0 m-10"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 20 20"
-        className="fill-current"
+        fill="currentColor"
+        className="p-2 w-10"
       >
-        <path d="M11 9V5H9v4H5v2h4v4h2v-4h4V9h-4zm-1 11a10 10 0 1 1 0-20 10 10 0 0 1 0 20z" />
+        <path
+          fillRule="evenodd"
+          d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+          clipRule="evenodd"
+        />
       </svg>
     </Link>
   );

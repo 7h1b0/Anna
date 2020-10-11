@@ -1,7 +1,7 @@
 import React from 'react';
 import { IconProps } from './IconProps';
 
-const RoomsIcon: React.FC<IconProps> = ({ className }) => (
+const HomeIcon: React.FC<IconProps> = ({ className }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 20 20"
@@ -11,4 +11,4 @@ const RoomsIcon: React.FC<IconProps> = ({ className }) => (
   </svg>
 );
 
-export default RoomsIcon;
+export default HomeIcon;

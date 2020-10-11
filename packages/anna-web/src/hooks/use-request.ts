@@ -3,7 +3,7 @@ import { useUser } from 'context/user-context';
 export default function useRequest(): (
   path: string,
   method: 'GET' | 'POST' | 'DELETE' | 'PATCH',
-  body?: Object,
+  body?: Record<string, unknown>,
 ) => Promise<Response> {
   const user = useUser();
 

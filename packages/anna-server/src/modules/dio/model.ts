@@ -10,7 +10,7 @@ export type Dio = {
   name: string;
 };
 
-export function validate(data: object) {
+export function validate(data: Record<string, unknown>) {
   const ajv = new Ajv();
   return ajv.validate(dioSchema, data);
 }

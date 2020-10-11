@@ -5,7 +5,7 @@ import * as Action from 'modules/scene/action';
 import { toggleHueLight } from './actions';
 import TYPES from './type';
 
-jest.mock('modules/dio/service', () => jest.fn(async () => {}));
+jest.mock('modules/dio/service', () => jest.fn().mockResolvedValue(void 0));
 
 describe('Dispatch', () => {
   beforeAll(() => {
@@ -13,7 +13,7 @@ describe('Dispatch', () => {
       .spyOn(Action, 'findBySceneId')
       .mockResolvedValue([toggleHueLight('5', true)]);
 
-    jest.spyOn(hueService, 'setLightState').mockImplementation(async () => {});
+    jest.spyOn(hueService, 'setLightState').mockResolvedValue(void 0);
   });
 
   it('should call hueService when type is HUE_LIGHT', async () => {

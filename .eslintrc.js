@@ -21,9 +21,8 @@ module.exports = {
   rules: {
     'react/no-unknown-property': 'off', // prevents error with class vs className
     '@typescript-eslint/ban-types': 'off',
-    '@typescript-eslint/ban-ts-comment': 'off',
-    '@typescript-eslint/no-empty-function': 'off',
     '@typescript-eslint/no-namespace': 'off',
+    '@typescript-eslint/no-unused-vars': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
   },
 };

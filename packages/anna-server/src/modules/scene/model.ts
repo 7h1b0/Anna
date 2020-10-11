@@ -28,7 +28,7 @@ export type SceneAction = {
   actions: (ToggleDio | ToggleHueLight)[];
 } & Scene;
 
-export function validate(data: object) {
+export function validate(data: Record<string, unknown>) {
   const ajv = new Ajv();
   return ajv.validate(sceneSchema, data);
 }

@@ -27,7 +27,7 @@ export async function insertOrUpdate(sensorId: string, roomId: string) {
   );
 }
 
-export function validate(data: object) {
+export function validate(data: Record<string, unknown>) {
   const ajv = new Ajv();
   return ajv.validate(sensorSchema, data);
 }

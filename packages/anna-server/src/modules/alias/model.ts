@@ -27,7 +27,7 @@ type Alias = {
   createdBy: string;
 };
 
-export function validate(data: object) {
+export function validate(data: Record<string, unknown>) {
   const ajv = new Ajv();
   return ajv.validate(aliasSchema, data);
 }

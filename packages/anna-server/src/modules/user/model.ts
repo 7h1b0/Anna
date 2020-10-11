@@ -43,7 +43,7 @@ export function remove(userId: string) {
   return knex(TABLE).where('userId', userId).del();
 }
 
-export function validate(data: object) {
+export function validate(data: Record<string, unknown>) {
   const ajv = new Ajv();
   return ajv.validate(userSchema, data);
 }

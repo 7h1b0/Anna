@@ -7,7 +7,7 @@ function execPromisify(script: string) {
 }
 
 let queue = Promise.resolve();
-function run(script: string, onSuccess: Function, onError: Function) {
+function run(script: string, onSuccess: () => void, onError: () => void) {
   queue = queue
     .then(() => execPromisify(script))
     .then(

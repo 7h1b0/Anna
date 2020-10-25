@@ -17,6 +17,9 @@ export default {
       type: 'string',
       minLength: 5,
     },
+    favorite: {
+      type: 'boolean',
+    },
     actions: {
       type: 'array',
       minItems: 1,
@@ -50,5 +53,5 @@ export default {
       ],
     },
   },
-  required: ['name', 'actions'],
+  required: ['name', 'actions', 'favorite'],
 };

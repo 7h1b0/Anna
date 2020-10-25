@@ -7,6 +7,7 @@ const initScenes = [
     sceneId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
     description: 'this is a test',
     name: 'scene_1',
+    favorite: true,
     createdBy: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
     createdAt: new Date('2018-01-01'),
     updatedAt: new Date('2018-01-02'),
@@ -15,6 +16,7 @@ const initScenes = [
     sceneId: '110c80e8-49e4-4d6b-b966-4fc9fb98879f',
     description: 'this is a second test',
     name: 'scene_2',
+    favorite: false,
     createdBy: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f',
     createdAt: new Date('2018-01-01'),
     updatedAt: new Date('2018-01-02'),
@@ -97,6 +99,7 @@ describe('Scene', () => {
       const scene = {
         description: 'save test',
         name: 'scene_3',
+        favorite: false,
         createdBy: '75442486-0878-440c-9db1-a7006c25a39f',
         actions: [
           new ToggleDio('1', {
@@ -129,6 +132,7 @@ describe('Scene', () => {
         sceneId: initScenes[1].sceneId,
         description: 'this is an updated second test',
         name: 'scene_2',
+        favorite: true,
         createdBy: '',
         actions: [
           new ToggleDio('2', { on: false }),
@@ -171,6 +175,7 @@ describe('Scene', () => {
       const updatedScene = {
         sceneId: fakeSceneId,
         name: 'scene_2',
+        favorite: false,
         description: 'this is an updated second test',
         createdBy: 'test',
         actions: [
@@ -194,11 +199,21 @@ describe('Scene', () => {
     });
   });
 
+  describe('findAllFavorite', () => {
+    it('should return all favorite scenes', async () => {
+      const favorites = await Scene.findAllFavorite();
+
+      expect(favorites).toHaveLength(1);
+      expect(favorites[0]).toHaveProperty('sceneId', initScenes[0].sceneId);
+    });
+  });
+
   describe('validate', () => {
     it('should return true when a scene is valid', () => {
       const scene = {
         name: 'test',
         description: 'my scene test',
+        favorite: true,
         actions: [
           {
             targetId: 2,
@@ -226,6 +241,7 @@ describe('Scene', () => {
       const scene = {
         name: 'test',
         description: 'my scene test',
+        favrotie: true,
         actions: [
           {
             targetId: 1,
@@ -243,6 +259,7 @@ describe('Scene', () => {
     it('should return true when no description is provided', () => {
       const scene = {
         name: 'test',
+        favorite: true,
         actions: [
           {
             targetId: 1,

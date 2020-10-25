@@ -10,6 +10,7 @@ export const COLUMNS = [
   'sceneId',
   'name',
   'description',
+  'favorite',
   'createdAt',
   'updatedAt',
   'createdBy',
@@ -20,6 +21,7 @@ export type Scene = {
   name: string;
   description: string;
   createdBy: string;
+  favorite: boolean;
   createdAt?: number;
   updatedAt?: number;
 };
@@ -54,12 +56,13 @@ export async function findByIdAndUpdate({
   sceneId,
   name,
   description,
+  favorite,
   actions,
 }: SceneAction) {
   return knex
     .transaction(async (trx) => {
       return trx
-        .update({ name, description })
+        .update({ name, description, favorite })
         .where('sceneId', sceneId)
         .into(TABLE)
         .then((row) => {
@@ -95,6 +98,7 @@ export async function findByIdAndUpdate({
 export async function save({
   name,
   description,
+  favorite,
   createdBy,
   actions,
 }: Omit<SceneAction, 'sceneId'>) {
@@ -104,6 +108,7 @@ export async function save({
       .insert({
         sceneId,
         description,
+        favorite,
         name,
         createdBy,
       })
@@ -137,4 +142,8 @@ export async function remove(sceneId: string): Promise<number[]> {
 
     return Promise.all([removeScene, removeActions]);
   });
+}
+
+export async function findAllFavorite(): Promise<Scene[]> {
+  return knex(TABLE).select(COLUMNS).where('favorite', true);
 }

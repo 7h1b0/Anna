@@ -15,6 +15,7 @@ const initScenes = [
     sceneId: '05442486-0878-440c-9db1-a7006c25a39f',
     description: 'this is a test',
     name: 'scene_1',
+    favorite: true,
     createdBy: '29699398-449c-48fb-8f5c-84186cdf8279',
     createdAt: new Date('2018-01-01'),
     updatedAt: new Date('2018-01-02'),
@@ -23,6 +24,7 @@ const initScenes = [
     sceneId: '18feb598-32cb-472f-8b29-a7e7fe41e06b',
     description: 'this is a second test',
     name: 'scene_2',
+    favorite: false,
     createdBy: '29699398-449c-48fb-8f5c-84186cdf8279',
     createdAt: new Date('2018-01-01'),
     updatedAt: new Date('2018-01-02'),
@@ -72,7 +74,7 @@ describe('Scene API', () => {
 
   describe('/api/scenes', () => {
     describe('GET', () => {
-      it('should retun all scene', async () => {
+      it('should return all scene', async () => {
         const response = await request(app)
           .get('/api/scenes')
           .set('Accept', 'application/json')
@@ -120,6 +122,7 @@ describe('Scene API', () => {
         const scene = {
           name: 'testScene',
           description: 'this is a test scene',
+          favorite: true,
           actions: [
             {
               targetId: 1,
@@ -282,6 +285,7 @@ describe('Scene API', () => {
         const scene = {
           description: 'this is an updated scene',
           name: 'testtest',
+          favorite: true,
           actions: [
             {
               targetId: 2,
@@ -306,6 +310,7 @@ describe('Scene API', () => {
         const updatedScene = {
           description: 'this is an updated test',
           name: 'scene_2',
+          favorite: false,
           actions: [
             {
               type: 'HUE_LIGHT',
@@ -354,6 +359,27 @@ describe('Scene API', () => {
     it('should retun 401 when user is not authenticated', async () => {
       const response = await request(app)
         .get(`/api/scenes/${initScenes[0].sceneId}/action`)
+        .set('Accept', 'application/json')
+        .set('x-access-token', 'fake');
+
+      expect(response.status).toBeUnauthorized();
+    });
+  });
+
+  describe('/api/scenes/favorite', () => {
+    it('should return all favorite scenes', async () => {
+      const response = await request(app)
+        .get(`/api/scenes/favorite`)
+        .set('Accept', 'application/json')
+        .set('x-access-token', user.token);
+
+      expect(response.status).toHaveStatusOk();
+      expect(response.body).toHaveLength(1);
+    });
+
+    it('should retun 401 when user is not authenticated', async () => {
+      const response = await request(app)
+        .get(`/api/scenes/favorite`)
         .set('Accept', 'application/json')
         .set('x-access-token', 'fake');
 

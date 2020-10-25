@@ -1,11 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Scene API /api/scenes GET should retun all scene 1`] = `
+exports[`Scene API /api/scenes GET should return all scene 1`] = `
 Array [
   Object {
     "createdAt": 1514764800000,
     "createdBy": "29699398-449c-48fb-8f5c-84186cdf8279",
     "description": "this is a test",
+    "favorite": true,
     "name": "scene_1",
     "sceneId": "05442486-0878-440c-9db1-a7006c25a39f",
     "updatedAt": 1514851200000,
@@ -14,6 +15,7 @@ Array [
     "createdAt": 1514764800000,
     "createdBy": "29699398-449c-48fb-8f5c-84186cdf8279",
     "description": "this is a second test",
+    "favorite": false,
     "name": "scene_2",
     "sceneId": "18feb598-32cb-472f-8b29-a7e7fe41e06b",
     "updatedAt": 1514851200000,
@@ -26,6 +28,7 @@ Object {
   "createdAt": Any<Number>,
   "createdBy": "29699398-449c-48fb-8f5c-84186cdf8279",
   "description": "this is a test scene",
+  "favorite": true,
   "name": "testScene",
   "sceneId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,
   "updatedAt": Any<Number>,
@@ -64,6 +67,7 @@ Object {
   "createdAt": 1514764800000,
   "createdBy": "29699398-449c-48fb-8f5c-84186cdf8279",
   "description": "this is a test",
+  "favorite": true,
   "name": "scene_1",
   "sceneId": "05442486-0878-440c-9db1-a7006c25a39f",
   "updatedAt": 1514851200000,
@@ -75,6 +79,7 @@ Object {
   "createdAt": Any<Number>,
   "createdBy": "29699398-449c-48fb-8f5c-84186cdf8279",
   "description": "this is an updated test",
+  "favorite": false,
   "name": "scene_2",
   "sceneId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,
   "updatedAt": Any<Number>,

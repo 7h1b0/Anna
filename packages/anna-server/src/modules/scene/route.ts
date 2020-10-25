@@ -78,4 +78,10 @@ routes.get('/api/scenes/:sceneId([a-fA-F0-9-]{36})/action', (req, res) => {
     });
 });
 
+routes.get('/api/scenes/favorite', (req, res) => {
+  Scene.findAllFavorite()
+    .then((scenes) => res.json(scenes))
+    .catch((err) => res.status(500).send({ err }));
+});
+
 export default routes;

@@ -8,7 +8,7 @@ const getClassName = (variant: Variant): string => {
     case 'heading':
       return 'text-base text-white';
     case 'body':
-      return 'text-sm text-gray-300';
+      return 'text-sm text-white';
     case 'caption':
       return 'text-xs text-gray-300';
   }

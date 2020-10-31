@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import BottomNavigation from 'components/bottom-action';
+import Navigation from 'components/navigation';
 
 import Home from 'src/pages/home';
 import Routines from 'src/pages/routines';
@@ -10,6 +10,7 @@ import Logout from 'src/pages/logout';
 import Settings from 'src/pages/settings';
 import HueLight from 'src/pages/hue-light';
 import Room from 'src/pages/room';
+import Scenes from 'src/pages/scenes';
 import TriggerEdit from 'src/pages/trigger-edit';
 import TriggerAdd from 'src/pages/trigger-add';
 import RoutineEdit from 'src/pages/routine-edit';
@@ -19,7 +20,7 @@ const AuthenticateApp = () => {
   return (
     <Router>
       <div className="h-full flex justify-end flex-col xl:flex-row-reverse bg-gray-900">
-        <div className="relative flex-1 px-2 max-w-1440 overflow-y-auto">
+        <div className="relative flex-1 px-2 xl:px-4 max-w-1440 overflow-y-auto">
           <Switch>
             <Route path="/rooms/light/:lightId">
               <HueLight />
@@ -45,6 +46,9 @@ const AuthenticateApp = () => {
             <Route path="/triggers">
               <Triggers />
             </Route>
+            <Route path="/scenes">
+              <Scenes />
+            </Route>
             <Route path="/logout">
               <Logout />
             </Route>
@@ -56,7 +60,7 @@ const AuthenticateApp = () => {
             </Route>
           </Switch>
         </div>
-        <BottomNavigation />
+        <Navigation />
       </div>
     </Router>
   );

@@ -78,10 +78,28 @@ routes.get('/api/scenes/:sceneId([a-fA-F0-9-]{36})/action', (req, res) => {
     });
 });
 
-routes.get('/api/scenes/favorite', (req, res) => {
+routes.get('/api/scenes/favorites', (req, res) => {
   Scene.findAllFavorite()
     .then((scenes) => res.json(scenes))
     .catch((err) => res.status(500).send({ err }));
 });
+
+routes.get(
+  '/api/scenes/:sceneId([a-fA-F0-9-]{36})/favorite/:state(1|0)',
+  (req, res) => {
+    Scene.findByIdAndUpdateFavoriteState(
+      req.params.sceneId,
+      req.params.state === '1',
+    )
+      .then((rowAffected) => {
+        if (rowAffected) {
+          res.sendStatus(204);
+        } else {
+          res.sendStatus(404);
+        }
+      })
+      .catch((err) => res.status(500).send({ err }));
+  },
+);
 
 export default routes;

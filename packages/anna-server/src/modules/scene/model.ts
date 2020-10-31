@@ -147,3 +147,10 @@ export async function remove(sceneId: string): Promise<number[]> {
 export async function findAllFavorite(): Promise<Scene[]> {
   return knex(TABLE).select(COLUMNS).where('favorite', true);
 }
+
+export async function findByIdAndUpdateFavoriteState(
+  sceneId: string,
+  favorite = true,
+): Promise<number> {
+  return knex(TABLE).update({ favorite }).where('sceneId', sceneId);
+}

@@ -12,7 +12,7 @@ const Room: React.FC<{
 }> = ({ room }) => {
   return (
     <Link to={`/rooms/${room.roomId}`}>
-      <Card>
+      <Card className="justify-between items-center">
         <Typography>{room.name}</Typography>
         <ArrowIcon className="fill-current h-4 w-4" />
       </Card>

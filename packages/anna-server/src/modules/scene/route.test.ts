@@ -366,10 +366,10 @@ describe('Scene API', () => {
     });
   });
 
-  describe('/api/scenes/favorite', () => {
+  describe('/api/scenes/favorites', () => {
     it('should return all favorite scenes', async () => {
       const response = await request(app)
-        .get(`/api/scenes/favorite`)
+        .get(`/api/scenes/favorites`)
         .set('Accept', 'application/json')
         .set('x-access-token', user.token);
 
@@ -379,7 +379,42 @@ describe('Scene API', () => {
 
     it('should retun 401 when user is not authenticated', async () => {
       const response = await request(app)
-        .get(`/api/scenes/favorite`)
+        .get(`/api/scenes/favorites`)
+        .set('Accept', 'application/json')
+        .set('x-access-token', 'fake');
+
+      expect(response.status).toBeUnauthorized();
+    });
+  });
+
+  describe('/api/scenes/:sceneId/favorite/:state', () => {
+    it('should update favorite state', async () => {
+      const scene = initScenes[1];
+      const response = await request(app)
+        .get(`/api/scenes/${scene.sceneId}/favorite/1`)
+        .set('Accept', 'application/json')
+        .set('x-access-token', user.token);
+
+      expect(response.status).toHaveStatusOk();
+
+      const updatedScene = await knex(Scene.TABLE)
+        .first('favorite')
+        .where('sceneId', scene.sceneId);
+      expect(updatedScene.favorite).toBe(true);
+    });
+
+    it('should retun 401 when user is not authenticated', async () => {
+      const response = await request(app)
+        .get(`/api/scenes/${initScenes[1].sceneId}/favorite/1`)
+        .set('Accept', 'application/json')
+        .set('x-access-token', 'fake');
+
+      expect(response.status).toBeUnauthorized();
+    });
+
+    it('should retun 404 when scene is not found', async () => {
+      const response = await request(app)
+        .get(`/api/scenes/5fc1d78e-fd1c-4717-b610-65d2fa3d01b2/favorite/1`)
         .set('Accept', 'application/json')
         .set('x-access-token', 'fake');
 

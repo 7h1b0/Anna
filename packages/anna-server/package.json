@@ -8,7 +8,6 @@
     "node": ">=10"
   },
   "dependencies": {
-    "@bokub/linky": "^0.2.2",
     "ajv": "^6.12.6",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import CardVertical from 'components/card-vertical';
+import Card from 'components/card';
 import RangeVertical from 'components/range-vertical';
 import Typography from 'components/typography';
 import Switch from 'components/switch';
@@ -101,8 +101,8 @@ const HueLightRoom: React.FC<Props> = (props) => {
       />
 
       <Grid>
-        <CardVertical>
-          <label className="h-full w-full cursor-pointer ">
+        <Card className="flex-col items-center justify-center">
+          <label className="h-full w-full cursor-pointer text-center">
             <div
               className="rounded-full h-10 w-10 bg-black m-auto"
               style={{ backgroundColor: hex }}
@@ -115,12 +115,16 @@ const HueLightRoom: React.FC<Props> = (props) => {
               onChange={handleColorChange}
             />
           </label>
-        </CardVertical>
+        </Card>
 
-        <CardVertical role="button" onClick={handleToggleState}>
+        <Card
+          className="flex-col items-center justify-center"
+          role="button"
+          onClick={handleToggleState}
+        >
           <Switch on={on} />
           <Typography className="mt-2">Toggle On/Off</Typography>
-        </CardVertical>
+        </Card>
       </Grid>
     </div>
   );

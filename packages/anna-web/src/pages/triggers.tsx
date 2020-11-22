@@ -4,7 +4,7 @@ import Title from 'src/components/title';
 import Trigger from 'components/trigger';
 import Typography from 'components/typography';
 import Loader from 'components/loader';
-import FloatingButton from 'components/button-add';
+import ButtonAdd from 'components/button-add';
 
 import useFetch from 'hooks/use-fetch';
 import { groupBy } from 'modules/array';
@@ -23,8 +23,7 @@ function Triggers() {
   );
   return (
     <>
-      <Title title="Triggers" />
-      <FloatingButton to="/triggers/add" />
+      <Title title="Triggers" action={<ButtonAdd to="/triggers/add" />} />
       <div className="mt-4">
         <Typography variant="heading">Enabled</Typography>
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-2">

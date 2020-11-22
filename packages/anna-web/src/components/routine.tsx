@@ -13,7 +13,7 @@ const Routine: React.FC<{
 }> = ({ routine }) => {
   return (
     <Link to={`/routines/${routine.routineId}`}>
-      <Card>
+      <Card className="justify-between items-center">
         <div>
           <Typography>{routine.name}</Typography>
           <Typography variant="caption">

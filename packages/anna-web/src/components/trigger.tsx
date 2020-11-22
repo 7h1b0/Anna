@@ -11,7 +11,7 @@ const Triggers: React.FC<{
 }> = ({ trigger }) => {
   return (
     <Link to={`/triggers/${trigger.aliasId}`}>
-      <Card>
+      <Card className="justify-between items-center">
         <div>
           <Typography>{trigger.description}</Typography>
           <Typography variant="caption">{trigger.name}</Typography>

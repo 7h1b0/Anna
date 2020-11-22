@@ -4,6 +4,7 @@ const ManifestPlugin = require('webpack-manifest-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 const cssnano = require('cssnano')({
   preset: [
@@ -53,7 +54,7 @@ module.exports = ({ prod } = {}) => {
           },
         }),
       ]
-    : [];
+    : [new ReactRefreshWebpackPlugin()];
 
   return {
     mode: prod ? 'production' : 'development',
@@ -62,7 +63,7 @@ module.exports = ({ prod } = {}) => {
     },
     output: {
       path: path.join(__dirname, 'dist'),
-      filename: '[name].[contenthash].js',
+      filename: '[name].[hash].js',
       pathinfo: !prod,
       publicPath: '/',
     },
@@ -73,6 +74,11 @@ module.exports = ({ prod } = {}) => {
           test: /\.tsx?$/,
           loader: 'babel-loader',
           exclude: /node_modules/,
+          options: {
+            plugins: [!prod && require.resolve('react-refresh/babel')].filter(
+              Boolean,
+            ),
+          },
         },
         {
           test: /\.css$/,
@@ -116,6 +122,7 @@ module.exports = ({ prod } = {}) => {
       hints: false,
     },
     devServer: {
+      hot: true,
       contentBase: path.join(__dirname, 'src'),
       compress: true,
       historyApiFallback: true,

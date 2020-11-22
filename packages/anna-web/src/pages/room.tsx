@@ -26,11 +26,12 @@ function Devices() {
               return (
                 <div
                   key={sensor.id}
-                  className="text-gray-200 flex flex-col rounded bg-gray-800 p-4"
+                  className="text-gray-200 flex flex-col rounded shadow-md bg-gray-800 p-4"
                 >
                   <Typography variant="caption">Sensor {sensor.id}:</Typography>
                   <Typography variant="head">
-                    {Math.round(sensor.state.temperature / 100)}°C
+                    {Math.round(sensor.state.temperature / 100)}
+                    <span className="text-base pl-2">°C</span>
                   </Typography>
                 </div>
               );
@@ -40,22 +41,26 @@ function Devices() {
         </Grid>
         {hasACPower && (
           <div className="mt-4">
-            <Typography variant="heading">AC power</Typography>
-            <div className="flex flex-wrap -mx-1">
+            <Typography variant="heading" className="mt-4 mb-2 text-teal-500">
+              AC power
+            </Typography>
+            <Grid>
               {room.devices.dios.map((dio) => (
                 <Dio key={dio.dioId} name={dio.name} dioId={dio.dioId} />
               ))}
-            </div>
+            </Grid>
           </div>
         )}
         {hasLight && (
           <div className="mt-4">
-            <Typography variant="heading">Lights</Typography>
-            <div className="flex flex-wrap -mx-1">
+            <Typography variant="heading" className="mt-4 mb-2 text-teal-500">
+              Lights
+            </Typography>
+            <Grid>
               {room.devices.hueLights.map((huelight) => (
                 <HueLight key={huelight.id} hueLight={huelight} />
               ))}
-            </div>
+            </Grid>
           </div>
         )}
       </>

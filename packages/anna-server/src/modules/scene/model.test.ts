@@ -208,6 +208,23 @@ describe('Scene', () => {
     });
   });
 
+  describe('findByIdAndUpdateFavoriteState', () => {
+    it('should change favorite state', async () => {
+      const scene = initScenes[0];
+      const updated = await Scene.findByIdAndUpdateFavoriteState(
+        scene.sceneId,
+        !scene.favorite,
+      );
+
+      expect(updated).toBe(1);
+
+      const updatedScene = await knex(Scene.TABLE)
+        .first('favorite')
+        .where('sceneId', scene.sceneId);
+      expect(updatedScene.favorite).toBe(false);
+    });
+  });
+
   describe('validate', () => {
     it('should return true when a scene is valid', () => {
       const scene = {

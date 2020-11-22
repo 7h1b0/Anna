@@ -34,7 +34,7 @@ const Input: React.FC<Props> = ({
         required={required}
         placeholder={placeholder}
         disabled={disabled}
-        className="text-base block w-full bg-gray-800 text-gray-400 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-gray-700"
+        className="text-base block w-full bg-gray-800 text-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-gray-700"
       />
     </label>
   );

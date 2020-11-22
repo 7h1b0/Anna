@@ -1,3 +1,5 @@
+const colors = require('tailwindcss/colors');
+
 module.exports = {
   purge: {
     content: ['./src/**/*.html', './src/**/*.tsx'],
@@ -5,7 +7,10 @@ module.exports = {
   theme: {
     extend: {
       maxWidth: {
-        '1440': '1440px',
+        1440: '1440px',
+      },
+      colors: {
+        teal: colors.teal,
       },
     },
   },

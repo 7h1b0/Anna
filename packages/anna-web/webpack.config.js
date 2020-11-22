@@ -16,7 +16,7 @@ const cssnano = require('cssnano')({
     },
   ],
 });
-const tailwindcss = require('tailwindcss')('./tailwindcss-config.js');
+const tailwindcss = require('tailwindcss')();
 
 module.exports = ({ prod } = {}) => {
   const plugins = prod

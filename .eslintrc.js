@@ -19,6 +19,7 @@ module.exports = {
     node: true,
   },
   rules: {
+    'react/prop-types': 'off',
     'react/no-unknown-property': 'off', // prevents error with class vs className
     '@typescript-eslint/ban-types': 'off',
     '@typescript-eslint/no-namespace': 'off',

@@ -7,7 +7,7 @@ import Loader from 'components/loader';
 import ButtonAdd from 'components/button-add';
 
 import useFetch from 'hooks/use-fetch';
-import { groupBy } from 'modules/array';
+import { groupBy } from 'utils';
 import type { Trigger as TriggerType } from 'types/trigger';
 
 function Triggers() {

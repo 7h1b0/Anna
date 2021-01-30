@@ -9,14 +9,14 @@ type Props = {
   placeholder?: string;
 };
 
-const Checkbox: React.FC<Props> = ({
+function Checkbox({
   name,
   label,
   checked,
   onChange,
   required = false,
   placeholder = '',
-}) => {
+}: Props) {
   return (
     <div className="flex items-center py-4">
       <label
@@ -37,6 +37,6 @@ const Checkbox: React.FC<Props> = ({
       />
     </div>
   );
-};
+}
 
 export default Checkbox;

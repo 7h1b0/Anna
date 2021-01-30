@@ -12,12 +12,13 @@ const isActive = (matchURL: match | null) => {
   return true;
 };
 
-const NavLink: React.FC<{ to: string }> = ({ to, children }) => {
-  const match = useRouteMatch(to);
+type Props = {
+  to: string;
+};
 
-  const activeClass = isActive(match)
-    ? 'text-teal-500'
-    : 'fill-current text-white';
+function NavLink({ to, children }: React.PropsWithChildren<Props>) {
+  const match = useRouteMatch(to);
+  const activeClass = isActive(match) ? 'text-teal-500' : 'text-white';
 
   return (
     <Link
@@ -27,6 +28,6 @@ const NavLink: React.FC<{ to: string }> = ({ to, children }) => {
       {children}
     </Link>
   );
-};
+}
 
 export default NavLink;

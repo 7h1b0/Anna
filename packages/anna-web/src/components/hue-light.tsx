@@ -6,9 +6,10 @@ import Typography from './typography';
 import Card from './card';
 import type { HueLight as HueLightType } from 'types/hue-light';
 
-const HueLight: React.FC<{
+type Props = {
   hueLight: HueLightType;
-}> = ({ hueLight }) => {
+};
+function HueLight({ hueLight }: Props) {
   const { on, hex } = hueLight.state;
 
   return (
@@ -26,6 +27,6 @@ const HueLight: React.FC<{
       </Card>
     </Link>
   );
-};
+}
 
 export default HueLight;

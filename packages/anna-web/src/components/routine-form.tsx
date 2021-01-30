@@ -23,7 +23,7 @@ type Props = {
   scenes: SceneType[];
 };
 
-const RoutineForm: React.FC<Props> = ({ routine, scenes }) => {
+function RoutineForm({ routine, scenes }: Props) {
   const [updatedRoutine, dispatch] = React.useReducer(reducer, routine);
   const [hasError, setError] = React.useState(false);
   const request = useRequest();
@@ -114,6 +114,6 @@ const RoutineForm: React.FC<Props> = ({ routine, scenes }) => {
       </div>
     </form>
   );
-};
+}
 
 export default RoutineForm;

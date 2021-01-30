@@ -21,7 +21,7 @@ import TriggerAdd from 'src/pages/trigger-add';
 import RoutineEdit from 'src/pages/routine-edit';
 import RoutineAdd from 'src/pages/routine-add';
 
-const AuthenticateApp = () => {
+function AuthenticateApp() {
   return (
     <Router>
       <div className="h-full flex justify-end flex-col xl:flex-row-reverse bg-gray-900">
@@ -70,6 +70,6 @@ const AuthenticateApp = () => {
       </div>
     </Router>
   );
-};
+}
 
 export default AuthenticateApp;

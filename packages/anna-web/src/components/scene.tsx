@@ -10,7 +10,7 @@ type Props = {
   sceneId: string;
   description?: string;
 };
-const Scene: React.FC<Props> = ({ sceneId, name, description }) => {
+function Scene({ sceneId, name, description }: Props) {
   const callScene = useAction(`/api/scenes/${sceneId}/action`);
 
   return (
@@ -27,6 +27,6 @@ const Scene: React.FC<Props> = ({ sceneId, name, description }) => {
       <Typography variant="caption">{description}</Typography>
     </Card>
   );
-};
+}
 
 export default Scene;

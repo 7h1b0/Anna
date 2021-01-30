@@ -8,12 +8,7 @@ type Props = {
   action?: React.ReactNode;
 };
 
-const Title: React.FC<Props> = ({
-  title,
-  subtitle,
-  activateNavigation = false,
-  action,
-}) => {
+function Title({ title, subtitle, activateNavigation = false, action }: Props) {
   const history = useHistory();
 
   function handleBack() {
@@ -42,6 +37,6 @@ const Title: React.FC<Props> = ({
       {action ? action : null}
     </header>
   );
-};
+}
 
 export default Title;

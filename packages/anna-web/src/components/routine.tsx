@@ -5,12 +5,13 @@ import Card from './card';
 import Typography from './typography';
 import { ArrowIcon } from './icons';
 
-import { formatDate } from 'modules/format';
+import { formatDate } from 'utils';
 import type { Routine as RoutineType } from 'types/routine';
 
-const Routine: React.FC<{
+type Props = {
   routine: RoutineType;
-}> = ({ routine }) => {
+};
+function Routine({ routine }: Props) {
   return (
     <Link to={`/routines/${routine.routineId}`}>
       <Card className="justify-between items-center">
@@ -26,6 +27,6 @@ const Routine: React.FC<{
       </Card>
     </Link>
   );
-};
+}
 
 export default Routine;

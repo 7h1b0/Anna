@@ -13,7 +13,7 @@ type Props = {
   options: Options[];
 };
 
-const Select: React.FC<Props> = ({ name, label, value, onChange, options }) => {
+function Select({ name, label, value, onChange, options }: Props) {
   return (
     <div>
       <label
@@ -36,6 +36,6 @@ const Select: React.FC<Props> = ({ name, label, value, onChange, options }) => {
       </select>
     </div>
   );
-};
+}
 
 export default Select;

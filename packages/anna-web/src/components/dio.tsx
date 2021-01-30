@@ -4,10 +4,11 @@ import Typography from './typography';
 import Card from './card';
 import useAction from 'hooks/use-action';
 
-const Dio: React.FC<{
+type Props = {
   dioId: number;
   name: string;
-}> = ({ dioId, name }) => {
+};
+function Dio({ dioId, name }: Props) {
   const handleOn = useAction(`/api/dios/${dioId}/on`);
   const handleOff = useAction(`/api/dios/${dioId}/off`);
 
@@ -33,6 +34,6 @@ const Dio: React.FC<{
       </div>
     </Card>
   );
-};
+}
 
 export default Dio;

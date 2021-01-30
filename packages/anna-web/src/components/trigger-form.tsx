@@ -23,7 +23,7 @@ type Props = {
   scenes: SceneType[];
 };
 
-const TriggerForm: React.FC<Props> = ({ trigger, scenes }) => {
+function TriggerForm({ trigger, scenes }: Props) {
   const [updatedTrigger, dispatch] = React.useReducer(reducer, trigger);
   const [hasError, setError] = React.useState(false);
   const request = useRequest();
@@ -102,6 +102,6 @@ const TriggerForm: React.FC<Props> = ({ trigger, scenes }) => {
       </div>
     </form>
   );
-};
+}
 
 export default TriggerForm;

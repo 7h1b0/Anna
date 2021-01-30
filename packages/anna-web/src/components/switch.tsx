@@ -4,7 +4,7 @@ type Props = {
   on: boolean;
 };
 
-const Switch: React.FC<Props> = ({ on = true }) => {
+function Switch({ on = true }: Props) {
   const justifyContent = on ? 'flex-end' : 'flex-start';
   const backgroundColor = on ? 'bg-teal-500' : 'bg-gray-500';
   return (
@@ -17,6 +17,6 @@ const Switch: React.FC<Props> = ({ on = true }) => {
       </div>
     </div>
   );
-};
+}
 
 export default Switch;

@@ -9,7 +9,7 @@ import {
   ScenesIcon,
 } from 'components/icons';
 
-const Navigation: React.FC<{}> = () => {
+function Navigation() {
   const className = 'w-5 mx-auto';
   return (
     <div className="shadow flex xl:flex-col justify-around xl:justify-center items-center bg-black">
@@ -27,6 +27,6 @@ const Navigation: React.FC<{}> = () => {
       </NavLink>
     </div>
   );
-};
+}
 
 export default Navigation;

@@ -60,7 +60,7 @@ type Props = {
   hueLight: HueLight;
 };
 
-const HueLightRoom: React.FC<Props> = (props) => {
+function HueLightRoom(props: Props) {
   const [hueLight, dispatch] = React.useReducer(reducer, props.hueLight);
   const request = useRequest();
 
@@ -128,6 +128,6 @@ const HueLightRoom: React.FC<Props> = (props) => {
       </Grid>
     </div>
   );
-};
+}
 
 export default HueLightRoom;

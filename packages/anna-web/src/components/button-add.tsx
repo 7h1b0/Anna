@@ -1,9 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const ButtonAdd: React.FC<{
-  to: string;
-}> = ({ to }) => {
+function ButtonAdd({ to }: { to: string }) {
   return (
     <Link to={to} className="text-white">
       <svg
@@ -22,6 +20,6 @@ const ButtonAdd: React.FC<{
       </svg>
     </Link>
   );
-};
+}
 
 export default ButtonAdd;

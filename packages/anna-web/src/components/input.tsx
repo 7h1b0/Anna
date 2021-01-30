@@ -12,7 +12,7 @@ type Props = {
   disabled?: boolean;
 };
 
-const Input: React.FC<Props> = ({
+function Input({
   name,
   label,
   value,
@@ -21,7 +21,7 @@ const Input: React.FC<Props> = ({
   required = false,
   placeholder = '',
   disabled = false,
-}) => {
+}: Props) {
   return (
     <label htmlFor={name} className="text-gray-400 text-xs font-bold uppercase">
       {label}
@@ -38,6 +38,6 @@ const Input: React.FC<Props> = ({
       />
     </label>
   );
-};
+}
 
 export default Input;

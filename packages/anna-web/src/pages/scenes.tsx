@@ -8,7 +8,7 @@ import useFetch from 'hooks/use-fetch';
 
 import type { Scene as SceneType } from 'types/scene';
 
-function sortByName(a, b) {
+function sortByName(a: SceneType, b: SceneType) {
   return a.name.localeCompare(b.name);
 }
 

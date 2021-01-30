@@ -13,7 +13,7 @@ const Navigation: React.FC<{}> = () => {
   const className = 'w-5 mx-auto';
   return (
     <div className="shadow flex xl:flex-col justify-around xl:justify-center items-center bg-black">
-      <NavLink to="/">
+      <NavLink to="/home">
         <HomeIcon className={className} />
       </NavLink>
       <NavLink to="/scenes">

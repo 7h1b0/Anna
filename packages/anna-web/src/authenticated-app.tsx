@@ -1,5 +1,10 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from 'react-router-dom';
 
 import Navigation from 'components/navigation';
 
@@ -22,10 +27,10 @@ const AuthenticateApp = () => {
       <div className="h-full flex justify-end flex-col xl:flex-row-reverse bg-gray-900">
         <div className="relative flex-1 px-2 xl:px-4 max-w-1440 overflow-y-auto">
           <Switch>
-            <Route path="/rooms/light/:lightId">
+            <Route path="/home/rooms/light/:lightId">
               <HueLight />
             </Route>
-            <Route path="/rooms/:roomId">
+            <Route path="/home/rooms/:roomId">
               <Room />
             </Route>
             <Route path="/routines/add">
@@ -55,9 +60,10 @@ const AuthenticateApp = () => {
             <Route path="/settings">
               <Settings />
             </Route>
-            <Route path="/">
+            <Route path="/home">
               <Home />
             </Route>
+            <Redirect to="/home" />
           </Switch>
         </div>
         <Navigation />

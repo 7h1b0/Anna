@@ -12,7 +12,7 @@ const HueLight: React.FC<{
   const { on, hex } = hueLight.state;
 
   return (
-    <Link to={`/rooms/light/${hueLight.id}`}>
+    <Link to={`/home/rooms/light/${hueLight.id}`}>
       <Card className="items-center">
         <div
           className="rounded-full h-8 w-8 bg-black cursor-pointer"

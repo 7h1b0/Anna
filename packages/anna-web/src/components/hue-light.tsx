@@ -11,14 +11,17 @@ type Props = {
 };
 function HueLight({ hueLight }: Props) {
   const { on, hex } = hueLight.state;
+  const isColorLight = hueLight.type === 'Extended color light';
 
   return (
     <Link to={`/home/rooms/light/${hueLight.id}`}>
       <Card className="items-center">
-        <div
-          className="rounded-full h-8 w-8 bg-black cursor-pointer"
-          style={{ backgroundColor: hex }}
-        />
+        {isColorLight && (
+          <div
+            className="rounded-full h-8 w-8 bg-black cursor-pointer"
+            style={{ backgroundColor: hex }}
+          />
+        )}
         <div className="px-4 flex-1">
           <Typography>{hueLight.name}</Typography>
           <Typography variant="caption">{on ? 'On' : 'Off'}</Typography>

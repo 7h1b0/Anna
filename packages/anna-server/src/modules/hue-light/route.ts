@@ -7,7 +7,7 @@ import { HueLigthBody } from 'modules/scene/action';
 import { hexToXY, isHexColor } from 'services/hueColor';
 
 const routes = Router();
-function getState({ on, hex, bri }) {
+function getState({ on, hex, bri, xy }) {
   const state: Partial<HueLigthBody> = {};
 
   if (on !== undefined) {
@@ -24,6 +24,10 @@ function getState({ on, hex, bri }) {
 
   if (isHexColor(hex)) {
     state.xy = hexToXY(hex);
+  }
+
+  if (Array.isArray(xy)) {
+    state.xy = xy;
   }
 
   return state;

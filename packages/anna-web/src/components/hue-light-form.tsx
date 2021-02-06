@@ -5,10 +5,12 @@ import RangeVertical from 'components/range-vertical';
 import Typography from 'components/typography';
 import Switch from 'components/switch';
 import Grid from 'components/grid';
+import PresetHue from 'components/preset-hue';
 
 import useRequest from 'hooks/use-request';
 import useDebounce from 'hooks/use-debounce';
-import { HueLight } from 'src/types/hue-light';
+import type { HueLight, HueLightState } from 'src/types/hue-light';
+import { presets } from 'src/preset-hue';
 
 type TOGGLE_STATE = {
   type: 'TOGGLE_STATE';
@@ -33,25 +35,26 @@ type Payload = {
   bri?: number;
   hex?: string;
   on?: boolean;
+  xy?: number[];
 };
 
 function reducer(
-  state: HueLight,
+  state: HueLightState,
   action: TOGGLE_STATE | UPDATE_COLOR | UPDATE_BRIGHTNESS | UPDATE_STATE,
-): HueLight {
-  const newState = Object.assign({}, state);
+): HueLightState {
+  let newState = Object.assign({}, state);
   switch (action.type) {
     case 'TOGGLE_STATE':
-      newState.state.on = !state.state.on;
+      newState.on = !state.on;
       return newState;
     case 'UPDATE_COLOR':
-      newState.state.hex = action.data;
+      newState.hex = action.data;
       return newState;
     case 'UPDATE_BRIGHTNESS':
-      newState.state.bri = action.data;
+      newState.bri = action.data;
       return newState;
     case 'UPDATE_STATE':
-      newState.state = action.data;
+      newState = action.data;
       return newState;
   }
 }
@@ -60,8 +63,8 @@ type Props = {
   hueLight: HueLight;
 };
 
-function HueLightRoom(props: Props) {
-  const [hueLight, dispatch] = React.useReducer(reducer, props.hueLight);
+function HueLightRoom({ hueLight }: Props) {
+  const [state, dispatch] = React.useReducer(reducer, hueLight.state);
   const request = useRequest();
 
   const updateState = async (payload: Payload) => {
@@ -72,8 +75,6 @@ function HueLightRoom(props: Props) {
     }
   };
   const debounce = useDebounce(updateState, 1000);
-
-  const { on, bri, hex } = hueLight.state;
 
   const handleToggleState = () => {
     updateState({ on: !on });
@@ -91,6 +92,8 @@ function HueLightRoom(props: Props) {
     debounce({ bri });
   };
 
+  const { on, bri, hex } = state;
+  const isColorLight = hueLight.type === 'Extended color light';
   return (
     <div>
       <RangeVertical
@@ -101,21 +104,23 @@ function HueLightRoom(props: Props) {
       />
 
       <Grid>
-        <Card className="flex-col items-center justify-center">
-          <label className="h-full w-full cursor-pointer text-center">
-            <div
-              className="rounded-full h-10 w-10 bg-black m-auto"
-              style={{ backgroundColor: hex }}
-            />
-            <Typography className="mt-2">Color</Typography>
-            <input
-              type="color"
-              className="hidden"
-              value={hex}
-              onChange={handleColorChange}
-            />
-          </label>
-        </Card>
+        {isColorLight && (
+          <Card className="flex-col items-center justify-center">
+            <label className="h-full w-full cursor-pointer text-center">
+              <div
+                className="rounded-full h-10 w-10 bg-black m-auto"
+                style={{ backgroundColor: hex }}
+              />
+              <Typography className="mt-2">Color</Typography>
+              <input
+                type="color"
+                className="hidden"
+                value={hex}
+                onChange={handleColorChange}
+              />
+            </label>
+          </Card>
+        )}
 
         <Card
           className="flex-col items-center justify-center"
@@ -126,6 +131,18 @@ function HueLightRoom(props: Props) {
           <Typography className="mt-2">Toggle On/Off</Typography>
         </Card>
       </Grid>
+      {isColorLight && (
+        <div className="mt-2 grid grid-cols-4 gap-8 xl:grid-cols-8 shadow-md flex rounded bg-gray-800 py-4 px-2 xl:px-4">
+          {presets.map((preset) => (
+            <PresetHue
+              key={preset.name}
+              preset={preset}
+              updateState={updateState}
+              dispatch={dispatch}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

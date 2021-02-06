@@ -6,7 +6,9 @@ type User = {
 };
 
 const UserStateContext = React.createContext<User | null>(null);
-const UserDispatchContext = React.createContext<(user: User) => void>(() => {});
+const UserDispatchContext = React.createContext<(user: User) => void>(
+  () => void 0,
+);
 
 export const useUser = () => React.useContext(UserStateContext);
 export const useSetUser = () => React.useContext(UserDispatchContext);

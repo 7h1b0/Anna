@@ -35,7 +35,8 @@ const RangeVertical: React.FC<{
   const percentage = getPercentage(min, max)(value);
   const getValue = getPercentage(top, bottom);
 
-  function handleMove(event: any) {
+  function handleMove(event: React.TouchEvent<HTMLDivElement> | MouseEvent) {
+    // @ts-ignore
     const { clientY } = event.touches ? event.touches[0] : event;
     const percentage = 100 - getValue(clientY);
 
@@ -58,6 +59,8 @@ const RangeVertical: React.FC<{
     <div className="my-6 flex flex-col justify-center items-center">
       <div
         ref={ref}
+        role="button"
+        tabIndex={0}
         onMouseDown={handleMouseDown}
         onTouchMove={handleMove}
         className="relative bg-gray-800 rounded-lg h-56 w-24"

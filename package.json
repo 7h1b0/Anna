@@ -22,7 +22,7 @@
     "build": "NODE_ENV=production lerna run build",
     "format:check": "prettier --list-different \"packages/**/*.{ts,tsx}\"",
     "type:check": "lerna run type:check --stream",
-    "lint:check": "eslint --max-warnings 0 '*/**/*.ts'",
+    "lint:check": "eslint --max-warnings 0 '*/**/*.{ts,tsx}'",
     "start": "lerna run start --stream --parallel",
     "test": "jest --watch --notify --runInBand",
     "coverage": "jest --coverage --ci --runInBand --silent",

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useForm } from 'react-hook-form';
 
 import Input from 'components/input';
 import Button from 'components/button';
@@ -11,86 +12,54 @@ import { useHistory } from 'react-router-dom';
 import type { Routine as RoutineType } from 'types/routine';
 import type { Scene as SceneType } from 'types/scene';
 
-function reducer(
-  state: RoutineType,
-  action: Partial<RoutineType>,
-): RoutineType {
-  return Object.assign({}, state, action);
-}
-
 type Props = {
   routine: RoutineType;
   scenes: SceneType[];
 };
 
+type RoutineForm = {
+  name: string;
+  interval: string;
+  sceneId: string;
+  runAtBankHoliday: boolean;
+  enabled: boolean;
+};
 function RoutineForm({ routine, scenes }: Props) {
-  const [updatedRoutine, dispatch] = React.useReducer(reducer, routine);
+  const { register, handleSubmit } = useForm<RoutineForm>({
+    defaultValues: {
+      name: routine.name,
+      interval: routine.interval,
+      sceneId: routine.sceneId,
+      runAtBankHoliday: routine.runAtBankHoliday,
+      enabled: routine.enabled,
+    },
+  });
   const [hasError, setError] = React.useState(false);
   const request = useRequest();
   const history = useHistory();
 
-  const handleChange = (prop: keyof RoutineType) => (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
-  ) => {
-    dispatch({
-      // @ts-ignore
-      [prop]: e.target.type === 'checkbox' ? e.target.checked : e.target.value,
-    });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const {
-      name,
-      interval,
-      sceneId,
-      enabled,
-      runAtBankHoliday,
-    } = updatedRoutine;
+  async function onSubmit(data: RoutineForm) {
     try {
       if (routine.routineId) {
-        await request(`/api/routines/${routine.routineId}`, 'PATCH', {
-          name,
-          interval,
-          sceneId,
-          enabled,
-          runAtBankHoliday,
-        });
+        await request(`/api/routines/${routine.routineId}`, 'PATCH', data);
       } else {
-        await request(`/api/routines`, 'POST', {
-          name,
-          interval,
-          sceneId,
-          enabled,
-          runAtBankHoliday,
-        });
+        await request(`/api/routines`, 'POST', data);
       }
       history.goBack();
     } catch (error) {
       setError(true);
     }
-  };
+  }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       {hasError && <Alert>Invalid form</Alert>}
-      <Input
-        name="name"
-        label="name"
-        value={updatedRoutine.name}
-        onChange={handleChange('name')}
-      />
-      <Input
-        name="interval"
-        label="interval"
-        value={updatedRoutine.interval}
-        onChange={handleChange('interval')}
-      />
+      <Input name="name" label="name" register={register()} />
+      <Input name="interval" label="interval" register={register()} />
       <Select
         name="sceneId"
         label="Scene"
-        value={updatedRoutine.sceneId}
-        onChange={handleChange('sceneId')}
+        register={register()}
         options={scenes.map((scene) => ({
           label: scene.name,
           value: scene.sceneId,
@@ -99,15 +68,9 @@ function RoutineForm({ routine, scenes }: Props) {
       <Checkbox
         name="runAtBankHoliday"
         label="Run on bank holiday"
-        checked={updatedRoutine.runAtBankHoliday}
-        onChange={handleChange('runAtBankHoliday')}
+        register={register()}
       />
-      <Checkbox
-        name="enabled"
-        label="enabled"
-        checked={updatedRoutine.enabled}
-        onChange={handleChange('enabled')}
-      />
+      <Checkbox name="enabled" label="enabled" register={register()} />
 
       <div className="flex justify-center">
         <Button type="submit">Save</Button>

@@ -1,22 +1,20 @@
 import React from 'react';
 
+type RefReturn =
+  | string
+  | ((instance: HTMLInputElement | null) => void)
+  | React.RefObject<HTMLInputElement>
+  | null
+  | undefined;
+
 type Props = {
   name: string;
   label: string;
-  checked: boolean;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  required?: boolean;
+  register: RefReturn;
   placeholder?: string;
 };
 
-function Checkbox({
-  name,
-  label,
-  checked,
-  onChange,
-  required = false,
-  placeholder = '',
-}: Props) {
+function Checkbox({ name, label, placeholder = '', register }: Props) {
   return (
     <div className="flex items-center py-4">
       <label
@@ -29,9 +27,7 @@ function Checkbox({
         id={name}
         name={name}
         type="checkbox"
-        checked={checked}
-        onChange={onChange}
-        required={required}
+        ref={register}
         placeholder={placeholder}
         className="ml-2 text-base bg-gray-800 text-gray-400 rounded leading-tight focus:outline-none focus:bg-gray-700"
       />

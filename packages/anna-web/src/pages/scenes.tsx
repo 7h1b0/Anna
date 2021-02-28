@@ -3,6 +3,7 @@ import React from 'react';
 import Scene from 'components/scene';
 import Loader from 'components/loader';
 import Title from 'src/components/title';
+import ButtonAdd from 'components/button-add';
 
 import useFetch from 'hooks/use-fetch';
 
@@ -20,7 +21,11 @@ function Scenes() {
   }
   return (
     <>
-      <Title title="Scenes" subtitle={`${scenes.length} scenes available`} />
+      <Title
+        title="Scenes"
+        subtitle={`${scenes.length} scenes available`}
+        action={<ButtonAdd to="/scenes/add" />}
+      />
       <div className="grid grid-cols-3 xl:grid-cols-6 gap-2">
         {scenes.sort(sortByName).map(({ name, sceneId, description }) => (
           <Scene

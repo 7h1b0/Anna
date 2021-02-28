@@ -1,5 +1,12 @@
 import React from 'react';
 
+type RefReturn =
+  | string
+  | ((instance: HTMLSelectElement | null) => void)
+  | React.RefObject<HTMLSelectElement>
+  | null
+  | undefined;
+
 type Options = {
   label: string;
   value: string;
@@ -8,12 +15,11 @@ type Props = {
   autofocus?: boolean;
   name: string;
   label: string;
-  value: string | number;
-  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  register: RefReturn;
   options: Options[];
 };
 
-function Select({ name, label, value, onChange, options }: Props) {
+function Select({ name, label, register, options }: Props) {
   return (
     <div>
       <label
@@ -24,8 +30,8 @@ function Select({ name, label, value, onChange, options }: Props) {
       </label>
       <select
         id={name}
-        value={value}
-        onChange={onChange}
+        name={name}
+        ref={register}
         className="block w-full bg-gray-800 text-gray-400 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-gray-700"
       >
         {options.map((option) => (

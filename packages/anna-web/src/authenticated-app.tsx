@@ -14,6 +14,7 @@ import RoomAdd from 'src/pages/room-add';
 import RoomEdit from 'src/pages/room-edit';
 import DioAdd from 'src/pages/dio-add';
 import Scenes from 'src/pages/scenes';
+import SceneAdd from 'src/pages/scene-add';
 import TriggerEdit from 'src/pages/trigger-edit';
 import TriggerAdd from 'src/pages/trigger-add';
 import RoutineEdit from 'src/pages/routine-edit';
@@ -39,6 +40,7 @@ function AuthenticateApp() {
             <Route path="/triggers/:triggerId" element={<TriggerEdit />} />
             <Route path="/triggers" element={<Triggers />} />
             <Route path="/scenes" element={<Scenes />} />
+            <Route path="/scenes/add" element={<SceneAdd />} />
             <Route path="/logout" element={<Logout />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/" element={<Home />} />

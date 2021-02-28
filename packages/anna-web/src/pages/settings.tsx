@@ -10,7 +10,7 @@ function Settings() {
   return (
     <>
       <Title title="Settings" />
-      <div className="flex gap-2 flex-col">
+      <div className="flex gap-4 flex-col">
         <Link to={`/home/rooms/add`}>
           <Card className="justify-between items-center">
             <Typography>Add a room</Typography>

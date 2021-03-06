@@ -10,8 +10,8 @@ export type Room = {
   updatedAt?: number;
   createdBy?: string;
   devices: {
-    dios: Array<Dio>;
-    hueLights: Array<HueLight>;
+    dios: Dio[];
+    hueLights: HueLight[];
   };
   sensors: Sensor[];
 };

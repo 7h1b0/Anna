@@ -9,17 +9,22 @@ import Typography from 'components/typography';
 import Dio from 'src/components/dio';
 import Grid from 'src/components/grid';
 import HueLight from 'src/components/hue-light';
+import ButtonEdit from 'src/components/button-edit';
 
 function Devices() {
-  const params = useParams<{ roomId: string }>();
-  const room = useFetch<RoomType>(`/api/rooms/${params.roomId}`);
+  const { roomId } = useParams<{ roomId: string }>();
+  const room = useFetch<RoomType>(`/api/rooms/${roomId}`);
 
   if (room) {
     const hasACPower = room.devices?.dios?.length > 0;
     const hasLight = room.devices?.hueLights?.length > 0;
     return (
       <>
-        <Title title={room.name} activateNavigation />
+        <Title
+          title={room.name}
+          activateNavigation
+          action={<ButtonEdit to={`/home/rooms/${roomId}/edit`} />}
+        />
         <Grid>
           {room.sensors.map((sensor) => {
             if (sensor.type === 'ZLLTemperature') {

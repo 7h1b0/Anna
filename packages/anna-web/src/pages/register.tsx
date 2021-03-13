@@ -45,19 +45,23 @@ function Register() {
     <div className="w-full h-full bg-gray-900">
       <div className="max-w-sm m-auto py-8">
         <form onSubmit={handleSubmit(onSubmit)} className="mt-16">
-          <Input name="username" label="Username" register={register()} />
+          <Input
+            name="username"
+            label="Username"
+            register={register('username')}
+          />
           <Input
             name="password"
             label="Password"
             type="password"
-            register={register()}
+            register={register('password')}
           />
           <Input
             name="confirmPassword"
             label="Confirm Password"
             type="password"
             hasError={errors.confirmPassword !== undefined}
-            register={register({
+            register={register('confirmPassword', {
               validate: (value) => value === getValues('password'),
             })}
           />

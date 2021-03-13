@@ -27,7 +27,7 @@ function Checkbox({ name, label, placeholder = '', register }: Props) {
         id={name}
         name={name}
         type="checkbox"
-        ref={register}
+        {...register}
         placeholder={placeholder}
         className="ml-2 text-base bg-gray-800 text-gray-400 rounded leading-tight focus:outline-none focus:bg-gray-700"
       />

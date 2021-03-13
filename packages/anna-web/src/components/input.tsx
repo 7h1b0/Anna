@@ -31,7 +31,7 @@ function Input({
     <label htmlFor={name} className="text-gray-400 text-xs font-bold uppercase">
       {label}
       <input
-        ref={register}
+        {...register}
         id={name}
         name={name}
         type={type}

@@ -31,7 +31,7 @@ function Select({ name, label, register, options }: Props) {
       <select
         id={name}
         name={name}
-        ref={register}
+        {...register}
         className="block w-full bg-gray-800 text-gray-400 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-gray-700"
       >
         {options.map((option) => (

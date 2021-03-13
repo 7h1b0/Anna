@@ -53,15 +53,15 @@ function DioForm({ rooms, dio }: Props) {
         name="dioId"
         label="dio ID"
         type="number"
-        register={register({
+        register={register('dioId', {
           valueAsNumber: true,
         })}
       />
-      <Input name="name" label="name" register={register()} />
+      <Input name="name" label="name" register={register('name')} />
       <Select
         name="roomId"
         label="Room"
-        register={register()}
+        register={register('roomId')}
         options={rooms.map((room) => ({
           label: room.name,
           value: room.roomId,

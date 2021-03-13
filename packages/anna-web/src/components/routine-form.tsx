@@ -54,12 +54,12 @@ function RoutineForm({ routine, scenes }: Props) {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       {hasError && <Alert>Invalid form</Alert>}
-      <Input name="name" label="name" register={register()} />
-      <Input name="interval" label="interval" register={register()} />
+      <Input name="name" label="name" register={register('name')} />
+      <Input name="interval" label="interval" register={register('interval')} />
       <Select
         name="sceneId"
         label="Scene"
-        register={register()}
+        register={register('sceneId')}
         options={scenes.map((scene) => ({
           label: scene.name,
           value: scene.sceneId,
@@ -68,9 +68,9 @@ function RoutineForm({ routine, scenes }: Props) {
       <Checkbox
         name="runAtBankHoliday"
         label="Run on bank holiday"
-        register={register()}
+        register={register('runAtBankHoliday')}
       />
-      <Checkbox name="enabled" label="enabled" register={register()} />
+      <Checkbox name="enabled" label="enabled" register={register('enabled')} />
 
       <div className="flex justify-center">
         <Button type="submit">Save</Button>

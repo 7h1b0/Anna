@@ -1,11 +1,5 @@
 import React from 'react';
-
-type RefReturn =
-  | string
-  | ((instance: HTMLSelectElement | null) => void)
-  | React.RefObject<HTMLSelectElement>
-  | null
-  | undefined;
+import { RefCallbackHandler } from 'react-hook-form';
 
 type Options = {
   label: string;
@@ -15,7 +9,7 @@ type Props = {
   autofocus?: boolean;
   name: string;
   label: string;
-  register: RefReturn;
+  register: RefCallbackHandler;
   options: Options[];
 };
 
@@ -30,8 +24,7 @@ function Select({ name, label, register, options }: Props) {
       </label>
       <select
         id={name}
-        name={name}
-        ref={register}
+        {...register}
         className="block w-full bg-gray-800 text-gray-400 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-gray-700"
       >
         {options.map((option) => (

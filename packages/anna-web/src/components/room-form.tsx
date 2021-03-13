@@ -44,8 +44,12 @@ function RoomForm({ room }: Props) {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       {hasError && <Alert>Invalid form</Alert>}
-      <Input name="name" label="name" register={register()} />
-      <Input name="description" label="description" register={register()} />
+      <Input name="name" label="name" register={register('name')} />
+      <Input
+        name="description"
+        label="description"
+        register={register('description')}
+      />
 
       <div className="flex justify-center">
         <Button type="submit">Save</Button>

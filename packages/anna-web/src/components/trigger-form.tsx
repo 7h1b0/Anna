@@ -67,20 +67,24 @@ function TriggerForm({ trigger, scenes }: Props) {
       <Input
         name="name"
         label="name"
-        register={register()}
+        register={register('name')}
         disabled={isEditMode}
       />
-      <Input name="description" label="description" register={register()} />
+      <Input
+        name="description"
+        label="description"
+        register={register('description')}
+      />
       <Select
         name="sceneId"
         label="Scene"
-        register={register()}
+        register={register('sceneId')}
         options={scenes.map((scene) => ({
           label: scene.name,
           value: scene.sceneId,
         }))}
       />
-      <Checkbox name="enabled" label="enabled" register={register()} />
+      <Checkbox name="enabled" label="enabled" register={register('enabled')} />
 
       <div className="flex justify-center">
         <Button type="submit">Save</Button>

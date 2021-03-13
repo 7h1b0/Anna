@@ -1,16 +1,10 @@
 import React from 'react';
-
-type RefReturn =
-  | string
-  | ((instance: HTMLInputElement | null) => void)
-  | React.RefObject<HTMLInputElement>
-  | null
-  | undefined;
+import { RefCallbackHandler } from 'react-hook-form';
 
 type Props = {
   name: string;
   label: string;
-  register: RefReturn;
+  register: RefCallbackHandler;
   placeholder?: string;
 };
 
@@ -25,9 +19,8 @@ function Checkbox({ name, label, placeholder = '', register }: Props) {
       </label>
       <input
         id={name}
-        name={name}
         type="checkbox"
-        ref={register}
+        {...register}
         placeholder={placeholder}
         className="ml-2 text-base bg-gray-800 text-gray-400 rounded leading-tight focus:outline-none focus:bg-gray-700"
       />

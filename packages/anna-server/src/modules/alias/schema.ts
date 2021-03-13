@@ -5,7 +5,7 @@ export default {
   properties: {
     aliasId: {
       type: 'string',
-      format: 'uuid',
+      pattern: '[a-z0-9-]{36}',
     },
     name: {
       type: 'string',
@@ -17,7 +17,7 @@ export default {
     },
     sceneId: {
       type: 'string',
-      format: 'uuid',
+      pattern: '[a-z0-9-]{36}',
     },
     enabled: { type: 'boolean' },
   },

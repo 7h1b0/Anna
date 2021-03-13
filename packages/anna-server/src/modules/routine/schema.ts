@@ -10,7 +10,7 @@ export default {
     interval: { type: 'string' },
     sceneId: {
       type: 'string',
-      format: 'uuid',
+      pattern: '[a-z0-9-]{36}',
     },
     enabled: { type: 'boolean' },
     runAtBankHoliday: { type: 'boolean' },

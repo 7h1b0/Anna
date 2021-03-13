@@ -5,7 +5,7 @@ export default {
   properties: {
     roomId: {
       type: 'string',
-      format: 'uuid',
+      pattern: '[a-z0-9-]{36}',
     },
     name: {
       type: 'string',

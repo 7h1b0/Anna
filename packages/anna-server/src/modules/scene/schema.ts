@@ -7,7 +7,7 @@ export default {
   properties: {
     sceneId: {
       type: 'string',
-      format: 'uuid',
+      pattern: '[a-z0-9-]{36}',
     },
     name: {
       type: 'string',
@@ -33,7 +33,7 @@ export default {
             },
             actionId: {
               type: 'string',
-              format: 'uuid',
+              pattern: '[a-z0-9-]{36}',
             },
             name: {
               type: 'string',

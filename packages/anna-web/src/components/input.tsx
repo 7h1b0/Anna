@@ -1,11 +1,5 @@
 import React from 'react';
-
-type RefReturn =
-  | string
-  | ((instance: HTMLInputElement | null) => void)
-  | React.RefObject<HTMLInputElement>
-  | null
-  | undefined;
+import { RefCallbackHandler } from 'react-hook-form';
 
 type Props = {
   autofocus?: boolean;
@@ -14,7 +8,7 @@ type Props = {
   type?: string;
   placeholder?: string;
   disabled?: boolean;
-  register?: RefReturn;
+  register: RefCallbackHandler;
   hasError?: boolean;
 };
 

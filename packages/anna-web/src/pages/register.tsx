@@ -1,5 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
 
 import Input from 'components/input';
 import Button from 'components/button';
@@ -44,7 +45,10 @@ function Register() {
   return (
     <div className="w-full h-full bg-gray-900">
       <div className="max-w-sm m-auto py-8">
-        <form onSubmit={handleSubmit(onSubmit)} className="mt-16">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="mt-16 flex flex-col gap-4"
+        >
           <Input
             name="username"
             label="Username"
@@ -65,7 +69,11 @@ function Register() {
               validate: (value) => value === getValues('password'),
             })}
           />
-          <Button type="submit">Register</Button>
+
+          <div className="flex justify-between items-center text-gray-400">
+            <Link to="/login">Login</Link>
+            <Button type="submit">Register</Button>
+          </div>
         </form>
       </div>
     </div>

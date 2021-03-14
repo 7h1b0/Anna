@@ -31,7 +31,7 @@ function Input({
         type={type}
         placeholder={placeholder}
         disabled={disabled}
-        className={`text-base block w-full bg-gray-800 text-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-gray-700 ${
+        className={`text-base block w-full bg-gray-800 text-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-gray-700 ${
           hasError ? 'ring-red-400 ring-1' : 'focus:ring-1 focus:ring-teal-500'
         }`}
       />

@@ -46,6 +46,13 @@ function Settings() {
             <ArrowIcon className="fill-current h-4 w-4" />
           </Card>
         </Link>
+
+        <Link to={`/home/lights/add`}>
+          <Card className="justify-between items-center">
+            <Typography>Add a hue-light to a room</Typography>
+            <ArrowIcon className="fill-current h-4 w-4" />
+          </Card>
+        </Link>
       </div>
     </>
   );

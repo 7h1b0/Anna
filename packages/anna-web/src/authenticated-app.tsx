@@ -23,6 +23,7 @@ import TriggerEdit from 'src/pages/trigger-edit';
 import TriggerAdd from 'src/pages/trigger-add';
 import RoutineEdit from 'src/pages/routine-edit';
 import RoutineAdd from 'src/pages/routine-add';
+import HueLightRoomAdd from 'src/pages/hue-light-room-add';
 
 function AuthenticateApp() {
   return (
@@ -44,6 +45,9 @@ function AuthenticateApp() {
             </Route>
             <Route path="/home/dios/add">
               <DioAdd />
+            </Route>
+            <Route path="/home/lights/add">
+              <HueLightRoomAdd />
             </Route>
             <Route path="/routines/add">
               <RoutineAdd />

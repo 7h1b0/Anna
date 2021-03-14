@@ -62,7 +62,7 @@ function TriggerForm({ trigger, scenes }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
       {hasError && <Alert>Invalid form</Alert>}
       <Input
         name="name"

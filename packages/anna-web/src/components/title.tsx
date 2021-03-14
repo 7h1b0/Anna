@@ -16,15 +16,22 @@ function Title({ title, subtitle, activateNavigation = false, action }: Props) {
   }
 
   return (
-    <header className="flex my-5 items-center">
+    <header className="flex my-6 items-center">
       {activateNavigation && (
         <button onClick={handleBack} aria-label="back" className="mr-4">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            className="text-white fill-current w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            className="text-white fill-current w-5"
           >
-            <path d="M7.05 9.293L6.343 10 12 15.657l1.414-1.414L9.172 10l4.242-4.243L12 4.343z" />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M10 19l-7-7m0 0l7-7m-7 7h18"
+            />
           </svg>
         </button>
       )}

@@ -52,7 +52,7 @@ function RoutineForm({ routine, scenes }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
       {hasError && <Alert>Invalid form</Alert>}
       <Input name="name" label="name" register={register('name')} />
       <Input name="interval" label="interval" register={register('interval')} />

@@ -10,7 +10,7 @@ type Props = {
 
 function Checkbox({ name, label, placeholder = '', register }: Props) {
   return (
-    <div className="flex items-center py-4">
+    <div className="flex items-center">
       <label
         htmlFor={name}
         className="text-gray-400 text-xs font-bold uppercase"

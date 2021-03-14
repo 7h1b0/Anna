@@ -1,45 +1,42 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
-import Input from 'components/input';
 import Button from 'components/button';
 import Alert from 'components/alert';
 import Select from 'components/select';
 
 import useRequest from 'hooks/use-request';
 import { useHistory } from 'react-router-dom';
-import type { Dio as DioType } from 'types/dio';
 import type { Room as RoomType } from 'types/room';
+import type { HueLight as HueLightType } from 'types/hue-light';
 
 type Props = {
   rooms: RoomType[];
-  dio: DioType;
+  hueLights: HueLightType[];
+  roomId: string;
+  hueLightId: string;
 };
 
-type DioForm = {
-  dioId: number;
-  name: string;
+type HueLightRoomForm = {
   roomId: string;
+  hueLightId: string;
 };
-function DioForm({ rooms, dio }: Props) {
-  const { register, handleSubmit } = useForm<DioForm>({
+function HueLightRoomForm({ rooms, hueLights, hueLightId, roomId }: Props) {
+  const { register, handleSubmit } = useForm<HueLightRoomForm>({
     defaultValues: {
-      dioId: dio.dioId,
-      name: dio.name,
-      roomId: dio.roomId,
+      roomId,
+      hueLightId,
     },
   });
   const [hasError, setError] = React.useState(false);
   const request = useRequest();
   const history = useHistory();
 
-  async function onSubmit(data: DioForm) {
+  async function onSubmit(data: HueLightRoomForm) {
     try {
-      if (dio.dioId && dio.dioId >= 0) {
-        await request(`/api/dios/${dio.dioId}`, 'PATCH', data);
-      } else {
-        await request(`/api/dios`, 'POST', data);
-      }
+      await request(`/api/hue/lights/${data.hueLightId}`, 'PATCH', {
+        roomId: data.roomId,
+      });
       history.goBack();
     } catch (error) {
       setError(true);
@@ -49,15 +46,6 @@ function DioForm({ rooms, dio }: Props) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
       {hasError && <Alert>Invalid form</Alert>}
-      <Input
-        name="dioId"
-        label="dio ID"
-        type="number"
-        register={register('dioId', {
-          valueAsNumber: true,
-        })}
-      />
-      <Input name="name" label="name" register={register('name')} />
       <Select
         name="roomId"
         label="Room"
@@ -67,6 +55,16 @@ function DioForm({ rooms, dio }: Props) {
           value: room.roomId,
         }))}
       />
+      <Select
+        name="hueLightId"
+        label="Hue Light"
+        register={register('hueLightId')}
+        options={hueLights.map((hueLight) => ({
+          label: hueLight.name,
+          value: hueLight.id,
+        }))}
+      />
+
       <div className="flex justify-center">
         <Button type="submit">Save</Button>
       </div>
@@ -74,4 +72,4 @@ function DioForm({ rooms, dio }: Props) {
   );
 }
 
-export default DioForm;
+export default HueLightRoomForm;

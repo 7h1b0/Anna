@@ -36,7 +36,10 @@ function Login() {
   return (
     <div className="w-full h-full bg-gray-900">
       <div className="max-w-sm m-auto py-8">
-        <form onSubmit={handleSubmit(onSubmit)} className="mt-16">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="mt-16 flex flex-col gap-4"
+        >
           {error && <Alert>Invalid credential</Alert>}
           <Input
             name="username"
@@ -50,8 +53,8 @@ function Login() {
             register={register('password')}
           />
           <div className="flex justify-between items-center text-gray-400">
-            <Button type="submit">Login</Button>
             <Link to="/register">Register</Link>
+            <Button type="submit">Login</Button>
           </div>
         </form>
       </div>

@@ -18,8 +18,9 @@ const cssnano = require('cssnano')({
 });
 const tailwindcss = require('tailwindcss')();
 
-module.exports = ({ prod } = {}) => {
-  const plugins = prod
+module.exports = () => {
+  const isProd = process.env.NODE_ENV === 'production';
+  const plugins = isProd
     ? [
         new ManifestPlugin({
           seed: {
@@ -57,17 +58,17 @@ module.exports = ({ prod } = {}) => {
     : [new ReactRefreshWebpackPlugin()];
 
   return {
-    mode: prod ? 'production' : 'development',
+    mode: isProd ? 'production' : 'development',
     entry: {
       app: ['./src', './src/styles.css'],
     },
     output: {
       path: path.join(__dirname, 'dist'),
-      filename: '[name].[hash].js',
-      pathinfo: !prod,
+      filename: '[name].[contenthash].js',
+      pathinfo: !isProd,
       publicPath: '/',
     },
-    devtool: prod ? 'none' : 'source-map',
+    devtool: isProd ? false : 'source-map',
     module: {
       rules: [
         {
@@ -75,7 +76,7 @@ module.exports = ({ prod } = {}) => {
           loader: 'babel-loader',
           exclude: /node_modules/,
           options: {
-            plugins: [!prod && require.resolve('react-refresh/babel')].filter(
+            plugins: [!isProd && require.resolve('react-refresh/babel')].filter(
               Boolean,
             ),
           },
@@ -91,7 +92,7 @@ module.exports = ({ prod } = {}) => {
               loader: 'postcss-loader',
               options: {
                 postcssOptions: {
-                  plugins: [tailwindcss, ...(prod ? [cssnano] : [])],
+                  plugins: [tailwindcss, ...(isProd ? [cssnano] : [])],
                 },
               },
             },
@@ -122,6 +123,7 @@ module.exports = ({ prod } = {}) => {
       hints: false,
     },
     devServer: {
+      open: true,
       hot: true,
       contentBase: path.join(__dirname, 'src'),
       compress: true,

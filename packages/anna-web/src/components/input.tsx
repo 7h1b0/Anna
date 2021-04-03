@@ -1,5 +1,5 @@
 import React from 'react';
-import { RefCallbackHandler } from 'react-hook-form';
+import { UseFormRegisterReturn } from 'react-hook-form';
 
 type Props = {
   autofocus?: boolean;
@@ -8,7 +8,7 @@ type Props = {
   type?: string;
   placeholder?: string;
   disabled?: boolean;
-  register: RefCallbackHandler;
+  register: UseFormRegisterReturn;
   hasError?: boolean;
 };
 

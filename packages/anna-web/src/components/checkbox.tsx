@@ -1,10 +1,10 @@
 import React from 'react';
-import { RefCallbackHandler } from 'react-hook-form';
+import { UseFormRegisterReturn } from 'react-hook-form';
 
 type Props = {
   name: string;
   label: string;
-  register: RefCallbackHandler;
+  register: UseFormRegisterReturn;
   placeholder?: string;
 };
 

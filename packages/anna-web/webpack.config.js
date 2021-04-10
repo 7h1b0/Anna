@@ -1,7 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ManifestPlugin = require('webpack-manifest-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
@@ -22,7 +21,7 @@ module.exports = () => {
   const isProd = process.env.NODE_ENV === 'production';
   const plugins = isProd
     ? [
-        new ManifestPlugin({
+        new WebpackManifestPlugin({
           seed: {
             short_name: 'Anna',
             name: 'Anna',
@@ -67,6 +66,7 @@ module.exports = () => {
       filename: '[name].[contenthash].js',
       pathinfo: !isProd,
       publicPath: '/',
+      clean: true,
     },
     devtool: isProd ? false : 'source-map',
     module: {
@@ -104,7 +104,6 @@ module.exports = () => {
       new HtmlWebpackPlugin({
         template: './src/index.html',
       }),
-      new CleanWebpackPlugin({ verbose: false }),
       new MiniCssExtractPlugin({
         filename: 'styles.[contenthash].css',
         chunkFilename: '[id].css',

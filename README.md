@@ -1,4 +1,4 @@
-# Anna [![Build Status](https://travis-ci.com/7h1b0/Anna.svg?branch=master)](https://travis-ci.com/7h1b0/Anna)
+# Anna &middot; [![Validate](https://github.com/7h1b0/Anna/actions/workflows/validate.yml/badge.svg)](https://github.com/7h1b0/Anna/actions/workflows/validate.yml)
 
 Home automation for Raspberry Pi 2 or above
 
@@ -6,7 +6,7 @@ Home automation for Raspberry Pi 2 or above
 
 ## Requirements
 
-- [Node.js 10.x](https://nodejs.org/)
+- [Node.js 12.x](https://nodejs.org/)
 - Docker
 
 ---

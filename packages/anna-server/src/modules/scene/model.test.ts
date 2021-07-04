@@ -1,7 +1,7 @@
 import knex from '../../knexClient';
 import * as Scene from './model';
 import * as Action from './action';
-import { ToggleHueLight, ToggleDio } from 'utils/actions';
+import { ToggleHueLight, ToggleDio } from '../../utils/actions';
 const initScenes = [
   {
     sceneId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',

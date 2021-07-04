@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
-import * as HueLightModel from 'modules/hue-light/model';
-import * as HueSensorModel from 'modules/hue-sensor/model';
-import { HueLigthBody } from 'modules/scene/action';
+import * as HueLightModel from '../modules/hue-light/model';
+import * as HueSensorModel from '../modules/hue-sensor/model';
+import { HueLigthBody } from '../modules/scene/action';
 import { XYToHex } from './hueColor';
 
 const HUE_IP = process.env.HUE_IP;

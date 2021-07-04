@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import * as User from 'modules/user/model';
-import * as cryptoUtil from 'utils/cryptoUtil';
+import * as User from '../../modules/user/model';
+import * as cryptoUtil from '../../utils/cryptoUtil';
 
 const routes = Router();
 

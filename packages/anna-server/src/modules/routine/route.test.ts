@@ -1,13 +1,13 @@
 import request from 'supertest';
 import * as lolex from '@sinonjs/fake-timers';
 import { createUser } from 'factories';
-import knex from 'knexClient';
-import * as Routine from 'modules/routine/model';
-import * as User from 'modules/user/model';
+import knex from '../../knexClient';
+import * as Routine from '../../modules/routine/model';
+import * as User from '../../modules/user/model';
 import app from '../../index';
-import dispatch from 'utils/dispatch';
+import dispatch from '../../utils/dispatch';
 
-jest.mock('utils/dispatch');
+jest.mock('../../utils/dispatch');
 
 const user = createUser({ userId: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f' });
 const initRoutines = [

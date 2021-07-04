@@ -6,12 +6,12 @@ import {
   computeNextRunAt,
   isValidCron,
   isTimestamp,
-} from 'services/scheduleService';
-import * as ScheduleService from 'services/scheduleService';
-import dispatch from 'utils/dispatch';
-import { omit } from 'utils/utils';
-import * as logger from 'utils/logger';
-import { callScene } from 'utils/actions';
+} from '../../services/scheduleService';
+import * as ScheduleService from '../../services/scheduleService';
+import dispatch from '../../utils/dispatch';
+import { omit } from '../../utils/utils';
+import * as logger from '../../utils/logger';
+import { callScene } from '../../utils/actions';
 
 export const TABLE = 'routines';
 export const COLUMNS = [

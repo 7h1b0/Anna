@@ -1,5 +1,5 @@
-import knex from 'knexClient';
-import * as User from 'modules/user/model';
+import knex from '../../knexClient';
+import * as User from '../../modules/user/model';
 import authenticationMiddleware from './middleware';
 import { createUser } from 'factories';
 

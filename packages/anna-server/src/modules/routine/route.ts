@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import * as Routine from 'modules/routine/model';
-import * as ScheduleService from 'services/scheduleService';
-import * as logger from 'utils/logger';
+import * as Routine from '../../modules/routine/model';
+import * as ScheduleService from '../../services/scheduleService';
+import * as logger from '../../utils/logger';
 
 const routes = Router();
 routes

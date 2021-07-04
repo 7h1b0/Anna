@@ -1,13 +1,15 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "allowJs": true,
     "baseUrl": ".",
+    "outDir": "./dist",
     "paths": {
       "*": ["*", "src/*", "test/*"]
     },
-    "types": ["node", "express", "jest"],
     "target": "es2018",
-
-    "noImplicitReturns": false
-  }
+    "noImplicitReturns": false,
+    "types": ["node", "express", "jest"]
+  },
+  "include": ["src/**/*", "*", "test/jest.setup.ts"]
 }

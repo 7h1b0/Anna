@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import * as hueService from 'services/hueService';
-import * as hueSensor from 'modules/hue-sensor/model';
+import * as hueService from '../../services/hueService';
+import * as hueSensor from '../../modules/hue-sensor/model';
 
 const routes = Router();
 

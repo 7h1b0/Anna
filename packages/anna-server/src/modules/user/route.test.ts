@@ -1,7 +1,7 @@
 import request from 'supertest';
 import { createUser } from 'factories';
-import knex from 'knexClient';
-import * as User from 'modules/user/model';
+import knex from '../../knexClient';
+import * as User from '../../modules/user/model';
 import app from '../..';
 
 const user = createUser();

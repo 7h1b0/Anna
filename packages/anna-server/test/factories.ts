@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
-import { User } from 'modules/user/model';
-import { Routine } from 'modules/routine/model';
+import { User } from '../src/modules/user/model';
+import { Routine } from '../src/modules/routine/model';
 
 export function createUser(user: Partial<User> = {}): User {
   return {

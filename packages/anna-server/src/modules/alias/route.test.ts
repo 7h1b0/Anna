@@ -1,13 +1,13 @@
 import request from 'supertest';
 import { createUser } from 'factories';
 import knex from '../../knexClient';
-import * as Alias from 'modules/alias/model';
-import * as User from 'modules/user/model';
-import dispatch from 'utils/dispatch';
+import * as Alias from '../../modules/alias/model';
+import * as User from '../../modules/user/model';
+import dispatch from '../../utils/dispatch';
 
 import app from '../..';
 
-jest.mock('utils/dispatch');
+jest.mock('../../utils/dispatch');
 
 const user = createUser({ userId: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f' });
 const initAlias = [

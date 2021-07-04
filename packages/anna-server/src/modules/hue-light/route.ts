@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import * as hueService from 'services/hueService';
-import dispatch from 'utils/dispatch';
-import { toggleHueLight } from 'utils/actions';
-import * as HueLight from 'modules/hue-light/model';
-import { HueLigthBody } from 'modules/scene/action';
-import { hexToXY, isHexColor } from 'services/hueColor';
+import * as hueService from '../../services/hueService';
+import dispatch from '../../utils/dispatch';
+import { toggleHueLight } from '../../utils/actions';
+import * as HueLight from '../../modules/hue-light/model';
+import { HueLigthBody } from '../../modules/scene/action';
+import { hexToXY, isHexColor } from '../../services/hueColor';
 
 const routes = Router();
 function getState({ on, hex, bri, xy }) {

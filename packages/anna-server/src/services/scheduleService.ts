@@ -1,6 +1,6 @@
 import * as parser from 'cron-parser';
-import { isBankHoliday } from 'utils/utils';
-import * as logger from 'utils/logger';
+import { isBankHoliday } from '../utils/utils';
+import * as logger from '../utils/logger';
 
 export const processes: Map<string, NodeJS.Timeout> = new Map();
 

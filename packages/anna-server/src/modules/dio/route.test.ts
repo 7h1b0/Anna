@@ -1,12 +1,12 @@
 import request from 'supertest';
 import { createUser } from 'factories';
-import knex from 'knexClient';
-import * as Dio from 'modules/dio/model';
-import * as User from 'modules/user/model';
+import knex from '../../knexClient';
+import * as Dio from '../../modules/dio/model';
+import * as User from '../../modules/user/model';
 import app from '../../index';
-import dispatch from 'utils/dispatch';
+import dispatch from '../../utils/dispatch';
 
-jest.mock('utils/dispatch');
+jest.mock('../../utils/dispatch');
 
 const user = createUser();
 const initDios = [

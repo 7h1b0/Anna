@@ -1,8 +1,8 @@
 import request from 'supertest';
 import { createUser, uuid } from 'factories';
-import knex from 'knexClient';
-import * as User from 'modules/user/model';
-import * as hueSensor from 'modules/hue-sensor/model';
+import knex from '../../knexClient';
+import * as User from '../../modules/user/model';
+import * as hueSensor from '../../modules/hue-sensor/model';
 import app from '../../index';
 
 jest.mock('node-fetch', () =>

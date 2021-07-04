@@ -1,7 +1,7 @@
 import knex from '../../knexClient';
-import * as Room from 'modules/room/model';
-import * as Dio from 'modules/dio/model';
-import * as HueLight from 'modules/hue-light/model';
+import * as Room from '../../modules/room/model';
+import * as Dio from '../../modules/dio/model';
+import * as HueLight from '../../modules/hue-light/model';
 const initRooms = [
   {
     roomId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',

@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import * as Room from 'modules/room/model';
-import { findByRoomId as findDio } from 'modules/dio/model';
-import { getLights, getSensorsByRoomId } from 'services/hueService';
+import * as Room from '../../modules/room/model';
+import { findByRoomId as findDio } from '../../modules/dio/model';
+import { getLights, getSensorsByRoomId } from '../../services/hueService';
 
 const routes = Router();
 routes

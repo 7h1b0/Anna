@@ -13,12 +13,8 @@ type RegisterForm = {
   confirmPassword: string;
 };
 function Register() {
-  const {
-    register,
-    handleSubmit,
-    getValues,
-    formState,
-  } = useForm<RegisterForm>({ mode: 'onBlur' });
+  const { register, handleSubmit, getValues, formState } =
+    useForm<RegisterForm>({ mode: 'onBlur' });
   const setUser = useSetUser();
 
   async function onSubmit(data: RegisterForm) {

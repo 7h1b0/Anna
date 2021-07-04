@@ -85,9 +85,7 @@ describe('Hue Light API', () => {
           .send({ name: 'test' });
 
         expect(response.status).toHaveStatusOk();
-        expect(
-          fetch,
-        ).toHaveBeenCalledWith(
+        expect(fetch).toHaveBeenCalledWith(
           'http://testIP/api/abcdefghijklmnopqrstuvwxywz/lights/2',
           { body: JSON.stringify({ name: 'test' }), method: 'put' },
         );
@@ -121,9 +119,7 @@ describe('Hue Light API', () => {
           .send(updatedName);
 
         expect(response.status).toHaveStatusOk();
-        expect(
-          fetch,
-        ).toHaveBeenCalledWith(
+        expect(fetch).toHaveBeenCalledWith(
           'http://testIP/api/abcdefghijklmnopqrstuvwxywz/lights/2',
           { body: JSON.stringify({ name: 'test_room' }), method: 'put' },
         );
@@ -175,9 +171,7 @@ describe('Hue Light API', () => {
         .set('x-access-token', user.token);
 
       expect(response.status).toHaveStatusOk();
-      expect(
-        fetch,
-      ).toHaveBeenCalledWith(
+      expect(fetch).toHaveBeenCalledWith(
         'http://testIP/api/abcdefghijklmnopqrstuvwxywz/lights/2/state',
         { body: JSON.stringify({ on: true }), method: 'put' },
       );
@@ -190,9 +184,7 @@ describe('Hue Light API', () => {
         .set('x-access-token', user.token);
 
       expect(response.status).toHaveStatusOk();
-      expect(
-        fetch,
-      ).toHaveBeenCalledWith(
+      expect(fetch).toHaveBeenCalledWith(
         'http://testIP/api/abcdefghijklmnopqrstuvwxywz/lights/2/state',
         { body: JSON.stringify({ on: false }), method: 'put' },
       );

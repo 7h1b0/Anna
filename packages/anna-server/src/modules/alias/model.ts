@@ -2,7 +2,7 @@ import Ajv from 'ajv';
 import { v4 as uuidv4 } from 'uuid';
 import knex from '../../knexClient';
 import aliasSchema from './schema';
-import { omit } from 'utils/utils';
+import { omit } from '../../utils/utils';
 
 export const TABLE = 'alias';
 export const COLUMNS = [

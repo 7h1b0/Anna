@@ -2,8 +2,8 @@ import Ajv from 'ajv';
 import { v4 as uuidv4 } from 'uuid';
 import roomSchema from './schema';
 import knex from '../../knexClient';
-import * as Dio from 'modules/dio/model';
-import * as HueLight from 'modules/hue-light/model';
+import * as Dio from '../../modules/dio/model';
+import * as HueLight from '../../modules/hue-light/model';
 
 export const TABLE = 'rooms';
 export const COLUMNS = [

@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import * as Scene from 'modules/scene/model';
-import { callScene } from 'utils/actions';
-import dispatch from 'utils/dispatch';
-import * as logger from 'utils/logger';
+import * as Scene from '../../modules/scene/model';
+import { callScene } from '../../utils/actions';
+import dispatch from '../../utils/dispatch';
+import * as logger from '../../utils/logger';
 
 const routes = Router();
 routes

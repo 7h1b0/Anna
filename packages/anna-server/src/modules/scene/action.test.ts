@@ -1,9 +1,9 @@
 import knex from '../../knexClient';
 import * as Action from './action';
-import * as logger from 'utils/logger';
-import { omit } from 'utils/utils';
+import * as logger from '../../utils/logger';
+import { omit } from '../../utils/utils';
 
-jest.mock('utils/logger');
+jest.mock('../../utils/logger');
 
 const initActions = [
   {

@@ -4,7 +4,6 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack serve",
-    "build": "webpack --node-env=production",
     "type:check": "tsc --noEmit"
   },
   "dependencies": {

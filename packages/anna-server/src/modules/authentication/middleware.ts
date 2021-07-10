@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { findByToken } from 'modules/user/model';
+import { findByToken } from '../../modules/user/model';
 
 export default async function authenticationMiddleware(
   req: Request,

@@ -1,11 +1,11 @@
 import * as lolex from '@sinonjs/fake-timers';
 import knex from '../../knexClient';
 import * as Routine from './model';
-import * as scheduleService from 'services/scheduleService';
-import dispatch from 'utils/dispatch';
+import * as scheduleService from '../../services/scheduleService';
+import dispatch from '../../utils/dispatch';
 import { createRoutine } from 'factories';
 
-jest.mock('utils/dispatch');
+jest.mock('../../utils/dispatch');
 
 const initRoutines = [
   {

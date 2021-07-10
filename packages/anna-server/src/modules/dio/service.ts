@@ -1,6 +1,6 @@
 import { exec } from 'child_process';
 import { promisify } from 'util';
-import * as logger from 'utils/logger';
+import * as logger from '../../utils/logger';
 
 function execPromisify(script: string) {
   return promisify(exec)(script);

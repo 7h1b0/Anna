@@ -1,4 +1,4 @@
-import TYPES from 'utils/type';
+import TYPES from '../../utils/type';
 
 export default {
   $id: 'scene',

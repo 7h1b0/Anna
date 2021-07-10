@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import knex from '../../knexClient';
 import sceneSchema from './schema';
 import { TABLE as ACTION_TABLE, findBySceneId } from './action';
-import { ToggleDio, ToggleHueLight } from 'utils/actions';
+import { ToggleDio, ToggleHueLight } from '../../utils/actions';
 
 export const TABLE = 'scenes';
 export const COLUMNS = [

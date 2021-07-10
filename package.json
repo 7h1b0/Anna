@@ -20,6 +20,7 @@
     "postinstall": "lerna bootstrap",
     "lerna": "lerna",
     "build": "NODE_ENV=production lerna run build",
+    "build:test": "NODE_ENV=production lerna run build:test",
     "format:check": "prettier --list-different \"packages/**/*.{ts,tsx}\"",
     "type:check": "lerna run type:check --stream",
     "lint:check": "eslint --max-warnings 0 '*/**/*.{ts,tsx}'",

@@ -1,8 +1,8 @@
 import request from 'supertest';
 import { createUser, uuid } from 'factories';
-import knex from 'knexClient';
-import * as User from 'modules/user/model';
-import * as hueLight from 'modules/hue-light/model';
+import knex from '../../knexClient';
+import * as User from '../../modules/user/model';
+import * as hueLight from '../../modules/hue-light/model';
 import app from '../../index';
 import fetch from 'node-fetch';
 

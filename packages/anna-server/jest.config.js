@@ -9,6 +9,7 @@ module.exports = {
   automock: false,
   clearMocks: true,
   errorOnDeprecated: true,
+  testPathIgnorePatterns: ['<rootDir>/dist/', '<rootDir>/node_modules/'],
   coveragePathIgnorePatterns: ['/node_modules/', '/test/'],
   coverageThreshold: {
     global: {

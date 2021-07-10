@@ -1,11 +1,11 @@
 import request from 'supertest';
 import { createUser } from 'factories';
-import knex from 'knexClient';
-import * as Room from 'modules/room/model';
-import * as User from 'modules/user/model';
-import * as Dio from 'modules/dio/model';
+import knex from '../../knexClient';
+import * as Room from '../../modules/room/model';
+import * as User from '../../modules/user/model';
+import * as Dio from '../../modules/dio/model';
 import app from '../../index';
-import * as hueService from 'services/hueService';
+import * as hueService from '../../services/hueService';
 
 const user = createUser({ userId: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f' });
 const initRooms = [

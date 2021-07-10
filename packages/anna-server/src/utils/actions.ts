@@ -1,5 +1,5 @@
 import TYPES from './type';
-import { DioBody, HueLigthBody } from 'modules/scene/action';
+import { DioBody, HueLigthBody } from '../modules/scene/action';
 
 type Action = {
   type: string;

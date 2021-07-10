@@ -1,7 +1,7 @@
 import knex from '../../knexClient';
-import TYPES from 'utils/type';
-import { ToggleDio, ToggleHueLight, AnnaAction } from 'utils/actions';
-import * as logger from 'utils/logger';
+import TYPES from '../../utils/type';
+import { ToggleDio, ToggleHueLight, AnnaAction } from '../../utils/actions';
+import * as logger from '../../utils/logger';
 
 export const TABLE = 'actions';
 

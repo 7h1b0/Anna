@@ -1,5 +1,5 @@
 import knex from '../knexClient';
-import * as Sensor from 'modules/hue-sensor/model';
+import * as Sensor from '../modules/hue-sensor/model';
 import { uuid } from 'factories';
 import fetch from 'node-fetch';
 

@@ -1,5 +1,5 @@
 import Ajv from 'ajv';
-import knex from 'knexClient';
+import knex from '../../knexClient';
 import dioSchema from './schema';
 
 export const TABLE = 'dios';

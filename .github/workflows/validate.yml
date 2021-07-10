@@ -48,3 +48,23 @@ jobs:
 
       - name: Build
         run: npm run lerna run build:release
+
+  release:
+    needs: main
+    runs-on: ubuntu-latest
+    if: ${{ contains('refs/heads/master', github.ref) }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.SEMANTIC_RELEASE_ACCESS_TOKEN }}
+        run: npx -p semantic-release -p conventional-changelog-conventionalcommits -c semantic-release

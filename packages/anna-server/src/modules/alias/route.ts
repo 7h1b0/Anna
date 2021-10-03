@@ -9,7 +9,7 @@ routes
   .route('/api/alias')
   .get((req, res) => {
     Alias.findAll()
-      .then((alias) => res.json(alias))
+      .then((aliases) => res.json(aliases))
       .catch((err) => res.status(500).send({ err }));
   })
   .post((req, res) => {
@@ -42,13 +42,7 @@ routes
     if (!isValid) {
       res.sendStatus(400);
     } else {
-      const updatedAlias = {
-        name: req.body.name,
-        description: req.body.description,
-        enabled: req.body.enabled,
-        sceneId: req.body.sceneId,
-      };
-      Alias.findByIdAndUpdate(req.params.id_alias, updatedAlias)
+      Alias.findByIdAndUpdate(req.params.id_alias, req.body)
         .then((rowsAffected) => {
           if (rowsAffected < 1) {
             res.sendStatus(404);
@@ -90,9 +84,16 @@ routes.get(
 
 routes.get('/api/alias/:name([a-z_]{4,})/action', (req, res) => {
   Alias.findByName(req.params.name)
-    .then(async (alias) => {
-      if (!alias) return res.sendStatus(404);
-      if (alias.enabled !== true) return res.sendStatus(403);
+    .then(async (aliases) => {
+      if (aliases.length === 0) {
+        return res.sendStatus(404);
+      }
+
+      const alias = Alias.resolveActiveAlias(aliases);
+
+      if (!alias) {
+        return res.sendStatus(403);
+      }
 
       await dispatch(callScene(alias.sceneId));
       return res.end();

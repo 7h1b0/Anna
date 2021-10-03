@@ -20,6 +20,8 @@ export default {
       pattern: '[a-z0-9-]{36}',
     },
     enabled: { type: 'boolean' },
+    startTime: { type: 'number' },
+    endTime: { type: 'number' },
   },
   required: ['name', 'sceneId'],
 };

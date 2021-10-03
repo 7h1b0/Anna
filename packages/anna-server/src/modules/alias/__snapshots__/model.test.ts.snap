@@ -8,8 +8,10 @@ Array [
     "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
     "description": "test",
     "enabled": true,
+    "endTime": null,
     "name": "test",
     "sceneId": "fa1834fe-40c8-4a6f-9b74-b79be7694644",
+    "startTime": null,
     "updatedAt": 1514851200000,
   },
   RowDataPacket {
@@ -18,8 +20,10 @@ Array [
     "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
     "description": "test",
     "enabled": false,
+    "endTime": null,
     "name": "test_2",
     "sceneId": "fa1834fe-40c8-4a6f-9b74-b79be7694644",
+    "startTime": null,
     "updatedAt": 1514851200000,
   },
 ]
@@ -32,8 +36,10 @@ RowDataPacket {
   "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
   "description": "test",
   "enabled": true,
+  "endTime": null,
   "name": "test",
   "sceneId": "fa1834fe-40c8-4a6f-9b74-b79be7694644",
+  "startTime": null,
   "updatedAt": 1514851200000,
 }
 `;
@@ -46,8 +52,10 @@ Array [
     "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
     "description": "test",
     "enabled": true,
+    "endTime": null,
     "name": "test",
     "sceneId": "fa1834fe-40c8-4a6f-9b74-b79be7694644",
+    "startTime": null,
     "updatedAt": 1514851200000,
   },
   RowDataPacket {
@@ -56,8 +64,10 @@ Array [
     "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
     "description": "test",
     "enabled": false,
+    "endTime": null,
     "name": "test_2",
     "sceneId": "fa1834fe-40c8-4a6f-9b74-b79be7694644",
+    "startTime": null,
     "updatedAt": 1514851200000,
   },
 ]
@@ -70,8 +80,10 @@ Object {
   "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
   "description": "test",
   "enabled": true,
+  "endTime": null,
   "name": "updated",
   "sceneId": "fa1834fe-40c8-4a6f-9b74-b79be7694644",
+  "startTime": null,
   "updatedAt": Any<Number>,
 }
 `;
@@ -83,8 +95,10 @@ Object {
   "createdBy": "c10c80e8-49e4-4d6b-b966-4fc9fb98879f",
   "description": "test",
   "enabled": false,
+  "endTime": null,
   "name": "test_3",
   "sceneId": "fa1834fe-40c8-4a6f-9b74-b79be7694644",
+  "startTime": null,
   "updatedAt": Any<Number>,
 }
 `;

@@ -9,19 +9,18 @@ import Typography from './typography';
 const Triggers: React.FC<{
   trigger: TriggerType;
 }> = ({ trigger }) => {
-  const hasTimeCondition =
-    Number.isInteger(trigger.startTime) && Number.isInteger(trigger.endTime);
+  const hasTimeCondition = trigger.startTime || trigger.endTime;
   return (
     <Link to={`/triggers/${trigger.aliasId}`}>
       <Card className="justify-between items-center">
         <div>
           <Typography>{trigger.description}</Typography>
           <Typography variant="caption">{trigger.name}</Typography>
-          {hasTimeCondition && (
+          {hasTimeCondition ? (
             <Typography variant="caption">
               From {trigger.startTime}h to {trigger.endTime}h
             </Typography>
-          )}
+          ) : null}
         </div>
         <ArrowIcon className="fill-current h-4 w-4" />
       </Card>

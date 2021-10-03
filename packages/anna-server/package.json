@@ -41,8 +41,8 @@
     "db:migrate": "knex migrate:latest",
     "db:make": "knex migrate:make",
     "db:rollback": "knex migrate:rollback",
-    "build": "tsc",
-    "build:release": "npm run build && pkg -t node10.17-linux-armv7 ./dist/index.js --public --no-bytecode -o anna-armv7",
+    "build:ts": "tsc",
+    "build": "npm run build:ts && pkg -t node10.17-linux-armv7 ./dist/index.js --public --no-bytecode -o anna-armv7",
     "build:test": "npm run build && pkg -t node10-linux-x64 ./dist/index.js --public --no-bytecode -o anna-x64",
     "type:check": "tsc --noEmit"
   }

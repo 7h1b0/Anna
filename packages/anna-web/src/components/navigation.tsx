@@ -12,8 +12,11 @@ import {
 function Navigation() {
   const className = 'w-5 mx-auto';
   return (
-    <nav>
-      <ul className="list-none shadow flex items-center bg-black h-full justify-around xl:justify-center xl:flex-col xl:items-start xl:w-64 ">
+    <nav className="bg-black shadow xl:h-full">
+      <ul
+        className="list-none flex items-center  justify-around xl:justify-center xl:flex-col xl:items-start xl:w-64"
+        style={{ height: 'inherit' }}
+      >
         <NavLink to="/home" title="Dashboard">
           <HomeIcon className={className} />
         </NavLink>

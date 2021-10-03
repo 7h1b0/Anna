@@ -22,10 +22,10 @@ function NavLink({ to, children, title }: React.PropsWithChildren<Props>) {
   const activeClass = isActive(match) ? 'text-teal-500' : 'text-white';
 
   return (
-    <li className="flex-1 xl:flex-initial">
+    <li className="flex-1 xl:flex-initial ">
       <Link
         to={to}
-        className={`xl:flex xl:items-center xl:gap-4 fill-current px-4 py-5 ${activeClass}`}
+        className={`focus:outline-none flex xl:items-center xl:gap-4 fill-current p-5 ${activeClass} hover:text-teal-500`}
       >
         {children}
         <span className="hidden xl:block">{title}</span>

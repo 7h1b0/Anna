@@ -129,7 +129,7 @@ export async function findByIdAndUpdate(
 }
 
 export async function run(routine: Routine) {
-  const done = (error = null) => {
+  const done = (error: unknown = null) => {
     const failReason = error ? JSON.stringify(error) : null;
     const lastFailedAt = error ? new Date() : routine.lastFailedAt;
     const lastRunAt = new Date();

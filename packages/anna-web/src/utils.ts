@@ -11,11 +11,13 @@ export const getPercentage =
 export function formatDate(timestamp: number): string {
   const date = new Date(timestamp);
 
-  const day = date.toDateString().replace(/\d{4}/, '');
-  const hours = `${date.getHours()}`.padStart(2, '0');
-  const minutes = `${date.getMinutes()}`.padStart(2, '0');
-
-  return `${day} at ${hours}:${minutes}`;
+  return new Intl.DateTimeFormat('en-GB', {
+    weekday: 'long',
+    month: 'short',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+  }).format(date);
 }
 
 export function groupBy<T>(array: T[], predicate: (el: T) => boolean): T[][] {

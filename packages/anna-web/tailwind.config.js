@@ -7,7 +7,7 @@ module.exports = {
   theme: {
     extend: {
       maxWidth: {
-        1440: '1440px',
+        1200: '1200px',
       },
       colors: {
         teal: colors.teal,

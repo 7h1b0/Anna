@@ -14,19 +14,23 @@ const isActive = (matchURL: match | null) => {
 
 type Props = {
   to: string;
+  title: string;
 };
 
-function NavLink({ to, children }: React.PropsWithChildren<Props>) {
+function NavLink({ to, children, title }: React.PropsWithChildren<Props>) {
   const match = useRouteMatch(to);
   const activeClass = isActive(match) ? 'text-teal-500' : 'text-white';
 
   return (
-    <Link
-      to={to}
-      className={`flex-1 xl:flex-initial fill-current px-4 py-5 ${activeClass}`}
-    >
-      {children}
-    </Link>
+    <li className="flex-1 xl:flex-initial">
+      <Link
+        to={to}
+        className={`xl:flex xl:items-center xl:gap-4 fill-current px-4 py-5 ${activeClass}`}
+      >
+        {children}
+        <span className="hidden xl:block">{title}</span>
+      </Link>
+    </li>
   );
 }
 

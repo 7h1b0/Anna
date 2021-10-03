@@ -7,4 +7,6 @@ export type Trigger = {
   createdAt?: number;
   updatedAt?: number;
   createdBy?: string;
+  startTime?: number;
+  endTime?: number;
 };

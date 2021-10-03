@@ -54,7 +54,7 @@ function Home() {
       <Typography className="mt-4 mb-2 text-teal-500" variant="heading">
         Favorites Scenes
       </Typography>
-      <div className="grid grid-cols-3 xl:grid-cols-6 gap-2">
+      <section className="grid grid-cols-3 xl:grid-cols-6 gap-2">
         {scenes.sort(sortByName).map(({ description, name, sceneId }) => (
           <Scene
             key={sceneId}
@@ -63,7 +63,7 @@ function Home() {
             description={description}
           />
         ))}
-      </div>
+      </section>
     </>
   );
 }

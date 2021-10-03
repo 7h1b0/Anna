@@ -25,7 +25,7 @@
     "type:check": "lerna run type:check --stream",
     "lint:check": "eslint --max-warnings 0 '*/**/*.{ts,tsx}'",
     "start": "lerna run start --stream --parallel",
-    "test": "jest --watch --notify --runInBand",
+    "test": "jest --watch --runInBand",
     "coverage": "jest --coverage --ci --runInBand --silent",
     "db:migrate": "lerna run db:migrate",
     "db:rollback": "lerna run db:rollback"

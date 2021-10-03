@@ -6,6 +6,7 @@ import Button from 'components/button';
 import Alert from 'components/alert';
 import Select from 'components/select';
 import Checkbox from 'components/checkbox';
+import Grid from 'components/grid';
 
 import useRequest from 'hooks/use-request';
 import { useHistory } from 'react-router-dom';
@@ -22,6 +23,8 @@ type TriggerForm = {
   description: string;
   sceneId: string;
   enabled: boolean;
+  startTime?: number;
+  endTime?: number;
 };
 function TriggerForm({ trigger, scenes }: Props) {
   const { register, handleSubmit } = useForm<TriggerForm>({
@@ -30,6 +33,8 @@ function TriggerForm({ trigger, scenes }: Props) {
       description: trigger.description,
       sceneId: trigger.sceneId,
       enabled: trigger.enabled,
+      startTime: trigger.startTime,
+      endTime: trigger.endTime,
     },
   });
   const [hasError, setError] = React.useState(false);
@@ -38,7 +43,15 @@ function TriggerForm({ trigger, scenes }: Props) {
   const isEditMode = trigger.aliasId !== '';
 
   async function onSubmit(data: TriggerForm) {
-    const { name, description = '', sceneId, enabled } = data;
+    const {
+      name,
+      description = '',
+      sceneId,
+      enabled,
+      startTime,
+      endTime,
+    } = data;
+
     try {
       if (isEditMode) {
         await request(`/api/alias/${trigger.aliasId}`, 'PATCH', {
@@ -46,6 +59,8 @@ function TriggerForm({ trigger, scenes }: Props) {
           description,
           sceneId,
           enabled,
+          startTime,
+          endTime,
         });
       } else {
         await request('/api/alias/', 'POST', {
@@ -53,6 +68,8 @@ function TriggerForm({ trigger, scenes }: Props) {
           description,
           sceneId,
           enabled,
+          startTime,
+          endTime,
         });
       }
       history.push('/triggers');
@@ -84,6 +101,28 @@ function TriggerForm({ trigger, scenes }: Props) {
           value: scene.sceneId,
         }))}
       />
+      <Grid>
+        <Input
+          name="startTime"
+          label="From"
+          register={register('startTime', {
+            valueAsNumber: true,
+            min: 0,
+            max: 23,
+          })}
+          type="number"
+        />
+        <Input
+          name="endTime"
+          label="to"
+          register={register('endTime', {
+            valueAsNumber: true,
+            min: 0,
+            max: 23,
+          })}
+          type="number"
+        />
+      </Grid>
       <Checkbox name="enabled" label="enabled" register={register('enabled')} />
 
       <div className="flex justify-center">

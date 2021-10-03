@@ -1,3 +1,5 @@
+import * as lolex from '@sinonjs/fake-timers';
+
 import knex from '../../knexClient';
 import * as Alias from './model';
 const initAlias = [
@@ -186,6 +188,132 @@ describe('Alias', () => {
       };
 
       expect(Alias.validate(alias)).toBeTruthy();
+    });
+  });
+
+  describe('resolveActiveAlias', () => {
+    it('should return nothing if no alias is enabled', () => {
+      const aliases = [
+        {
+          aliasId: '1',
+          sceneId: '1fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
+          name: 'test_t',
+          description: 'testtest',
+          enabled: false,
+          createdBy: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f',
+          createdAt: new Date('2018-01-01').getTime(),
+          updatedAt: new Date('2018-01-02').getTime(),
+        },
+        {
+          aliasId: '2',
+          sceneId: '1fc1d78e-fd1c-4717-b610-65d2fa3d01b3',
+          name: 'test_d',
+          description: 'test',
+          enabled: false,
+          createdBy: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f',
+          createdAt: new Date('2018-01-01').getTime(),
+          updatedAt: new Date('2018-01-02').getTime(),
+        },
+      ];
+
+      expect(Alias.resolveActiveAlias(aliases)).not.toBeDefined();
+    });
+
+    it('should return false when an alias is missing a props', () => {
+      const aliases = [
+        {
+          aliasId: '1',
+          sceneId: '1fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
+          name: 'test_t',
+          description: 'testtest',
+          enabled: false,
+          createdBy: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f',
+          createdAt: new Date('2018-01-01').getTime(),
+          updatedAt: new Date('2018-01-02').getTime(),
+        },
+        {
+          aliasId: '2',
+          sceneId: '1fc1d78e-fd1c-4717-b610-65d2fa3d01b3',
+          name: 'test_d',
+          description: 'test',
+          enabled: true,
+          createdBy: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f',
+          createdAt: new Date('2018-01-01').getTime(),
+          updatedAt: new Date('2018-01-02').getTime(),
+        },
+      ];
+
+      expect(Alias.resolveActiveAlias(aliases)).toEqual(aliases[1]);
+    });
+
+    it('should return the right alias depending on time condition', () => {
+      const clock = lolex.install({ now: new Date('2017-08-14T08:00') });
+      const aliases = [
+        {
+          aliasId: '1',
+          sceneId: '1fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
+          name: 'test_t',
+          description: 'testtest',
+          enabled: true,
+          startTime: 8,
+          endTime: 18,
+          createdBy: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f',
+          createdAt: new Date('2018-01-01').getTime(),
+          updatedAt: new Date('2018-01-02').getTime(),
+        },
+        {
+          aliasId: '2',
+          sceneId: '1fc1d78e-fd1c-4717-b610-65d2fa3d01b3',
+          name: 'test_d',
+          description: 'test',
+          enabled: true,
+          startTime: 18,
+          endTime: 8,
+          createdBy: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f',
+          createdAt: new Date('2018-01-01').getTime(),
+          updatedAt: new Date('2018-01-02').getTime(),
+        },
+      ];
+
+      const res = Alias.resolveActiveAlias(aliases);
+      clock.uninstall();
+
+      expect(res).toEqual(aliases[0]);
+    });
+
+    it('should return the right alias depending on time condition', () => {
+      const clock = lolex.install({ now: new Date('2017-08-14T18:00') });
+      const aliases = [
+        {
+          aliasId: '1',
+          sceneId: '1fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
+          name: 'test_t',
+          description: 'testtest',
+          enabled: true,
+          startTime: 8,
+          endTime: 18,
+          createdBy: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f',
+          createdAt: new Date('2018-01-01').getTime(),
+          updatedAt: new Date('2018-01-02').getTime(),
+        },
+        {
+          aliasId: '2',
+          sceneId: '1fc1d78e-fd1c-4717-b610-65d2fa3d01b3',
+          name: 'test_d',
+          description: 'test',
+          enabled: true,
+          startTime: 18,
+          endTime: 8,
+          createdBy: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f',
+          createdAt: new Date('2018-01-01').getTime(),
+          updatedAt: new Date('2018-01-02').getTime(),
+        },
+      ];
+
+      const res = Alias.resolveActiveAlias(aliases);
+      clock.uninstall();
+
+      expect(res).toEqual(aliases[1]);
     });
   });
 });

@@ -29,7 +29,7 @@ function AuthenticateApp() {
   return (
     <Router>
       <div className="h-full flex justify-end flex-col xl:flex-row-reverse bg-gray-900">
-        <div className="relative flex-1 px-2 xl:px-4 max-w-1440 overflow-y-auto">
+        <main className="relative flex-1 px-2 xl:px-4 max-w-1200 overflow-y-auto">
           <Switch>
             <Route path="/home/rooms/light/:lightId">
               <HueLight />
@@ -81,7 +81,7 @@ function AuthenticateApp() {
             </Route>
             <Redirect to="/home" />
           </Switch>
-        </div>
+        </main>
         <Navigation />
       </div>
     </Router>

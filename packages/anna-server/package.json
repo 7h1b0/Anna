@@ -25,7 +25,7 @@
     "@types/bcryptjs": "^2.4.2",
     "@types/express": "^4.17.12",
     "@types/knex": "^0.16.1",
-    "@types/node": "^14.17.4",
+    "@types/node": "^16.10.2",
     "@types/node-fetch": "^2.5.10",
     "@types/sinonjs__fake-timers": "^6.0.2",
     "@types/supertest": "^2.0.11",

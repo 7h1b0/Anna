@@ -124,11 +124,11 @@ module.exports = () => {
     devServer: {
       open: true,
       hot: true,
-      contentBase: path.join(__dirname, 'src'),
-      compress: true,
-      historyApiFallback: true,
-      noInfo: true,
       port: 3000,
+      historyApiFallback: true,
+      devMiddleware: {
+        stats: 'errors-only',
+      },
       proxy: {
         '/api': {
           target: 'http://127.0.0.1:8181',

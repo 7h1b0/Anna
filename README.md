@@ -37,14 +37,3 @@ Then browse to http://localhost:3000
 | `npm run build`        | Builds the production assets.    |
 
 ---
-
-## Deployment
-
-```
-# Create a new release
-npm run lerna version major/minor/patch
-```
-
-A new release will be automatically created in Github with assets
-
----

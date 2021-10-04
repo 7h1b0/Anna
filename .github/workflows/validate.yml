@@ -32,7 +32,7 @@ jobs:
         uses: bahmutov/npm-install@v1
 
       - name: Run migration
-        run: npm run lerna run db:migrate
+        run: npm run db:migrate
 
       - name: Run lint check
         run: npm run lint:check
@@ -47,7 +47,7 @@ jobs:
         run: npm run type:check
 
       - name: Build
-        run: npm run lerna run build:release
+        run: npm run build
 
   release:
     needs: main

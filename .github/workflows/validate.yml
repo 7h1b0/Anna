@@ -26,13 +26,13 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '16'
 
       - name: Install dependencies
         uses: bahmutov/npm-install@v1
 
       - name: Run migration
-        run: npm run lerna run db:migrate
+        run: npm run db:migrate
 
       - name: Run lint check
         run: npm run lint:check
@@ -47,7 +47,7 @@ jobs:
         run: npm run type:check
 
       - name: Build
-        run: npm run lerna run build:release
+        run: npm run build
 
   release:
     needs: main
@@ -62,7 +62,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '16'
 
       - name: Release
         env:

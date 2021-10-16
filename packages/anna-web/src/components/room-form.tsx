@@ -6,7 +6,7 @@ import Button from 'components/button';
 import Alert from 'components/alert';
 
 import useRequest from 'hooks/use-request';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import type { Room as RoomType } from 'types/room';
 
 type Props = {
@@ -26,7 +26,7 @@ function RoomForm({ room }: Props) {
   });
   const [hasError, setError] = React.useState(false);
   const request = useRequest();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   async function onSubmit(data: RoomForm) {
     try {
@@ -35,7 +35,7 @@ function RoomForm({ room }: Props) {
       } else {
         await request(`/api/rooms`, 'POST', data);
       }
-      history.goBack();
+      navigate(-1);
     } catch (error) {
       setError(true);
     }

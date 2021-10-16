@@ -6,7 +6,7 @@ import Alert from 'components/alert';
 import Select from 'components/select';
 
 import useRequest from 'hooks/use-request';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import type { Room as RoomType } from 'types/room';
 import type { HueLight as HueLightType } from 'types/hue-light';
 
@@ -30,14 +30,14 @@ function HueLightRoomForm({ rooms, hueLights, hueLightId, roomId }: Props) {
   });
   const [hasError, setError] = React.useState(false);
   const request = useRequest();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   async function onSubmit(data: HueLightRoomForm) {
     try {
       await request(`/api/hue/lights/${data.hueLightId}`, 'PATCH', {
         roomId: data.roomId,
       });
-      history.goBack();
+      navigate(-1);
     } catch (error) {
       setError(true);
     }

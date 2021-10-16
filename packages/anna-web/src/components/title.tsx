@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {
   title: string;
@@ -9,10 +9,10 @@ type Props = {
 };
 
 function Title({ title, subtitle, activateNavigation = false, action }: Props) {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   function handleBack() {
-    history.goBack();
+    navigate(-1);
   }
 
   return (
@@ -27,9 +27,9 @@ function Title({ title, subtitle, activateNavigation = false, action }: Props) {
             className="text-white fill-current w-5"
           >
             <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
               d="M10 19l-7-7m0 0l7-7m-7 7h18"
             />
           </svg>

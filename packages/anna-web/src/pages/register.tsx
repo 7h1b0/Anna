@@ -67,7 +67,7 @@ function Register() {
           />
 
           <div className="flex justify-between items-center text-gray-400">
-            <Link to="/login">Login</Link>
+            <Link to="/">Login</Link>
             <Button type="submit">Register</Button>
           </div>
         </form>

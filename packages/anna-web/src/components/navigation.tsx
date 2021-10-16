@@ -17,7 +17,7 @@ function Navigation() {
         className="list-none flex items-center  justify-around xl:justify-center xl:flex-col xl:items-start xl:w-64"
         style={{ height: 'inherit' }}
       >
-        <NavLink to="/home" title="Dashboard">
+        <NavLink to="/" title="Dashboard">
           <HomeIcon className={className} />
         </NavLink>
         <NavLink to="/scenes" title="Scenes">

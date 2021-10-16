@@ -8,7 +8,7 @@ import Select from 'components/select';
 import Checkbox from 'components/checkbox';
 
 import useRequest from 'hooks/use-request';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import type { Routine as RoutineType } from 'types/routine';
 import type { Scene as SceneType } from 'types/scene';
 
@@ -36,7 +36,7 @@ function RoutineForm({ routine, scenes }: Props) {
   });
   const [hasError, setError] = React.useState(false);
   const request = useRequest();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   async function onSubmit(data: RoutineForm) {
     try {
@@ -45,7 +45,7 @@ function RoutineForm({ routine, scenes }: Props) {
       } else {
         await request(`/api/routines`, 'POST', data);
       }
-      history.goBack();
+      navigate(-1);
     } catch (error) {
       setError(true);
     }

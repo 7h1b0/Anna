@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import { useUser } from 'context/user-context';
 import AuthenticateApp from './authenticated-app';
@@ -20,15 +15,10 @@ function App() {
   }
   return (
     <Router>
-      <Switch>
-        <Route path="/login">
-          <Login />
-        </Route>
-        <Route path="/register">
-          <Register />
-        </Route>
-        <Redirect to="/login" />
-      </Switch>
+      <Routes>
+        <Route path="/register" element={<Register />} />
+        <Route path="/" element={<Login />} />
+      </Routes>
     </Router>
   );
 }

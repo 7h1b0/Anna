@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Navigation from 'components/navigation';
 
@@ -30,57 +25,24 @@ function AuthenticateApp() {
     <Router>
       <div className="h-full flex justify-end flex-col xl:flex-row-reverse bg-gray-900">
         <main className="relative flex-1 px-2 xl:px-4 max-w-1200 overflow-y-auto">
-          <Switch>
-            <Route path="/home/rooms/light/:lightId">
-              <HueLight />
-            </Route>
-            <Route path="/home/rooms/:roomId/edit">
-              <RoomEdit />
-            </Route>
-            <Route path="/home/rooms/add">
-              <RoomAdd />
-            </Route>
-            <Route path="/home/rooms/:roomId">
-              <Room />
-            </Route>
-            <Route path="/home/dios/add">
-              <DioAdd />
-            </Route>
-            <Route path="/home/lights/add">
-              <HueLightRoomAdd />
-            </Route>
-            <Route path="/routines/add">
-              <RoutineAdd />
-            </Route>
-            <Route path="/routines/:routineId">
-              <RoutineEdit />
-            </Route>
-            <Route path="/routines">
-              <Routines />
-            </Route>
-            <Route path="/triggers/add">
-              <TriggerAdd />
-            </Route>
-            <Route path="/triggers/:triggerId">
-              <TriggerEdit />
-            </Route>
-            <Route path="/triggers">
-              <Triggers />
-            </Route>
-            <Route path="/scenes">
-              <Scenes />
-            </Route>
-            <Route path="/logout">
-              <Logout />
-            </Route>
-            <Route path="/settings">
-              <Settings />
-            </Route>
-            <Route path="/home">
-              <Home />
-            </Route>
-            <Redirect to="/home" />
-          </Switch>
+          <Routes>
+            <Route path="/home/rooms/light/:lightId" element={<HueLight />} />
+            <Route path="/home/rooms/:roomId/edit" element={<RoomEdit />} />
+            <Route path="/home/rooms/add" element={<RoomAdd />} />
+            <Route path="/home/rooms/:roomId" element={<Room />} />
+            <Route path="/home/dios/add" element={<DioAdd />} />
+            <Route path="/home/lights/add" element={<HueLightRoomAdd />} />
+            <Route path="/routines/add" element={<RoutineAdd />} />
+            <Route path="/routines/:routineId" element={<RoutineEdit />} />
+            <Route path="/routines" element={<Routines />} />
+            <Route path="/triggers/add" element={<TriggerAdd />} />
+            <Route path="/triggers/:triggerId" element={<TriggerEdit />} />
+            <Route path="/triggers" element={<Triggers />} />
+            <Route path="/scenes" element={<Scenes />} />
+            <Route path="/logout" element={<Logout />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/" element={<Home />} />
+          </Routes>
         </main>
         <Navigation />
       </div>

@@ -9,7 +9,7 @@ import Checkbox from 'components/checkbox';
 import Grid from 'components/grid';
 
 import useRequest from 'hooks/use-request';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import type { Trigger as TriggerType } from 'types/trigger';
 import type { Scene as SceneType } from 'types/scene';
 
@@ -39,7 +39,7 @@ function TriggerForm({ trigger, scenes }: Props) {
   });
   const [hasError, setError] = React.useState(false);
   const request = useRequest();
-  const history = useHistory();
+  const navigate = useNavigate();
   const isEditMode = trigger.aliasId !== '';
 
   async function onSubmit(data: TriggerForm) {
@@ -72,7 +72,7 @@ function TriggerForm({ trigger, scenes }: Props) {
           endTime,
         });
       }
-      history.push('/triggers');
+      navigate('/triggers');
     } catch (error) {
       setError(true);
     }

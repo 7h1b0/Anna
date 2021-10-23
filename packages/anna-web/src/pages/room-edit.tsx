@@ -9,7 +9,7 @@ import useFetch from 'hooks/use-fetch';
 import type { Room as RoomType } from 'types/room';
 
 function RoomEdit() {
-  const { roomId = '' } = useParams<{ roomId: string }>();
+  const { roomId = '' } = useParams<'roomId'>();
   const room = useFetch<RoomType>(`/api/rooms/${roomId}`);
 
   if (room) {

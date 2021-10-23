@@ -12,7 +12,7 @@ import HueLight from 'src/components/hue-light';
 import ButtonEdit from 'src/components/button-edit';
 
 function Devices() {
-  const { roomId } = useParams<{ roomId: string }>();
+  const { roomId } = useParams<'roomId'>();
   const room = useFetch<RoomType>(`/api/rooms/${roomId}`);
 
   if (room) {

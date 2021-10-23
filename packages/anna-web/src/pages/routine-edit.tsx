@@ -9,7 +9,7 @@ import type { Routine as RoutineType } from 'types/routine';
 import type { Scene as SceneType } from 'types/scene';
 
 function RoutineEdit() {
-  const { routineId = '' } = useParams<{ routineId: string }>();
+  const { routineId = '' } = useParams<'routineId'>();
   const routine = useFetch<RoutineType>(`/api/routines/${routineId}`);
   const scenes = useFetch<SceneType[]>('/api/scenes');
 

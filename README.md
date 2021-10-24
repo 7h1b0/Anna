@@ -1,15 +1,18 @@
-# Anna &middot; [![Validate](https://github.com/7h1b0/Anna/actions/workflows/validate.yml/badge.svg)](https://github.com/7h1b0/Anna/actions/workflows/validate.yml)
+
+[![Validate](https://github.com/7h1b0/Anna/actions/workflows/validate.yml/badge.svg)](https://github.com/7h1b0/Anna/actions/workflows/validate.yml)
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
+
+# Anna
 
 Home automation for Raspberry Pi 2 or above
 
----
+
 
 ## Requirements
 
-- [Node.js 12.x](https://nodejs.org/)
+- [Node.js 16.x](https://nodejs.org/)
 - Docker
 
----
 
 ## Development
 
@@ -22,8 +25,6 @@ npm start
 ```
 
 Then browse to http://localhost:3000
-
----
 
 ## Commands
 

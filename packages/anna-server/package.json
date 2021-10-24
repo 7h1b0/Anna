@@ -31,7 +31,7 @@
     "@types/supertest": "^2.0.11",
     "@types/uuid": "^8.3.1",
     "nodemon": "^2.0.9",
-    "pkg": "^4.4.9",
+    "pkg": "^5.3.3",
     "supertest": "^6.1.3",
     "ts-jest": "^27.0.3",
     "ts-node": "^10.0.0"
@@ -42,8 +42,8 @@
     "db:make": "knex migrate:make",
     "db:rollback": "knex migrate:rollback",
     "build:ts": "tsc",
-    "build": "npm run build:ts && pkg -t node10.17-linux-armv7 ./dist/index.js --public --no-bytecode -o anna-armv7",
-    "build:test": "npm run build && pkg -t node10-linux-x64 ./dist/index.js --public --no-bytecode -o anna-x64",
+    "build": "npm run build:ts && pkg -t node16.8-linuxstatic-armv7 ./dist/index.js --public --no-bytecode -o anna-armv7",
+    "build:test": "npm run build && pkg -t node16.8-linuxstatic-x64 ./dist/index.js --public --no-bytecode -o anna-x64",
     "type:check": "tsc --noEmit"
   }
 }

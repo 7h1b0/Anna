@@ -2,6 +2,7 @@ import TYPES from './type';
 import { AnnaAction } from './actions';
 import { findBySceneId } from '../modules/scene/action';
 import dioAdd from '../modules/dio/service';
+import { processAlias } from '../modules/alias/model';
 import { setLightState } from '../services/hueService';
 
 export default async function dispatch(action: AnnaAction): Promise<void> {
@@ -19,5 +20,10 @@ export default async function dispatch(action: AnnaAction): Promise<void> {
         }
         throw new Error(`Cannot find scene ${action.targetId}`);
       });
+      break;
+
+    case TYPES.ALIAS:
+      await processAlias(action.targetId);
+      break;
   }
 }

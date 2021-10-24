@@ -21,6 +21,11 @@ class CallScene implements Action {
   constructor(public targetId: string) {}
 }
 
+class CallAlias implements Action {
+  readonly type = TYPES.ALIAS;
+  constructor(public targetId: string) {}
+}
+
 export function toggleDio(targetId: string, on: boolean) {
   return new ToggleDio(targetId, { on });
 }
@@ -33,4 +38,8 @@ export function callScene(targetId: string) {
   return new CallScene(targetId);
 }
 
-export type AnnaAction = ToggleDio | ToggleHueLight | CallScene;
+export function callAlias(alias: string) {
+  return new CallAlias(alias);
+}
+
+export type AnnaAction = ToggleDio | ToggleHueLight | CallScene | CallAlias;

@@ -324,7 +324,7 @@ describe('Alias API', () => {
         .set('Accept', 'application/json')
         .set('x-access-token', user.token);
 
-      expect(response.status).toBe(403);
+      expect(response.status).toBe(404);
       expect(dispatch).toHaveBeenCalledTimes(0);
     });
 

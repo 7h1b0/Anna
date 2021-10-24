@@ -1,6 +1,4 @@
 import { Router } from 'express';
-import dispatch from '../../utils/dispatch';
-import { callScene } from '../../utils/actions';
 import * as Alias from '../../modules/alias/model';
 
 const routes = Router();
@@ -83,20 +81,12 @@ routes.get(
 );
 
 routes.get('/api/alias/:name([a-z_]{4,})/action', (req, res) => {
-  Alias.findByName(req.params.name)
-    .then(async (aliases) => {
-      if (aliases.length === 0) {
-        return res.sendStatus(404);
+  Alias.processAlias(req.params.name)
+    .then((result) => {
+      if (result === 'success') {
+        return res.end();
       }
-
-      const alias = Alias.resolveActiveAlias(aliases);
-
-      if (!alias) {
-        return res.sendStatus(403);
-      }
-
-      await dispatch(callScene(alias.sceneId));
-      return res.end();
+      return res.sendStatus(404);
     })
     .catch((err: Error) => res.status(500).send({ err }));
 });

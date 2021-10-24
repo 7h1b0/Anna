@@ -14,6 +14,7 @@ import authentication from './modules/authentication/route';
 import authenticationMiddleware from './modules/authentication/middleware';
 
 import { load as loadRoutine } from './modules/routine/model';
+import { checkInternetConstantly } from './services/checkInternet';
 const app = express();
 
 app.use(bodyParser.json());
@@ -32,6 +33,7 @@ app.use(authenticationMiddleware, [
 
 if (process.env.NODE_ENV !== 'test') {
   loadRoutine();
+  checkInternetConstantly();
 }
 
 export default app;

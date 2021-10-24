@@ -1,7 +1,12 @@
 import * as lolex from '@sinonjs/fake-timers';
+import dispatch from '../../utils/dispatch';
+import TYPES from '../../utils/type';
 
 import knex from '../../knexClient';
 import * as Alias from './model';
+
+jest.mock('../../utils/dispatch');
+
 const initAlias = [
   {
     aliasId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
@@ -314,6 +319,29 @@ describe('Alias', () => {
       clock.uninstall();
 
       expect(res).toEqual(aliases[1]);
+    });
+  });
+
+  describe('processAlias', () => {
+    it('should dispatch a scene action when an enabled alias is called', async () => {
+      const aliasTarget = initAlias[0];
+      const result = await Alias.processAlias(aliasTarget.name);
+
+      expect(result).toBe('success');
+
+      expect(dispatch).toHaveBeenCalledTimes(1);
+      expect(dispatch).toHaveBeenCalledWith({
+        type: TYPES.SCENE,
+        targetId: aliasTarget.sceneId,
+      });
+    });
+
+    it('should not call dispatch and return not_found is alias is disabled', async () => {
+      const aliasTarget = initAlias[1];
+      const result = await Alias.processAlias(aliasTarget.name);
+
+      expect(result).toBe('not_found');
+      expect(dispatch).not.toHaveBeenCalled();
     });
   });
 });

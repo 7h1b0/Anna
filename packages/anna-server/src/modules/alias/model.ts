@@ -3,6 +3,8 @@ import { v4 as uuidv4 } from 'uuid';
 import knex from '../../knexClient';
 import aliasSchema from './schema';
 import { omit } from '../../utils/utils';
+import dispatch from '../../utils/dispatch';
+import { callScene } from '../../utils/actions';
 
 export const TABLE = 'alias';
 export const COLUMNS = [
@@ -116,4 +118,24 @@ export function resolveActiveAlias(aliases: Alias[]): Alias | undefined {
     });
 
   return activeAlias.pop();
+}
+
+/**
+ * Given an alias name, try to find the associated scene and dispatch it
+ * @param aliasName Name of the alias
+ * @returns
+ */
+export function processAlias(
+  aliasName: string,
+): Promise<'not_found' | 'success'> {
+  return findByName(aliasName).then(async (aliases) => {
+    const alias = resolveActiveAlias(aliases);
+
+    if (!alias) {
+      return 'not_found';
+    }
+
+    await dispatch(callScene(alias.sceneId));
+    return 'success';
+  });
 }

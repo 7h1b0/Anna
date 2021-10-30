@@ -17,6 +17,7 @@ const initRoutines = [
     runAtBankHoliday: true,
     createdBy: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f',
     createdAt: new Date('2018-01-01'),
+    lastFailedAt: new Date('2018-01-02'),
     updatedAt: new Date('2018-01-02'),
     nextRunAt: new Date('2018-01-02'),
   },

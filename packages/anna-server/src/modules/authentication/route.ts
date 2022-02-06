@@ -20,6 +20,7 @@ routes.post('/api/register', (req, res) => {
       username,
       password: hashedPassword,
       token,
+      isAway: false,
     });
     return { userId, token, username };
   };
@@ -48,6 +49,8 @@ routes.post('/api/login', (req, res) => {
             }
 
             res.json({
+              username: findUser.username,
+              isAway: findUser.isAway,
               token: findUser.token,
             });
           })

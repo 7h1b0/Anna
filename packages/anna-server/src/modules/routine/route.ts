@@ -17,14 +17,31 @@ routes
       res.sendStatus(400);
     } else {
       const userId = res.locals.user.userId;
-      const { name, sceneId, interval, enabled, runAtBankHoliday } = req.body;
+      const {
+        name,
+        sceneId,
+        interval,
+        enabled,
+        runAtBankHoliday,
+        runWhenUserIsAway,
+      } = req.body;
 
-      Routine.save(userId, name, sceneId, interval, enabled, runAtBankHoliday)
+      Routine.save(
+        userId,
+        name,
+        sceneId,
+        interval,
+        enabled,
+        runAtBankHoliday,
+        runWhenUserIsAway,
+      )
         .then((routine) => {
           Routine.schedule(routine);
           res.status(201).json({ routineId: routine.routineId });
         })
-        .catch((err) => res.status(500).send({ err }));
+        .catch((err) => {
+          res.status(500).send({ err });
+        });
     }
   });
 

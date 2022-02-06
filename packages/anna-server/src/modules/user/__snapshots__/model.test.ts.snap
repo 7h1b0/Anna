@@ -16,12 +16,14 @@ Array [
 exports[`Users findByIdAndUpdate should update an user safely 1`] = `
 Array [
   RowDataPacket {
+    "isAway": false,
     "password": "test",
     "token": "token_one",
     "userId": "010c80e8-49e4-4d6b-b966-4fc9fb98879f",
     "username": "username",
   },
   RowDataPacket {
+    "isAway": false,
     "password": "test",
     "token": "token_two",
     "userId": "1fc1d78e-fd1c-4717-b610-65d2fa3d01b2",
@@ -32,6 +34,7 @@ Array [
 
 exports[`Users save should save a new user 1`] = `
 Object {
+  "isAway": false,
   "password": "sdfsdfsdfsdfsdf",
   "token": "fghjkhjkhjhk",
   "userId": StringMatching /\\[a-fA-F0-9-\\]\\{36\\}/,

@@ -1,8 +1,9 @@
 import React from 'react';
 
-type User = {
+export type User = {
   token: string | null;
   username: string | null;
+  isAway: boolean;
 };
 
 const UserStateContext = React.createContext<User | null>(null);
@@ -11,13 +12,20 @@ const UserDispatchContext = React.createContext<(user: User) => void>(
 );
 
 export const useUser = () => React.useContext(UserStateContext);
+export const useAuthenticatedUser = () => {
+  const user = React.useContext(UserStateContext);
+  if (!user) {
+    throw new Error('User is not defined. Use useUser instead');
+  }
+  return user;
+};
 export const useSetUser = () => React.useContext(UserDispatchContext);
 
 export const UserProvider: React.FC<{}> = ({ children }) => {
   const [user, setUser] = React.useState(() => {
     const username = localStorage.getItem('username');
     const token = localStorage.getItem('token');
-    return { username, token };
+    return { username, token, isAway: false };
   });
 
   React.useEffect(() => {

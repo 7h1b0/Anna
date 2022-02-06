@@ -12,6 +12,7 @@ import dispatch from '../../utils/dispatch';
 import { omit } from '../../utils/utils';
 import * as logger from '../../utils/logger';
 import { callScene } from '../../utils/actions';
+import { isUserAway } from '../user/model';
 
 export const TABLE = 'routines';
 export const COLUMNS = [
@@ -20,14 +21,14 @@ export const COLUMNS = [
   'interval',
   'sceneId',
   'runAtBankHoliday',
+  'runWhenUserIsAway',
   'enabled',
   'createdAt',
   'updatedAt',
-  'lastFailedAt',
   'lastRunAt',
   'nextRunAt',
-  'failReason',
   'createdBy',
+  'lastStatus',
 ];
 
 export class Routine {
@@ -40,11 +41,11 @@ export class Routine {
     public createdBy: string,
     public enabled = true,
     public runAtBankHoliday = true,
+    public runWhenUserIsAway = false,
     public createdAt?: number | Date,
     public updatedAt?: number | Date,
-    public lastFailedAt?: number | Date,
     public lastRunAt?: number | Date,
-    public failReason?: string | null,
+    public lastStatus?: string,
   ) {}
 }
 
@@ -92,6 +93,7 @@ export async function save(
   interval: string,
   enabled?: boolean,
   runAtBankHoliday?: boolean,
+  runWhenUserIsAway?: boolean,
 ) {
   const routineId = uuidv4();
   const nextRunAt = computeNextRunAt(interval, runAtBankHoliday);
@@ -105,6 +107,7 @@ export async function save(
     createdBy,
     enabled,
     runAtBankHoliday,
+    runWhenUserIsAway,
   );
 
   await knex(TABLE).insert(routine);
@@ -129,31 +132,33 @@ export async function findByIdAndUpdate(
 }
 
 export async function run(routine: Routine) {
-  const done = (error: unknown = null) => {
-    const failReason = error ? JSON.stringify(error) : null;
-    const lastFailedAt = error
-      ? new Date()
-      : routine.lastFailedAt
-      ? new Date(routine.lastFailedAt)
-      : undefined;
+  const done = (status: 'success' | 'failed' | 'skipped') => {
     const lastRunAt = new Date();
 
     const updatedRoutine = {
       ...omit(routine, 'createdAt', 'updatedAt'),
       lastRunAt,
-      failReason,
-      lastFailedAt,
+      lastStatus: status,
     };
 
     return findByIdAndUpdate(routine.routineId, updatedRoutine);
   };
 
   try {
+    const { createdBy, runWhenUserIsAway } = routine;
+    const user = await isUserAway(createdBy);
+
+    const isAway = user?.isAway ?? false; // An undefined user is not away
+
+    if (isAway && !runWhenUserIsAway) {
+      return done('skipped');
+    }
+
     await dispatch(callScene(routine.sceneId));
-    return done();
+    return done('success');
   } catch (error) {
     logger.error(JSON.stringify(error));
-    return done(error);
+    return done('failed');
   }
 }
 

@@ -7,6 +7,7 @@ import ButtonAdd from 'components/button-add';
 
 import useFetch from 'hooks/use-fetch';
 import type { Routine as RoutineType } from 'types/routine';
+import IsAway from 'src/components/is-away';
 
 function Routines() {
   const routines = useFetch<RoutineType[]>('/api/routines');
@@ -22,6 +23,7 @@ function Routines() {
         subtitle={`${routines.length} routines available`}
         action={<ButtonAdd to="/routines/add" />}
       />
+      <IsAway />
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-2">
         {routines
           .sort((a, b) => a.nextRunAt - b.nextRunAt)

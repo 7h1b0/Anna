@@ -27,7 +27,11 @@ function Login() {
         body: JSON.stringify(data),
       }).then((res) => res.json());
 
-      setUser({ username: data.username, token: result.token });
+      setUser({
+        username: result.username,
+        token: result.token,
+        isAway: result.isAway,
+      });
     } catch (err) {
       hasError(true);
     }

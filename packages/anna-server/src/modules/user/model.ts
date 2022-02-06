@@ -10,10 +10,23 @@ export type User = {
   username: string;
   password: string;
   token: string;
+  isAway: boolean;
 };
 
+export async function isUserAway(userId: string): Promise<{ isAway: true }> {
+  return knex(TABLE).first('isAway').where('userId', userId);
+}
+
 export function findByToken(token: string) {
-  return knex(TABLE).first('userId', 'username').where('token', token);
+  return knex(TABLE)
+    .first('userId', 'username', 'isAway')
+    .where('token', token);
+}
+
+export function findById(userId: string) {
+  return knex(TABLE)
+    .first('userId', 'username', 'isAway')
+    .where('userId', userId);
 }
 
 export async function findAll(): Promise<{ userId: string; username: string }> {
@@ -22,7 +35,7 @@ export async function findAll(): Promise<{ userId: string; username: string }> {
 
 export async function findByUsername(username: string): Promise<User> {
   return knex(TABLE)
-    .first('userId', 'username', 'password', 'token')
+    .first('userId', 'username', 'password', 'token', 'isAway')
     .where('username', username);
 }
 

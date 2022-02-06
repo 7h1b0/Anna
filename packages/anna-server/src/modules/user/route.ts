@@ -35,4 +35,24 @@ routes
       .catch((err: Error) => res.status(500).send({ err }));
   });
 
+routes
+  .route('/api/user/')
+  .get((req, res) => {
+    return res.json(res.locals.user);
+  })
+  .patch((req, res) => {
+    const isAway = req.body.isAway;
+
+    if (isAway === undefined) {
+      return res.sendStatus(400);
+    }
+
+    const userId = res.locals.user.userId;
+    User.findByIdAndUpdate(userId, { isAway })
+      .then(() => {
+        res.sendStatus(204);
+      })
+      .catch((err: Error) => res.status(500).send({ err }));
+  });
+
 export default routes;

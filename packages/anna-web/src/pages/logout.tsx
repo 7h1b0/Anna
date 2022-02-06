@@ -8,7 +8,7 @@ function Logout() {
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    setUser({ username: null, token: null });
+    setUser({ username: null, token: null, isAway: false });
     navigate('/');
   }, []);
 

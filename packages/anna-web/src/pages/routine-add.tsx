@@ -14,6 +14,7 @@ function RoutineAdd() {
     interval: '0 5 * * *',
     sceneId: '',
     runAtBankHoliday: false,
+    runWhenUserIsAway: false,
     enabled: true,
     nextRunAt: -1,
   };

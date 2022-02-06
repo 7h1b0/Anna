@@ -52,7 +52,9 @@ describe('User API', () => {
         .send({ username: 'test', password: 'anna' });
 
       expect(response.body).toEqual({
+        isAway: false,
         token: user.token,
+        username: 'test',
       });
     });
 

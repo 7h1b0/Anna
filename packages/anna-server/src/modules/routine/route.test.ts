@@ -1,5 +1,7 @@
 import request from 'supertest';
 import * as lolex from '@sinonjs/fake-timers';
+import { setTimeout } from 'timers/promises';
+
 import { createUser } from 'factories';
 import knex from '../../knexClient';
 import * as Routine from '../../modules/routine/model';
@@ -10,6 +12,11 @@ import dispatch from '../../utils/dispatch';
 jest.mock('../../utils/dispatch');
 
 const user = createUser({ userId: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f' });
+const useraway = createUser({
+  userId: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879g',
+  token: 'user_away_token',
+  isAway: true,
+});
 const initRoutines = [
   {
     routineId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
@@ -49,7 +56,7 @@ const initRoutines = [
 describe('Routine API', () => {
   beforeAll(async () => {
     await knex(User.TABLE).truncate();
-    await knex(User.TABLE).insert(user);
+    await knex(User.TABLE).insert([user, useraway]);
   });
 
   beforeEach(async () => {
@@ -134,6 +141,8 @@ describe('Routine API', () => {
         clock.next();
         clock.uninstall();
 
+        // FIXME: Dispatch needs to fetch user status before calling dispatch
+        await setTimeout(1000);
         expect(dispatch).toHaveBeenCalledTimes(1);
         expect(dispatch).toHaveBeenCalledWith({
           type: 'SCENE',
@@ -145,14 +154,68 @@ describe('Routine API', () => {
           .first()
           .where('routineId', response.body.routineId);
 
-        expect(routine.nextRunAt).toEqual(
-          new Date('2017-08-12T16:00:30').getTime(),
-        );
         expect(routine).toMatchSnapshot({
           routineId: expect.stringMatching(/[a-fA-F0-9-]{36}/),
           createdAt: expect.any(Number),
           updatedAt: expect.any(Number),
           nextRunAt: expect.any(Number),
+          lastRunAt: expect.any(Number),
+        });
+      });
+
+      it('should skip a routine when user is away', async () => {
+        const clock = lolex.install({ now: new Date('2017-08-12T16:00:15') });
+        const payload = {
+          sceneId: 'faaed78e-fd1c-4717-b610-65d2fa3d01b3',
+          name: 'new_routine',
+          interval: '30 * * * * *',
+        };
+        const response = await request(app)
+          .post('/api/routines')
+          .set('Accept', 'application/json')
+          .set('x-access-token', useraway.token)
+          .send(payload);
+
+        clock.next();
+        clock.uninstall();
+
+        expect(response.status).toHaveStatusOk();
+        expect(dispatch).not.toHaveBeenCalled();
+
+        // FIXME: wait for routine run to update the object
+        await setTimeout(1000);
+        const routine = await knex(Routine.TABLE)
+          .first()
+          .where('routineId', response.body.routineId);
+
+        expect(routine.lastStatus).toBe('skipped');
+      });
+
+      it('should allow to run a routine even is user is away', async () => {
+        const clock = lolex.install({ now: new Date('2017-08-12T16:00:15') });
+        const payload = {
+          sceneId: 'faaed78e-fd1c-4717-b610-65d2fa3d01b3',
+          name: 'new_routine',
+          interval: '30 * * * * *',
+          runWhenUserIsAway: true,
+        };
+        const response = await request(app)
+          .post('/api/routines')
+          .set('Accept', 'application/json')
+          .set('x-access-token', useraway.token)
+          .send(payload);
+
+        clock.next();
+        clock.uninstall();
+
+        expect(response.status).toHaveStatusOk();
+
+        // FIXME: Dispatch needs to fetch user status before calling dispatch
+        await setTimeout(1000);
+        expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenCalledWith({
+          type: 'SCENE',
+          targetId: payload.sceneId,
         });
       });
 
@@ -172,6 +235,9 @@ describe('Routine API', () => {
         expect(response.status).toHaveStatusOk();
 
         await clock.nextAsync();
+
+        // FIXME: Dispatch needs to fetch user status before calling dispatch
+        await setTimeout(1000);
         expect(dispatch).toHaveBeenCalledTimes(1);
         expect(dispatch).toHaveBeenCalledWith({
           type: 'SCENE',
@@ -314,6 +380,9 @@ describe('Routine API', () => {
 
         clock.next();
         expect(Date.now()).toBe(new Date('2017-08-13T09:00:00').getTime());
+
+        // FIXME: Dispatch needs to fetch user status before calling dispatch
+        await setTimeout(1000);
         expect(dispatch).toHaveBeenCalledTimes(1);
         clock.uninstall();
 

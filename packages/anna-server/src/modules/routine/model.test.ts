@@ -1,4 +1,5 @@
 import * as lolex from '@sinonjs/fake-timers';
+import { setTimeout } from 'timers/promises';
 import knex from '../../knexClient';
 import * as Routine from './model';
 import * as scheduleService from '../../services/scheduleService';
@@ -15,9 +16,9 @@ const initRoutines = [
     interval: '0 5 * * *',
     enabled: true,
     runAtBankHoliday: true,
+    runWhenUserIsAway: false,
     createdBy: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f',
     createdAt: new Date('2018-01-01'),
-    lastFailedAt: new Date('2018-01-02'),
     updatedAt: new Date('2018-01-02'),
     nextRunAt: new Date('2018-01-02'),
   },
@@ -28,6 +29,7 @@ const initRoutines = [
     interval: '0 9 * * *',
     enabled: true,
     runAtBankHoliday: false,
+    runWhenUserIsAway: false,
     createdBy: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f',
     createdAt: new Date('2018-01-01'),
     updatedAt: new Date('2018-01-02'),
@@ -239,7 +241,7 @@ describe('Routines', () => {
       expect(dispatch).toHaveBeenCalled();
     });
 
-    it('should update failReason and lastFailedAt when run failed', async () => {
+    it('should update lastStatus when run failed', async () => {
       const clock = lolex.install({ now: new Date('2017-08-14T16:00') });
 
       // @ts-expect-error dispatch is a mock
@@ -257,8 +259,6 @@ describe('Routines', () => {
         expect.objectContaining({
           nextRunAt: new Date('2017-08-15T05:00').getTime(),
           lastRunAt: new Date('2017-08-14T16:00').getTime(),
-          lastFailedAt: new Date('2017-08-14T16:00').getTime(),
-          failReason: JSON.stringify('Failed'),
           createdBy: initRoutines[0].createdBy,
         }),
       );
@@ -266,7 +266,7 @@ describe('Routines', () => {
   });
 
   describe('schedule', () => {
-    it('should schedule a new process and call it every second', () => {
+    it('should schedule a new process and call it every second', async () => {
       const clock = lolex.install();
       Routine.schedule(
         createRoutine({
@@ -278,6 +278,8 @@ describe('Routines', () => {
       clock.tick(1000); // should call Routine.run for the second times
       clock.uninstall();
 
+      // FIXME: Dispatch needs to fetch user status before calling dispatch
+      await setTimeout(1000);
       expect(dispatch).toHaveBeenCalledTimes(2);
     });
 

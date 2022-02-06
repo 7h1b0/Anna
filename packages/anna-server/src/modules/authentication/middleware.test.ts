@@ -38,6 +38,7 @@ describe('authenticationMiddleware', () => {
     // @ts-expect-error missing property to req
     await authenticationMiddleware(req, res, next);
     expect(res.locals.user).toEqual({
+      isAway: false,
       userId: userTest.userId,
       username: userTest.username,
     });

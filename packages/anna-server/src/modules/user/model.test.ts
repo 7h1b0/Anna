@@ -2,12 +2,14 @@ import knex from '../../knexClient';
 import * as User from './model';
 const initUsers = [
   {
+    isAway: false,
     userId: '010c80e8-49e4-4d6b-b966-4fc9fb98879f',
     username: 'one',
     password: 'test',
     token: 'token_one',
   },
   {
+    isAway: false,
     userId: '1fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
     username: 'two',
     password: 'test',
@@ -44,6 +46,7 @@ describe('Users', () => {
     it('should return only one user', async () => {
       const result = await User.findByToken(initUsers[0].token);
       expect(result).toEqual({
+        isAway: false,
         userId: initUsers[0].userId,
         username: initUsers[0].username,
       });
@@ -81,6 +84,7 @@ describe('Users', () => {
         username: 'testsave',
         password: 'sdfsdfsdfsdfsdf',
         token: 'fghjkhjkhjhk',
+        isAway: false,
       };
 
       const userId = await User.save(save);

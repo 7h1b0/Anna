@@ -31,7 +31,7 @@ function Register() {
         body: JSON.stringify(payload),
       }).then((res) => res.json());
 
-      setUser({ username: data.username, token: result.token });
+      setUser({ username: data.username, token: result.token, isAway: false });
     } catch (err) {
       console.error(err);
     }

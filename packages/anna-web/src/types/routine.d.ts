@@ -4,12 +4,11 @@ export type Routine = {
   interval: string;
   sceneId: string;
   runAtBankHoliday: boolean;
+  runWhenUserIsAway: boolean;
   enabled: boolean;
   createdAt?: number;
   updatedAt?: number;
-  lastFailedAt?: number;
   lastRunAt?: number;
   nextRunAt: number;
-  failReason?: null;
   createdBy?: string;
 };

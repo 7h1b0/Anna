@@ -22,6 +22,7 @@ type RoutineForm = {
   interval: string;
   sceneId: string;
   runAtBankHoliday: boolean;
+  runWhenUserIsAway: boolean;
   enabled: boolean;
 };
 function RoutineForm({ routine, scenes }: Props) {
@@ -31,6 +32,7 @@ function RoutineForm({ routine, scenes }: Props) {
       interval: routine.interval,
       sceneId: routine.sceneId,
       runAtBankHoliday: routine.runAtBankHoliday,
+      runWhenUserIsAway: routine.runWhenUserIsAway,
       enabled: routine.enabled,
     },
   });
@@ -70,6 +72,12 @@ function RoutineForm({ routine, scenes }: Props) {
         label="Run on bank holiday"
         register={register('runAtBankHoliday')}
       />
+      <Checkbox
+        name="runWhenUserIsAway"
+        label="Run when user is away"
+        register={register('runWhenUserIsAway')}
+      />
+
       <Checkbox name="enabled" label="enabled" register={register('enabled')} />
 
       <div className="flex justify-center">

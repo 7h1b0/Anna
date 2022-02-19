@@ -4,7 +4,7 @@ module.exports = {
   moduleDirectories: ['node_modules', 'test', 'src'],
   setupFilesAfterEnv: ['<rootDir>/test/jest.setup.ts'],
   transform: {
-    '^.+\\.ts$': 'ts-jest',
+    '^.+\\.ts$': ['@swc/jest'],
   },
   automock: false,
   clearMocks: true,

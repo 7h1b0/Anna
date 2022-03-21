@@ -13,7 +13,7 @@ function Switch({ on = true }: Props) {
         className="flex items-center h-6 w-12 bg-gray-900 rounded-full"
         style={{ justifyContent }}
       >
-        <div className={`w-6 h-6 rounded-full bg-white ${backgroundColor}`} />
+        <div className={`w-6 h-6 rounded-full ${backgroundColor}`} />
       </div>
     </div>
   );

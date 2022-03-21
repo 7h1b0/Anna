@@ -33,6 +33,17 @@ export const UserProvider: React.FC<{}> = ({ children }) => {
     localStorage.setItem('token', user.token || '');
   }, [user]);
 
+  React.useEffect(() => {
+    const headers: Record<string, string> = {
+      'x-access-token': user.token ?? '',
+    };
+    fetch('/api/user', { method: 'GET', headers })
+      .then((res) => res.json())
+      .then(({ username, isAway }) => {
+        setUser((state) => ({ ...state, username, isAway }));
+      });
+  }, [user.token]);
+
   return (
     <UserStateContext.Provider value={user}>
       <UserDispatchContext.Provider value={setUser}>

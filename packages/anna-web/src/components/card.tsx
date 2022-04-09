@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { type ReactNode } from 'react';
 
 const Card: React.FC<{
   role?: string;
   onClick?: () => void;
   className?: string;
   tabIndex?: number;
+  children: ReactNode;
 }> = ({ children, role, onClick, className, tabIndex }) => {
   return (
     <div

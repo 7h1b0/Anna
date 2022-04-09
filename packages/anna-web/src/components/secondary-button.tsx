@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { type ReactNode } from 'react';
 
 const SecondaryButton: React.FC<{
   type?: 'button' | 'reset' | 'submit';
   onClick?: () => void;
+  children: ReactNode;
 }> = ({ children, onClick, type = 'button' }) => {
   return (
     <button

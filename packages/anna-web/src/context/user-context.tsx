@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type ReactNode } from 'react';
 
 export type User = {
   token: string | null;
@@ -21,7 +21,11 @@ export const useAuthenticatedUser = () => {
 };
 export const useSetUser = () => React.useContext(UserDispatchContext);
 
-export const UserProvider: React.FC<{}> = ({ children }) => {
+type UserProviderProps = {
+  children: ReactNode;
+};
+
+export const UserProvider = ({ children }: UserProviderProps) => {
   const [user, setUser] = React.useState(() => {
     const username = localStorage.getItem('username');
     const token = localStorage.getItem('token');
@@ -34,14 +38,16 @@ export const UserProvider: React.FC<{}> = ({ children }) => {
   }, [user]);
 
   React.useEffect(() => {
-    const headers: Record<string, string> = {
-      'x-access-token': user.token ?? '',
-    };
-    fetch('/api/user', { method: 'GET', headers })
-      .then((res) => res.json())
-      .then(({ username, isAway }) => {
-        setUser((state) => ({ ...state, username, isAway }));
-      });
+    if (user.token) {
+      const headers: Record<string, string> = {
+        'x-access-token': user.token ?? '',
+      };
+      fetch('/api/user', { method: 'GET', headers })
+        .then((res) => res.json())
+        .then(({ username, isAway }) => {
+          setUser((state) => ({ ...state, username, isAway }));
+        });
+    }
   }, [user.token]);
 
   return (

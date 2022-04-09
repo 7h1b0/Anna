@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type ReactNode } from 'react';
 
 type Variant = 'heading' | 'body' | 'caption' | 'head';
 const getClassName = (variant: Variant): string => {
@@ -17,6 +17,7 @@ const getClassName = (variant: Variant): string => {
 const Typography: React.FC<{
   variant?: Variant;
   className?: string;
+  children: ReactNode;
 }> = ({ className = '', variant = 'body', children }) => {
   return <p className={`${getClassName(variant)} ${className}`}>{children}</p>;
 };

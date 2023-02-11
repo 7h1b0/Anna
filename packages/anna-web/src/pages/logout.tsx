@@ -1,18 +1,14 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-
-import { useSetUser } from 'context/user-context';
+import { redirect } from 'react-router-dom';
 
 function Logout() {
-  const setUser = useSetUser();
-  const navigate = useNavigate();
-
-  React.useEffect(() => {
-    setUser({ username: null, token: null, isAway: false });
-    navigate('/');
-  }, []);
-
   return null;
 }
 
 export default Logout;
+
+export const loaderLogout = () => {
+  localStorage.setItem('username', '');
+  localStorage.setItem('token', '');
+  return redirect('/login');
+};

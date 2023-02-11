@@ -1,5 +1,5 @@
 import React from 'react';
-import { useUser } from 'context/user-context';
+import { useUser } from 'hooks/use-user';
 
 export default function useAction(
   path: string,

@@ -1,4 +1,4 @@
-import { useUser } from 'context/user-context';
+import { useUser } from 'hooks/use-user';
 
 export default function useRequest(): (
   path: string,
@@ -7,30 +7,27 @@ export default function useRequest(): (
 ) => Promise<Response> {
   const user = useUser();
 
-  if (user) {
-    return async (path, method, body): Promise<Response> => {
-      const headers: Record<string, string> = {
-        'x-access-token': user.token ?? '',
-      };
-      if (['POST', 'PATCH'].includes(method)) {
-        headers['Content-Type'] = 'application/json';
-      }
-
-      const res = await fetch(
-        path,
-        body
-          ? {
-              method,
-              headers,
-              body: JSON.stringify(body),
-            }
-          : { method, headers },
-      );
-      if (res.status >= 400 && res.status < 600) {
-        throw new Error('Bad response from server');
-      }
-      return res;
+  return async (path, method, body): Promise<Response> => {
+    const headers: Record<string, string> = {
+      'x-access-token': user.token ?? '',
     };
-  }
-  throw new Error('User is not defined');
+    if (['POST', 'PATCH'].includes(method)) {
+      headers['Content-Type'] = 'application/json';
+    }
+
+    const res = await fetch(
+      path,
+      body
+        ? {
+            method,
+            headers,
+            body: JSON.stringify(body),
+          }
+        : { method, headers },
+    );
+    if (res.status >= 400 && res.status < 600) {
+      throw new Error('Bad response from server');
+    }
+    return res;
+  };
 }

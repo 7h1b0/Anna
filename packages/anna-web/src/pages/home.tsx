@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 import { SettingsIcon } from 'components/icons';
 
 import useFetch from 'hooks/use-fetch';
-import { useUser } from 'context/user-context';
+import { useUser } from 'hooks/use-user';
 
 import type { Scene as SceneType } from 'types/scene';
 import type { Room as RoomType } from 'types/room';

@@ -1,18 +1,7 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { redirect } from 'react-router-dom';
+import { setUser } from 'src/utils';
 
-import { useSetUser } from 'context/user-context';
-
-function Logout() {
-  const setUser = useSetUser();
-  const navigate = useNavigate();
-
-  React.useEffect(() => {
-    setUser({ username: null, token: null, isAway: false });
-    navigate('/');
-  }, []);
-
-  return null;
-}
-
-export default Logout;
+export const loaderLogout = () => {
+  setUser('', '', false);
+  return redirect('/login');
+};

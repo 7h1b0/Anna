@@ -5,9 +5,8 @@ import Card from './card';
 import Typography from './typography';
 import { ArrowIcon } from './icons';
 
-import { formatDate } from 'utils';
+import { formatDate, getUser } from 'utils';
 import type { Routine as RoutineType } from 'types/routine';
-import { useAuthenticatedUser } from 'src/context/user-context';
 
 function computeNextRun(routine: RoutineType, isUserAway: boolean) {
   if (isUserAway && !routine.runWhenUserIsAway) {
@@ -23,7 +22,7 @@ type Props = {
   routine: RoutineType;
 };
 function Routine({ routine }: Props) {
-  const user = useAuthenticatedUser();
+  const user = getUser();
   const next = computeNextRun(routine, user.isAway);
 
   return (

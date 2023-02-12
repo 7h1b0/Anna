@@ -1,50 +1,28 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Form, Link, redirect, useActionData } from 'react-router-dom';
 
 import Input from 'components/input';
 import Button from 'components/button';
 import Alert from 'components/alert';
+import { setUser } from 'src/utils';
 
-import { useSetUser } from 'context/user-context';
-
+type Error = {
+  ok: boolean;
+};
 type LoginForm = {
   username: string;
   password: string;
 };
 function Login() {
-  const { register, handleSubmit } = useForm<LoginForm>();
-  const [error, hasError] = React.useState(false);
-  const setUser = useSetUser();
-
-  async function onSubmit(data: LoginForm) {
-    try {
-      const result = await fetch('/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      }).then((res) => res.json());
-
-      setUser({
-        username: result.username,
-        token: result.token,
-        isAway: result.isAway,
-      });
-    } catch (err) {
-      hasError(true);
-    }
-  }
+  const { register } = useForm<LoginForm>();
+  const errors = useActionData() as Error;
 
   return (
     <div className="w-full h-full bg-gray-900">
       <div className="max-w-sm m-auto py-8">
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="mt-16 flex flex-col gap-4"
-        >
-          {error && <Alert>Invalid credential</Alert>}
+        <Form method="post" className="mt-16 flex flex-col gap-4">
+          {errors && <Alert>Invalid credential</Alert>}
           <Input
             name="username"
             label="Username"
@@ -60,10 +38,31 @@ function Login() {
             <Link to="/register">Register</Link>
             <Button type="submit">Login</Button>
           </div>
-        </form>
+        </Form>
       </div>
     </div>
   );
 }
+
+export const actionLogin = async ({ request }) => {
+  const data = Object.fromEntries(await request.formData());
+  const res = await fetch('/api/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!res.ok) {
+    return { ok: false };
+  }
+
+  const { username, token, isAway } = await res.json();
+
+  setUser(username, token, isAway);
+
+  return redirect('/');
+};
 
 export default Login;

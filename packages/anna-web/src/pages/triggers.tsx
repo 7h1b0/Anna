@@ -3,19 +3,14 @@ import React from 'react';
 import Title from 'src/components/title';
 import Trigger from 'components/trigger';
 import Typography from 'components/typography';
-import Loader from 'components/loader';
 import ButtonAdd from 'components/button-add';
 
-import useFetch from 'hooks/use-fetch';
-import { groupBy } from 'utils';
+import { fetcher, groupBy } from 'utils';
 import type { Trigger as TriggerType } from 'types/trigger';
+import { useLoaderData } from 'react-router';
 
 function Triggers() {
-  const triggers = useFetch<TriggerType[]>('api/alias');
-
-  if (triggers === null) {
-    return <Loader />;
-  }
+  const triggers = useLoaderData() as TriggerType[];
 
   const [enabledTriggers, disabledTriggers] = groupBy(
     triggers,
@@ -45,3 +40,7 @@ function Triggers() {
 }
 
 export default Triggers;
+
+export async function loaderTriggers() {
+  return fetcher('/api/alias');
+}

@@ -1,11 +1,10 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Form, Link, redirect } from 'react-router-dom';
 
 import Input from 'components/input';
 import Button from 'components/button';
-
-import { useSetUser } from 'context/user-context';
+import { setUser } from 'src/utils';
 
 type RegisterForm = {
   username: string;
@@ -13,38 +12,16 @@ type RegisterForm = {
   confirmPassword: string;
 };
 function Register() {
-  const { register, handleSubmit, getValues, formState } =
-    useForm<RegisterForm>({ mode: 'onBlur' });
-  const setUser = useSetUser();
+  const { register, getValues, formState } = useForm<RegisterForm>({
+    mode: 'onBlur',
+  });
 
-  async function onSubmit(data: RegisterForm) {
-    const payload = {
-      username: data.username,
-      password: data.password,
-    };
-    try {
-      const result = await fetch('/api/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      }).then((res) => res.json());
-
-      setUser({ username: data.username, token: result.token, isAway: false });
-    } catch (err) {
-      console.error(err);
-    }
-  }
   const { errors } = formState;
 
   return (
     <div className="w-full h-full bg-gray-900">
       <div className="max-w-sm m-auto py-8">
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="mt-16 flex flex-col gap-4"
-        >
+        <Form method="post" className="mt-16 flex flex-col gap-4">
           <Input
             name="username"
             label="Username"
@@ -70,10 +47,34 @@ function Register() {
             <Link to="/">Login</Link>
             <Button type="submit">Register</Button>
           </div>
-        </form>
+        </Form>
       </div>
     </div>
   );
 }
+
+export const actionRegister = async ({ request }) => {
+  const formData = await request.formData();
+  const res = await fetch('/api/register', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      username: formData.get('username'),
+      password: formData.get('password'),
+    }),
+  });
+
+  if (!res.ok) {
+    return { ok: false };
+  }
+
+  const { username, token, isAway } = await res.json();
+
+  setUser(username, token, isAway);
+
+  return redirect('/');
+};
 
 export default Register;

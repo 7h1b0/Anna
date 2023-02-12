@@ -12,6 +12,7 @@
     "strictBindCallApply": true,
     "removeComments": true,
     "allowSyntheticDefaultImports": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true
   }
 }

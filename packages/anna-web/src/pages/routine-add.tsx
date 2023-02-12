@@ -2,12 +2,12 @@ import React from 'react';
 
 import Title from 'src/components/title';
 import RoutineForm from 'components/routine-form';
+import { useLoaderData } from 'react-router';
 
-import useFetch from 'hooks/use-fetch';
 import type { Scene as SceneType } from 'types/scene';
 
 function RoutineAdd() {
-  const scenes = useFetch<SceneType[]>('/api/scenes');
+  const scenes = useLoaderData() as SceneType[];
   const routine = {
     routineId: '',
     name: '',
@@ -19,15 +19,12 @@ function RoutineAdd() {
     nextRunAt: -1,
   };
 
-  if (scenes) {
-    return (
-      <>
-        <Title title="Add Routine" activateNavigation />
-        <RoutineForm routine={routine} scenes={scenes} />
-      </>
-    );
-  }
-  return null;
+  return (
+    <>
+      <Title title="Add Routine" activateNavigation />
+      <RoutineForm routine={routine} scenes={scenes} />
+    </>
+  );
 }
 
 export default RoutineAdd;

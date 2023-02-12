@@ -1,23 +1,19 @@
 import React from 'react';
 
 import Scene from 'components/scene';
-import Loader from 'components/loader';
 import Title from 'src/components/title';
 
-import useFetch from 'hooks/use-fetch';
-
 import type { Scene as SceneType } from 'types/scene';
+import { fetcher } from 'src/utils';
+import { useLoaderData } from 'react-router';
 
 function sortByName(a: SceneType, b: SceneType) {
   return a.name.localeCompare(b.name);
 }
 
 function Scenes() {
-  const scenes = useFetch<SceneType[]>(`/api/scenes`);
+  const scenes = useLoaderData() as SceneType[];
 
-  if (scenes === null) {
-    return <Loader />;
-  }
   return (
     <>
       <Title title="Scenes" subtitle={`${scenes.length} scenes available`} />
@@ -36,3 +32,7 @@ function Scenes() {
 }
 
 export default Scenes;
+
+export async function loaderScenes() {
+  return fetcher('/api/scenes');
+}

@@ -1,26 +1,27 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useLoaderData, useParams } from 'react-router-dom';
 
-import useFetch from 'hooks/use-fetch';
 import Title from 'src/components/title';
 
 import { HueLight } from 'src/types/hue-light';
 import HueLightForm from 'components/hue-light-form';
+import { fetcher } from 'src/utils';
 
 function HueLightPage() {
   const { lightId = '' } = useParams<'lightId'>();
-  const hueLight = useFetch<HueLight>(`/api/hue/lights/${lightId}`);
+  const hueLight = useLoaderData() as HueLight;
 
-  if (hueLight) {
-    hueLight.id = lightId;
-    return (
-      <>
-        <Title title={hueLight.name} activateNavigation />
-        <HueLightForm hueLight={hueLight} />
-      </>
-    );
-  }
-  return null;
+  hueLight.id = lightId;
+  return (
+    <>
+      <Title title={hueLight.name} activateNavigation />
+      <HueLightForm hueLight={hueLight} />
+    </>
+  );
 }
 
 export default HueLightPage;
+
+export async function loaderHueLight({ params }) {
+  return fetcher(`/api/hue/lights/${params.lightId}`);
+}

@@ -33,3 +33,30 @@ export function groupBy<T>(array: T[], predicate: (el: T) => boolean): T[][] {
     [[], []],
   );
 }
+
+export function setUser(username: string, token: string, isAway: boolean) {
+  localStorage.setItem('username', username);
+  localStorage.setItem('token', token);
+  localStorage.setItem('isAway', isAway ? 'true' : 'false');
+}
+
+export function getToken(): string {
+  return localStorage.getItem('token') ?? '';
+}
+
+export function getUser() {
+  const username = localStorage.getItem('username') ?? '';
+  const token = localStorage.getItem('token') ?? '';
+  const isAway = localStorage.getItem('isAway') === 'true';
+
+  return { username, token, isAway };
+}
+
+export function fetcher(url: string) {
+  const token = getToken();
+  return fetch(url, {
+    headers: {
+      'x-access-token': token,
+    },
+  }).then((res) => res.json());
+}

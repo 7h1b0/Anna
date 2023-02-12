@@ -1,12 +1,11 @@
 import React from 'react';
-import { useSetUser, useAuthenticatedUser } from 'src/context/user-context';
 import useRequest from 'src/hooks/use-request';
 import Card from './card';
 import Switch from './switch';
+import { getUser, setUser } from 'src/utils';
 
 function IsAway() {
-  const user = useAuthenticatedUser();
-  const setUser = useSetUser();
+  const user = getUser();
   const request = useRequest();
 
   async function handleClick() {
@@ -14,7 +13,7 @@ function IsAway() {
     await request('api/user', 'PATCH', {
       isAway: newStatus,
     });
-    setUser({ ...user, isAway: newStatus });
+    setUser(user.username, user.token, newStatus);
   }
 
   return (

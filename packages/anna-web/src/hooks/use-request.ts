@@ -1,15 +1,15 @@
-import { useUser } from 'hooks/use-user';
+import { getToken } from 'src/utils';
 
 export default function useRequest(): (
   path: string,
   method: 'GET' | 'POST' | 'DELETE' | 'PATCH',
   body?: Record<string, unknown>,
 ) => Promise<Response> {
-  const user = useUser();
+  const token = getToken();
 
   return async (path, method, body): Promise<Response> => {
     const headers: Record<string, string> = {
-      'x-access-token': user.token ?? '',
+      'x-access-token': token ?? '',
     };
     if (['POST', 'PATCH'].includes(method)) {
       headers['Content-Type'] = 'application/json';

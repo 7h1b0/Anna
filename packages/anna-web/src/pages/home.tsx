@@ -4,13 +4,10 @@ import Typography from 'components/typography';
 import Scene from 'components/scene';
 import Room from 'components/room';
 import Grid from 'components/grid';
-import Loader from 'components/loader';
 import Title from 'components/title';
-import { Link } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
 import { SettingsIcon } from 'components/icons';
-
-import useFetch from 'hooks/use-fetch';
-import { useUser } from 'hooks/use-user';
+import { fetcher, getUser } from 'src/utils';
 
 import type { Scene as SceneType } from 'types/scene';
 import type { Room as RoomType } from 'types/room';
@@ -20,13 +17,9 @@ function sortByName(a, b) {
 }
 
 function Home() {
-  const user = useUser();
-  const scenes = useFetch<SceneType[]>(`/api/scenes/favorites`);
-  const rooms = useFetch<RoomType[]>(`/api/rooms`);
+  const user = getUser();
+  const { scenes, rooms } = useLoaderData() as LoaderHome;
 
-  if (scenes === null || rooms === null) {
-    return <Loader />;
-  }
   return (
     <>
       <Title
@@ -34,7 +27,7 @@ function Home() {
         subtitle={
           <>
             Welcome Home{' '}
-            <span className="text-blue-500 capitalize">{user?.username}</span>
+            <span className="text-blue-500 capitalize">{user.username}</span>
           </>
         }
         action={
@@ -69,3 +62,16 @@ function Home() {
 }
 
 export default Home;
+
+type LoaderHome = {
+  scenes: SceneType[];
+  rooms: RoomType[];
+};
+export async function loaderHome() {
+  const [scenes, rooms] = await Promise.all([
+    fetcher('/api/scenes/favorites'),
+    fetcher('/api/rooms'),
+  ]);
+
+  return { scenes, rooms };
+}

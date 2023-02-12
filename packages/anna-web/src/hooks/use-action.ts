@@ -1,10 +1,10 @@
 import React from 'react';
-import { useUser } from 'hooks/use-user';
+import { getToken } from 'src/utils';
 
 export default function useAction(
   path: string,
 ): (e?: unknown) => Promise<void> {
-  const user = useUser();
+  const token = getToken();
 
   const useAction = React.useCallback(
     async (e) => {
@@ -13,11 +13,11 @@ export default function useAction(
 
       await fetch(path, {
         headers: {
-          'x-access-token': user && user.token ? user.token : '',
+          'x-access-token': token,
         },
       });
     },
-    [path, user],
+    [path, token],
   );
 
   return useAction;

@@ -2,6 +2,7 @@ import React from 'react';
 import { Outlet, redirect } from 'react-router-dom';
 
 import Navigation from 'components/navigation';
+import { getToken } from 'src/utils';
 
 function Layout() {
   return (
@@ -17,8 +18,7 @@ function Layout() {
 export default Layout;
 
 export const loaderLayout = async () => {
-  const username = localStorage.getItem('username');
-  const token = localStorage.getItem('token');
+  const token = getToken();
 
   if (!token) {
     return redirect('/login');
@@ -27,9 +27,10 @@ export const loaderLayout = async () => {
   const headers: Record<string, string> = {
     'x-access-token': token ?? '',
   };
-  const { isAway } = await fetch('/api/user', { method: 'GET', headers }).then(
-    (res) => res.json(),
-  );
+  const { isAway, username } = await fetch('/api/user', {
+    method: 'GET',
+    headers,
+  }).then((res) => res.json());
 
   return { username, token, isAway };
 };

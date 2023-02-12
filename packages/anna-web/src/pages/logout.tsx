@@ -1,14 +1,7 @@
-import React from 'react';
 import { redirect } from 'react-router-dom';
-
-function Logout() {
-  return null;
-}
-
-export default Logout;
+import { setUser } from 'src/utils';
 
 export const loaderLogout = () => {
-  localStorage.setItem('username', '');
-  localStorage.setItem('token', '');
+  setUser('', '', false);
   return redirect('/login');
 };

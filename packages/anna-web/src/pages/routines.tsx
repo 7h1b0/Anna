@@ -2,19 +2,15 @@ import React from 'react';
 
 import Title from 'src/components/title';
 import Routine from 'components/routine';
-import Loader from 'components/loader';
 import ButtonAdd from 'components/button-add';
 
-import useFetch from 'hooks/use-fetch';
 import type { Routine as RoutineType } from 'types/routine';
 import IsAway from 'src/components/is-away';
+import { fetcher } from 'src/utils';
+import { useLoaderData } from 'react-router';
 
 function Routines() {
-  const routines = useFetch<RoutineType[]>('/api/routines');
-
-  if (routines === null) {
-    return <Loader />;
-  }
+  const routines = useLoaderData() as RoutineType[];
 
   return (
     <>
@@ -36,3 +32,7 @@ function Routines() {
 }
 
 export default Routines;
+
+export async function loaderRoutines() {
+  return fetcher('/api/routines');
+}

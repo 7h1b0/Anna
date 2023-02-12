@@ -1,21 +1,19 @@
 import React from 'react';
-import { useUser } from 'src/hooks/use-user';
 import useRequest from 'src/hooks/use-request';
 import Card from './card';
 import Switch from './switch';
-import { useRevalidator } from 'react-router-dom';
+import { getUser, setUser } from 'src/utils';
 
 function IsAway() {
-  const user = useUser();
+  const user = getUser();
   const request = useRequest();
-  const revalidator = useRevalidator();
 
   async function handleClick() {
     const newStatus = !user.isAway;
     await request('api/user', 'PATCH', {
       isAway: newStatus,
     });
-    revalidator.revalidate();
+    setUser(user.username, user.token, newStatus);
   }
 
   return (

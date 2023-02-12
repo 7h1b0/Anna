@@ -5,6 +5,7 @@ import { Form, Link, redirect, useActionData } from 'react-router-dom';
 import Input from 'components/input';
 import Button from 'components/button';
 import Alert from 'components/alert';
+import { setUser } from 'src/utils';
 
 type Error = {
   ok: boolean;
@@ -57,10 +58,9 @@ export const actionLogin = async ({ request }) => {
     return { ok: false };
   }
 
-  const { username, token } = await res.json();
+  const { username, token, isAway } = await res.json();
 
-  localStorage.setItem('username', username || '');
-  localStorage.setItem('token', token || '');
+  setUser(username, token, isAway);
 
   return redirect('/');
 };

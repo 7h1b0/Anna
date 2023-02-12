@@ -4,6 +4,7 @@ import { Form, Link, redirect } from 'react-router-dom';
 
 import Input from 'components/input';
 import Button from 'components/button';
+import { setUser } from 'src/utils';
 
 type RegisterForm = {
   username: string;
@@ -69,10 +70,9 @@ export const actionRegister = async ({ request }) => {
     return { ok: false };
   }
 
-  const { username, token } = await res.json();
+  const { username, token, isAway } = await res.json();
 
-  localStorage.setItem('username', username || '');
-  localStorage.setItem('token', token || '');
+  setUser(username, token, isAway);
 
   return redirect('/');
 };

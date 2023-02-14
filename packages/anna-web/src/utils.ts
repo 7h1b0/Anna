@@ -52,11 +52,30 @@ export function getUser() {
   return { username, token, isAway };
 }
 
-export function fetcher(url: string) {
+type Method = 'GET' | 'POST' | 'PATCH';
+export function fetcher(
+  url: string,
+  method: Method = 'GET',
+  body?: Record<string, unknown>,
+) {
   const token = getToken();
-  return fetch(url, {
-    headers: {
-      'x-access-token': token,
-    },
-  }).then((res) => res.json());
+  const headers: Record<string, string> = {
+    'x-access-token': token,
+  };
+
+  if (['POST', 'PATCH'].includes(method)) {
+    headers['Content-Type'] = 'application/json';
+  }
+  console.log('YOLOO ALLO ?', headers);
+
+  return fetch(
+    url,
+    body
+      ? {
+          method,
+          headers,
+          body: JSON.stringify(body),
+        }
+      : { method, headers },
+  );
 }

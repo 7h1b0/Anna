@@ -26,5 +26,6 @@ function DioAdd() {
 export default DioAdd;
 
 export async function loaderDioAdd() {
-  return fetcher('/api/rooms');
+  const res = await fetcher('/api/rooms');
+  return res.json();
 }

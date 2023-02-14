@@ -1,5 +1,4 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
 
 import Input from 'components/input';
 import Button from 'components/button';
@@ -8,10 +7,11 @@ import Select from 'components/select';
 import Checkbox from 'components/checkbox';
 import Grid from 'components/grid';
 
-import useRequest from 'hooks/use-request';
-import { useNavigate } from 'react-router-dom';
+import { redirect, useActionData, useParams } from 'react-router-dom';
 import type { Trigger as TriggerType } from 'types/trigger';
 import type { Scene as SceneType } from 'types/scene';
+import { fetcher } from 'src/utils';
+import { ErrorForm } from 'src/types/error-form';
 
 type Props = {
   trigger: TriggerType;
@@ -27,75 +27,28 @@ type TriggerForm = {
   endTime?: number;
 };
 function TriggerForm({ trigger, scenes }: Props) {
-  const { register, handleSubmit } = useForm<TriggerForm>({
-    defaultValues: {
-      name: trigger.name,
-      description: trigger.description,
-      sceneId: trigger.sceneId,
-      enabled: trigger.enabled,
-      startTime: trigger.startTime,
-      endTime: trigger.endTime,
-    },
-  });
-  const [hasError, setError] = React.useState(false);
-  const request = useRequest();
-  const navigate = useNavigate();
-  const isEditMode = trigger.aliasId !== '';
-
-  async function onSubmit(data: TriggerForm) {
-    const {
-      name,
-      description = '',
-      sceneId,
-      enabled,
-      startTime,
-      endTime,
-    } = data;
-
-    try {
-      if (isEditMode) {
-        await request(`/api/alias/${trigger.aliasId}`, 'PATCH', {
-          name: trigger.name,
-          description,
-          sceneId,
-          enabled,
-          startTime,
-          endTime,
-        });
-      } else {
-        await request('/api/alias/', 'POST', {
-          name,
-          description,
-          sceneId,
-          enabled,
-          startTime,
-          endTime,
-        });
-      }
-      navigate('/triggers');
-    } catch (error) {
-      setError(true);
-    }
-  }
+  const { aliasId } = useParams as { aliasId?: string };
+  const errors = useActionData() as ErrorForm;
+  const isEditMode = aliasId !== '';
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-      {hasError && <Alert>Invalid form</Alert>}
+    <form className="flex flex-col gap-4">
+      {errors && <Alert>Invalid form</Alert>}
       <Input
         name="name"
         label="name"
-        register={register('name')}
         disabled={isEditMode}
+        defaultValue={trigger.name}
       />
       <Input
         name="description"
         label="description"
-        register={register('description')}
+        defaultValue={trigger.description}
       />
       <Select
         name="sceneId"
         label="Scene"
-        register={register('sceneId')}
+        defaultValue={trigger.sceneId}
         options={scenes.map((scene) => ({
           label: scene.name,
           value: scene.sceneId,
@@ -105,25 +58,25 @@ function TriggerForm({ trigger, scenes }: Props) {
         <Input
           name="startTime"
           label="From"
-          register={register('startTime', {
-            valueAsNumber: true,
-            min: 0,
-            max: 23,
-          })}
+          min={'0'}
+          max={'23'}
           type="number"
+          defaultValue={`${trigger.startTime}`}
         />
         <Input
           name="endTime"
           label="to"
-          register={register('endTime', {
-            valueAsNumber: true,
-            min: 0,
-            max: 23,
-          })}
+          min={'0'}
+          max={'23'}
           type="number"
+          defaultValue={`${trigger.startTime}`}
         />
       </Grid>
-      <Checkbox name="enabled" label="enabled" register={register('enabled')} />
+      <Checkbox
+        name="enabled"
+        label="enabled"
+        defaultChecked={trigger.enabled}
+      />
 
       <div className="flex justify-center">
         <Button type="submit">Save</Button>
@@ -131,5 +84,27 @@ function TriggerForm({ trigger, scenes }: Props) {
     </form>
   );
 }
+
+export const actionTrigger = async ({ request, params }) => {
+  const data = await request.formData();
+  const payload = {
+    name: data.get('name'),
+    description: data.get('description'),
+    sceneId: data.get('sceneId'),
+    startTime: data.get('startTime'),
+    endTime: data.get('endTime'),
+    enabled: data.get('runAtBankHoliday') === 'on',
+  };
+
+  const res = params.aliasId
+    ? await fetcher(`/api/alias/${params.aliasId}`, 'PATCH', payload)
+    : await request('/api/alias/', 'POST', payload);
+
+  if (!res.ok) {
+    return { ok: false };
+  }
+
+  return redirect('/');
+};
 
 export default TriggerForm;

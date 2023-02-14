@@ -69,8 +69,8 @@ type LoaderHome = {
 };
 export async function loaderHome() {
   const [scenes, rooms] = await Promise.all([
-    fetcher('/api/scenes/favorites'),
-    fetcher('/api/rooms'),
+    fetcher('/api/scenes/favorites').then((res) => res.json()),
+    fetcher('/api/rooms').then((res) => res.json()),
   ]);
 
   return { scenes, rooms };

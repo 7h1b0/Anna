@@ -1,5 +1,4 @@
 import React from 'react';
-import { UseFormRegisterReturn } from 'react-hook-form';
 
 type Options = {
   label: string;
@@ -9,11 +8,11 @@ type Props = {
   autofocus?: boolean;
   name: string;
   label: string;
-  register: UseFormRegisterReturn;
   options: Options[];
+  defaultValue?: string;
 };
 
-function Select({ name, label, register, options }: Props) {
+function Select({ name, label, options, defaultValue }: Props) {
   return (
     <div>
       <label
@@ -24,7 +23,8 @@ function Select({ name, label, register, options }: Props) {
       </label>
       <select
         id={name}
-        {...register}
+        name={name}
+        defaultValue={defaultValue}
         className="block w-full bg-gray-800 text-gray-400 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-gray-700"
       >
         {options.map((option) => (

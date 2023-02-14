@@ -34,5 +34,6 @@ function Scenes() {
 export default Scenes;
 
 export async function loaderScenes() {
-  return fetcher('/api/scenes');
+  const res = await fetcher('/api/scenes');
+  return res.json();
 }

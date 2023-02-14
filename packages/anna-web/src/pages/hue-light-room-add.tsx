@@ -32,8 +32,8 @@ type LoaderLightAdd = {
 };
 export async function loaderLightAdd() {
   const [hueLights, rooms] = await Promise.all([
-    fetcher('/api/hue/lights'),
-    fetcher('/api/rooms'),
+    fetcher('/api/hue/lights').then((res) => res.json()),
+    fetcher('/api/rooms').then((res) => res.json()),
   ]);
 
   return { hueLights, rooms };

@@ -74,5 +74,6 @@ function Room() {
 export default Room;
 
 export async function loaderRoom({ params }) {
-  return fetcher(`/api/rooms/${params.roomId}`);
+  const res = await fetcher(`/api/rooms/${params.roomId}`);
+  return res.json();
 }

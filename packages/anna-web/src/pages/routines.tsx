@@ -34,5 +34,6 @@ function Routines() {
 export default Routines;
 
 export async function loaderRoutines() {
-  return fetcher('/api/routines');
+  const res = await fetcher('/api/routines');
+  return res.json();
 }

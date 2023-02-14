@@ -42,5 +42,6 @@ function Triggers() {
 export default Triggers;
 
 export async function loaderTriggers() {
-  return fetcher('/api/alias');
+  const res = await fetcher('/api/alias');
+  return res.json();
 }

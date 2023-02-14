@@ -1,16 +1,10 @@
 import React from 'react';
-import { UseFormRegisterReturn } from 'react-hook-form';
 
-type Props = {
-  autofocus?: boolean;
+interface Props extends Partial<HTMLInputElement> {
   name: string;
   label: string;
-  type?: string;
-  placeholder?: string;
-  disabled?: boolean;
-  register: UseFormRegisterReturn;
   hasError?: boolean;
-};
+}
 
 function Input({
   name,
@@ -19,13 +13,13 @@ function Input({
   placeholder = '',
   disabled = false,
   hasError = false,
-  register,
+  ...rest
 }: Props) {
   return (
     <label htmlFor={name} className="text-gray-400 text-xs font-bold uppercase">
       {label}
       <input
-        {...register}
+        {...rest}
         id={name}
         name={name}
         type={type}

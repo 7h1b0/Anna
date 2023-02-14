@@ -27,8 +27,8 @@ type LoaderRoutineEdit = {
 };
 export async function loaderRoutineEdit({ params }) {
   const [routine, scenes] = await Promise.all([
-    fetcher(`/api/routines/${params.routineId}`),
-    fetcher('/api/scenes'),
+    fetcher(`/api/routines/${params.routineId}`).then((res) => res.json()),
+    fetcher('/api/scenes').then((res) => res.json()),
   ]);
 
   return { routine, scenes };

@@ -20,6 +20,10 @@ import TriggerAdd from 'pages/trigger-add';
 import RoutineEdit, { loaderRoutineEdit } from 'pages/routine-edit';
 import RoutineAdd from 'pages/routine-add';
 import HueLightRoomAdd, { loaderLightAdd } from 'pages/hue-light-room-add';
+import { actionRoom } from './components/room-form';
+import { actionRoutine } from './components/routine-form';
+import { actionHueRoom } from './components/hue-light-room-form';
+import { actionTrigger } from './components/trigger-form';
 
 export const router = createBrowserRouter([
   {
@@ -44,6 +48,7 @@ export const router = createBrowserRouter([
       {
         path: '/home/rooms/add',
         element: <RoomAdd />,
+        action: actionRoom,
       },
       {
         id: 'room',
@@ -53,6 +58,7 @@ export const router = createBrowserRouter([
           {
             path: 'edit',
             element: <RoomEdit />,
+            action: actionRoom,
           },
           {
             path: '/home/rooms/:roomId',
@@ -69,16 +75,19 @@ export const router = createBrowserRouter([
         path: '/home/lights/add',
         element: <HueLightRoomAdd />,
         loader: loaderLightAdd,
+        action: actionHueRoom,
       },
       {
         path: '/routines/add',
         element: <RoutineAdd />,
         loader: loaderScenes,
+        action: actionRoutine,
       },
       {
         path: '/routines/:routineId',
         element: <RoutineEdit />,
         loader: loaderRoutineEdit,
+        action: actionRoutine,
       },
       {
         path: '/routines',
@@ -89,11 +98,13 @@ export const router = createBrowserRouter([
         path: '/triggers/add',
         element: <TriggerAdd />,
         loader: loaderScenes,
+        action: actionTrigger,
       },
       {
         path: '/triggers/:triggerId',
         element: <TriggerEdit />,
         loader: loaderTriggerEdit,
+        action: actionTrigger,
       },
       {
         path: '/triggers',

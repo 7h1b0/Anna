@@ -1,5 +1,4 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
 import { Form, Link, redirect, useActionData } from 'react-router-dom';
 
 import Input from 'components/input';
@@ -10,12 +9,8 @@ import { setUser } from 'src/utils';
 type Error = {
   ok: boolean;
 };
-type LoginForm = {
-  username: string;
-  password: string;
-};
+
 function Login() {
-  const { register } = useForm<LoginForm>();
   const errors = useActionData() as Error;
 
   return (
@@ -23,17 +18,8 @@ function Login() {
       <div className="max-w-sm m-auto py-8">
         <Form method="post" className="mt-16 flex flex-col gap-4">
           {errors && <Alert>Invalid credential</Alert>}
-          <Input
-            name="username"
-            label="Username"
-            register={register('username')}
-          />
-          <Input
-            name="password"
-            label="Password"
-            type="password"
-            register={register('password')}
-          />
+          <Input name="username" label="Username" />
+          <Input name="password" label="Password" type="password" />
           <div className="flex justify-between items-center text-gray-400">
             <Link to="/register">Register</Link>
             <Button type="submit">Login</Button>

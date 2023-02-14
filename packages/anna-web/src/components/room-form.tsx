@@ -1,61 +1,51 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { Form, redirect, useActionData } from 'react-router-dom';
 
 import Input from 'components/input';
 import Button from 'components/button';
 import Alert from 'components/alert';
 
-import useRequest from 'hooks/use-request';
-import { useNavigate } from 'react-router-dom';
-import type { Room as RoomType } from 'types/room';
-
-type Props = {
-  room: RoomType;
-};
+import { fetcher } from 'src/utils';
+import type { Room } from 'types/room';
+import type { ErrorForm } from 'types/error-form';
 
 type RoomForm = {
   name: string;
   description: string;
 };
-function RoomForm({ room }: Props) {
-  const { register, handleSubmit } = useForm<RoomForm>({
-    defaultValues: {
-      name: room.name,
-      description: room.description,
-    },
-  });
-  const [hasError, setError] = React.useState(false);
-  const request = useRequest();
-  const navigate = useNavigate();
-
-  async function onSubmit(data: RoomForm) {
-    try {
-      if (room.roomId) {
-        await request(`/api/rooms/${room.roomId}`, 'PATCH', data);
-      } else {
-        await request(`/api/rooms`, 'POST', data);
-      }
-      navigate(-1);
-    } catch (error) {
-      setError(true);
-    }
-  }
+function RoomForm({ room }: { room: Room }) {
+  const errors = useActionData() as ErrorForm;
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-      {hasError && <Alert>Invalid form</Alert>}
-      <Input name="name" label="name" register={register('name')} />
+    <Form className="flex flex-col gap-4" method="post">
+      {errors && <Alert>Invalid form</Alert>}
+      <Input name="name" label="name" minLength={3} defaultValue={room.name} />
       <Input
         name="description"
         label="description"
-        register={register('description')}
+        minLength={3}
+        defaultValue={room.description}
       />
 
       <div className="flex justify-center">
         <Button type="submit">Save</Button>
       </div>
-    </form>
+    </Form>
   );
 }
+
+export const actionRoom = async ({ request, params }) => {
+  const data = Object.fromEntries(await request.formData());
+
+  const res = params.roomId
+    ? await fetcher(`/api/rooms/${params.roomId}`, 'PATCH', data)
+    : await fetcher(`/api/rooms`, 'POST', data);
+
+  if (!res.ok) {
+    return { ok: false };
+  }
+
+  return redirect('/');
+};
 
 export default RoomForm;

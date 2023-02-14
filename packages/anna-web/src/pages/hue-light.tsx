@@ -23,5 +23,6 @@ function HueLightPage() {
 export default HueLightPage;
 
 export async function loaderHueLight({ params }) {
-  return fetcher(`/api/hue/lights/${params.lightId}`);
+  const res = await fetcher(`/api/hue/lights/${params.lightId}`);
+  return res.json();
 }

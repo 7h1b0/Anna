@@ -27,8 +27,8 @@ type LoaderTriggerEdit = {
 };
 export async function loaderTriggerEdit({ params }) {
   const [trigger, scenes] = await Promise.all([
-    fetcher(`/api/alias/${params.triggerId}`),
-    fetcher('/api/scenes'),
+    fetcher(`/api/alias/${params.triggerId}`).then((res) => res.json()),
+    fetcher('/api/scenes').then((res) => res.json()),
   ]);
 
   return { trigger, scenes };

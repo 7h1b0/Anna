@@ -1,14 +1,18 @@
 import React from 'react';
-import { UseFormRegisterReturn } from 'react-hook-form';
 
 type Props = {
   name: string;
   label: string;
-  register: UseFormRegisterReturn;
   placeholder?: string;
+  defaultChecked?: boolean;
 };
 
-function Checkbox({ name, label, placeholder = '', register }: Props) {
+function Checkbox({
+  name,
+  label,
+  placeholder = '',
+  defaultChecked = false,
+}: Props) {
   return (
     <div className="flex items-center">
       <label
@@ -19,9 +23,10 @@ function Checkbox({ name, label, placeholder = '', register }: Props) {
       </label>
       <input
         id={name}
+        name={name}
         type="checkbox"
-        {...register}
         placeholder={placeholder}
+        defaultChecked={defaultChecked}
         className="ml-2 text-base bg-gray-800 text-gray-400 rounded leading-tight focus:outline-none focus:bg-gray-700"
       />
     </div>

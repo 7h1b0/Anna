@@ -132,7 +132,7 @@ function HueLightRoom({ hueLight }: Props) {
         </Card>
       </Grid>
       {isColorLight && (
-        <div className="mt-2 grid grid-cols-4 gap-8 xl:grid-cols-8 shadow-md flex rounded bg-gray-800 py-4 px-2 xl:px-4">
+        <div className="mt-2 grid grid-cols-4 gap-8 xl:grid-cols-8 shadow-md flex rounded-xl bg-gray-800 py-4 px-2 xl:px-4">
           {presets.map((preset) => (
             <PresetHue
               key={preset.name}

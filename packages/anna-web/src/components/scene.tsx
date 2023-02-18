@@ -10,11 +10,11 @@ type Props = {
   sceneId: string;
   description?: string;
 };
-function Scene({ sceneId, name, description }: Props) {
+function Scene({ sceneId, name }: Props) {
   const callScene = useAction(`/api/scenes/${sceneId}/action`);
 
   return (
-    <Card role="button" onClick={callScene} className="flex-col text-blue-500">
+    <Card role="button" onClick={callScene} className="flex-col">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 20 20"
@@ -24,7 +24,6 @@ function Scene({ sceneId, name, description }: Props) {
       </svg>
 
       <Typography className="mt-2">{name}</Typography>
-      <Typography variant="caption">{description}</Typography>
     </Card>
   );
 }

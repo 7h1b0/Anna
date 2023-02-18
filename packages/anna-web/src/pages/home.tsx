@@ -23,13 +23,7 @@ function Home() {
   return (
     <>
       <Title
-        title="Home Dashboard"
-        subtitle={
-          <>
-            Welcome Home{' '}
-            <span className="text-blue-500 capitalize">{user.username}</span>
-          </>
-        }
+        title={`Hello ${user.username}`}
         action={
           <Link to="/settings" className="fill-current text-white">
             <SettingsIcon className="w-5" />

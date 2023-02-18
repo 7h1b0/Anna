@@ -12,7 +12,7 @@ function NavLink({ to, children, title }: React.PropsWithChildren<Props>) {
       <RRNavLink
         to={to}
         className={({ isActive }) => {
-          const activeClass = isActive ? 'text-teal-500' : 'text-white';
+          const activeClass = isActive ? 'text-teal-700' : 'text-white';
           return `focus:outline-none flex xl:items-center xl:gap-4 fill-current p-5 ${activeClass} hover:text-teal-500`;
         }}
       >

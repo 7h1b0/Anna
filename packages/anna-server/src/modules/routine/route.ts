@@ -16,14 +16,14 @@ routes
     if (!isValid) {
       res.sendStatus(400);
     } else {
-      const userId = res.locals.user.userId;
+      const userId = 'undefined';
       const {
         name,
         sceneId,
         interval,
         enabled,
         runAtBankHoliday,
-        runWhenUserIsAway,
+        runWhenAway,
       } = req.body;
 
       Routine.save(
@@ -33,7 +33,7 @@ routes
         interval,
         enabled,
         runAtBankHoliday,
-        runWhenUserIsAway,
+        runWhenAway,
       )
         .then((routine) => {
           Routine.schedule(routine);

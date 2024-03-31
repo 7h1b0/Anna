@@ -2,21 +2,13 @@ import request from 'supertest';
 import * as lolex from '@sinonjs/fake-timers';
 import { setTimeout } from 'timers/promises';
 
-import { createUser } from 'factories';
 import knex from '../../knexClient';
 import * as Routine from '../../modules/routine/model';
-import * as User from '../../modules/user/model';
 import app from '../../index';
 import dispatch from '../../utils/dispatch';
 
 jest.mock('../../utils/dispatch');
 
-const user = createUser({ userId: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f' });
-const useraway = createUser({
-  userId: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879g',
-  token: 'user_away_token',
-  isAway: true,
-});
 const initRoutines = [
   {
     routineId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
@@ -54,11 +46,6 @@ const initRoutines = [
 ];
 
 describe('Routine API', () => {
-  beforeAll(async () => {
-    await knex(User.TABLE).truncate();
-    await knex(User.TABLE).insert([user, useraway]);
-  });
-
   beforeEach(async () => {
     // @ts-expect-error dispatch is a mock
     dispatch.mockClear();
@@ -71,20 +58,10 @@ describe('Routine API', () => {
       it('should retun all routines', async () => {
         const response = await request(app)
           .get('/api/routines')
-          .set('Accept', 'application/json')
-          .set('x-access-token', user.token);
+          .set('Accept', 'application/json');
 
         expect(response.status).toBe(200);
         expect(response.body).toMatchSnapshot();
-      });
-
-      it('should retun 401 when user is not authenticated', async () => {
-        const response = await request(app)
-          .get('/api/routines')
-          .set('Accept', 'application/json')
-          .set('x-access-token', 'fake');
-
-        expect(response.status).toBeUnauthorized();
       });
     });
 
@@ -102,7 +79,6 @@ describe('Routine API', () => {
         const response = await request(app)
           .post('/api/routines')
           .set('Accept', 'application/json')
-          .set('x-access-token', user.token)
           .send({
             sceneId: 'faaed78e-fd1c-4717-b610-65d2fa3d01b2',
             name: 'room_updated',
@@ -115,7 +91,6 @@ describe('Routine API', () => {
         const response = await request(app)
           .post('/api/routines')
           .set('Accept', 'application/json')
-          .set('x-access-token', user.token)
           .send({
             sceneId: 'faaed78e-fd1c-4717-b610-65d2fa3d01b2',
             name: 'room_updated',
@@ -135,7 +110,6 @@ describe('Routine API', () => {
         const response = await request(app)
           .post('/api/routines')
           .set('Accept', 'application/json')
-          .set('x-access-token', user.token)
           .send(payload);
 
         clock.next();
@@ -173,7 +147,6 @@ describe('Routine API', () => {
         const response = await request(app)
           .post('/api/routines')
           .set('Accept', 'application/json')
-          .set('x-access-token', useraway.token)
           .send(payload);
 
         clock.next();
@@ -197,12 +170,11 @@ describe('Routine API', () => {
           sceneId: 'faaed78e-fd1c-4717-b610-65d2fa3d01b3',
           name: 'new_routine',
           interval: '30 * * * * *',
-          runWhenUserIsAway: true,
+          runWhenAway: true,
         };
         const response = await request(app)
           .post('/api/routines')
           .set('Accept', 'application/json')
-          .set('x-access-token', useraway.token)
           .send(payload);
 
         clock.next();
@@ -229,7 +201,6 @@ describe('Routine API', () => {
         const response = await request(app)
           .post('/api/routines')
           .set('Accept', 'application/json')
-          .set('x-access-token', user.token)
           .send(payload);
 
         expect(response.status).toHaveStatusOk();
@@ -253,7 +224,6 @@ describe('Routine API', () => {
         const response = await request(app)
           .post('/api/routines')
           .set('Accept', 'application/json')
-          .set('x-access-token', user.token)
           .send({
             sceneId: 'faaed78e-fd1c-4717-b610-65d2fa3d01b2',
             name: 'new_routine',
@@ -273,8 +243,7 @@ describe('Routine API', () => {
       it('should return one routine', async () => {
         const response = await request(app)
           .get(`/api/routines/${initRoutines[0].routineId}`)
-          .set('Accept', 'application/json')
-          .set('x-access-token', user.token);
+          .set('Accept', 'application/json');
 
         expect(response.body).toMatchSnapshot();
       });
@@ -282,8 +251,7 @@ describe('Routine API', () => {
       it('should return 404 if routineId is unknow', async () => {
         const response = await request(app)
           .get('/api/routines/faaed78e-fd1c-4717-b610-65d2fa3d01b2')
-          .set('Accept', 'application/json')
-          .set('x-access-token', user.token);
+          .set('Accept', 'application/json');
 
         expect(response.status).toBe(404);
         expect(response.body).toEqual({});
@@ -305,7 +273,6 @@ describe('Routine API', () => {
         const response = await request(app)
           .patch('/api/routines/faaed78e-fd1c-4717-b610-65d2fa3d01b2')
           .set('Accept', 'application/json')
-          .set('x-access-token', user.token)
           .send({
             sceneId: 'faaed78e-fd1c-4717-b610-65d2fa3d01b2',
             name: 'room_updated',
@@ -335,7 +302,6 @@ describe('Routine API', () => {
         const response = await request(app)
           .patch(`/api/routines/${initRoutines[0].routineId}`)
           .set('Accept', 'application/json')
-          .set('x-access-token', user.token)
           .send({
             sceneId: 'faaed78e-fd1c-4717-b610-65d2fa3d01b2',
             name: 'room_updated',
@@ -348,7 +314,6 @@ describe('Routine API', () => {
         const response = await request(app)
           .patch(`/api/routines/${initRoutines[0].routineId}`)
           .set('Accept', 'application/json')
-          .set('x-access-token', user.token)
           .send({
             sceneId: 'faaed78e-fd1c-4717-b610-65d2fa3d01b2',
             name: 'room_updated',
@@ -367,7 +332,6 @@ describe('Routine API', () => {
         const response = await request(app)
           .patch(`/api/routines/${initRoutines[0].routineId}`)
           .set('Accept', 'application/json')
-          .set('x-access-token', user.token)
           .send({
             sceneId: 'faaed78e-fd1c-4717-b610-65d2fa3d01b2',
             name: 'routine_updated',
@@ -399,7 +363,6 @@ describe('Routine API', () => {
         const response = await request(app)
           .patch(`/api/routines/${initRoutines[2].routineId}`)
           .set('Accept', 'application/json')
-          .set('x-access-token', user.token)
           .send({
             sceneId: 'faaed78e-fd1c-4717-b610-65d2fa3d01b2',
             name: 'routine_updated',
@@ -431,8 +394,7 @@ describe('Routine API', () => {
       it('should return 404 if routineId is unknow', async () => {
         const response = await request(app)
           .delete('/api/routines/faaed78e-fd1c-4717-b610-65d2fa3d01b2')
-          .set('Accept', 'application/json')
-          .set('x-access-token', user.token);
+          .set('Accept', 'application/json');
 
         expect(response.status).toBe(404);
         expect(response.body).toEqual({});
@@ -453,8 +415,7 @@ describe('Routine API', () => {
 
         const response = await request(app)
           .delete(`/api/routines/${initRoutines[0].routineId}`)
-          .set('Accept', 'application/json')
-          .set('x-access-token', user.token);
+          .set('Accept', 'application/json');
 
         expect(response.status).toHaveStatusOk();
         expect(clock.countTimers()).toBe(0);
@@ -471,8 +432,7 @@ describe('Routine API', () => {
       const runSpy = jest.spyOn(Routine, 'run');
       const response = await request(app)
         .get(`/api/routines/${initRoutines[0].routineId}/action`)
-        .set('Accept', 'application/json')
-        .set('x-access-token', user.token);
+        .set('Accept', 'application/json');
 
       expect(response.status).toHaveStatusOk();
       expect(response.body).toEqual({});
@@ -485,8 +445,7 @@ describe('Routine API', () => {
     it('should return 404 if routineId is unknow', async () => {
       const response = await request(app)
         .get('/api/routines/faaed78e-fd1c-4717-b610-65d2fa3d01b2/action')
-        .set('Accept', 'application/json')
-        .set('x-access-token', user.token);
+        .set('Accept', 'application/json');
 
       expect(response.status).toBe(404);
       expect(response.body).toEqual({});

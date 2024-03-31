@@ -1,14 +1,11 @@
 import request from 'supertest';
-import { createUser } from 'factories';
 import knex from '../../knexClient';
 import * as Dio from '../../modules/dio/model';
-import * as User from '../../modules/user/model';
 import app from '../../index';
 import dispatch from '../../utils/dispatch';
 
 jest.mock('../../utils/dispatch');
 
-const user = createUser();
 const initDios = [
   {
     dioId: 1,
@@ -23,11 +20,6 @@ const initDios = [
 ];
 
 describe('Dio API', () => {
-  beforeAll(async () => {
-    await knex(User.TABLE).truncate();
-    await knex(User.TABLE).insert(user);
-  });
-
   beforeEach(async () => {
     await knex(Dio.TABLE).truncate();
     await knex(Dio.TABLE).insert(initDios);
@@ -38,19 +30,9 @@ describe('Dio API', () => {
       it('should retun all dio', async () => {
         const response = await request(app)
           .get('/api/dios')
-          .set('Accept', 'application/json')
-          .set('x-access-token', user.token);
+          .set('Accept', 'application/json');
 
         expect(response.body).toMatchSnapshot();
-      });
-
-      it('should retun 401 when user is not authenticated', async () => {
-        const response = await request(app)
-          .get('/api/dios')
-          .set('Accept', 'application/json')
-          .set('x-access-token', 'fake');
-
-        expect(response.status).toBeUnauthorized();
       });
     });
 
@@ -59,7 +41,6 @@ describe('Dio API', () => {
         const response = await request(app)
           .post('/api/dios')
           .set('Accept', 'application/json')
-          .set('x-access-token', user.token)
           .send({
             dioId: 3,
             name: 'test_post',
@@ -89,7 +70,6 @@ describe('Dio API', () => {
         const response = await request(app)
           .post('/api/dios')
           .set('Accept', 'application/json')
-          .set('x-access-token', user.token)
           .send({
             dioId: 1,
             name: 'test_post',
@@ -107,8 +87,7 @@ describe('Dio API', () => {
       it('should retun a dio', async () => {
         const response = await request(app)
           .get('/api/dios/1')
-          .set('Accept', 'application/json')
-          .set('x-access-token', user.token);
+          .set('Accept', 'application/json');
 
         expect(response.body).toEqual({
           dioId: 1,
@@ -129,8 +108,7 @@ describe('Dio API', () => {
       it("should retun 404 when dio don't exist", async () => {
         const response = await request(app)
           .get('/api/dios/23')
-          .set('Accept', 'application/json')
-          .set('x-access-token', user.token);
+          .set('Accept', 'application/json');
 
         expect(response.status).toBe(404);
       });
@@ -141,7 +119,6 @@ describe('Dio API', () => {
         const response = await request(app)
           .patch('/api/dios/1')
           .set('Accept', 'application/json')
-          .set('x-access-token', user.token)
           .send({
             dioId: 1,
             name: 'test_updated',
@@ -174,7 +151,6 @@ describe('Dio API', () => {
         const response = await request(app)
           .patch('/api/dios/1')
           .set('Accept', 'application/json')
-          .set('x-access-token', user.token)
           .send({
             dioId: 1,
             name: 'test_post',
@@ -189,7 +165,6 @@ describe('Dio API', () => {
         const response = await request(app)
           .patch('/api/dios/23')
           .set('Accept', 'application/json')
-          .set('x-access-token', user.token)
           .send({
             dioId: 1,
             name: 'test_updated',
@@ -204,8 +179,7 @@ describe('Dio API', () => {
       it('should delete a dio', async () => {
         const response = await request(app)
           .delete('/api/dios/1')
-          .set('Accept', 'application/json')
-          .set('x-access-token', user.token);
+          .set('Accept', 'application/json');
 
         expect(response.status).toHaveStatusOk();
 
@@ -226,8 +200,7 @@ describe('Dio API', () => {
       it("should retun 404 when dio don't exist", async () => {
         const response = await request(app)
           .delete('/api/dios/23')
-          .set('Accept', 'application/json')
-          .set('x-access-token', user.token);
+          .set('Accept', 'application/json');
 
         expect(response.status).toBe(404);
       });
@@ -247,8 +220,7 @@ describe('Dio API', () => {
     it('should call dispatch', async () => {
       const response = await request(app)
         .get('/api/dios/1/on')
-        .set('Accept', 'application/json')
-        .set('x-access-token', user.token);
+        .set('Accept', 'application/json');
 
       expect(response.status).toHaveStatusOk();
       expect(dispatch).toHaveBeenCalledWith({

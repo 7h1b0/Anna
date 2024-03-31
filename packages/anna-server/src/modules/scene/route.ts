@@ -17,7 +17,7 @@ routes
     if (!isValid) {
       res.sendStatus(400);
     } else {
-      const createdBy = res.locals.user.userId;
+      const createdBy = 'undefined';
       Scene.save({ ...req.body, createdBy })
         .then((sceneId) => res.status(201).json({ sceneId }))
         .catch((err) => res.status(500).send({ err }));

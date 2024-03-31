@@ -32,12 +32,6 @@ function Settings() {
           </Card>
         </Link>
       </div>
-
-      <div className="text-center py-2 my-2">
-        <Link to="/logout">
-          <Typography>Logout</Typography>
-        </Link>
-      </div>
     </>
   );
 }

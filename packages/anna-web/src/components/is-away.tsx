@@ -2,18 +2,15 @@ import React from 'react';
 import useRequest from 'src/hooks/use-request';
 import Card from './card';
 import Switch from './switch';
-import { getUser, setUser } from 'src/utils';
 
 function IsAway() {
-  const user = getUser();
   const request = useRequest();
 
   async function handleClick() {
-    const newStatus = !user.isAway;
-    await request('api/user', 'PATCH', {
+    const newStatus = !isAway;
+    await request('api/config', 'PATCH', {
       isAway: newStatus,
     });
-    setUser(user.username, user.token, newStatus);
   }
 
   return (
@@ -29,7 +26,7 @@ function IsAway() {
           Routine will not run when you are away
         </p>
       </div>
-      <Switch on={user.isAway} />
+      <Switch on={isAway} />
     </Card>
   );
 }

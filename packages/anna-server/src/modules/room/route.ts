@@ -16,7 +16,7 @@ routes
     if (!isValid) {
       res.sendStatus(400);
     } else {
-      const userId = res.locals.user.userId;
+      const userId = 'undefined';
       Room.save({ ...req.body, userId })
         .then((newRoomId) => res.status(201).json(newRoomId))
         .catch((err) => res.status(500).send({ err }));

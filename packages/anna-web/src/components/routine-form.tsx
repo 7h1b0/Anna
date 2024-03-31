@@ -22,7 +22,7 @@ type RoutineForm = {
   interval: string;
   sceneId: string;
   runAtBankHoliday: boolean;
-  runWhenUserIsAway: boolean;
+  runWhenAway: boolean;
   enabled: boolean;
 };
 function RoutineForm({ routine, scenes }: Props) {
@@ -32,7 +32,7 @@ function RoutineForm({ routine, scenes }: Props) {
       interval: routine.interval,
       sceneId: routine.sceneId,
       runAtBankHoliday: routine.runAtBankHoliday,
-      runWhenUserIsAway: routine.runWhenUserIsAway,
+      runWhenAway: routine.runWhenAway,
       enabled: routine.enabled,
     },
   });
@@ -73,9 +73,9 @@ function RoutineForm({ routine, scenes }: Props) {
         register={register('runAtBankHoliday')}
       />
       <Checkbox
-        name="runWhenUserIsAway"
+        name="runWhenAway"
         label="Run when user is away"
-        register={register('runWhenUserIsAway')}
+        register={register('runWhenAway')}
       />
 
       <Checkbox name="enabled" label="enabled" register={register('enabled')} />

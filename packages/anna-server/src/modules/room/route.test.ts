@@ -1,13 +1,10 @@
 import request from 'supertest';
-import { createUser } from 'factories';
 import knex from '../../knexClient';
 import * as Room from '../../modules/room/model';
-import * as User from '../../modules/user/model';
 import * as Dio from '../../modules/dio/model';
 import app from '../../index';
 import * as hueService from '../../services/hueService';
 
-const user = createUser({ userId: 'c10c80e8-49e4-4d6b-b966-4fc9fb98879f' });
 const initRooms = [
   {
     roomId: '0fc1d78e-fd1c-4717-b610-65d2fa3d01b2',
@@ -54,9 +51,6 @@ const initDios = [
 
 describe('Rooms API', () => {
   beforeAll(async () => {
-    await knex(User.TABLE).truncate();
-    await knex(User.TABLE).insert(user);
-
     await knex(Dio.TABLE).truncate();
     await knex(Dio.TABLE).insert(initDios);
   });
@@ -71,8 +65,7 @@ describe('Rooms API', () => {
       it('should return all rooms', async () => {
         const response = await request(app)
           .get('/api/rooms')
-          .set('Accept', 'application/json')
-          .set('x-access-token', user.token);
+          .set('Accept', 'application/json');
 
         expect(response.body).toMatchSnapshot();
       });
@@ -92,7 +85,6 @@ describe('Rooms API', () => {
         const response = await request(app)
           .post('/api/rooms')
           .set('Accept', 'application/json')
-          .set('x-access-token', user.token)
           .send({
             name: 'Living Room',
             description: 'a description',
@@ -124,7 +116,6 @@ describe('Rooms API', () => {
         const response = await request(app)
           .post('/api/rooms')
           .set('Accept', 'application/json')
-          .set('x-access-token', user.token)
           .send({
             description: 'missing name',
           });
@@ -199,8 +190,7 @@ describe('Rooms API', () => {
       it('should return an room', async () => {
         const response = await request(app)
           .get(`/api/rooms/${initRooms[0].roomId}`)
-          .set('Accept', 'application/json')
-          .set('x-access-token', user.token);
+          .set('Accept', 'application/json');
 
         expect(response.body).toMatchSnapshot();
       });
@@ -217,8 +207,7 @@ describe('Rooms API', () => {
       it("should retun 404 when a room don't exist", async () => {
         const response = await request(app)
           .get('/api/rooms/c10c80e8-49e4-4d6b-b966-4fc9fb9887aa')
-          .set('Accept', 'application/json')
-          .set('x-access-token', user.token);
+          .set('Accept', 'application/json');
 
         expect(response.status).toBe(404);
       });
@@ -229,7 +218,6 @@ describe('Rooms API', () => {
         const response = await request(app)
           .patch(`/api/rooms/${initRooms[0].roomId}`)
           .set('Accept', 'application/json')
-          .set('x-access-token', user.token)
           .send({
             description: 'this is a second test',
             name: 'room_updated',
@@ -261,7 +249,6 @@ describe('Rooms API', () => {
         const response = await request(app)
           .patch(`/api/rooms/${initRooms[0].roomId}`)
           .set('Accept', 'application/json')
-          .set('x-access-token', user.token)
           .send({
             name: 'test_update',
             fake: true,
@@ -274,7 +261,6 @@ describe('Rooms API', () => {
         const response = await request(app)
           .patch('/api/rooms/c10c80e8-49e4-4d6b-b966-4fc9fb9887aa')
           .set('Accept', 'application/json')
-          .set('x-access-token', user.token)
           .send({
             description: 'this is a second test',
             name: 'room_updated',
@@ -288,8 +274,7 @@ describe('Rooms API', () => {
       it('should delete an room', async () => {
         const response = await request(app)
           .delete(`/api/rooms/${initRooms[2].roomId}`)
-          .set('Accept', 'application/json')
-          .set('x-access-token', user.token);
+          .set('Accept', 'application/json');
 
         expect(response.status).toHaveStatusOk();
 
@@ -303,8 +288,7 @@ describe('Rooms API', () => {
       it('should return 403 when room is used', async () => {
         const response = await request(app)
           .delete(`/api/rooms/${initRooms[0].roomId}`)
-          .set('Accept', 'application/json')
-          .set('x-access-token', user.token);
+          .set('Accept', 'application/json');
 
         expect(response.status).toBe(403);
       });
@@ -321,8 +305,7 @@ describe('Rooms API', () => {
       it("should retun 403 when a room don't exist", async () => {
         const response = await request(app)
           .delete('/api/rooms/c10c80e8-49e4-4d6b-b966-4fc9fb9887aa')
-          .set('Accept', 'application/json')
-          .set('x-access-token', user.token);
+          .set('Accept', 'application/json');
 
         expect(response.status).toBe(403);
       });

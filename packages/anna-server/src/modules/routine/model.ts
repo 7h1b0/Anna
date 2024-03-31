@@ -10,9 +10,9 @@ import {
 import * as ScheduleService from '../../services/scheduleService';
 import dispatch from '../../utils/dispatch';
 import { omit } from '../../utils/utils';
+import { fetchIsAway } from '../config/model';
 import * as logger from '../../utils/logger';
 import { callScene } from '../../utils/actions';
-import { isUserAway } from '../user/model';
 
 export const TABLE = 'routines';
 export const COLUMNS = [
@@ -21,7 +21,7 @@ export const COLUMNS = [
   'interval',
   'sceneId',
   'runAtBankHoliday',
-  'runWhenUserIsAway',
+  'runWhenAway',
   'enabled',
   'createdAt',
   'updatedAt',
@@ -41,7 +41,7 @@ export class Routine {
     public createdBy: string,
     public enabled = true,
     public runAtBankHoliday = true,
-    public runWhenUserIsAway = false,
+    public runWhenAway = false,
     public createdAt?: number | Date,
     public updatedAt?: number | Date,
     public lastRunAt?: number | Date,
@@ -93,7 +93,7 @@ export async function save(
   interval: string,
   enabled?: boolean,
   runAtBankHoliday?: boolean,
-  runWhenUserIsAway?: boolean,
+  ddrunWhenAway?: boolean,
 ) {
   const routineId = uuidv4();
   const nextRunAt = computeNextRunAt(interval, runAtBankHoliday);
@@ -107,7 +107,7 @@ export async function save(
     createdBy,
     enabled,
     runAtBankHoliday,
-    runWhenUserIsAway,
+    ddrunWhenAway,
   );
 
   await knex(TABLE).insert(routine);
@@ -145,12 +145,10 @@ export async function run(routine: Routine) {
   };
 
   try {
-    const { createdBy, runWhenUserIsAway } = routine;
-    const user = await isUserAway(createdBy);
+    const { runWhenAway } = routine;
+    const isAway = await fetchIsAway();
 
-    const isAway = user?.isAway ?? false; // An undefined user is not away
-
-    if (isAway && !runWhenUserIsAway) {
+    if (isAway && !runWhenAway) {
       return done('skipped');
     }
 

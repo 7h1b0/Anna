@@ -9,7 +9,7 @@ import { formatDate, getUser } from 'utils';
 import type { Routine as RoutineType } from 'types/routine';
 
 function computeNextRun(routine: RoutineType, isUserAway: boolean) {
-  if (isUserAway && !routine.runWhenUserIsAway) {
+  if (isUserAway && !routine.runWhenAway) {
     return 'Will be skipped';
   }
   if (routine.enabled) {

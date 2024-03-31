@@ -14,7 +14,7 @@ export default {
     },
     enabled: { type: 'boolean' },
     runAtBankHoliday: { type: 'boolean' },
-    runWhenUserIsAway: { type: 'boolean' },
+    runWhenAway: { type: 'boolean' },
   },
   required: ['name', 'sceneId', 'interval'],
 };

@@ -1,15 +1,12 @@
 import request from 'supertest';
-import { createUser } from 'factories';
 import knex from '../../knexClient';
 import * as Scene from '../../modules/scene/model';
 import * as Action from '../../modules/scene/action';
-import * as User from '../../modules/user/model';
 import app from '../../index';
 import dispatch from '../../utils/dispatch';
 
 jest.mock('../../utils/dispatch');
 
-const user = createUser({ userId: '29699398-449c-48fb-8f5c-84186cdf8279' });
 const initScenes = [
   {
     sceneId: '05442486-0878-440c-9db1-a7006c25a39f',
@@ -59,11 +56,6 @@ const initActions = [
 ];
 
 describe('Scene API', () => {
-  beforeAll(async () => {
-    await knex(User.TABLE).truncate();
-    await knex(User.TABLE).insert(user);
-  });
-
   beforeEach(async () => {
     await knex(Action.TABLE).truncate();
     await knex(Action.TABLE).insert(initActions);
@@ -77,19 +69,9 @@ describe('Scene API', () => {
       it('should return all scene', async () => {
         const response = await request(app)
           .get('/api/scenes')
-          .set('Accept', 'application/json')
-          .set('x-access-token', user.token);
+          .set('Accept', 'application/json');
 
         expect(response.body).toMatchSnapshot();
-      });
-
-      it('should retun 401 when user is not authenticated', async () => {
-        const response = await request(app)
-          .get('/api/scenes')
-          .set('Accept', 'application/json')
-          .set('x-access-token', 'fake');
-
-        expect(response.status).toBeUnauthorized();
       });
     });
 
@@ -112,7 +94,6 @@ describe('Scene API', () => {
         const response = await request(app)
           .post('/api/scenes')
           .set('Accept', 'application/json')
-          .set('x-access-token', user.token)
           .send(scene);
 
         expect(response.status).toBeBadRequest();
@@ -138,7 +119,6 @@ describe('Scene API', () => {
         const response = await request(app)
           .post('/api/scenes')
           .set('Accept', 'application/json')
-          .set('x-access-token', user.token)
           .send(scene);
 
         expect(response.status).toHaveStatusOk();
@@ -180,8 +160,7 @@ describe('Scene API', () => {
       it('should retun a scene', async () => {
         const response = await request(app)
           .get(`/api/scenes/${initScenes[0].sceneId}`)
-          .set('Accept', 'application/json')
-          .set('x-access-token', user.token);
+          .set('Accept', 'application/json');
 
         expect(response.status).toHaveStatusOk();
         expect(response.body).toMatchSnapshot();
@@ -199,8 +178,7 @@ describe('Scene API', () => {
       it("should retun 404 when a scene don't exist", async () => {
         const response = await request(app)
           .get('/api/scenes/3fc1d78e-fd1c-4717-b610-65d2fa3d01b2')
-          .set('Accept', 'application/json')
-          .set('x-access-token', user.token);
+          .set('Accept', 'application/json');
 
         expect(response.status).toBe(404);
       });
@@ -210,8 +188,7 @@ describe('Scene API', () => {
       it('should delete a scene and all associated actions', async () => {
         const response = await request(app)
           .delete(`/api/scenes/${initScenes[0].sceneId}`)
-          .set('Accept', 'application/json')
-          .set('x-access-token', user.token);
+          .set('Accept', 'application/json');
 
         expect(response.status).toHaveStatusOk();
 
@@ -231,8 +208,7 @@ describe('Scene API', () => {
       it('should return 404 if scene is not found', async () => {
         const response = await request(app)
           .delete('/api/scenes/5fc1d78e-fd1c-4717-b610-65d2fa3d01b2')
-          .set('Accept', 'application/json')
-          .set('x-access-token', user.token);
+          .set('Accept', 'application/json');
 
         expect(response.status).toBe(404);
       });
@@ -266,7 +242,6 @@ describe('Scene API', () => {
         const response = await request(app)
           .patch(`/api/scenes/${initScenes[1].sceneId}`)
           .set('Accept', 'application/json')
-          .set('x-access-token', user.token)
           .send(scene);
 
         expect(response.status).toBeBadRequest();
@@ -300,7 +275,6 @@ describe('Scene API', () => {
         const response = await request(app)
           .patch('/api/scenes/faaed78e-fd1c-4717-b610-65d2fa3d01b2')
           .set('Accept', 'application/json')
-          .set('x-access-token', user.token)
           .send(scene);
 
         expect(response.status).toBe(404);
@@ -324,7 +298,6 @@ describe('Scene API', () => {
         const response = await request(app)
           .patch(`/api/scenes/${initScenes[1].sceneId}`)
           .set('Accept', 'application/json')
-          .set('x-access-token', user.token)
           .send(updatedScene);
 
         expect(response.status).toHaveStatusOk();
@@ -346,8 +319,7 @@ describe('Scene API', () => {
     it('should call dispatch', async () => {
       const response = await request(app)
         .get(`/api/scenes/${initScenes[1].sceneId}/action`)
-        .set('Accept', 'application/json')
-        .set('x-access-token', user.token);
+        .set('Accept', 'application/json');
 
       expect(response.status).toHaveStatusOk();
       expect(dispatch).toHaveBeenCalledWith({
@@ -370,8 +342,7 @@ describe('Scene API', () => {
     it('should return all favorite scenes', async () => {
       const response = await request(app)
         .get(`/api/scenes/favorites`)
-        .set('Accept', 'application/json')
-        .set('x-access-token', user.token);
+        .set('Accept', 'application/json');
 
       expect(response.status).toHaveStatusOk();
       expect(response.body).toHaveLength(1);
@@ -392,8 +363,7 @@ describe('Scene API', () => {
       const scene = initScenes[1];
       const response = await request(app)
         .get(`/api/scenes/${scene.sceneId}/favorite/1`)
-        .set('Accept', 'application/json')
-        .set('x-access-token', user.token);
+        .set('Accept', 'application/json');
 
       expect(response.status).toHaveStatusOk();
 

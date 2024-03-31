@@ -4,7 +4,7 @@ export type Routine = {
   interval: string;
   sceneId: string;
   runAtBankHoliday: boolean;
-  runWhenUserIsAway: boolean;
+  runWhenAway: boolean;
   enabled: boolean;
   createdAt?: number;
   updatedAt?: number;

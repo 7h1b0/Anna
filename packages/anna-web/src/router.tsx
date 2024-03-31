@@ -1,8 +1,6 @@
 import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 
-import Login, { actionLogin } from 'pages/login';
-import Register, { actionRegister } from 'pages/register';
 import Layout, { loaderLayout } from 'pages/layout';
 import Home, { loaderHome } from 'pages/home';
 import Routines, { loaderRoutines } from 'pages/routines';
@@ -22,16 +20,6 @@ import RoutineAdd from 'pages/routine-add';
 import HueLightRoomAdd, { loaderLightAdd } from 'pages/hue-light-room-add';
 
 export const router = createBrowserRouter([
-  {
-    path: '/register',
-    element: <Register />,
-    action: actionRegister,
-  },
-  {
-    path: '/login',
-    element: <Login />,
-    action: actionLogin,
-  },
   {
     element: <Layout />,
     loader: loaderLayout,
@@ -105,10 +93,6 @@ export const router = createBrowserRouter([
         path: '/scenes',
         element: <Scenes />,
         loader: loaderScenes,
-      },
-      {
-        path: '/logout',
-        loader: loaderLogout,
       },
       {
         path: '/settings',

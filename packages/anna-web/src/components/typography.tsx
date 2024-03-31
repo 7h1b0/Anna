@@ -4,7 +4,7 @@ type Variant = 'heading' | 'body' | 'caption' | 'head';
 const getClassName = (variant: Variant): string => {
   switch (variant) {
     case 'head':
-      return 'text-3xl text-teal-500';
+      return 'text-2xl text-teal-500';
     case 'heading':
       return 'text-base text-white';
     case 'body':

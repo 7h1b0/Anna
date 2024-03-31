@@ -6,8 +6,8 @@ import { getToken } from '@/utils';
 
 function Layout() {
   return (
-    <div className="h-full flex justify-end flex-col xl:flex-row-reverse bg-gray-900">
-      <main className="relative flex-1 px-2 xl:px-4 max-w-1200 overflow-y-auto">
+    <div className="h-full bg-gray-900 pb-16">
+      <main className="relative flex-1 px-2 xl:px-4 max-w-1200 overflow-y-auto mx-auto">
         <Outlet />
       </main>
       <Navigation />

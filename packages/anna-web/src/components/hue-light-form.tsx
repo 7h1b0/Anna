@@ -103,7 +103,7 @@ function HueLightRoom({ hueLight }: Props) {
         onChange={handleBrightnessChange}
       />
 
-      <Grid>
+      <div className="grid grid-cols-2 gap-2">
         {isColorLight && (
           <Card className="flex-col items-center justify-center">
             <label className="h-full w-full cursor-pointer text-center">
@@ -130,7 +130,7 @@ function HueLightRoom({ hueLight }: Props) {
           <Switch on={on} />
           <Typography className="mt-2">Toggle On/Off</Typography>
         </Card>
-      </Grid>
+      </div>
       {isColorLight && (
         <div className="mt-2 grid grid-cols-4 gap-8 xl:grid-cols-8 shadow-md flex rounded bg-gray-800 py-4 px-2 xl:px-4">
           {presets.map((preset) => (

@@ -63,10 +63,10 @@ const RangeVertical: React.FC<{
         tabIndex={0}
         onMouseDown={handleMouseDown}
         onTouchMove={handleMove}
-        className="relative bg-gray-800 rounded-lg h-56 w-24"
+        className="relative bg-gray-800 rounded h-56 w-24"
       >
         <div
-          className="bg-teal-500 rounded-lg absolute bottom-0 left-0 right-0 w-24 text-center"
+          className="bg-teal-500 rounded absolute bottom-0 left-0 right-0 w-24 text-center"
           style={{ height: displayValue }}
         />
       </div>

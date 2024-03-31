@@ -12,9 +12,9 @@ import {
 function Navigation() {
   const className = 'w-5 mx-auto';
   return (
-    <nav className="shadow xl:h-full">
+    <nav className="fixed bottom-2 bg-gray-800 rounded inset-x-2">
       <ul
-        className="list-none flex items-center  justify-around xl:justify-center xl:flex-col xl:items-start xl:w-64"
+        className="list-none flex items-center  justify-center xl:items-start"
         style={{ height: 'inherit' }}
       >
         <NavLink to="/" title="Dashboard">

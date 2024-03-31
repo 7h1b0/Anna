@@ -15,7 +15,7 @@ const Card: React.FC<{
       onKeyPress={onClick}
       tabIndex={tabIndex}
       style={{ backgroundColor }}
-      className={`text-gray-200 shadow-md flex rounded-xl bg-gray-800 py-4 px-2 xl:px-4 hover:bg-gray-700 ${className}`}
+      className={`text-gray-200 shadow-md flex rounded bg-gray-800 py-4 px-2 xl:px-4 hover:bg-gray-700 ${className}`}
     >
       {children}
     </div>

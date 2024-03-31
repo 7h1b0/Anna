@@ -36,7 +36,7 @@ function Title({ title, subtitle, activateNavigation = false, action }: Props) {
         </button>
       )}
       <div className="flex-grow">
-        <h1 className="text-3xl text-white tracking-wide leading-none">
+        <h1 className="text-2xl text-white tracking-wide leading-none">
           {title}
         </h1>
         <p className="text-sm text-white">{subtitle}</p>

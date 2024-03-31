@@ -30,7 +30,7 @@ function Room() {
             return (
               <div
                 key={sensor.id}
-                className="text-gray-200 flex flex-col gap-2 items-center rounded-xl shadow-md border border-2 border-gray-800 p-4"
+                className="text-gray-200 flex flex-col gap-2 items-center rounded shadow-md border border-2 border-gray-800 p-4"
               >
                 <Typography variant="caption">Sensor</Typography>
                 <Typography variant="head">

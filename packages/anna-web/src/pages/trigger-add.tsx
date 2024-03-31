@@ -1,9 +1,9 @@
 import React from 'react';
 
-import Title from 'src/components/title';
-import TriggerForm from 'components/trigger-form';
+import Title from '@/components/title';
+import TriggerForm from '@/components/trigger-form';
 
-import type { Scene as SceneType } from 'types/scene';
+import type { Scene as SceneType } from '@/types/scene';
 import { useLoaderData } from 'react-router';
 
 function TriggerAdd() {

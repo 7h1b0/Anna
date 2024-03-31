@@ -2,9 +2,9 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Form, Link, redirect } from 'react-router-dom';
 
-import Input from 'components/input';
-import Button from 'components/button';
-import { setUser } from 'src/utils';
+import Input from '@/components/input';
+import Button from '@/components/button';
+import { setUser } from '@/utils';
 
 type RegisterForm = {
   username: string;

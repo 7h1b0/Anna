@@ -1,16 +1,16 @@
 import React from 'react';
 
-import Card from 'components/card';
-import RangeVertical from 'components/range-vertical';
-import Typography from 'components/typography';
-import Switch from 'components/switch';
-import Grid from 'components/grid';
-import PresetHue from 'components/preset-hue';
+import Card from '@/components/card';
+import RangeVertical from '@/components/range-vertical';
+import Typography from '@/components/typography';
+import Switch from '@/components/switch';
+import Grid from '@/components/grid';
+import PresetHue from '@/components/preset-hue';
 
-import useRequest from 'hooks/use-request';
-import useDebounce from 'hooks/use-debounce';
-import type { HueLight, HueLightState } from 'src/types/hue-light';
-import { presets } from 'src/preset-hue';
+import useRequest from '@/hooks/use-request';
+import useDebounce from '@/hooks/use-debounce';
+import type { HueLight, HueLightState } from '@/types/hue-light';
+import { presets } from '@/preset-hue';
 
 type TOGGLE_STATE = {
   type: 'TOGGLE_STATE';

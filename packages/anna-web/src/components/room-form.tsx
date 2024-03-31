@@ -1,13 +1,13 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
-import Input from 'components/input';
-import Button from 'components/button';
-import Alert from 'components/alert';
+import Input from '@/components/input';
+import Button from '@/components/button';
+import Alert from '@/components/alert';
 
-import useRequest from 'hooks/use-request';
+import useRequest from '@/hooks/use-request';
 import { useNavigate } from 'react-router-dom';
-import type { Room as RoomType } from 'types/room';
+import type { Room as RoomType } from '@/types/room';
 
 type Props = {
   room: RoomType;

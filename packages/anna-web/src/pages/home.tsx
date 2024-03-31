@@ -1,35 +1,28 @@
 import React from 'react';
 
-import Typography from 'components/typography';
-import Scene from 'components/scene';
-import Room from 'components/room';
-import Grid from 'components/grid';
-import Title from 'components/title';
+import Typography from '@/components/typography';
+import Scene from '@/components/scene';
+import Room from '@/components/room';
+import Grid from '@/components/grid';
+import Title from '@/components/title';
 import { Link, useLoaderData } from 'react-router-dom';
-import { SettingsIcon } from 'components/icons';
-import { fetcher, getUser } from 'src/utils';
+import { SettingsIcon } from '@/components/icons';
+import { fetcher } from '@/utils';
 
-import type { Scene as SceneType } from 'types/scene';
-import type { Room as RoomType } from 'types/room';
+import type { Scene as SceneType } from '@/types/scene';
+import type { Room as RoomType } from '@/types/room';
 
 function sortByName(a, b) {
   return a.name.localeCompare(b.name);
 }
 
 function Home() {
-  const user = getUser();
   const { scenes, rooms } = useLoaderData() as LoaderHome;
 
   return (
     <>
       <Title
-        title="Home Dashboard"
-        subtitle={
-          <>
-            Welcome Home{' '}
-            <span className="text-blue-500 capitalize">{user.username}</span>
-          </>
-        }
+        title="Home"
         action={
           <Link to="/settings" className="fill-current text-white">
             <SettingsIcon className="w-5" />

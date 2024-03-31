@@ -1,15 +1,15 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
-import Input from 'components/input';
-import Button from 'components/button';
-import Alert from 'components/alert';
-import Select from 'components/select';
+import Input from '@/components/input';
+import Button from '@/components/button';
+import Alert from '@/components/alert';
+import Select from '@/components/select';
 
-import useRequest from 'hooks/use-request';
+import useRequest from '@/hooks/use-request';
 import { useNavigate } from 'react-router-dom';
-import type { Dio as DioType } from 'types/dio';
-import type { Room as RoomType } from 'types/room';
+import type { Dio as DioType } from '@/types/dio';
+import type { Room as RoomType } from '@/types/room';
 
 type Props = {
   rooms: RoomType[];

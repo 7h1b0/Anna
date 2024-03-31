@@ -1,12 +1,12 @@
 import React from 'react';
 
-import Title from 'src/components/title';
-import Routine from 'components/routine';
-import ButtonAdd from 'components/button-add';
+import Title from '@/components/title';
+import Routine from '@/components/routine';
+import ButtonAdd from '@/components/button-add';
 
-import type { Routine as RoutineType } from 'types/routine';
-import IsAway from 'src/components/is-away';
-import { fetcher } from 'src/utils';
+import type { Routine as RoutineType } from '@/types/routine';
+import IsAway from '@/components/is-away';
+import { fetcher } from '@/utils';
 import { useLoaderData } from 'react-router';
 
 function Routines() {
@@ -14,11 +14,7 @@ function Routines() {
 
   return (
     <>
-      <Title
-        title="Routines"
-        subtitle={`${routines.length} routines available`}
-        action={<ButtonAdd to="/routines/add" />}
-      />
+      <Title title="Routines" action={<ButtonAdd to="/routines/add" />} />
       <IsAway />
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-2">
         {routines

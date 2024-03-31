@@ -1,25 +1,25 @@
 import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 
-import Login, { actionLogin } from 'pages/login';
-import Register, { actionRegister } from 'pages/register';
-import Layout, { loaderLayout } from 'pages/layout';
-import Home, { loaderHome } from 'pages/home';
-import Routines, { loaderRoutines } from 'pages/routines';
-import Triggers, { loaderTriggers } from 'pages/triggers';
-import { loaderLogout } from 'pages/logout';
-import Settings from 'pages/settings';
-import HueLight, { loaderHueLight } from 'pages/hue-light';
-import Room, { loaderRoom } from 'pages/room';
-import RoomAdd from 'pages/room-add';
-import RoomEdit from 'pages/room-edit';
-import DioAdd, { loaderDioAdd } from 'pages/dio-add';
-import Scenes, { loaderScenes } from 'pages/scenes';
-import TriggerEdit, { loaderTriggerEdit } from 'pages/trigger-edit';
-import TriggerAdd from 'pages/trigger-add';
-import RoutineEdit, { loaderRoutineEdit } from 'pages/routine-edit';
-import RoutineAdd from 'pages/routine-add';
-import HueLightRoomAdd, { loaderLightAdd } from 'pages/hue-light-room-add';
+import Login, { actionLogin } from '@/pages/login';
+import Register, { actionRegister } from '@/pages/register';
+import Layout, { loaderLayout } from '@/pages/layout';
+import Home, { loaderHome } from '@/pages/home';
+import Routines, { loaderRoutines } from '@/pages/routines';
+import Triggers, { loaderTriggers } from '@/pages/triggers';
+import { loaderLogout } from '@/pages/logout';
+import Settings from '@/pages/settings';
+import HueLight, { loaderHueLight } from '@/pages/hue-light';
+import Room, { loaderRoom } from '@/pages/room';
+import RoomAdd from '@/pages/room-add';
+import RoomEdit from '@/pages/room-edit';
+import DioAdd, { loaderDioAdd } from '@/pages/dio-add';
+import Scenes, { loaderScenes } from '@/pages/scenes';
+import TriggerEdit, { loaderTriggerEdit } from '@/pages/trigger-edit';
+import TriggerAdd from '@/pages/trigger-add';
+import RoutineEdit, { loaderRoutineEdit } from '@/pages/routine-edit';
+import RoutineAdd from '@/pages/routine-add';
+import HueLightRoomAdd, { loaderLightAdd } from '@/pages/hue-light-room-add';
 
 export const router = createBrowserRouter([
   {

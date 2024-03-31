@@ -5,7 +5,7 @@ const Grid: React.FC<{
   children: ReactNode;
 }> = ({ children }) => {
   return (
-    <div className="grid grid-cols-2 xl:grid-cols-4 gap-2">{children}</div>
+    <div className="grid grid-cols-3 xl:grid-cols-4 gap-2">{children}</div>
   );
 };
 

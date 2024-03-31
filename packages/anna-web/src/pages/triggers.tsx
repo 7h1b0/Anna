@@ -1,12 +1,12 @@
 import React from 'react';
 
-import Title from 'src/components/title';
-import Trigger from 'components/trigger';
-import Typography from 'components/typography';
-import ButtonAdd from 'components/button-add';
+import Title from '@/components/title';
+import Trigger from '@/components/trigger';
+import Typography from '@/components/typography';
+import ButtonAdd from '@/components/button-add';
 
-import { fetcher, groupBy } from 'utils';
-import type { Trigger as TriggerType } from 'types/trigger';
+import { fetcher, groupBy } from '@/utils';
+import type { Trigger as TriggerType } from '@/types/trigger';
 import { useLoaderData } from 'react-router';
 
 function Triggers() {

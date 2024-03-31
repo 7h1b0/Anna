@@ -1,8 +1,8 @@
 import React from 'react';
 import { Outlet, redirect } from 'react-router-dom';
 
-import Navigation from 'components/navigation';
-import { getToken } from 'src/utils';
+import Navigation from '@/components/navigation';
+import { getToken } from '@/utils';
 
 function Layout() {
   return (

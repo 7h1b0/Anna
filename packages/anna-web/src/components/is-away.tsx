@@ -1,8 +1,8 @@
 import React from 'react';
-import useRequest from 'src/hooks/use-request';
+import useRequest from '@/hooks/use-request';
 import Card from './card';
 import Switch from './switch';
-import { getUser, setUser } from 'src/utils';
+import { getUser, setUser } from '@/utils';
 
 function IsAway() {
   const user = getUser();

@@ -1,9 +1,9 @@
 import React from 'react';
 
-import Title from 'components/title';
-import RoomForm from 'components/room-form';
+import Title from '@/components/title';
+import RoomForm from '@/components/room-form';
 
-import type { Room } from 'src/types/room';
+import type { Room } from '@/types/room';
 
 function RoomAdd() {
   const room: Room = {

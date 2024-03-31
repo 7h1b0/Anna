@@ -1,5 +1,5 @@
 import { redirect } from 'react-router-dom';
-import { setUser } from 'src/utils';
+import { setUser } from '@/utils';
 
 export const loaderLogout = () => {
   setUser('', '', false);

@@ -1,10 +1,10 @@
 import React from 'react';
 
-import Scene from 'components/scene';
-import Title from 'src/components/title';
+import Scene from '@/components/scene';
+import Title from '@/components/title';
 
-import type { Scene as SceneType } from 'types/scene';
-import { fetcher } from 'src/utils';
+import type { Scene as SceneType } from '@/types/scene';
+import { fetcher } from '@/utils';
 import { useLoaderData } from 'react-router';
 
 function sortByName(a: SceneType, b: SceneType) {
@@ -16,15 +16,10 @@ function Scenes() {
 
   return (
     <>
-      <Title title="Scenes" subtitle={`${scenes.length} scenes available`} />
+      <Title title="Scenes" />
       <div className="grid grid-cols-3 xl:grid-cols-6 gap-2">
-        {scenes.sort(sortByName).map(({ name, sceneId, description }) => (
-          <Scene
-            key={sceneId}
-            sceneId={sceneId}
-            name={name}
-            description={description}
-          />
+        {scenes.sort(sortByName).map(({ name, sceneId }) => (
+          <Scene key={sceneId} sceneId={sceneId} name={name} />
         ))}
       </div>
     </>

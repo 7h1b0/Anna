@@ -2,10 +2,10 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Form, Link, redirect, useActionData } from 'react-router-dom';
 
-import Input from 'components/input';
-import Button from 'components/button';
-import Alert from 'components/alert';
-import { setUser } from 'src/utils';
+import Input from '@/components/input';
+import Button from '@/components/button';
+import Alert from '@/components/alert';
+import { setUser } from '@/utils';
 
 type Error = {
   ok: boolean;

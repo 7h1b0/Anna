@@ -1,4 +1,4 @@
-import { getToken } from 'src/utils';
+import { getToken } from '@/utils';
 
 export default function useRequest(): (
   path: string,

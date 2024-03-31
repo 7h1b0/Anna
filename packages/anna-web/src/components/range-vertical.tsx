@@ -1,7 +1,7 @@
 import React from 'react';
-import Typography from 'components/typography';
+import Typography from '@/components/typography';
 
-import { getPercentage } from 'src/utils';
+import { getPercentage } from '@/utils';
 
 type Position = {
   top: number;

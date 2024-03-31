@@ -4,6 +4,8 @@ import { RouterProvider } from 'react-router-dom';
 import Loader from './components/loader';
 import { router } from './router';
 
+import './styles.css';
+
 const container = document.getElementById('app');
 
 if (container) {

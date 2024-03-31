@@ -1,12 +1,12 @@
 import React from 'react';
 import { useLoaderData } from 'react-router-dom';
 
-import Title from 'src/components/title';
-import TriggerForm from 'components/trigger-form';
+import Title from '@/components/title';
+import TriggerForm from '@/components/trigger-form';
 
-import type { Trigger as TriggerType } from 'types/trigger';
-import type { Scene as SceneType } from 'types/scene';
-import { fetcher } from 'src/utils';
+import type { Trigger as TriggerType } from '@/types/trigger';
+import type { Scene as SceneType } from '@/types/scene';
+import { fetcher } from '@/utils';
 
 function TriggerEdit() {
   const { trigger, scenes } = useLoaderData() as LoaderTriggerEdit;

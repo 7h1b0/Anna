@@ -1,5 +1,5 @@
 import React from 'react';
-import { getToken } from 'src/utils';
+import { getToken } from '@/utils';
 
 export default function useAction(
   path: string,

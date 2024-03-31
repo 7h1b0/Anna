@@ -1,12 +1,12 @@
 import React from 'react';
 import { useLoaderData } from 'react-router-dom';
 
-import Title from 'src/components/title';
-import RoutineForm from 'components/routine-form';
+import Title from '@/components/title';
+import RoutineForm from '@/components/routine-form';
 
-import type { Routine as RoutineType } from 'types/routine';
-import type { Scene as SceneType } from 'types/scene';
-import { fetcher } from 'src/utils';
+import type { Routine as RoutineType } from '@/types/routine';
+import type { Scene as SceneType } from '@/types/scene';
+import { fetcher } from '@/utils';
 
 function RoutineEdit() {
   const { routine, scenes } = useLoaderData() as LoaderRoutineEdit;

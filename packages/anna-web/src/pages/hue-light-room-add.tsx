@@ -1,11 +1,11 @@
 import React from 'react';
 
-import Title from 'components/title';
-import HueLightRoomForm from 'components/hue-light-room-form';
+import Title from '@/components/title';
+import HueLightRoomForm from '@/components/hue-light-room-form';
 
-import type { HueLight as HueLightType } from 'types/hue-light';
-import type { Room as RoomType } from 'types/room';
-import { fetcher } from 'src/utils';
+import type { HueLight as HueLightType } from '@/types/hue-light';
+import type { Room as RoomType } from '@/types/room';
+import { fetcher } from '@/utils';
 import { useLoaderData } from 'react-router';
 
 function LightAdd() {

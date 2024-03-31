@@ -1,16 +1,16 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
-import Input from 'components/input';
-import Button from 'components/button';
-import Alert from 'components/alert';
-import Select from 'components/select';
-import Checkbox from 'components/checkbox';
+import Input from '@/components/input';
+import Button from '@/components/button';
+import Alert from '@/components/alert';
+import Select from '@/components/select';
+import Checkbox from '@/components/checkbox';
 
-import useRequest from 'hooks/use-request';
+import useRequest from '@/hooks/use-request';
 import { useNavigate } from 'react-router-dom';
-import type { Routine as RoutineType } from 'types/routine';
-import type { Scene as SceneType } from 'types/scene';
+import type { Routine as RoutineType } from '@/types/routine';
+import type { Scene as SceneType } from '@/types/scene';
 
 type Props = {
   routine: RoutineType;

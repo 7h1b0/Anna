@@ -1,17 +1,17 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
-import Input from 'components/input';
-import Button from 'components/button';
-import Alert from 'components/alert';
-import Select from 'components/select';
-import Checkbox from 'components/checkbox';
-import Grid from 'components/grid';
+import Input from '@/components/input';
+import Button from '@/components/button';
+import Alert from '@/components/alert';
+import Select from '@/components/select';
+import Checkbox from '@/components/checkbox';
+import Grid from '@/components/grid';
 
-import useRequest from 'hooks/use-request';
+import useRequest from '@/hooks/use-request';
 import { useNavigate } from 'react-router-dom';
-import type { Trigger as TriggerType } from 'types/trigger';
-import type { Scene as SceneType } from 'types/scene';
+import type { Trigger as TriggerType } from '@/types/trigger';
+import type { Scene as SceneType } from '@/types/scene';
 
 type Props = {
   trigger: TriggerType;
@@ -83,7 +83,7 @@ function TriggerForm({ trigger, scenes }: Props) {
       {hasError && <Alert>Invalid form</Alert>}
       <Input
         name="name"
-        label="name"
+        label="Event name"
         register={register('name')}
         disabled={isEditMode}
       />

@@ -1,7 +1,7 @@
 import React from 'react';
 
-import type { Preset } from 'src/preset-hue';
-import Typography from 'components/typography';
+import type { Preset } from '@/preset-hue';
+import Typography from '@/components/typography';
 
 type Props = {
   preset: Preset;

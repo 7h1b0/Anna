@@ -1,0 +1,34 @@
+{
+  "short_name": "Anna",
+  "name": "Anna",
+  "background_color": "#1A202C",
+  "description": "Home automation",
+  "orientation": "portrait",
+  "display": "standalone",
+  "theme_color": "#38B2AC",
+  "start_url": ".",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-maskable.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    }
+  ],
+  "icon-maskable.png": "/icon-maskable.png",
+  "icon-512.png": "/icon-512.png",
+  "icon-192.png": "/icon-192.png",
+  "index.html": "/index.html"
+}

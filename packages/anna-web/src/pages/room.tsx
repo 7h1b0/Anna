@@ -1,15 +1,15 @@
 import React from 'react';
 import { useParams, useRouteLoaderData } from 'react-router';
 
-import type { Room as RoomType } from 'types/room';
+import type { Room as RoomType } from '@/types/room';
 
-import Title from 'src/components/title';
-import Typography from 'components/typography';
-import Dio from 'src/components/dio';
-import Grid from 'src/components/grid';
-import HueLight from 'src/components/hue-light';
-import ButtonEdit from 'src/components/button-edit';
-import { fetcher } from 'src/utils';
+import Title from '@/components/title';
+import Typography from '@/components/typography';
+import Dio from '@/components/dio';
+import Grid from '@/components/grid';
+import HueLight from '@/components/hue-light';
+import ButtonEdit from '@/components/button-edit';
+import { fetcher } from '@/utils';
 
 function Room() {
   const { roomId } = useParams<'roomId'>();
@@ -30,9 +30,9 @@ function Room() {
             return (
               <div
                 key={sensor.id}
-                className="text-gray-200 flex flex-col rounded shadow-md bg-gray-800 p-4"
+                className="text-gray-200 flex flex-col gap-2 items-center rounded-xl shadow-md border border-2 border-gray-800 p-4"
               >
-                <Typography variant="caption">Sensor {sensor.id}:</Typography>
+                <Typography variant="caption">Sensor</Typography>
                 <Typography variant="head">
                   {Math.round(sensor.state.temperature / 100)}
                   <span className="text-base pl-2">°C</span>
@@ -60,11 +60,13 @@ function Room() {
           <Typography variant="heading" className="mt-4 mb-2 text-teal-500">
             Lights
           </Typography>
-          <Grid>
-            {room.devices.hueLights.map((huelight) => (
-              <HueLight key={huelight.id} hueLight={huelight} />
-            ))}
-          </Grid>
+          <div className="grid grid-cols-3 xl:grid-cols-4 gap-2">
+            {room.devices.hueLights
+              .sort((a, b) => Number(a.id) - Number(b.id))
+              .map((huelight) => (
+                <HueLight key={huelight.id} hueLight={huelight} />
+              ))}
+          </div>
         </div>
       )}
     </>

@@ -5,8 +5,8 @@ import Card from './card';
 import Typography from './typography';
 import { ArrowIcon } from './icons';
 
-import { formatDate, getUser } from 'utils';
-import type { Routine as RoutineType } from 'types/routine';
+import { formatDate, getUser } from '@/utils';
+import type { Routine as RoutineType } from '@/types/routine';
 
 function computeNextRun(routine: RoutineType, isUserAway: boolean) {
   if (isUserAway && !routine.runWhenUserIsAway) {
@@ -29,7 +29,7 @@ function Routine({ routine }: Props) {
     <Link to={`/routines/${routine.routineId}`}>
       <Card className="justify-between items-center">
         <div>
-          <Typography>{routine.name}</Typography>
+          <Typography variant="heading">{routine.name}</Typography>
           <Typography variant="caption">{`Next: ${next}`}</Typography>
         </div>
         <ArrowIcon className="fill-current h-4 w-4" />

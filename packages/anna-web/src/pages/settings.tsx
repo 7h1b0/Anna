@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import Title from 'src/components/title';
-import { ArrowIcon } from 'src/components/icons';
-import Card from 'src/components/card';
-import Typography from 'src/components/typography';
+import Title from '@/components/title';
+import { ArrowIcon } from '@/components/icons';
+import Card from '@/components/card';
+import Typography from '@/components/typography';
 
 function Settings() {
   return (

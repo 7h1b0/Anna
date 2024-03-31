@@ -41,13 +41,8 @@ function Home() {
         Favorites Scenes
       </Typography>
       <section className="grid grid-cols-3 xl:grid-cols-6 gap-2">
-        {scenes.sort(sortByName).map(({ description, name, sceneId }) => (
-          <Scene
-            key={sceneId}
-            sceneId={sceneId}
-            name={name}
-            description={description}
-          />
+        {scenes.sort(sortByName).map(({ name, sceneId }) => (
+          <Scene key={sceneId} sceneId={sceneId} name={name} />
         ))}
       </section>
     </>

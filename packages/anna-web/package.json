@@ -2,6 +2,7 @@
   "name": "anna-web",
   "version": "3.5.0",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "vite",
     "type:check": "tsc --noEmit",

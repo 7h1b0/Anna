@@ -4,7 +4,6 @@ import Card from '@/components/card';
 import RangeVertical from '@/components/range-vertical';
 import Typography from '@/components/typography';
 import Switch from '@/components/switch';
-import Grid from '@/components/grid';
 import PresetHue from '@/components/preset-hue';
 
 import useRequest from '@/hooks/use-request';

@@ -17,7 +17,7 @@ export default defineConfig({
     open: '/',
     proxy: {
       '/api': {
-        target: 'http://127.0.0.1:80',
+        target: 'http://192.168.1.12:80',
         secure: false,
       },
     },

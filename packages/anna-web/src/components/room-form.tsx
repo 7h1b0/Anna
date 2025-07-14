@@ -6,7 +6,7 @@ import Button from '@/components/button';
 import Alert from '@/components/alert';
 
 import useRequest from '@/hooks/use-request';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import type { Room as RoomType } from '@/types/room';
 
 type Props = {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRouteLoaderData } from 'react-router-dom';
+import { useRouteLoaderData } from 'react-router';
 
 import Title from '@/components/title';
 import RoomForm from '@/components/room-form';

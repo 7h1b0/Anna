@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData } from 'react-router';
 
 import Title from '@/components/title';
 import TriggerForm from '@/components/trigger-form';

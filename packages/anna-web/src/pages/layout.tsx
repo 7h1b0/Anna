@@ -1,8 +1,7 @@
 import React from 'react';
-import { Outlet, redirect } from 'react-router-dom';
+import { Outlet } from 'react-router';
 
 import Navigation from '@/components/navigation';
-import { getToken } from '@/utils';
 
 function Layout() {
   return (
@@ -18,19 +17,12 @@ function Layout() {
 export default Layout;
 
 export const loaderLayout = async () => {
-  const token = getToken();
+  console.log('YOLO LOADER');
+  // const { isAway, username } = await fetch('/api/user', {
+  //   method: 'GET',
+  // }).then((res) => res.json());
 
-  if (!token) {
-    return redirect('/login');
-  }
+  console.log('YOLO NOP');
 
-  const headers: Record<string, string> = {
-    'x-access-token': token ?? '',
-  };
-  const { isAway, username } = await fetch('/api/user', {
-    method: 'GET',
-    headers,
-  }).then((res) => res.json());
-
-  return { username, token, isAway };
+  return { username: 'Anna', isAway: false };
 };

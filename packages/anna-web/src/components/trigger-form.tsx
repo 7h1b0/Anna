@@ -9,7 +9,7 @@ import Checkbox from '@/components/checkbox';
 import Grid from '@/components/grid';
 
 import useRequest from '@/hooks/use-request';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import type { Trigger as TriggerType } from '@/types/trigger';
 import type { Scene as SceneType } from '@/types/scene';
 

@@ -1,13 +1,9 @@
-import React from 'react';
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter } from 'react-router';
 
-import Login, { actionLogin } from '@/pages/login';
-import Register, { actionRegister } from '@/pages/register';
 import Layout, { loaderLayout } from '@/pages/layout';
 import Home, { loaderHome } from '@/pages/home';
 import Routines, { loaderRoutines } from '@/pages/routines';
 import Triggers, { loaderTriggers } from '@/pages/triggers';
-import { loaderLogout } from '@/pages/logout';
 import Settings from '@/pages/settings';
 import HueLight, { loaderHueLight } from '@/pages/hue-light';
 import Room, { loaderRoom } from '@/pages/room';
@@ -23,27 +19,17 @@ import HueLightRoomAdd, { loaderLightAdd } from '@/pages/hue-light-room-add';
 
 export const router = createBrowserRouter([
   {
-    path: '/register',
-    element: <Register />,
-    action: actionRegister,
-  },
-  {
-    path: '/login',
-    element: <Login />,
-    action: actionLogin,
-  },
-  {
-    element: <Layout />,
+    Component: Layout,
     loader: loaderLayout,
     children: [
       {
         path: '/home/rooms/light/:lightId',
-        element: <HueLight />,
+        Component: HueLight,
         loader: loaderHueLight,
       },
       {
         path: '/home/rooms/add',
-        element: <RoomAdd />,
+        Component: RoomAdd,
       },
       {
         id: 'room',
@@ -52,71 +38,67 @@ export const router = createBrowserRouter([
         children: [
           {
             path: 'edit',
-            element: <RoomEdit />,
+            Component: RoomEdit,
           },
           {
             path: '/home/rooms/:roomId',
-            element: <Room />,
+            Component: Room,
           },
         ],
       },
       {
         path: '/home/dios/add',
-        element: <DioAdd />,
+        Component: DioAdd,
         loader: loaderDioAdd,
       },
       {
         path: '/home/lights/add',
-        element: <HueLightRoomAdd />,
+        Component: HueLightRoomAdd,
         loader: loaderLightAdd,
       },
       {
         path: '/routines/add',
-        element: <RoutineAdd />,
+        Component: RoutineAdd,
         loader: loaderScenes,
       },
       {
         path: '/routines/:routineId',
-        element: <RoutineEdit />,
+        Component: RoutineEdit,
         loader: loaderRoutineEdit,
       },
       {
         path: '/routines',
-        element: <Routines />,
+        Component: Routines,
         loader: loaderRoutines,
       },
       {
         path: '/triggers/add',
-        element: <TriggerAdd />,
+        Component: TriggerAdd,
         loader: loaderScenes,
       },
       {
         path: '/triggers/:triggerId',
-        element: <TriggerEdit />,
+        Component: TriggerEdit,
         loader: loaderTriggerEdit,
       },
       {
         path: '/triggers',
-        element: <Triggers />,
+        Component: Triggers,
         loader: loaderTriggers,
       },
       {
         id: 'scenes',
         path: '/scenes',
-        element: <Scenes />,
+        Component: Scenes,
         loader: loaderScenes,
       },
       {
-        path: '/logout',
-        loader: loaderLogout,
-      },
-      {
         path: '/settings',
-        element: <Settings />,
+        Component: Settings,
       },
       {
         path: '/',
-        element: <Home />,
+        Component: Home,
         loader: loaderHome,
       },
     ],

@@ -5,7 +5,7 @@ import Scene from '@/components/scene';
 import Room from '@/components/room';
 import Grid from '@/components/grid';
 import Title from '@/components/title';
-import { Link, useLoaderData } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router';
 import { SettingsIcon } from '@/components/icons';
 import { fetcher } from '@/utils';
 
@@ -17,6 +17,7 @@ function sortByName(a, b) {
 }
 
 function Home() {
+  console.log('YOLO Home');
   const { scenes, rooms } = useLoaderData() as LoaderHome;
 
   return (

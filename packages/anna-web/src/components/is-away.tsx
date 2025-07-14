@@ -13,7 +13,7 @@ function IsAway() {
     await request('api/user', 'PATCH', {
       isAway: newStatus,
     });
-    setUser(user.username, user.token, newStatus);
+    setUser(newStatus);
   }
 
   return (

@@ -1,16 +1,10 @@
-import { getToken } from '@/utils';
-
 export default function useRequest(): (
   path: string,
   method: 'GET' | 'POST' | 'DELETE' | 'PATCH',
   body?: Record<string, unknown>,
 ) => Promise<Response> {
-  const token = getToken();
-
   return async (path, method, body): Promise<Response> => {
-    const headers: Record<string, string> = {
-      'x-access-token': token ?? '',
-    };
+    const headers: Record<string, string> = {};
     if (['POST', 'PATCH'].includes(method)) {
       headers['Content-Type'] = 'application/json';
     }

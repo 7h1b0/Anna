@@ -7,7 +7,7 @@ import Alert from '@/components/alert';
 import Select from '@/components/select';
 
 import useRequest from '@/hooks/use-request';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import type { Dio as DioType } from '@/types/dio';
 import type { Room as RoomType } from '@/types/room';
 

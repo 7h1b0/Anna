@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 import Title from '@/components/title';
 import { ArrowIcon } from '@/components/icons';
@@ -30,12 +30,6 @@ function Settings() {
             <Typography>Add a hue-light to a room</Typography>
             <ArrowIcon className="fill-current h-4 w-4" />
           </Card>
-        </Link>
-      </div>
-
-      <div className="text-center py-2 my-2">
-        <Link to="/logout">
-          <Typography>Logout</Typography>
         </Link>
       </div>
     </>

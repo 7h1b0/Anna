@@ -35,7 +35,7 @@ function Title({ title, subtitle, activateNavigation = false, action }: Props) {
           </svg>
         </button>
       )}
-      <div className="flex-grow">
+      <div className="grow">
         <h1 className="text-2xl text-white tracking-wide leading-none">
           {title}
         </h1>

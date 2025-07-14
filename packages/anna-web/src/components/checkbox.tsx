@@ -22,7 +22,7 @@ function Checkbox({ name, label, placeholder = '', register }: Props) {
         type="checkbox"
         {...register}
         placeholder={placeholder}
-        className="ml-2 text-base bg-gray-800 text-gray-400 rounded leading-tight focus:outline-none focus:bg-gray-700"
+        className="ml-2 text-base bg-gray-800 text-gray-400 rounded-xl leading-tight focus:outline-hidden focus:bg-gray-700"
       />
     </div>
   );

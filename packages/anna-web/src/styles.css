@@ -1,13 +1,19 @@
-/* purgecss start ignore */
-@tailwind base;
+@import 'tailwindcss';
 
-html,
-body {
-  @apply h-full;
-  overscroll-behavior-y: contain;
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
 }
 
-/* purgecss end ignore */
-@tailwind components;
-
-@tailwind utilities;
+@layer base {
+  html,
+  body {
+    @apply h-full;
+    overscroll-behavior-y: contain;
+  }
+}

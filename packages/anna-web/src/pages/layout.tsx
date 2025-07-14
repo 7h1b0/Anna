@@ -6,7 +6,7 @@ import Navigation from '@/components/navigation';
 function Layout() {
   return (
     <div className="h-full bg-gray-900 pb-16">
-      <main className="relative flex-1 px-2 xl:px-4 max-w-1200 overflow-y-auto mx-auto">
+      <main className="relative flex-1 px-2 xl:px-4 max-w-7xl overflow-y-auto mx-auto">
         <Outlet />
       </main>
       <Navigation />
